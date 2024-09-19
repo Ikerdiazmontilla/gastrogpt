@@ -1,0 +1,19 @@
+Run both backend and frontend on the same port
+Expand menu
+Improve prompt instructions
+See if chatgpt saves context in the conversation
+Format output
+Style web
+Improve questionnaire selection method:
+  you can select multiple options
+  you can write additional info in each field
+
+Improve first message from chat(pseudomessage)
+Add selection of best dishes from the restaurant and prioritize those.
+
+
+Marketing: 
+make offer to refund money
+Establish prices
+Maintenance fee
+Could charge them a fixed price or give them the option to handle their own token expense.
