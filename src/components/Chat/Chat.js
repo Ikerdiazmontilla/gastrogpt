@@ -16,8 +16,8 @@ const Chat = () => {
   const handleSend = async () => {
     if (input.trim() === '') return;
 
-    const newMessages = [...messages, { sender: 'user', text: input }];
-    setMessages(newMessages);
+    const userMessage = { sender: 'user', text: input };
+    setMessages(prev => [...prev, userMessage]);
     setInput('');
 
     try {
@@ -30,13 +30,16 @@ const Chat = () => {
       });
       const data = await response.json();
       if (data.reply) {
-        setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
+        const botMessage = { sender: 'bot', text: data.reply };
+        setMessages(prev => [...prev, botMessage]);
       } else {
-        setMessages(prev => [...prev, { sender: 'bot', text: 'No se recibió una respuesta válida.' }]);
+        const errorMessage = { sender: 'bot', text: 'No se recibió una respuesta válida.' };
+        setMessages(prev => [...prev, errorMessage]);
       }
     } catch (error) {
       console.error('Error al obtener la respuesta del bot:', error);
-      setMessages(prev => [...prev, { sender: 'bot', text: 'Lo siento, ocurrió un error.' }]);
+      const errorMessage = { sender: 'bot', text: 'Lo siento, ocurrió un error.' };
+      setMessages(prev => [...prev, errorMessage]);
     }
   };
 
@@ -46,8 +49,33 @@ const Chat = () => {
     }
   };
 
+  // Opcional: Función para reiniciar la conversación
+  const handleReset = async () => {
+    try {
+      const response = await fetch('/api/reset', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      if (data.message) {
+        setMessages([
+          { sender: 'bot', text: '¿Qué tipo de comida te gustaría comer hoy?' }
+        ]);
+      }
+    } catch (error) {
+      console.error('Error al reiniciar la conversación:', error);
+    }
+  };
+
   return (
     <div className="chat-container">
+      <div className="header">
+        <h2>Chat con ChefGPT</h2>
+        {/* Botón para reiniciar la conversación (opcional) */}
+        <button onClick={handleReset} className="reset-button">Reiniciar</button>
+      </div>
       <div className="messages">
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.sender}`}>
@@ -71,4 +99,3 @@ const Chat = () => {
 };
 
 export default Chat;
-

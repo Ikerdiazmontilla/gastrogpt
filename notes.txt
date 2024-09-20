@@ -1,10 +1,11 @@
 Improve prompt instructions
-See if chatgpt saves context in the conversation
 Format output
 Style web
 Improve questionnaire selection method:
   you can select multiple options
   you can write additional info in each field
+
+Add a message limit
 
 Improve first message from chat(pseudomessage)
 Add selection of best dishes from the restaurant and prioritize those.
