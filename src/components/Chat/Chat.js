@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown'; 
 import './Chat.css';
 
 const Chat = () => {
@@ -73,13 +74,16 @@ const Chat = () => {
     <div className="chat-container">
       <div className="header">
         <h2>Chat con ChefGPT</h2>
-        {/* Botón para reiniciar la conversación (opcional) */}
         <button onClick={handleReset} className="reset-button">Reiniciar</button>
       </div>
       <div className="messages">
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.sender}`}>
-            <span>{msg.text}</span>
+            {msg.sender === 'bot' ? (
+              <ReactMarkdown>{msg.text}</ReactMarkdown> 
+            ) : (
+              <span>{msg.text}</span> 
+            )}
           </div>
         ))}
         <div ref={messagesEndRef} />

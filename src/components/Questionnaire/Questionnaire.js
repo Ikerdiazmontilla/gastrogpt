@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Questionnaire.css';
+import ReactMarkdown from 'react-markdown'; 
 
 const Questionnaire = () => {
   const [form, setForm] = useState({
@@ -111,7 +112,7 @@ const Questionnaire = () => {
       {result && (
         <div className="result">
           <h3>Recomendaciones:</h3>
-          <p>{result}</p>
+          <p><ReactMarkdown>{result}</ReactMarkdown></p>
         </div>
       )}
     </div>

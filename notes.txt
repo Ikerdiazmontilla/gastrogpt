@@ -1,5 +1,3 @@
-Improve prompt instructions
-Format output
 Style web
 Improve questionnaire selection method:
   you can select multiple options
@@ -9,6 +7,7 @@ Add a message limit
 
 Improve first message from chat(pseudomessage)
 Add selection of best dishes from the restaurant and prioritize those.
+Improve prompt instructions
 
 
 Marketing: 
