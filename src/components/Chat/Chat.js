@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown'; 
 import './Chat.css';
+import firstMessage from './firstMessage'
 
 const Chat = () => {
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: '¿Qué tipo de comida te gustaría comer hoy?' }
+    { sender: 'bot', text: firstMessage }
   ]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
@@ -50,7 +51,6 @@ const Chat = () => {
     }
   };
 
-  // Opcional: Función para reiniciar la conversación
   const handleReset = async () => {
     try {
       const response = await fetch('/api/reset', {
@@ -62,7 +62,7 @@ const Chat = () => {
       const data = await response.json();
       if (data.message) {
         setMessages([
-          { sender: 'bot', text: '¿Qué tipo de comida te gustaría comer hoy?' }
+          { sender: 'bot', text: firstMessage }
         ]);
       }
     } catch (error) {

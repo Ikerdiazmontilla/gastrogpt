@@ -5,6 +5,8 @@ const axios = require('axios');
 const instructions = require('./instructions');
 const app = express();
 const PORT = process.env.PORT || 5000;
+const firstMessage = require('./firstMessage')
+
 
 // Middleware
 app.use(cors());
@@ -13,7 +15,7 @@ app.use(express.json());
 // Variable global para almacenar la conversación
 let conversation = [
   { role: 'system', content: instructions },
-  { role: 'assistant', content: '¿Qué tipo de comida te gustaría comer hoy?' }
+  { role: 'assistant', content: firstMessage }
 ];
 
 // Ruta para manejar mensajes de chat
@@ -102,7 +104,7 @@ app.post('/api/questionnaire', async (req, res) => {
 app.post('/api/reset', (req, res) => {
   conversation = [
     { role: 'system', content: instructions },
-    { role: 'assistant', content: '¿Qué tipo de comida te gustaría comer hoy?' }
+    { role: 'assistant', content: firstMessage }
   ];
   res.json({ message: 'Conversación reiniciada.' });
 });
