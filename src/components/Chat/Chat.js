@@ -74,10 +74,6 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
-      <div className="header">
-        {/* <h2>Chat con ChefGPT</h2> */}
-        <button onClick={handleReset} className="reset-button">Reiniciar Chat</button>
-      </div>
       <div className="messages">
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.sender}`}>

@@ -53,6 +53,7 @@
 
  .container {
   padding: 2vh 2vw;
+  padding-top: 0px;
   padding-bottom: 0px;
   height: 90vh;
 }
@@ -60,6 +61,7 @@
 .nav-container{
   height: 10vh;
   padding: 20px;
+
 }
 
  

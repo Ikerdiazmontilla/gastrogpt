@@ -7,12 +7,12 @@ Add a message limit
 
 
 react.render is deprecated
+onkey press is deprecated
 
 Add selection of best dishes from the restaurant and prioritize those.
 Improve prompt instructions
 Hacer que resuelva dudas que tengan los clientes sobre el menú
 Dar la opcion a que el usuario escoja pasta, ensaladas, entrantes, etc.
-
 
 
 
