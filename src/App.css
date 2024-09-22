@@ -1,3 +1,65 @@
-.container {
+
+*, *::before, *::after {
+  box-sizing: border-box;
+ }
+ 
+ 
+ * {
+  margin: 0;
+  padding: 0;
+ }
+ 
+ 
+ body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+ }
+ 
+ 
+ img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+ }
+ 
+ 
+ input, button, textarea, select {
+  font: inherit;
+ }
+ 
+ 
+ p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+ }
+ 
+ 
+ button, a{
+  cursor: pointer;
+  }
+ 
+ 
+ a{
+    text-decoration: none;
+ }
+
+ :root{
+  --background-color: #F0EFE6;
+  --main-color:rgb(43, 147, 216);
+ }
+
+ body{
+  background-color: var(--background-color);
+ }
+
+
+ .container {
+  padding: 2vh 2vw;
+  padding-bottom: 0px;
+  height: 90vh;
+}
+
+.nav-container{
+  height: 10vh;
   padding: 20px;
 }
+
+ 

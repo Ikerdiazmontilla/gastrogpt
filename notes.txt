@@ -5,6 +5,9 @@ Improve questionnaire selection method:
 Add a message limit
 
 
+
+react.render is deprecated
+
 Add selection of best dishes from the restaurant and prioritize those.
 Improve prompt instructions
 Hacer que resuelva dudas que tengan los clientes sobre el menú

@@ -1,10 +1,18 @@
+
+:root{
+  /* --main-color: rgb(43, 147, 216); */
+  --old-color:#4CAF50;
+}
+
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4CAF50;
+  background-color: var(--main-color);
   padding: 10px 20px;
-}
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;}
 
 .navbar h2 {
   color: white;

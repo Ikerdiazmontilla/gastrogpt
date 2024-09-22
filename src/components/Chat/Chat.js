@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown'; 
 import './Chat.css';
 import firstMessage from './firstMessage'
+import { ReactComponent as Send} from '../../assets/up-arrow-icon.svg';
+
 
 const Chat = () => {
   const [messages, setMessages] = useState([
@@ -73,8 +75,8 @@ const Chat = () => {
   return (
     <div className="chat-container">
       <div className="header">
-        <h2>Chat con ChefGPT</h2>
-        <button onClick={handleReset} className="reset-button">Reiniciar</button>
+        {/* <h2>Chat con ChefGPT</h2> */}
+        <button onClick={handleReset} className="reset-button">Reiniciar Chat</button>
       </div>
       <div className="messages">
         {messages.map((msg, index) => (
@@ -96,7 +98,7 @@ const Chat = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
         />
-        <button onClick={handleSend}>Enviar</button>
+        <button className='send-message' onClick={handleSend}><Send className='send-svg'/></button>
       </div>
     </div>
   );

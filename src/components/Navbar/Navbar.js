@@ -5,10 +5,10 @@ import './Navbar.css';
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <h2>ChefGPT Restaurante</h2>
+      <h2>GastroGPT</h2>
       <div>
         <Link to="/chat" className="nav-link">Chat</Link>
-        <Link to="/questionnaire" className="nav-link">Cuestionario</Link>
+        <Link to="/questionnaire" className="nav-link">Formulario</Link>
       </div>
     </nav>
   );

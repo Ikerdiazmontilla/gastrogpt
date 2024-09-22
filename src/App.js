@@ -8,7 +8,9 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <Navbar />
+      <div className='nav-container'>
+        <Navbar />
+      </div>
       <div className="container">
         <Routes>
           <Route path="/" element={<Navigate to="/chat" />} />

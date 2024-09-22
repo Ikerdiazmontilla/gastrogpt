@@ -20,7 +20,7 @@
   border-radius: 4px;
 }
 
-button {
+.questionnaire-container button {
   padding: 10px 20px;
   background-color: #4CAF50;
   border: none;
