@@ -1,8 +1,8 @@
 
-:root{
-  /* --main-color: rgb(43, 147, 216); */
+/* :root{
+  --main-color: rgb(43, 147, 216);
   --old-color:#4CAF50;
-}
+} */
 
 
 .navbar {
@@ -15,17 +15,40 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.navbar h2 {
+.navbar h2 a {
   color: white;
+}
+
+.navbar h2{
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .nav-link {
   margin-left: 15px;
   text-decoration: none;
   color: white;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 0.9rem;
+
 }
 
 .nav-link:hover {
   text-decoration: underline;
+}
+
+.svg{
+    width: 25px; 
+    height: 25px;
+    fill: white;
+    color: white;
+    display: inline;
+    align-self: center;
+}
+
+.svg.questionnaire{
+  width: 30px;
+  height: 30px;
+  position: relative;
+  top: 2px;
 }

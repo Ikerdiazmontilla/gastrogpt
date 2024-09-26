@@ -11,6 +11,10 @@
   padding-top: 0px;
 }
 
+.reset-button{
+  width: fit-content;
+}
+
 .messages {
   flex: 1;
   padding-top: 0px;
@@ -110,12 +114,6 @@ button.send-message{
 .send-svg {
   width: 15px; 
   height: 15px;
-  fill: white; 
-}
-
-
-
-.input-area button:hover {
-  background-color: #45a049;
+  fill: white;
 }
 

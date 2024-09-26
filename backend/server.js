@@ -101,13 +101,13 @@ app.post('/api/questionnaire', async (req, res) => {
 });
 
 // Ruta opcional para reiniciar la conversación
-app.post('/api/reset', (req, res) => {
-  conversation = [
-    { role: 'system', content: instructions },
-    { role: 'assistant', content: firstMessage }
-  ];
-  res.json({ message: 'Conversación reiniciada.' });
-});
+// app.post('/api/reset', (req, res) => {
+//   conversation = [
+//     { role: 'system', content: instructions },
+//     { role: 'assistant', content: firstMessage }
+//   ];
+//   res.json({ message: 'Conversación reiniciada.' });
+// });
 
 // Iniciar el servidor
 app.listen(PORT, () => {

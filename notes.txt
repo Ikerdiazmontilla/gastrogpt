@@ -4,7 +4,9 @@ Improve questionnaire selection method:
   you can write additional info in each field
 Add a message limit
 
-
+Add reset button
+Change font
+Finish tweaking chat
 
 react.render is deprecated
 onkey press is deprecated
@@ -15,6 +17,9 @@ Hacer que resuelva dudas que tengan los clientes sobre el menú
 Dar la opcion a que el usuario escoja pasta, ensaladas, entrantes, etc.
 
 
+Do it for different languages.
+You can choose a flag and it translates the first message to that language, or you can provide a language and chatgpt translate it for you
+Change reset configuration to navbar logo. 
 
 Marketing: 
 make offer to refund money
@@ -22,3 +27,7 @@ Establish prices
 Maintenance fee
 Could charge them a fixed price or give them the option to handle their own token expense.
 
+
+
+<button onClick={handleReset} className="reset-button">Reiniciar</button>
+<h2> <a href='/chat'> GastroGPT</a></h2>

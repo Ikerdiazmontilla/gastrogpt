@@ -53,24 +53,24 @@ const Chat = () => {
     }
   };
 
-  const handleReset = async () => {
-    try {
-      const response = await fetch('/api/reset', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const data = await response.json();
-      if (data.message) {
-        setMessages([
-          { sender: 'bot', text: firstMessage }
-        ]);
-      }
-    } catch (error) {
-      console.error('Error al reiniciar la conversación:', error);
-    }
-  };
+  // const handleReset = async () => {
+  //   try {
+  //     const response = await fetch('/api/reset', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
+  //     const data = await response.json();
+  //     if (data.message) {
+  //       setMessages([
+  //         { sender: 'bot', text: firstMessage }
+  //       ]);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error al reiniciar la conversación:', error);
+  //   }
+  // };
 
   return (
     <div className="chat-container">
