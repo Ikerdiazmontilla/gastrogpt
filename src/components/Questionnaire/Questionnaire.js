@@ -4,26 +4,38 @@ import ReactMarkdown from 'react-markdown';
 
 const Questionnaire = () => {
   const [form, setForm] = useState({
-    tipoComida: '',
-    precio: '',
-    alergias: '',
-    nivelPicante: ''
+    tipoComida: [],
+    precio: [],
+    alergias: [],
+    nivelPicante: [],
+    consideraciones: ''
   });
 
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+    const { name, options, type, value } = e.target;
+    if (type === 'select-multiple' || name === 'precio') {
+      const selectedOptions = Array.from(options)
+        .filter(option => option.selected)
+        .map(option => option.value);
+      setForm({
+        ...form,
+        [name]: selectedOptions
+      });
+    } else {
+      setForm({
+        ...form,
+        [name]: value
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { tipoComida, precio, alergias, nivelPicante } = form;
-    if (!tipoComida || !precio || !alergias || !nivelPicante) {
+    if (tipoComida.length === 0 || precio.length === 0 || alergias.length === 0 || nivelPicante.length === 0) {
       alert('Por favor, completa todas las opciones.');
       return;
     }
@@ -59,21 +71,36 @@ const Questionnaire = () => {
     <div className="questionnaire-container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Tipo de Comida:</label>
-          <select name="tipoComida" value={form.tipoComida} onChange={handleChange}>
-            <option value="">Seleccione</option>
+          <label htmlFor="tipoComida">Tipo de Comida:</label>
+          <select
+            id="tipoComida"
+            name="tipoComida"
+            multiple
+            value={form.tipoComida}
+            onChange={handleChange}
+            className="multi-select"
+          >
             <option value="carne">Carne</option>
             <option value="pescado">Pescado</option>
             <option value="marisco">Marisco</option>
             <option value="vegano">Vegano</option>
             <option value="vegetariano">Vegetariano</option>
+            <option value="pasta">Pasta</option>
+            <option value="hamburguesa">Hamburguesa</option>
+            <option value="lo que pone en consideraciones adicionales">Otro (poner en consideraciones adicionales)</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label>Precio:</label>
-          <select name="precio" value={form.precio} onChange={handleChange}>
-            <option value="">Seleccione</option>
+          <label htmlFor="precio">Precio:</label>
+          <select
+            id="precio"
+            name="precio"
+            // multiple
+            value={form.precio}
+            onChange={handleChange}
+            // className="multi-select"
+          >
             <option value="menos de 15 euros">Menos de 15€</option>
             <option value="menos de 20 euros">Menos de 20€</option>
             <option value="menos de 30 euros">Menos de 30€</option>
@@ -82,21 +109,34 @@ const Questionnaire = () => {
         </div>
 
         <div className="form-group">
-          <label>Alergias:</label>
-          <select name="alergias" value={form.alergias} onChange={handleChange}>
-            <option value="">Seleccione</option>
-            <option value="ninguna">Ninguna</option>
+          <label htmlFor="alergias">Alergias:</label>
+          <select
+            id="alergias"
+            name="alergias"
+            multiple
+            value={form.alergias}
+            onChange={handleChange}
+            className="multi-select"
+          >
+            <option value="nada">Ninguna</option>
             <option value="gluten">Gluten</option>
             <option value="lactosa">Lactosa</option>
             <option value="nueces">Nueces</option>
             <option value="mariscos">Mariscos</option>
+            <option value="otro">Otra (poner en consideraciones adicionales)</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label>Nivel de Picante:</label>
-          <select name="nivelPicante" value={form.nivelPicante} onChange={handleChange}>
-            <option value="">Seleccione</option>
+          <label htmlFor="nivelPicante">Nivel de Picante:</label>
+          <select
+            id="nivelPicante"
+            name="nivelPicante"
+            multiple
+            value={form.nivelPicante}
+            onChange={handleChange}
+            className="multi-select"
+          >
             <option value="suave">Suave</option>
             <option value="medio">Medio</option>
             <option value="picante">Picante</option>
@@ -104,7 +144,19 @@ const Questionnaire = () => {
           </select>
         </div>
 
-        <button type="submit" disabled={loading}>
+        <div className="form-group">
+          <label htmlFor="consideraciones">Consideraciones Adicionales:</label>
+          <textarea
+            id="consideraciones"
+            name="consideraciones"
+            value={form.consideraciones}
+            onChange={handleChange}
+            placeholder="Escribe aquí cualquier consideración adicional..."
+            rows="4"
+          ></textarea>
+        </div>
+
+        <button type="submit" disabled={loading} className="submit-button">
           {loading ? 'Creando Menú...' : 'Crear Menú'}
         </button>
       </form>
@@ -112,7 +164,7 @@ const Questionnaire = () => {
       {result && (
         <div className="result">
           <h3>Recomendaciones:</h3>
-          <p><ReactMarkdown>{result}</ReactMarkdown></p>
+          <ReactMarkdown>{result}</ReactMarkdown>
         </div>
       )}
     </div>

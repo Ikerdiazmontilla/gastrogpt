@@ -5,14 +5,13 @@ const axios = require('axios');
 const instructions = require('./instructions');
 const app = express();
 const PORT = process.env.PORT || 5000;
-const firstMessage = require('./firstMessage')
-
+const firstMessage = require('./firstMessage');
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Variable global para almacenar la conversación
+// Variable global para almacenar la conversación de chat
 let conversation = [
   { role: 'system', content: instructions },
   { role: 'assistant', content: firstMessage }
@@ -33,7 +32,7 @@ app.post('/api/chat', async (req, res) => {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: 'gpt-4o-mini', 
+        model: 'gpt-4o-mini', // Asegúrate de que el modelo es correcto
         messages: conversation,
         max_tokens: 250,
         temperature: 0.7,
@@ -60,24 +59,58 @@ app.post('/api/chat', async (req, res) => {
 
 // Ruta para manejar el cuestionario
 app.post('/api/questionnaire', async (req, res) => {
-  const { tipoComida, precio, alergias, nivelPicante } = req.body;
+  const { tipoComida, precio, alergias, nivelPicante, consideraciones } = req.body;
 
-  if (!tipoComida || !precio || !alergias || !nivelPicante) {
-    return res.status(400).json({ error: 'Todos los campos son requeridos.' });
+  // Validación de campos múltiples
+  if (
+    !Array.isArray(tipoComida) || tipoComida.length === 0 ||
+    !Array.isArray(precio) || precio.length === 0  ||
+    !Array.isArray(alergias) || alergias.length === 0 ||
+    !Array.isArray(nivelPicante) || nivelPicante.length === 0
+  ) {
+    return res.status(400).json({ error: 'Todos los campos múltiples son requeridos y deben tener al menos una opción seleccionada.' });
   }
 
-  const userPreferences = `Me gustaría comer ${tipoComida} a un precio ${precio}, soy alérgico a ${alergias} y me gustaría un plato con nivel de picante ${nivelPicante}.`;
+  // Validación de consideraciones (opcional)
+  // Si deseas que este campo sea obligatorio, descomenta la siguiente línea
+  // if (!consideraciones || consideraciones.trim() === '') {
+  //   return res.status(400).json({ error: 'Las consideraciones adicionales son requeridas.' });
+  // }
 
-  // Agregar las preferencias del usuario al historial de la conversación
-  conversation.push({ role: 'user', content: userPreferences });
+  // Función para convertir arrays en una lista separada por comas
+  const arrayToString = (array) => {
+    if (array.length === 1) return array[0];
+    return array.slice(0, -1).join(', ') + ' y ' + array[array.length - 1];
+  };
+
+  // Crear descripciones a partir de las selecciones múltiples
+  const tipoComidaStr = arrayToString(tipoComida);
+  const precioStr = arrayToString(precio);
+  const alergiasStr = arrayToString(alergias);
+  const nivelPicanteStr = arrayToString(nivelPicante);
+
+  // Construir el mensaje con todas las preferencias
+  let userPreferences = `Me gustaría comer alguna de estos tipos de comida: ${tipoComidaStr} a un precio de ${precioStr}, soy alérgico a ${alergiasStr} y me gustaría un plato con nivel de picante ${nivelPicanteStr}.`;
+
+  // Añadir consideraciones adicionales si están presentes
+  if (consideraciones && consideraciones.trim() !== '') {
+    userPreferences += ` Además, tengo las siguientes consideraciones adicionales: ${consideraciones.trim()}`;
+  }
+
+  // Crear una nueva conversación para el cuestionario
+  const questionnaireConversation = [
+    { role: 'system', content: instructions },
+    { role: 'assistant', content: firstMessage },
+    { role: 'user', content: userPreferences }
+  ];
 
   try {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: 'gpt-4o-mini',
-        messages: conversation,
-        max_tokens: 200,
+        model: 'gpt-4o-mini', // Asegúrate de que el modelo es correcto
+        messages: questionnaireConversation,
+        max_tokens: 250,
         temperature: 0.7,
       },
       {
@@ -90,9 +123,6 @@ app.post('/api/questionnaire', async (req, res) => {
 
     const recommendations = response.data.choices[0].message.content.trim();
 
-    // Agregar las recomendaciones del asistente al historial de la conversación
-    conversation.push({ role: 'assistant', content: recommendations });
-
     res.json({ recommendations });
   } catch (error) {
     console.error('Error al comunicarse con la API de OpenAI:', error.response ? error.response.data : error.message);
@@ -100,7 +130,7 @@ app.post('/api/questionnaire', async (req, res) => {
   }
 });
 
-// Ruta opcional para reiniciar la conversación
+// Ruta opcional para reiniciar la conversación de chat
 // app.post('/api/reset', (req, res) => {
 //   conversation = [
 //     { role: 'system', content: instructions },
