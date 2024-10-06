@@ -69,7 +69,10 @@ const Questionnaire = () => {
 
   return (
     <div className="questionnaire-container">
-      <form onSubmit={handleSubmit}>
+
+      <h1 className='questionnaire-title'>¿Que te gustaría comer hoy?</h1>
+
+      <form onSubmit={handleSubmit} className='preferences-form'>
         <div className="form-group">
           <label htmlFor="tipoComida">Tipo de Comida:</label>
           <select
