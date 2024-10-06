@@ -25,7 +25,7 @@ const Chat = () => {
     setInput('');
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ const Chat = () => {
 
   // const handleReset = async () => {
   //   try {
-  //     const response = await fetch('/api/reset', {
+  //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/reset`, {
   //       method: 'POST',
   //       headers: {
   //         'Content-Type': 'application/json'

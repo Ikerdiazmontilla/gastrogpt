@@ -44,7 +44,7 @@ const Questionnaire = () => {
     setResult('');
 
     try {
-      const response = await fetch('/api/questionnaire', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/questionnaire`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
