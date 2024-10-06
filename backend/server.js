@@ -8,7 +8,15 @@ const PORT = process.env.PORT || 5000;
 const firstMessage = require('./firstMessage');
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'http://localhost:3000', // Origen frontend local
+    'https://restaurant-chatbot-4a07vgrud-ikerdiazmontillas-projects.vercel.app' 
+  ],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Variable global para almacenar la conversación de chat
