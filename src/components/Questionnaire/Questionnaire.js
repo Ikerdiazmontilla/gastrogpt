@@ -152,6 +152,7 @@ const Questionnaire = () => {
           <textarea
             id="consideraciones"
             name="consideraciones"
+            className='consideraciones-adicionales'
             value={form.consideraciones}
             onChange={handleChange}
             placeholder="Escribe aquí cualquier consideración adicional..."

@@ -74,7 +74,7 @@ const menu = [
   {
     nombre: "Tofu Salteado",
     tipo: "vegano",
-    precio: "19",
+    precio: "12",
     descripcion: "Tofu salteado con verduras frescas y salsa de soja.",
     nivelPicante: "suave",
     alergias: "gluten"
@@ -90,7 +90,7 @@ const menu = [
   {
     nombre: "Atún a la Parrilla",
     tipo: "pescado",
-    precio: "27",
+    precio: "13",
     descripcion: "Atún fresco a la parrilla con guarnición de espárragos.",
     nivelPicante: "medio",
     alergias: "ninguna"
@@ -146,7 +146,7 @@ const menu = [
   {
     nombre: "Chili con Carne",
     tipo: "carne",
-    precio: "19",
+    precio: "14",
     descripcion: "Carne molida cocinada con frijoles y una mezcla de especias picantes.",
     nivelPicante: "muyPicante",
     alergias: "ninguna"

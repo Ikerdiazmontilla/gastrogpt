@@ -40,7 +40,7 @@ app.post('/api/chat', async (req, res) => {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: 'gpt-4o-mini', // Asegúrate de que el modelo es correcto
+        model: 'gpt-4o-mini-2024-07-18',
         messages: conversation,
         max_tokens: 250,
         temperature: 0.7,
@@ -116,7 +116,7 @@ app.post('/api/questionnaire', async (req, res) => {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: 'gpt-4o-mini', // Asegúrate de que el modelo es correcto
+        model: 'gpt-4o-mini-2024-07-18', // Asegúrate de que el modelo es correcto
         messages: questionnaireConversation,
         max_tokens: 250,
         temperature: 0.7,

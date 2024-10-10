@@ -60,3 +60,12 @@
   list-style-type: decimal; 
   padding-left: 20px; 
 }
+
+
+.consideraciones-adicionales{
+  padding: 6px;
+}
+
+input,textarea{
+  outline-color:var(--main-color);
+}
