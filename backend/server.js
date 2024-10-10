@@ -11,7 +11,7 @@ const firstMessage = require('./firstMessage');
 const corsOptions = {
   origin: [
     'http://localhost:3000', // Origen frontend local
-    'https://restaurant-chatbot-4a07vgrud-ikerdiazmontillas-projects.vercel.app' 
+    'https://restaurant-chatbot-three.vercel.app'
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
