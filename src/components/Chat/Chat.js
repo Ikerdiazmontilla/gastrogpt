@@ -73,6 +73,7 @@ const Chat = () => {
   // };
 
   return (
+    <>
     <div className="chat-container">
       <div className="messages">
         {messages.map((msg, index) => (
@@ -86,17 +87,18 @@ const Chat = () => {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className="input-area">
-        <input
-          type="text"
-          placeholder="Escribe tu mensaje..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={handleKeyPress}
-        />
-        <button className='send-message' onClick={handleSend}><Send className='send-svg'/></button>
-      </div>
     </div>
+     <div className="input-area">
+     <input
+       type="text"
+       placeholder="Escribe tu mensaje..."
+       value={input}
+       onChange={(e) => setInput(e.target.value)}
+       onKeyPress={handleKeyPress}
+     />
+     <button className='send-message' onClick={handleSend}><Send className='send-svg'/></button>
+   </div>
+   </>
   );
 };
 

@@ -55,10 +55,11 @@
 
 
  .container {
-  padding: 2vh 2vw;
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding: 0px 2vw;
   height: 90vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: first baseline; */
 }
 
 .nav-container{

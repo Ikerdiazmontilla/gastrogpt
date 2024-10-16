@@ -1,6 +1,8 @@
 Add a message limit
 Finish tweaking chat
 
+On mobile when you try to chat it scrolls down too much, fix it
+No se ve bien en iphone SE
 react.render is deprecated
 onkey press is deprecated
 
