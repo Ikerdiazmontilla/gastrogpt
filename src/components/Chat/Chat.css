@@ -1,13 +1,13 @@
-:root{
+/* :root{ */
   /* --main-color: rgb(38, 144, 214); */
   /* --old-color:#4CAF50; */
-}
+/* } */
 
 .chat-container {
   /* height: 100%; */
   display: flex;
   flex-direction: column;
-  padding:3vh 2vw;
+  padding:2vh 2vw;
 }
 
 .reset-button{

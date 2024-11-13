@@ -1,8 +1,16 @@
+Poner un dialogo explicando como funciona cuando te metes
+Languages
+  Do it for different languages.
+  You can choose a flag and it translates the first message to that language, or you can provide a language and chatgpt translate it for you
+
 Add a message limit
 Finish tweaking chat
 
 On mobile when you try to chat it scrolls down too much, fix it
-No se ve bien en iphone SE
+Change styles for different viewports
+
+
+
 react.render is deprecated
 onkey press is deprecated
 
@@ -11,12 +19,7 @@ Improve prompt instructions
 Hacer que resuelva dudas que tengan los clientes sobre el menú
 Dar la opcion a que el usuario escoja pasta, ensaladas, entrantes, etc.
 
-poner un dialogo explicando como funciona cuando te metes
 
-
-Languages
-  Do it for different languages.
-  You can choose a flag and it translates the first message to that language, or you can provide a language and chatgpt translate it for you
 
 Improve reset conversation method but still do it in navbar logo
 
