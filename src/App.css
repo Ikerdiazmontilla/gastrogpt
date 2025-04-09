@@ -56,7 +56,7 @@
 
  .container {
   padding: 2vh 2vw;
-  height: 90vh;
+  /* height: 90vh; */
   display: flex;
   flex-direction: column;
 }
