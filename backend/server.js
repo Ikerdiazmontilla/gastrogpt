@@ -2,18 +2,18 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const session = require('express-session'); // <--- Añadido
-const { Pool } = require('pg');           // <--- Añadido
-const { v4: uuidv4 } = require('uuid');   // <--- Añadido
+const session = require('express-session');
+const { Pool } = require('pg');
+const { v4: uuidv4 } = require('uuid');
 
 const instructions = require('./instructions');
 const firstMessage = require('./firstMessage');
-const { getChatbotResponse } = require('./geminiApi'); // O la API que uses
+const { getChatbotResponse } = require('./geminiApi');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// --- Configuración Base de Datos PostgreSQL ---
+// --- Configuración Base de Datos PostgreSQL (sin cambios) ---
 const pool = new Pool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -22,9 +22,10 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
-// --- Función para inicializar la tabla en la DB ---
+// --- Función para inicializar la tabla en la DB (sin cambios) ---
 const initializeDatabase = async () => {
-  const client = await pool.connect();
+  // ... (código igual que antes)
+    const client = await pool.connect();
   try {
     // Crear tabla si no existe
     await client.query(`
@@ -65,56 +66,46 @@ const initializeDatabase = async () => {
     console.log('Base de datos inicializada correctamente.');
   } catch (err) {
     console.error('Error al inicializar la base de datos:', err);
-    // Considera terminar el proceso si la DB no se puede inicializar
     process.exit(1);
   } finally {
-    client.release(); // Liberar cliente de vuelta al pool
+    client.release();
   }
 };
 
-// --- Configuración CORS (sin cambios significativos) ---
+
+// --- Configuración CORS (sin cambios) ---
 const corsOptions = {
   origin: [
     'http://localhost:3000',
-    'https://restaurant-chatbot-three.vercel.app' // Asegúrate que el origen de producción sea correcto
+    'https://restaurant-chatbot-three.vercel.app'
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // <--- MUY IMPORTANTE: Necesario para que las cookies de sesión funcionen con CORS
+  credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// --- Configuración Sesiones ---
+// --- Configuración Sesiones (sin cambios) ---
 if (!process.env.SESSION_SECRET) {
   console.error("Error: SESSION_SECRET no está definido en el archivo .env. La aplicación no puede iniciarse de forma segura.");
   process.exit(1);
 }
 app.use(session({
-  secret: process.env.SESSION_SECRET, // Clave secreta para firmar la cookie de sesión
-  resave: false,                      // No guardar la sesión si no se modificó
-  saveUninitialized: true,            // Guarda sesiones nuevas (aunque estén vacías inicialmente)
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // Usar cookies seguras (HTTPS) en producción
-    httpOnly: true,                               // Previene acceso a la cookie desde JS en el navegador
-    maxAge: 24 * 60 * 60 * 1000                    // Tiempo de vida de la cookie (e.g., 1 día). Ajusta si necesitas.
-                                                   // Si el usuario cierra el navegador antes de maxAge, la sesión persiste (almacenada en el navegador).
-                                                   // Si quieres que se borre al cerrar navegador, omite maxAge.
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000
   }
-  // Nota: Por defecto usa MemoryStore. Para producción con muchos usuarios,
-  // considera connect-pg-simple para almacenar sesiones en PostgreSQL.
 }));
 
-// --- Middleware para loggear información de sesión (opcional, para depuración) ---
-// app.use((req, res, next) => {
-//   console.log('Session ID:', req.sessionID);
-//   console.log('Session Data:', req.session);
-//   next();
-// });
 
 // --- Rutas API ---
 
-// GET /api/conversation - Devuelve el historial de la sesión actual
+// GET /api/conversation - Devuelve el historial para el frontend
 app.get('/api/conversation', async (req, res) => {
   const client = await pool.connect();
   try {
@@ -123,17 +114,22 @@ app.get('/api/conversation', async (req, res) => {
       [req.sessionID]
     );
 
-    if (result.rows.length > 0) {
-      // Convertir roles para el frontend
-      const frontendMessages = result.rows[0].messages
-        .filter(msg => msg.role !== 'system') // No enviar el system prompt al frontend
-        .map(msg => ({
+    if (result.rows.length > 0 && result.rows[0].messages && result.rows[0].messages.length > 0) {
+      // Mensajes guardados (ya filtrados, sin system/primer assistant)
+      const savedMessages = result.rows[0].messages;
+
+      // Reconstruir para el frontend: añadir el firstMessage al principio si hay mensajes guardados
+      const frontendMessages = [
+        { sender: 'bot', text: firstMessage }, // Siempre empezamos con el saludo en el frontend
+        ...savedMessages.map(msg => ({
           sender: msg.role === 'assistant' ? 'bot' : 'user',
           text: msg.content
-        }));
+        }))
+      ];
       res.json({ messages: frontendMessages });
+
     } else {
-      // No hay conversación previa para esta sesión, devolver solo el mensaje inicial
+      // No hay conversación previa guardada o está vacía, devolver solo el mensaje inicial
       res.json({ messages: [{ sender: 'bot', text: firstMessage }] });
     }
   } catch (error) {
@@ -155,7 +151,10 @@ app.post('/api/chat', async (req, res) => {
   const userMessageContent = message.trim();
   const client = await pool.connect();
   let conversationId = null;
-  let currentMessages = [];
+  // `messagesForAI`: Incluye system/firstMsg para enviar a la API
+  let messagesForAI = [];
+  // `messagesToSave`: Solo user/assistant a partir del primer mensaje del usuario
+  let messagesToSave = [];
 
   try {
     // 1. Buscar conversación existente por session_id
@@ -167,53 +166,66 @@ app.post('/api/chat', async (req, res) => {
     const userMessage = { role: 'user', content: userMessageContent };
 
     if (findResult.rows.length > 0) {
-      // 2a. Conversación encontrada: Cargarla y añadir mensaje de usuario
+      // 2a. Conversación encontrada
       conversationId = findResult.rows[0].id;
-      currentMessages = findResult.rows[0].messages;
-      currentMessages.push(userMessage);
+      // Cargar los mensajes ya guardados (filtrados)
+      messagesToSave = findResult.rows[0].messages || [];
+      // Reconstruir el historial completo para la API
+      messagesForAI = [
+        { role: 'system', content: instructions },
+        { role: 'assistant', content: firstMessage },
+        ...messagesToSave, // Añadir mensajes guardados
+        userMessage      // Añadir mensaje actual del usuario
+      ];
+      // Añadir el mensaje del usuario a lo que se guardará
+      messagesToSave.push(userMessage);
+
     } else {
       // 2b. Conversación no encontrada: Inicializarla
       conversationId = uuidv4(); // Generar nuevo ID para la conversación
-      currentMessages = [
+      // Preparar historial completo para la API
+      messagesForAI = [
         { role: 'system', content: instructions },
         { role: 'assistant', content: firstMessage },
         userMessage
       ];
+      // Solo el mensaje del usuario se guarda inicialmente
+      messagesToSave = [userMessage];
     }
 
-    // 3. Obtener respuesta del Chatbot
-    const replyContent = await getChatbotResponse(currentMessages); // Pasar el historial actual
+    // 3. Obtener respuesta del Chatbot (usando el historial completo)
+    const replyContent = await getChatbotResponse(messagesForAI);
     const assistantMessage = { role: 'assistant', content: replyContent };
-    currentMessages.push(assistantMessage);
 
-    // 4. Guardar/Actualizar en la Base de Datos
-    const messagesToSave = currentMessages.filter(msg => msg.role !== 'system'); // <--- AÑADIR FILTRO
+    // 4. Añadir respuesta del bot a lo que se guardará
+    messagesToSave.push(assistantMessage);
 
+    // 5. Guardar/Actualizar en la Base de Datos (solo los mensajes filtrados)
     if (findResult.rows.length > 0) {
       // Actualizar conversación existente
       await client.query(
         'UPDATE conversations SET messages = $1 WHERE id = $2',
-        // Usar el array filtrado para guardar
-        [JSON.stringify(messagesToSave), conversationId] // <--- MODIFICADO
+        // ¡Guardamos messagesToSave!
+        [JSON.stringify(messagesToSave), conversationId]
       );
-      console.log(`Conversación ${conversationId} actualizada para sesión ${req.sessionID}`);
+      console.log(`Conversación ${conversationId} actualizada (guardados ${messagesToSave.length} mensajes) para sesión ${req.sessionID}`);
     } else {
       // Insertar nueva conversación
       await client.query(
         'INSERT INTO conversations (id, session_id, messages) VALUES ($1, $2, $3)',
-        // Usar el array filtrado para guardar
-        [conversationId, req.sessionID, JSON.stringify(messagesToSave)] // <--- MODIFICADO
+         // ¡Guardamos messagesToSave!
+        [conversationId, req.sessionID, JSON.stringify(messagesToSave)]
       );
-      console.log(`Nueva conversación ${conversationId} creada para sesión ${req.sessionID}`);
+      console.log(`Nueva conversación ${conversationId} creada (guardados ${messagesToSave.length} mensajes) para sesión ${req.sessionID}`);
     }
 
-    // 5. Enviar respuesta al frontend (sin cambios aquí)
+    // 6. Enviar respuesta al frontend
     res.json({ reply: replyContent });
 
   } catch (error) {
-    console.error('Error en /api/chat:', error);
-    // Determinar si el error fue de la API o de la DB
-    if (error.message.includes('API')) { // O una comprobación más específica si es posible
+    // ... (manejo de errores igual que antes)
+        console.error('Error en /api/chat:', error);
+    if (error.message.includes('API')) {
         res.status(502).json({ error: 'Error al comunicarse con el servicio de IA.' });
     } else {
         res.status(500).json({ error: 'Error interno del servidor al procesar el mensaje.' });
@@ -223,30 +235,21 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// POST /api/reset - (Opcional) Limpia la conversación para la sesión actual
+// POST /api/reset - (Sin cambios funcionales, ya borra por sessionID)
 app.post('/api/reset', async (req, res) => {
+    // ... (código igual que antes)
     const client = await pool.connect();
     try {
-        // Opcionalmente, podrías marcar la conversación como "finalizada"
-        // en lugar de borrarla si quisieras mantener un registro más explícito.
-        // Por ahora, simplemente la eliminamos de la DB asociada a esta sesión.
         const deleteResult = await client.query(
             'DELETE FROM conversations WHERE session_id = $1 RETURNING id',
             [req.sessionID]
         );
 
         if (deleteResult.rowCount > 0) {
-            console.log(`Conversación ${deleteResult.rows[0].id} eliminada para sesión ${req.sessionID} debido a reset.`);
+            console.log(`Conversación ${deleteResult.rows[0].id} eliminada (reset) para sesión ${req.sessionID}.`);
         } else {
             console.log(`Intento de reset para sesión ${req.sessionID}, pero no se encontró conversación activa.`);
         }
-
-        // Destruir la sesión podría ser demasiado si solo quieres reiniciar el chat.
-        // Por ahora, solo eliminamos la conversación de la DB. La próxima
-        // llamada a /api/chat creará una nueva automáticamente.
-        // Si también quieres borrar la cookie, tendrías que destruir la sesión:
-        // req.session.destroy(err => { ... });
-
         res.json({ message: 'Conversación reiniciada. Se creará una nueva al enviar el próximo mensaje.' });
     } catch (error) {
         console.error('Error en /api/reset:', error);
@@ -257,7 +260,7 @@ app.post('/api/reset', async (req, res) => {
 });
 
 
-// POST /api/questionnaire - Adaptado para usar la misma lógica de sesión y DB
+// POST /api/questionnaire - Adaptado para usar la misma lógica de filtrado
 app.post('/api/questionnaire', async (req, res) => {
   const { tipoComida, precio, alergias, nivelPicante, consideraciones } = req.body;
 
@@ -287,7 +290,8 @@ app.post('/api/questionnaire', async (req, res) => {
 
   const client = await pool.connect();
   let conversationId = null;
-  let currentMessages = [];
+  let messagesForAI = [];
+  let messagesToSave = [];
 
   try {
     // Lógica similar a /api/chat para encontrar o crear conversación
@@ -296,45 +300,55 @@ app.post('/api/questionnaire', async (req, res) => {
       [req.sessionID]
     );
 
-    const userMessage = { role: 'user', content: userPreferences };
+    const userMessage = { role: 'user', content: userPreferences }; // Mensaje del formulario
 
     if (findResult.rows.length > 0) {
+      // Conversación encontrada
       conversationId = findResult.rows[0].id;
-      currentMessages = findResult.rows[0].messages;
-      currentMessages.push(userMessage);
-    } else {
-      conversationId = uuidv4();
-      currentMessages = [
+      messagesToSave = findResult.rows[0].messages || [];
+      messagesForAI = [
         { role: 'system', content: instructions },
-        { role: 'assistant', content: firstMessage }, // Incluir mensaje inicial en historial
+        { role: 'assistant', content: firstMessage },
+        ...messagesToSave,
         userMessage
       ];
+       messagesToSave.push(userMessage);
+    } else {
+      // Conversación no encontrada
+      conversationId = uuidv4();
+      messagesForAI = [
+        { role: 'system', content: instructions },
+        { role: 'assistant', content: firstMessage },
+        userMessage
+      ];
+      messagesToSave = [userMessage];
     }
 
     // Obtener respuesta del Chatbot (recomendaciones)
-    const recommendations = await getChatbotResponse(currentMessages);
+    const recommendations = await getChatbotResponse(messagesForAI);
     const assistantMessage = { role: 'assistant', content: recommendations };
-    currentMessages.push(assistantMessage);
+    messagesToSave.push(assistantMessage); // Añadir respuesta a lo que se guarda
 
-    // Guardar/Actualizar en la Base de Datos
+    // Guardar/Actualizar en la Base de Datos (solo mensajes filtrados)
      if (findResult.rows.length > 0) {
       await client.query(
         'UPDATE conversations SET messages = $1 WHERE id = $2',
-        [JSON.stringify(currentMessages), conversationId]
+        [JSON.stringify(messagesToSave), conversationId] // <-- Guardar filtrado
       );
-       console.log(`Conversación ${conversationId} actualizada (questionnaire) para sesión ${req.sessionID}`);
+       console.log(`Conversación ${conversationId} actualizada (questionnaire, ${messagesToSave.length} mensajes guardados) para sesión ${req.sessionID}`);
     } else {
       await client.query(
         'INSERT INTO conversations (id, session_id, messages) VALUES ($1, $2, $3)',
-        [conversationId, req.sessionID, JSON.stringify(currentMessages)]
+        [conversationId, req.sessionID, JSON.stringify(messagesToSave)] // <-- Guardar filtrado
       );
-       console.log(`Nueva conversación ${conversationId} creada (questionnaire) para sesión ${req.sessionID}`);
+       console.log(`Nueva conversación ${conversationId} creada (questionnaire, ${messagesToSave.length} mensajes guardados) para sesión ${req.sessionID}`);
     }
 
     // Enviar recomendaciones al frontend
     res.json({ recommendations });
 
   } catch (error) {
+     // ... (manejo de errores igual que antes)
     console.error('Error en /api/questionnaire:', error);
      if (error.message.includes('API')) {
         res.status(502).json({ error: 'Error al comunicarse con el servicio de IA.' });
@@ -347,10 +361,10 @@ app.post('/api/questionnaire', async (req, res) => {
 });
 
 
-// --- Iniciar servidor y base de datos ---
+// --- Iniciar servidor y base de datos (sin cambios) ---
 const startServer = async () => {
   try {
-    await initializeDatabase(); // Asegurarse de que la DB esté lista antes de aceptar conexiones
+    await initializeDatabase();
     app.listen(PORT, () => {
       console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
     });
