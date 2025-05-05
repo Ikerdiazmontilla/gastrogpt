@@ -3,7 +3,7 @@ Hay que cambiar la lógica de los mensajes para que la conversacion se guarde en
 
 
 
-
+Si no aceptan las cookies se puede hacer un fallback a localstorage o se le puede inhabilitar el uso del chat o que salte un banner diciendo que tienen las cookies desactivadas
 
 
 Añadir opciones de bebida al formulario y hacer que estructure bien la respuesta, que de mas variedad de lo que le piden.

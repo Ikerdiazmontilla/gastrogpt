@@ -187,23 +187,27 @@ app.post('/api/chat', async (req, res) => {
     currentMessages.push(assistantMessage);
 
     // 4. Guardar/Actualizar en la Base de Datos
+    const messagesToSave = currentMessages.filter(msg => msg.role !== 'system'); // <--- AÑADIR FILTRO
+
     if (findResult.rows.length > 0) {
       // Actualizar conversación existente
       await client.query(
         'UPDATE conversations SET messages = $1 WHERE id = $2',
-        [JSON.stringify(currentMessages), conversationId]
+        // Usar el array filtrado para guardar
+        [JSON.stringify(messagesToSave), conversationId] // <--- MODIFICADO
       );
       console.log(`Conversación ${conversationId} actualizada para sesión ${req.sessionID}`);
     } else {
       // Insertar nueva conversación
       await client.query(
         'INSERT INTO conversations (id, session_id, messages) VALUES ($1, $2, $3)',
-        [conversationId, req.sessionID, JSON.stringify(currentMessages)]
+        // Usar el array filtrado para guardar
+        [conversationId, req.sessionID, JSON.stringify(messagesToSave)] // <--- MODIFICADO
       );
       console.log(`Nueva conversación ${conversationId} creada para sesión ${req.sessionID}`);
     }
 
-    // 5. Enviar respuesta al frontend
+    // 5. Enviar respuesta al frontend (sin cambios aquí)
     res.json({ reply: replyContent });
 
   } catch (error) {
