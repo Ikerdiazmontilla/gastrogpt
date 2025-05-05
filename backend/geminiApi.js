@@ -30,7 +30,7 @@ async function getChatbotResponse(messages) {
       {
         model: modelName, 
         messages: messages, 
-        max_tokens: 250,   
+        max_tokens: 450,   
         temperature: 0.7,
       },
       {

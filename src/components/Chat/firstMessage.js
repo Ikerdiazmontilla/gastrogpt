@@ -2,6 +2,8 @@ const firstMessage = `¡Hola! Soy GastroGPT y estoy aquí para ayudarte a escoge
 
 Para obtener tu menú ideal, especifica:
 
+- **Bebida que desearias**
+- **Si quieres entrantes**
 - **Tipo de comida** (Carne, pescado, marisco, vegano, etc...)
 - **Rango de precio**
 - **Nivel de picante** (suave, medio, picante, muy picante)

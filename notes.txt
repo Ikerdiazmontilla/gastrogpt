@@ -1,3 +1,18 @@
+Hay que cambiar la lógica de los mensajes para que la conversacion se guarde en el backend con un id y ponerla en una base de datos.
+
+
+
+
+
+
+
+Añadir opciones de bebida al formulario y hacer que estructure bien la respuesta, que de mas variedad de lo que le piden.
+
+Asegurarse que las instrucciones funcionan bien
+
+
+
+
 Poner un dialogo explicando como funciona cuando te metes
 Languages
   Do it for different languages.
@@ -16,9 +31,6 @@ onkey press is deprecated
 
 Add selection of best dishes from the restaurant and prioritize those.
 Improve prompt instructions
-Hacer que resuelva dudas que tengan los clientes sobre el menú
-Dar la opcion a que el usuario escoja pasta, ensaladas, entrantes, etc.
-
 
 
 Improve reset conversation method but still do it in navbar logo
