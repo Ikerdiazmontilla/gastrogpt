@@ -8,12 +8,13 @@ const { v4: uuidv4 } = require('uuid');
 
 const instructions = require('./instructions');
 const firstMessage = require('./firstMessage');
+const questionnaire_instructions = require('./questionnaire_instructions');
 const { getChatbotResponse } = require('./geminiApi');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// --- Configuración Base de Datos PostgreSQL (sin cambios) ---
+// --- Configuración Base de Datos PostgreSQL ---
 const pool = new Pool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -22,23 +23,53 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
-// --- Función para inicializar la tabla en la DB (sin cambios) ---
+// --- Función para inicializar las tablas en la DB ---
 const initializeDatabase = async () => {
-  // ... (código igual que antes)
-    const client = await pool.connect();
+  const client = await pool.connect();
   try {
-    // Crear tabla si no existe
+    // Tabla para conversaciones de CHAT
     await client.query(`
-      CREATE TABLE IF NOT EXISTS conversations (
+      CREATE TABLE IF NOT EXISTS chat_conversations (
         id UUID PRIMARY KEY,
-        session_id TEXT NOT NULL UNIQUE,
+        session_id TEXT NOT NULL,
         messages JSONB NOT NULL,
+        is_active BOOLEAN NOT NULL DEFAULT TRUE, -- <<< AÑADIDO
         created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
       );
     `);
+    // Asegurarse de que la columna is_active exista si la tabla ya fue creada
+    await client.query(`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns
+          WHERE table_name = 'chat_conversations' AND column_name = 'is_active'
+        ) THEN
+          ALTER TABLE chat_conversations ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT TRUE;
+        END IF;
+      END $$;
+    `);
+    // Considerar un índice para búsquedas eficientes de chats activos por sesión
+    await client.query(`
+        CREATE INDEX IF NOT EXISTS idx_chat_conversations_session_active 
+        ON chat_conversations (session_id, is_active) 
+        WHERE is_active = TRUE;
+    `);
 
-    // Crear función para actualizar 'updated_at' automáticamente (si no existe)
+
+    // Tabla para interacciones del CUESTIONARIO (sin cambios)
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS questionnaire_interactions (
+        id UUID PRIMARY KEY,
+        session_id TEXT NOT NULL,
+        submission_data JSONB NOT NULL,
+        recommendation_text TEXT NOT NULL,
+        created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Función y Trigger para 'updated_at' en chat_conversations (sin cambios)
     await client.query(`
       CREATE OR REPLACE FUNCTION trigger_set_timestamp()
       RETURNS TRIGGER AS $$
@@ -48,14 +79,15 @@ const initializeDatabase = async () => {
       END;
       $$ LANGUAGE plpgsql;
     `);
-
-    // Crear trigger para actualizar 'updated_at' (si no existe)
     await client.query(`
       DO $$
       BEGIN
-        IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'set_timestamp') THEN
-          CREATE TRIGGER set_timestamp
-          BEFORE UPDATE ON conversations
+        IF NOT EXISTS (
+          SELECT 1 FROM pg_trigger 
+          WHERE tgname = 'set_timestamp_chat_conversations' AND tgrelid = 'chat_conversations'::regclass
+        ) THEN
+          CREATE TRIGGER set_timestamp_chat_conversations
+          BEFORE UPDATE ON chat_conversations
           FOR EACH ROW
           EXECUTE FUNCTION trigger_set_timestamp();
         END IF;
@@ -63,7 +95,7 @@ const initializeDatabase = async () => {
       $$;
     `);
 
-    console.log('Base de datos inicializada correctamente.');
+    console.log('Base de datos inicializada (chat_conversations con is_active, questionnaire_interactions).');
   } catch (err) {
     console.error('Error al inicializar la base de datos:', err);
     process.exit(1);
@@ -72,8 +104,7 @@ const initializeDatabase = async () => {
   }
 };
 
-
-// --- Configuración CORS (sin cambios) ---
+// --- Configuración CORS y Sesiones (sin cambios) ---
 const corsOptions = {
   origin: [
     'http://localhost:3000',
@@ -86,15 +117,14 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// --- Configuración Sesiones (sin cambios) ---
 if (!process.env.SESSION_SECRET) {
-  console.error("Error: SESSION_SECRET no está definido en el archivo .env. La aplicación no puede iniciarse de forma segura.");
+  console.error("Error: SESSION_SECRET no está definido.");
   process.exit(1);
 }
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: true, // True para que sessionID se genere siempre
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
@@ -102,46 +132,41 @@ app.use(session({
   }
 }));
 
-
 // --- Rutas API ---
 
-// GET /api/conversation - Devuelve el historial para el frontend
+// GET /api/conversation - Devuelve el historial del CHAT ACTIVO para el frontend
 app.get('/api/conversation', async (req, res) => {
   const client = await pool.connect();
   try {
+    // Buscar la conversación de chat ACTIVA para esta sesión
     const result = await client.query(
-      'SELECT messages FROM conversations WHERE session_id = $1',
+      'SELECT messages FROM chat_conversations WHERE session_id = $1 AND is_active = TRUE ORDER BY created_at DESC LIMIT 1',
       [req.sessionID]
     );
 
     if (result.rows.length > 0 && result.rows[0].messages && result.rows[0].messages.length > 0) {
-      // Mensajes guardados (ya filtrados, sin system/primer assistant)
       const savedMessages = result.rows[0].messages;
-
-      // Reconstruir para el frontend: añadir el firstMessage al principio si hay mensajes guardados
       const frontendMessages = [
-        { sender: 'bot', text: firstMessage }, // Siempre empezamos con el saludo en el frontend
+        { sender: 'bot', text: firstMessage },
         ...savedMessages.map(msg => ({
           sender: msg.role === 'assistant' ? 'bot' : 'user',
           text: msg.content
         }))
       ];
       res.json({ messages: frontendMessages });
-
     } else {
-      // No hay conversación previa guardada o está vacía, devolver solo el mensaje inicial
+      // No hay conversación activa, devolver solo el mensaje inicial
       res.json({ messages: [{ sender: 'bot', text: firstMessage }] });
     }
   } catch (error) {
-    console.error('Error al obtener la conversación:', error);
-    res.status(500).json({ error: 'Error interno al obtener la conversación.' });
+    console.error('Error al obtener la conversación activa del chat:', error);
+    res.status(500).json({ error: 'Error interno al obtener la conversación del chat.' });
   } finally {
     client.release();
   }
 });
 
-
-// POST /api/chat - Procesa un mensaje del usuario
+// POST /api/chat - Procesa un mensaje del usuario para el CHAT ACTIVO
 app.post('/api/chat', async (req, res) => {
   const { message } = req.body;
   if (!message || typeof message !== 'string' || message.trim() === '') {
@@ -150,218 +175,145 @@ app.post('/api/chat', async (req, res) => {
 
   const userMessageContent = message.trim();
   const client = await pool.connect();
-  let conversationId = null;
-  // `messagesForAI`: Incluye system/firstMsg para enviar a la API
+  let activeChatConversationId = null;
   let messagesForAI = [];
-  // `messagesToSave`: Solo user/assistant a partir del primer mensaje del usuario
-  let messagesToSave = [];
+  let messagesToSaveInDB = [];
 
   try {
-    // 1. Buscar conversación existente por session_id
+    // 1. Buscar conversación de chat ACTIVA existente
     const findResult = await client.query(
-      'SELECT id, messages FROM conversations WHERE session_id = $1',
+      'SELECT id, messages FROM chat_conversations WHERE session_id = $1 AND is_active = TRUE ORDER BY created_at DESC LIMIT 1',
       [req.sessionID]
     );
 
-    const userMessage = { role: 'user', content: userMessageContent };
+    const userMessageForAI = { role: 'user', content: userMessageContent };
 
     if (findResult.rows.length > 0) {
-      // 2a. Conversación encontrada
-      conversationId = findResult.rows[0].id;
-      // Cargar los mensajes ya guardados (filtrados)
-      messagesToSave = findResult.rows[0].messages || [];
-      // Reconstruir el historial completo para la API
+      // 2a. Conversación activa encontrada: Cargarla y añadir mensaje
+      activeChatConversationId = findResult.rows[0].id;
+      messagesToSaveInDB = findResult.rows[0].messages || [];
       messagesForAI = [
         { role: 'system', content: instructions },
-        { role: 'assistant', content: firstMessage },
-        ...messagesToSave, // Añadir mensajes guardados
-        userMessage      // Añadir mensaje actual del usuario
+        { role: 'assistant', content: firstMessage }, // Contexto de saludo para la IA
+        ...messagesToSaveInDB,
+        userMessageForAI
       ];
-      // Añadir el mensaje del usuario a lo que se guardará
-      messagesToSave.push(userMessage);
-
+      messagesToSaveInDB.push(userMessageForAI);
     } else {
-      // 2b. Conversación no encontrada: Inicializarla
-      conversationId = uuidv4(); // Generar nuevo ID para la conversación
-      // Preparar historial completo para la API
+      // 2b. NO hay conversación activa: Inicializar una nueva
+      activeChatConversationId = uuidv4();
       messagesForAI = [
         { role: 'system', content: instructions },
         { role: 'assistant', content: firstMessage },
-        userMessage
+        userMessageForAI
       ];
-      // Solo el mensaje del usuario se guarda inicialmente
-      messagesToSave = [userMessage];
+      messagesToSaveInDB = [userMessageForAI]; // Solo el mensaje del usuario se guarda inicialmente
     }
 
-    // 3. Obtener respuesta del Chatbot (usando el historial completo)
+    // 3. Obtener respuesta del Chatbot
     const replyContent = await getChatbotResponse(messagesForAI);
-    const assistantMessage = { role: 'assistant', content: replyContent };
+    const assistantMessageForAI = { role: 'assistant', content: replyContent };
+    messagesToSaveInDB.push(assistantMessageForAI);
 
-    // 4. Añadir respuesta del bot a lo que se guardará
-    messagesToSave.push(assistantMessage);
-
-    // 5. Guardar/Actualizar en la Base de Datos (solo los mensajes filtrados)
+    // 4. Guardar/Actualizar en la Base de Datos
     if (findResult.rows.length > 0) {
-      // Actualizar conversación existente
+      // Actualizar conversación activa existente
       await client.query(
-        'UPDATE conversations SET messages = $1 WHERE id = $2',
-        // ¡Guardamos messagesToSave!
-        [JSON.stringify(messagesToSave), conversationId]
+        'UPDATE chat_conversations SET messages = $1 WHERE id = $2 AND is_active = TRUE', // Doble check en is_active
+        [JSON.stringify(messagesToSaveInDB), activeChatConversationId]
       );
-      console.log(`Conversación ${conversationId} actualizada (guardados ${messagesToSave.length} mensajes) para sesión ${req.sessionID}`);
+      console.log(`Chat conversacion activa ${activeChatConversationId} actualizada para sesión ${req.sessionID}`);
     } else {
-      // Insertar nueva conversación
+      // Insertar NUEVA conversación activa
       await client.query(
-        'INSERT INTO conversations (id, session_id, messages) VALUES ($1, $2, $3)',
-         // ¡Guardamos messagesToSave!
-        [conversationId, req.sessionID, JSON.stringify(messagesToSave)]
+        'INSERT INTO chat_conversations (id, session_id, messages, is_active) VALUES ($1, $2, $3, TRUE)',
+        [activeChatConversationId, req.sessionID, JSON.stringify(messagesToSaveInDB)]
       );
-      console.log(`Nueva conversación ${conversationId} creada (guardados ${messagesToSave.length} mensajes) para sesión ${req.sessionID}`);
+      console.log(`Nueva chat conversacion activa ${activeChatConversationId} creada para sesión ${req.sessionID}`);
     }
-
-    // 6. Enviar respuesta al frontend
     res.json({ reply: replyContent });
-
   } catch (error) {
-    // ... (manejo de errores igual que antes)
-        console.error('Error en /api/chat:', error);
-    if (error.message.includes('API')) {
-        res.status(502).json({ error: 'Error al comunicarse con el servicio de IA.' });
-    } else {
-        res.status(500).json({ error: 'Error interno del servidor al procesar el mensaje.' });
-    }
+    console.error('Error en /api/chat:', error);
+    res.status(500).json({ error: 'Error interno del servidor al procesar el mensaje de chat.' });
   } finally {
     client.release();
   }
 });
 
-// POST /api/reset - (Sin cambios funcionales, ya borra por sessionID)
+// POST /api/reset - Marca la conversación de CHAT ACTIVA como INACTIVA
 app.post('/api/reset', async (req, res) => {
-    // ... (código igual que antes)
     const client = await pool.connect();
     try {
-        const deleteResult = await client.query(
-            'DELETE FROM conversations WHERE session_id = $1 RETURNING id',
+        // Marcar CUALQUIER conversación activa para esta sesión como inactiva
+        // Esto "archiva" la conversación actual.
+        const updateResult = await client.query(
+            'UPDATE chat_conversations SET is_active = FALSE, updated_at = NOW() WHERE session_id = $1 AND is_active = TRUE RETURNING id',
             [req.sessionID]
         );
 
-        if (deleteResult.rowCount > 0) {
-            console.log(`Conversación ${deleteResult.rows[0].id} eliminada (reset) para sesión ${req.sessionID}.`);
+        if (updateResult.rowCount > 0) {
+            console.log(`Chat conversacion(es) ${updateResult.rows.map(r => r.id).join(', ')} marcada(s) como inactiva(s) para sesión ${req.sessionID} debido a reset.`);
         } else {
-            console.log(`Intento de reset para sesión ${req.sessionID}, pero no se encontró conversación activa.`);
+            console.log(`Intento de reset de chat para sesión ${req.sessionID}, pero no se encontraron conversaciones activas para marcar como inactivas.`);
         }
-        res.json({ message: 'Conversación reiniciada. Se creará una nueva al enviar el próximo mensaje.' });
+        // El frontend se encargará de recargar el estado del chat, que mostrará el mensaje inicial.
+        res.json({ message: 'Conversación de chat archivada. Se iniciará una nueva en el próximo mensaje.' });
     } catch (error) {
-        console.error('Error en /api/reset:', error);
-        res.status(500).json({ error: 'Error interno al reiniciar la conversación.' });
+        console.error('Error en /api/reset (marcar chat como inactivo):', error);
+        res.status(500).json({ error: 'Error interno al reiniciar la conversación de chat.' });
     } finally {
         client.release();
     }
 });
 
-
-// POST /api/questionnaire - Adaptado para usar la misma lógica de filtrado
+// POST /api/questionnaire (SIN CAMBIOS, sigue funcionando independientemente)
 app.post('/api/questionnaire', async (req, res) => {
-  const { tipoComida, precio, alergias, nivelPicante, consideraciones } = req.body;
-
-  // --- Validación (sin cambios) ---
+  const submissionData = req.body;
   if (
-    !Array.isArray(tipoComida) || tipoComida.length === 0 ||
-    !Array.isArray(precio) || precio.length === 0  ||
-    !Array.isArray(alergias) || alergias.length === 0 ||
-    !Array.isArray(nivelPicante) || nivelPicante.length === 0
+    !submissionData.tipoComida || !Array.isArray(submissionData.tipoComida) || submissionData.tipoComida.length === 0 ||
+    !submissionData.precio || !Array.isArray(submissionData.precio) || submissionData.precio.length === 0  ||
+    !submissionData.alergias || !Array.isArray(submissionData.alergias) ||
+    !submissionData.nivelPicante || !Array.isArray(submissionData.nivelPicante) || submissionData.nivelPicante.length === 0
   ) {
-    return res.status(400).json({ error: 'Todos los campos múltiples son requeridos y deben tener al menos una opción seleccionada.' });
+    return res.status(400).json({ error: 'Faltan campos requeridos o tienen formato incorrecto para el cuestionario.' });
   }
 
-  // --- Procesamiento de datos (sin cambios) ---
   const arrayToString = (array) => {
+    if (!array || array.length === 0) return 'ninguna';
     if (array.length === 1) return array[0];
     return array.slice(0, -1).join(', ') + ' y ' + array[array.length - 1];
   };
-  const tipoComidaStr = arrayToString(tipoComida);
-  const precioStr = arrayToString(precio);
-  const alergiasStr = arrayToString(alergias);
-  const nivelPicanteStr = arrayToString(nivelPicante);
-  let userPreferences = `Quiero recomendaciones basadas en esto: Tipo de comida: ${tipoComidaStr}; Precio: ${precioStr}; Alergias: ${alergiasStr}; Nivel de picante: ${nivelPicanteStr}.`;
-  if (consideraciones && consideraciones.trim() !== '') {
-    userPreferences += ` Consideraciones adicionales: ${consideraciones.trim()}`;
+  const tipoComidaStr = arrayToString(submissionData.tipoComida);
+  const precioStr = arrayToString(submissionData.precio);
+  const alergiasStr = arrayToString(submissionData.alergias);
+  const nivelPicanteStr = arrayToString(submissionData.nivelPicante);
+  let userPreferencesPrompt = `Mis preferencias son: Tipo de comida: ${tipoComidaStr}. Rango de precio: ${precioStr}. Alergias: ${alergiasStr}. Nivel de picante: ${nivelPicanteStr}.`;
+  if (submissionData.consideraciones && submissionData.consideraciones.trim() !== '') {
+    userPreferencesPrompt += ` Consideraciones adicionales: ${submissionData.consideraciones.trim()}`;
   }
-
+  const messagesForQuestionnaireAI = [
+    { role: 'system', content: questionnaire_instructions },
+    { role: 'user', content: userPreferencesPrompt }
+  ];
   const client = await pool.connect();
-  let conversationId = null;
-  let messagesForAI = [];
-  let messagesToSave = [];
-
   try {
-    // Lógica similar a /api/chat para encontrar o crear conversación
-    const findResult = await client.query(
-      'SELECT id, messages FROM conversations WHERE session_id = $1',
-      [req.sessionID]
+    const recommendationsText = await getChatbotResponse(messagesForQuestionnaireAI);
+    const questionnaireInteractionId = uuidv4();
+    await client.query(
+      'INSERT INTO questionnaire_interactions (id, session_id, submission_data, recommendation_text) VALUES ($1, $2, $3, $4)',
+      [questionnaireInteractionId, req.sessionID, JSON.stringify(submissionData), recommendationsText]
     );
-
-    const userMessage = { role: 'user', content: userPreferences }; // Mensaje del formulario
-
-    if (findResult.rows.length > 0) {
-      // Conversación encontrada
-      conversationId = findResult.rows[0].id;
-      messagesToSave = findResult.rows[0].messages || [];
-      messagesForAI = [
-        { role: 'system', content: instructions },
-        { role: 'assistant', content: firstMessage },
-        ...messagesToSave,
-        userMessage
-      ];
-       messagesToSave.push(userMessage);
-    } else {
-      // Conversación no encontrada
-      conversationId = uuidv4();
-      messagesForAI = [
-        { role: 'system', content: instructions },
-        { role: 'assistant', content: firstMessage },
-        userMessage
-      ];
-      messagesToSave = [userMessage];
-    }
-
-    // Obtener respuesta del Chatbot (recomendaciones)
-    const recommendations = await getChatbotResponse(messagesForAI);
-    const assistantMessage = { role: 'assistant', content: recommendations };
-    messagesToSave.push(assistantMessage); // Añadir respuesta a lo que se guarda
-
-    // Guardar/Actualizar en la Base de Datos (solo mensajes filtrados)
-     if (findResult.rows.length > 0) {
-      await client.query(
-        'UPDATE conversations SET messages = $1 WHERE id = $2',
-        [JSON.stringify(messagesToSave), conversationId] // <-- Guardar filtrado
-      );
-       console.log(`Conversación ${conversationId} actualizada (questionnaire, ${messagesToSave.length} mensajes guardados) para sesión ${req.sessionID}`);
-    } else {
-      await client.query(
-        'INSERT INTO conversations (id, session_id, messages) VALUES ($1, $2, $3)',
-        [conversationId, req.sessionID, JSON.stringify(messagesToSave)] // <-- Guardar filtrado
-      );
-       console.log(`Nueva conversación ${conversationId} creada (questionnaire, ${messagesToSave.length} mensajes guardados) para sesión ${req.sessionID}`);
-    }
-
-    // Enviar recomendaciones al frontend
-    res.json({ recommendations });
-
+    console.log(`Nueva interaccion de cuestionario ${questionnaireInteractionId} creada para sesión ${req.sessionID}`);
+    res.json({ recommendations: recommendationsText });
   } catch (error) {
-     // ... (manejo de errores igual que antes)
     console.error('Error en /api/questionnaire:', error);
-     if (error.message.includes('API')) {
-        res.status(502).json({ error: 'Error al comunicarse con el servicio de IA.' });
-    } else {
-        res.status(500).json({ error: 'Error interno del servidor al obtener recomendaciones.' });
-    }
+    res.status(500).json({ error: 'Error interno al obtener recomendaciones del cuestionario.' });
   } finally {
     client.release();
   }
 });
 
-
-// --- Iniciar servidor y base de datos (sin cambios) ---
+// --- Iniciar servidor y base de datos ---
 const startServer = async () => {
   try {
     await initializeDatabase();

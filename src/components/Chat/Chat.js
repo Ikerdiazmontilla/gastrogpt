@@ -114,42 +114,40 @@ const Chat = () => {
     }
   };
 
-  // Función para reiniciar la conversación
-  const handleReset = async () => {
-    setIsLoading(true); // Mostrar carga mientras se reinicia
-    setError(null);
-    try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/reset`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include', // Enviar cookie de sesión
-        });
 
-         if (!response.ok) {
-          let errorData;
-          try {
-            errorData = await response.json();
-          } catch(e) {
-             errorData = { error: `Error HTTP ${response.status}: ${response.statusText}` };
-          }
-           throw new Error(errorData.message || 'Error desconocido al reiniciar');
-        }
+// Función para reiniciar la conversación
+const handleReset = async () => {
+  setIsLoading(true);
+  setError(null);
+  try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/reset`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+      });
 
-        // const data = await response.json(); // Leer respuesta (e.g., { message: '...' })
-        // console.log(data.message);
+      if (!response.ok) {
+        let errorData;
+        try { errorData = await response.json(); } catch(e) { /* noop */ }
+        throw new Error(errorData?.message || `Error HTTP ${response.status}`);
+      }
 
-        // Volver a cargar la conversación (que ahora debería ser solo el mensaje inicial)
-        await fetchConversation();
+      // const data = await response.json(); // { message: '...' }
+      // console.log(data.message); // Ej: "Conversación de chat archivada..."
 
-    } catch (error) {
-        console.error('Error al reiniciar la conversación:', error);
-        setError(`Error al reiniciar: ${error.message}`);
-    } finally {
-        // setIsLoading(false); // fetchConversation ya lo hace
-    }
-  };
+      // Volver a cargar la conversación. Como la anterior se marcó inactiva,
+      // esto debería resultar en el backend devolviendo solo el firstMessage.
+      await fetchConversation();
+
+  } catch (error) {
+      console.error('Error al reiniciar la conversación:', error);
+      setError(`Error al reiniciar: ${error.message}`);
+      // Podrías decidir si mantener los mensajes viejos en UI o no en caso de error aquí
+  } finally {
+      // setIsLoading(false); // fetchConversation ya lo hace al final
+  }
+};
+
 
   return (
     <>

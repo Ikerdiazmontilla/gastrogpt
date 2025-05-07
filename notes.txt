@@ -1,4 +1,7 @@
-Hay que cambiar la lógica de los mensajes para que la conversacion se guarde en el backend con un id y ponerla en una base de datos.
+
+cambiar alergias para que no sea necesario seleccionar nada ahi
+
+Cuando se reinicia convo cambiar id de la convo anterior en vez de eliminarla.
 
 
 
