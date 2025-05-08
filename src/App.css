@@ -55,16 +55,20 @@
 
 
  .container {
-  padding: 2vh 2vw;
+  padding: 0px 2vw;
+  padding-bottom: 10%;
+  /* padding-top: 40%; */
   /* height: 90vh; */
   display: flex;
   flex-direction: column;
 }
 
 .nav-container{
-  height: 10vh;
-  padding: 20px;
-
+  /* height: 15%; */
+  padding: 10px 20px;
+  /* position: fixed; */
+  /* width: 100%; */
+  /* z-index: 9; */
 }
 
  

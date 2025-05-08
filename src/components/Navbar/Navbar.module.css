@@ -5,15 +5,11 @@
 } */
 
 
+
 /* src/components/Navbar/Navbar.module.css */
 .navbar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--main-color);
-  padding: 10px 20px;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  flex-direction: column;
 }
 
 .navbar h2 a { /* This targets 'a' within 'h2' within '.navbar' - it's fine */
@@ -25,14 +21,45 @@
   font-weight: 700;
 }
 
-.navLink { /* Was nav-link */
-  margin-left: 15px;
-  text-decoration: none;
-  color: white;
-  font-weight: 700;
-  font-size: 0.9rem;
+
+
+.firstGroup{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: var(--main-color);
+  border-radius: 10px;
+  align-items: center;
+  padding: 10px 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+.selectLanguage{
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.secondNavGroup{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+  padding: 10px 20px;
+  border-radius: 10px;
+  align-self: center;
+}
+
+.navLink { /* Was nav-link */
+  /* color: white; */
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 5px;
+  color: black;
+  border: 2px solid var(--main-color);
+  border-radius: 12px;
+}
 .navLink:hover {
   text-decoration: underline;
 }
@@ -46,9 +73,9 @@
     align-self: center;
 }
 
-.svg.questionnaire{ /* Combined class */
+/* .svg.questionnaire{
   width: 30px;
   height: 30px;
   position: relative;
   top: 2px;
-}
+} */

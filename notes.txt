@@ -1,7 +1,49 @@
 
 cambiar alergias para que no sea necesario seleccionar nada ahi
 
-Change css to scoped css
+put navbar in position fixed with javascript
+If you **don’t know the height** of the element in advance but still want to **preserve its space** in the document **and** have it behave as `position: fixed`, you can do this with JavaScript.
+
+### Working solution:
+
+```html
+<div id="placeholder">
+  <div id="fixed-element">
+    <!-- dynamic content here -->
+  </div>
+</div>
+```
+
+```css
+#fixed-element {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+```
+
+```js
+const fixed = document.getElementById('fixed-element');
+const placeholder = document.getElementById('placeholder');
+
+function syncHeight() {
+  placeholder.style.height = `${fixed.offsetHeight}px`;
+}
+
+window.addEventListener('load', syncHeight);
+window.addEventListener('resize', syncHeight);
+```
+
+### What this does:
+
+* The `#placeholder` remains in the document flow and takes up the same height as the fixed element.
+* The `#fixed-element` is pulled out of flow but its size is copied into the placeholder using JavaScript.
+
+This is the only clean way to make it work when the height is dynamic and unknown at CSS time.
+
+Do you want it to work if the content changes dynamically after load (e.g. animations, expanding sections)?
+
 
 
 Si no aceptan las cookies se puede hacer un fallback a localstorage o se le puede inhabilitar el uso del chat o que salte un banner diciendo que tienen las cookies desactivadas
