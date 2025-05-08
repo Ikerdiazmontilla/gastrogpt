@@ -142,22 +142,26 @@ const handleReset = async () => {
           <div ref={messagesEndRef} />
         </div>
       </div>
-      <div className={styles.inputArea}>
-        <input
-          type="text"
-          placeholder="Escribe tu mensaje..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={handleKeyPress}
-          disabled={isLoading}
-        />
-        <button className={styles.sendMessage} onClick={handleSend} disabled={isLoading || input.trim() === ''}>
-            <Send className={styles.sendSvg}/>
-        </button>
-      </div>
-      <button onClick={handleReset} disabled={isLoading} className={styles.resetConversationButton} style={{ marginTop: '10px' }}>
-        Iniciar Nueva Conversación
+
+      <div className={styles.inputWrapper}>
+        <div className={styles.inputArea}>
+          <input
+            type="text"
+            placeholder="Escribe tu mensaje..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={handleKeyPress}
+            disabled={isLoading}
+          />
+          <button className={styles.sendMessage} onClick={handleSend} disabled={isLoading || input.trim() === ''}>
+              <Send className={styles.sendSvg}/>
+          </button>
+        </div>
+        <button onClick={handleReset} disabled={isLoading} className={styles.resetConversationButton} style={{ marginTop: '10px' }}>
+        Nuevo chat
       </button>
+      </div>
+
     </>
   );
 };
