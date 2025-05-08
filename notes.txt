@@ -1,9 +1,7 @@
 
 cambiar alergias para que no sea necesario seleccionar nada ahi
 
-Cuando se reinicia convo cambiar id de la convo anterior en vez de eliminarla.
-
-
+Change css to scoped css
 
 
 Si no aceptan las cookies se puede hacer un fallback a localstorage o se le puede inhabilitar el uso del chat o que salte un banner diciendo que tienen las cookies desactivadas
