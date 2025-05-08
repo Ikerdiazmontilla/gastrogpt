@@ -42,10 +42,10 @@
 
 .secondNavGroup{
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
-  width: 70%;
-  padding: 10px 20px;
+  width: 100%;
+  padding: 20px;
   border-radius: 10px;
   align-self: center;
 }
@@ -57,12 +57,21 @@
   text-decoration: none;
   padding: 5px;
   color: black;
-  border: 2px solid var(--main-color);
-  border-radius: 12px;
+  /* border: 2px solid var(--main-color); */
+  border: none;
+  border-radius: 6px;
+  background-color: rgb(241, 239, 239);
+  flex: 1;
+  text-align: center;
+  transition: background-color 0.3s ease-in;
 }
-.navLink:hover {
+
+.navLinkActive {
+  background-color: rgb(175, 171, 171);
+}
+/* .navLink:hover {
   text-decoration: underline;
-}
+} */
 
 .svg{
     width: 25px; 
