@@ -5,6 +5,7 @@
 } */
 
 
+/* src/components/Navbar/Navbar.module.css */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -15,7 +16,7 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.navbar h2 a {
+.navbar h2 a { /* This targets 'a' within 'h2' within '.navbar' - it's fine */
   color: white;
 }
 
@@ -24,16 +25,15 @@
   font-weight: 700;
 }
 
-.nav-link {
+.navLink { /* Was nav-link */
   margin-left: 15px;
   text-decoration: none;
   color: white;
   font-weight: 700;
   font-size: 0.9rem;
-
 }
 
-.nav-link:hover {
+.navLink:hover {
   text-decoration: underline;
 }
 
@@ -41,12 +41,12 @@
     width: 25px; 
     height: 25px;
     fill: white;
-    color: white;
+    color: white; /* color might not be needed if fill is white */
     display: inline;
     align-self: center;
 }
 
-.svg.questionnaire{
+.svg.questionnaire{ /* Combined class */
   width: 30px;
   height: 30px;
   position: relative;

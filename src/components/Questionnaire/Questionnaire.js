@@ -1,12 +1,13 @@
 // src/components/Questionnaire/Questionnaire.js
+// src/components/Questionnaire/Questionnaire.js
 import React, { useState } from 'react';
-import './Questionnaire.css';
+import styles from './Questionnaire.module.css'; // Changed import
 import ReactMarkdown from 'react-markdown';
 
 const Questionnaire = () => {
   const [form, setForm] = useState({
     tipoComida: [],
-    precio: [], // Backend espera un array, frontend ahora maneja single select
+    precio: [],
     alergias: [],
     nivelPicante: [],
     consideraciones: ''
@@ -14,13 +15,13 @@ const Questionnaire = () => {
 
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(''); // Estado para mensajes de error más específicos
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
-    const { name, options, type, value, tagName } = e.target;
+    const { name, options, value, tagName } = e.target;
 
     if (tagName === 'SELECT') {
-      if (e.target.multiple) { // Para selects múltiples
+      if (e.target.multiple) {
         const selectedOptions = Array.from(options)
           .filter(option => option.selected)
           .map(option => option.value);
@@ -28,14 +29,13 @@ const Questionnaire = () => {
           ...prevForm,
           [name]: selectedOptions
         }));
-      } else { // Para selects simples (como precio)
+      } else {
         setForm(prevForm => ({
           ...prevForm,
-          // El backend espera un array para 'precio', así que lo envolvemos
           [name]: name === 'precio' ? [value] : value
         }));
       }
-    } else { // Para textarea
+    } else {
       setForm(prevForm => ({
         ...prevForm,
         [name]: value
@@ -43,26 +43,19 @@ const Questionnaire = () => {
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Limpiar errores previos
+    setError('');
     const { tipoComida, precio, alergias, nivelPicante } = form;
 
-    // Validación Frontend (básica, el backend también valida)
     if (tipoComida.length === 0 || precio.length === 0 || nivelPicante.length === 0) {
-      // Nota: Alergias puede ser "nada", así que no lo hacemos estrictamente obligatorio aquí si se envía "nada".
-      // El backend espera un array, incluso para "nada" si se selecciona.
       setError('Por favor, completa todas las opciones requeridas (Tipo de Comida, Precio, Nivel de Picante).');
-      // alert('Por favor, completa todas las opciones requeridas (Tipo de Comida, Precio, Nivel de Picante).'); // Usar estado de error en vez de alert
       return;
     }
-    if (alergias.length === 0) { // Si se requiere que 'alergias' tenga al menos una selección (ej: "nada")
+    if (alergias.length === 0) {
          setError('Por favor, selecciona al menos una opción para Alergias (puede ser "Ninguna").');
-        //  alert('Por favor, selecciona al menos una opción para Alergias (puede ser "Ninguna").');
          return;
     }
-
 
     setLoading(true);
     setResult('');
@@ -73,42 +66,37 @@ const Questionnaire = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        // IMPORTANTE: Incluir credenciales para enviar la cookie de sesión
         credentials: 'include',
-        body: JSON.stringify(form) // El 'form' ya está en el formato correcto
+        body: JSON.stringify(form)
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        // Si el backend envía un error estructurado, usarlo.
         throw new Error(data.error || `Error HTTP ${response.status}: ${response.statusText}`);
       }
 
       if (data.recommendations) {
         setResult(data.recommendations);
       } else {
-        // Esto no debería ocurrir si el backend responde bien
         setResult('No se recibieron recomendaciones válidas.');
         console.warn("Respuesta inesperada del backend (questionnaire):", data);
       }
     } catch (err) {
       console.error('Error al obtener las recomendaciones:', err);
-      // Mostrar el mensaje de error al usuario
       setError(`Error: ${err.message || 'Lo siento, ocurrió un error al generar las recomendaciones.'}`);
-      setResult(''); // Limpiar resultados previos si hay error
+      setResult('');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="questionnaire-container">
-      <h1 className='questionnaire-title'>¿Qué te gustaría comer hoy?</h1>
+    <div className={styles.questionnaireContainer}>
+      <h1 className={styles.questionnaireTitle}>¿Qué te gustaría comer hoy?</h1>
 
-      <form onSubmit={handleSubmit} className='preferences-form'>
-        {/* Tipo de Comida */}
-        <div className="form-group">
+      <form onSubmit={handleSubmit} className={styles.preferencesForm}>
+        <div className={styles.formGroup}>
           <label htmlFor="tipoComida">Tipo de Comida:</label>
           <select
             id="tipoComida"
@@ -116,8 +104,8 @@ const Questionnaire = () => {
             multiple
             value={form.tipoComida}
             onChange={handleChange}
-            className="multi-select"
-            required // Añadir validación HTML5 básica
+            className={styles.multiSelect} // Assuming multiSelect is a defined style
+            required
           >
             <option value="carne">Carne</option>
             <option value="pescado">Pescado</option>
@@ -130,19 +118,17 @@ const Questionnaire = () => {
           </select>
         </div>
 
-        {/* Precio */}
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="precio">Precio:</label>
           <select
             id="precio"
             name="precio"
-            // El backend espera un array, pero el select es simple.
-            // El handleChange lo convierte a array [value]
-            value={form.precio[0] || ''} // Tomar el primer elemento para el valor del select
+            value={form.precio[0] || ''}
             onChange={handleChange}
             required
+            // No specific class here, will inherit from .formGroup select if defined
           >
-            <option value="" disabled>Selecciona un rango</option> {/* Opción placeholder */}
+            <option value="" disabled>Selecciona un rango</option>
             <option value="menos de 15 euros">Menos de 15€</option>
             <option value="menos de 20 euros">Menos de 20€</option>
             <option value="menos de 30 euros">Menos de 30€</option>
@@ -150,8 +136,7 @@ const Questionnaire = () => {
           </select>
         </div>
 
-        {/* Alergias */}
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="alergias">Alergias:</label>
           <select
             id="alergias"
@@ -159,7 +144,7 @@ const Questionnaire = () => {
             multiple
             value={form.alergias}
             onChange={handleChange}
-            className="multi-select"
+            className={styles.multiSelect} // Assuming multiSelect is a defined style
             required
           >
             <option value="nada">Ninguna</option>
@@ -171,8 +156,7 @@ const Questionnaire = () => {
           </select>
         </div>
 
-        {/* Nivel de Picante */}
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="nivelPicante">Nivel de Picante:</label>
           <select
             id="nivelPicante"
@@ -180,7 +164,7 @@ const Questionnaire = () => {
             multiple
             value={form.nivelPicante}
             onChange={handleChange}
-            className="multi-select"
+            className={styles.multiSelect} // Assuming multiSelect is a defined style
             required
           >
             <option value="suave">Suave</option>
@@ -190,13 +174,12 @@ const Questionnaire = () => {
           </select>
         </div>
 
-        {/* Consideraciones Adicionales */}
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="consideraciones">Consideraciones Adicionales (opcional):</label>
           <textarea
             id="consideraciones"
             name="consideraciones"
-            className='consideraciones-adicionales'
+            className={styles.consideracionesAdicionales} // was consideraciones-adicionales
             value={form.consideraciones}
             onChange={handleChange}
             placeholder="Escribe aquí cualquier consideración adicional..."
@@ -204,21 +187,19 @@ const Questionnaire = () => {
           ></textarea>
         </div>
 
-        <button type="submit" disabled={loading} className="submit-button">
+        <button type="submit" disabled={loading} className={styles.submitButton}>
           {loading ? 'Creando Menú...' : 'Crear Menú'}
         </button>
       </form>
 
-      {/* Mostrar mensajes de error */}
       {error && (
-        <div className="error-message result"> {/* Podrías darle un estilo específico a los errores */}
+        <div className={`${styles.result} ${styles.errorMessage}`}> {/* Add specific error style if needed */}
           <p>{error}</p>
         </div>
       )}
 
-      {/* Mostrar resultados */}
-      {result && !error && ( // Solo mostrar resultados si no hay error y hay resultado
-        <div className="result">
+      {result && !error && (
+        <div className={styles.result}>
           <h3>Recomendaciones:</h3>
           <ReactMarkdown>{result}</ReactMarkdown>
         </div>

@@ -3,14 +3,14 @@
   /* --old-color:#4CAF50; */
 /* } */
 
-.chat-container {
-  /* height: 100%; */
+
+.chatContainer {
   display: flex;
   flex-direction: column;
   padding:2vh 2vw;
 }
 
-.reset-button{
+.resetButton{ /* Was reset-button, changed to camelCase for consistency if desired, or keep as is */
   width: fit-content;
 }
 
@@ -42,7 +42,7 @@
   padding-left: 20px; 
 }
 
-.message.user {
+.message.user { /* This will be accessed as styles.user when message class is also present */
   background-color: #b3deef;
   align-self: flex-end;
   border-top-right-radius: 4px;
@@ -60,12 +60,11 @@
   border-bottom: 10px solid transparent;
 }
 
-.message.bot {
+.message.bot { /* Accessed as styles.bot */
   background-color: #e2e0e0;
   align-self: flex-start;
   border-top-left-radius: 4px;
 }
-
 
 .message.bot::before {
   content: '';
@@ -79,8 +78,19 @@
   border-bottom: 10px solid transparent;
 }
 
+/* Added for system messages like loading/error */
+.message.system {
+  font-style: italic;
+  color: #666;
+  text-align: center;
+}
+.message.system.error {
+  color: red;
+  font-weight: bold;
+}
 
-.input-area {
+
+.inputArea { /* Was input-area */
   display: flex;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 14px;
@@ -93,7 +103,7 @@
   width: 90%;
 }
 
-.input-area input {
+.inputArea input { /* Target input within .inputArea */
   flex: 1;
   padding: 10px;
   border: none;
@@ -102,7 +112,8 @@
   border-bottom-left-radius: 8px;
 }
 
-.chat-container button, button.send-message {
+/* General button style within this component, if needed, or style specific buttons */
+.chatContainer button, button.sendMessage {
   padding: 10px 20px;
   border: none;
   background-color: var(--main-color);
@@ -110,14 +121,28 @@
   cursor: pointer;
 }
 
-button.send-message{
+.sendMessage{ /* Was send-message */
   border-radius: 14px;
   padding: 10px 15px;
+  /* Inherits general button styles if .chatContainer button is broad enough,
+     or define all properties here if it's the only styled button */
+  background-color: var(--main-color); /* Ensure it has these if not covered */
+  color: white;
+  border:none;
+  cursor: pointer;
 }
 
-.send-svg {
+.sendSvg { /* Was send-svg */
   width: 15px; 
   height: 15px;
   fill: white;
 }
 
+.resetConversationButton {
+  padding: 10px 20px;
+  border: none;
+  background-color: var(--main-color);
+  color: white;
+  cursor: pointer;
+  /* position: absolute; top: 10px; right: 10px; /* If you want it positioned */
+}
