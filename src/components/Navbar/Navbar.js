@@ -2,24 +2,40 @@
 // import {ReactComponent as QuestionnaireImg} from '../../assets/question-circle-svgrepo-com.svg'
 // import secondNavbar from './secondNavbar';
 import React from 'react';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink } from 'react-router-dom';
 import styles from './Navbar.module.css';
 
-const Navbar = ({onLanguageChange, currentLanguage}) => {
-
-  const handleLanguageSelect = (event) => {
-    const selectedValue = event.target.value
-    onLanguageChange(selectedValue);
+const navLinkTexts = {
+  Español: {
+    carta: "📖 Carta",
+    chat: "💬 Chat",
+    menuRapido: "🍔 Menú rápido"
+  },
+  English: {
+    carta: "📖 Menu",
+    chat: "💬 Chat",
+    menuRapido: "🍔 Quick Menu"
   }
+};
+
+const Navbar = ({ onLanguageChange, currentLanguage }) => {
+  const handleLanguageSelect = (event) => {
+    const selectedValue = event.target.value;
+    onLanguageChange(selectedValue);
+  };
+
+  const T = navLinkTexts[currentLanguage] || navLinkTexts['Español']; // Fallback
+
   return (
     <>
       <nav className={styles.navbar}>
-        <div className={styles.firstGroup}> 
+        <div className={styles.firstGroup}>
           <h2> <a href='/chat'> GastroGPT</a></h2>
-          <select 
-          className={styles.selectLanguage} 
-          value={currentLanguage} 
-          onChange={handleLanguageSelect}>
+          <select
+            className={styles.selectLanguage}
+            value={currentLanguage}
+            onChange={handleLanguageSelect}
+          >
             <option value={'Español'}>Español</option>
             <option value={'English'}>English</option>
           </select>
@@ -31,7 +47,7 @@ const Navbar = ({onLanguageChange, currentLanguage}) => {
               isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
             }
           >
-            📖 Carta
+            {T.carta}
           </NavLink>
           <NavLink
             to="/chat"
@@ -39,7 +55,7 @@ const Navbar = ({onLanguageChange, currentLanguage}) => {
               isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
             }
           >
-            💬 Chat
+            {T.chat}
           </NavLink>
           <NavLink
             to="/questionnaire"
@@ -47,7 +63,7 @@ const Navbar = ({onLanguageChange, currentLanguage}) => {
               isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
             }
           >
-            🍔Menu rápido
+            {T.menuRapido}
           </NavLink>
         </div>
       </nav>

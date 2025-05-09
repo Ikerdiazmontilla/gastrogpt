@@ -30,9 +30,7 @@
 }
 
 .formGroup select { /* Styles for all selects within a formGroup */
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+
 }
 
 .multiSelect { /* Define if you have specific styles for multi-select */
