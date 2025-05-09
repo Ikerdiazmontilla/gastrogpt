@@ -1,10 +1,10 @@
 import React from 'react';
 import Questionnaire from '../components/Questionnaire/Questionnaire';
 
-const QuestionnairePage = () => {
+const QuestionnairePage = ({currentLanguage}) => {
   return (
     <>
-      <Questionnaire />
+      <Questionnaire currentLanguage={currentLanguage} />
     </>
   );
 };

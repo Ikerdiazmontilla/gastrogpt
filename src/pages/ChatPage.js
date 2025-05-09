@@ -1,10 +1,10 @@
 import React from 'react';
 import Chat from '../components/Chat/Chat';
 
-const ChatPage = () => {
+const ChatPage = ({currentLanguage}) => {
   return (
     <>
-      <Chat />
+      <Chat currentLanguage={currentLanguage}/>
     </>
   );
 };

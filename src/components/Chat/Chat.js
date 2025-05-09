@@ -5,7 +5,7 @@ import styles from './Chat.module.css'; // Changed import
     
 import { ReactComponent as Send} from '../../assets/up-arrow-icon.svg';
 
-const Chat = () => {
+const Chat = ({currentLanguage}) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -124,11 +124,12 @@ const handleReset = async () => {
 };
 
   return (
-    // Removed the outer chat-component-wrapper div
     <> 
       <div className={styles.chatContainer}>
         <div className={styles.messages}>
-          {isLoading && <div className={`${styles.message} ${styles.system}`}>Cargando historial...</div>}
+          {isLoading && <div className={`${styles.message} ${styles.system}`}>
+            {currentLanguage === 'Español' ? 'Cargando historial...' : 'Loading history...'}
+            </div>}
           {error && <div className={`${styles.message} ${styles.system} ${styles.error}`}>{error}</div>}
           {!isLoading && messages.map((msg, index) => (
             <div key={index} className={`${styles.message} ${styles[msg.sender]}`}>
@@ -147,7 +148,7 @@ const handleReset = async () => {
         <div className={styles.inputArea}>
           <input
             type="text"
-            placeholder="Escribe tu mensaje..."
+            placeholder={currentLanguage === 'Español' ? 'Escribe tu mensaje...' : 'Write your message...'}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -158,8 +159,8 @@ const handleReset = async () => {
           </button>
         </div>
         <button onClick={handleReset} disabled={isLoading} className={styles.resetConversationButton} style={{ marginTop: '10px' }}>
-        Nuevo chat
-      </button>
+          {currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'}
+        </button>
       </div>
 
     </>

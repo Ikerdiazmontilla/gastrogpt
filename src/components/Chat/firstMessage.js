@@ -1,4 +1,4 @@
-const firstMessage = `¡Hola! Soy GastroGPT y estoy aquí para ayudarte a escoger tus platos favoritos.
+const firstMessageFrontend = `¡Hola! Soy GastroGPT y estoy aquí para ayudarte a escoger tus platos favoritos.
 
 Para obtener tu menú ideal, especifica:
 
@@ -13,4 +13,4 @@ O pregúntame cualquier duda que tengas, ¡estoy para ayudar!`;
 
 
 
-export default firstMessage;
+export default firstMessageFrontend;

@@ -39,6 +39,9 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+.selectLanguage:focus{
+  outline-color: grey;
+}
 
 .secondNavGroup{
   display: flex;

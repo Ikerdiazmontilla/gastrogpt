@@ -5,15 +5,23 @@ import React from 'react';
 import { NavLink } from 'react-router-dom'; 
 import styles from './Navbar.module.css';
 
-const Navbar = () => {
+const Navbar = ({onLanguageChange, currentLanguage}) => {
+
+  const handleLanguageSelect = (event) => {
+    const selectedValue = event.target.value
+    onLanguageChange(selectedValue);
+  }
   return (
     <>
       <nav className={styles.navbar}>
-        <div className={styles.firstGroup}> {/* 2. Corrected class to className */}
+        <div className={styles.firstGroup}> 
           <h2> <a href='/chat'> GastroGPT</a></h2>
-          <select className={styles.selectLanguage}>
-            <option>Español</option>
-            <option>English</option>
+          <select 
+          className={styles.selectLanguage} 
+          value={currentLanguage} 
+          onChange={handleLanguageSelect}>
+            <option value={'Español'}>Español</option>
+            <option value={'English'}>English</option>
           </select>
         </div>
         <div className={styles.secondNavGroup}>

@@ -157,6 +157,7 @@ app.get('/api/conversation', async (req, res) => {
     } else {
       // No hay conversación activa, devolver solo el mensaje inicial
       res.json({ messages: [{ sender: 'bot', text: firstMessage }] });
+      // res.json('');
     }
   } catch (error) {
     console.error('Error al obtener la conversación activa del chat:', error);
