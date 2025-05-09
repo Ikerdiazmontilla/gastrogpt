@@ -1,0 +1,120 @@
+/* src/pages/CartaPage/CartaPage.module.css */
+.cartaContainer {
+  padding: 15px; /* Reduced padding for mobile */
+  background-color: #f0f3f5; /* Slightly adjusted light background */
+  border-radius: 0; /* Full width, no rounding needed unless it's a card within page */
+  box-shadow: none; /* No shadow for full page view */
+  width: 100%;
+  min-height: 100vh; /* Ensure it takes full viewport height if content is less */
+}
+
+.headerSection {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.pageTitle {
+  font-size: 1.8rem; /* Adjusted for mobile */
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.pageDescription {
+  font-size: 0.9rem; /* Adjusted for mobile */
+  color: #7f8c8d;
+  margin-bottom: 15px;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 0 8px; /* Reduced padding */
+}
+
+.searchIcon {
+  font-size: 1.1rem; /* Adjusted size */
+  color: #6c757d;
+  margin-right: 6px;
+}
+
+.searchInput {
+  flex-grow: 1;
+  padding: 10px 5px; /* Adjusted padding */
+  border: none;
+  outline: none;
+  font-size: 0.95rem; /* Adjusted font size */
+  background-color: transparent;
+}
+.searchInput::placeholder {
+  color: #adb5bd;
+}
+
+.tabsList {
+  display: flex;
+  gap: 8px; /* Reduced gap */
+  margin-bottom: 20px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0; /* Remove padding here, active tab border will create space */
+  overflow-x: auto; /* Enable horizontal scroll for tabs */
+  white-space: nowrap; /* Keep tabs in one line */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+/* Hide scrollbar for a cleaner look, but still scrollable */
+.tabsList::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, Opera */
+}
+.tabsList {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+.tabTrigger {
+  padding: 10px 15px; /* Adjusted padding */
+  font-size: 0.85rem; /* Adjusted font size */
+  font-weight: 500;
+  color: #495057;
+  background-color: transparent; /* Cleaner look for inactive tabs */
+  border: none;
+  border-bottom: 3px solid transparent; /* Placeholder for active state */
+  border-radius: 0; /* No rounding for tab-like feel */
+  cursor: pointer;
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+  outline: none;
+  flex-shrink: 0; /* Prevent tabs from shrinking */
+}
+
+.tabTrigger:hover { /* Hover is less relevant for mobile */
+  color: var(--main-color);
+}
+
+.activeTab {
+  color: var(--main-color);
+  border-bottom-color: var(--main-color); /* Blue underline for active tab */
+  font-weight: 600;
+}
+
+.tabContent {
+  padding-top: 15px; /* Space above dish grid */
+}
+
+.dishesGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column for mobile */
+  gap: 20px; /* Space between cards */
+}
+
+.noResultsMessage {
+  text-align: center;
+  padding: 20px 10px; /* Adjusted padding */
+  font-size: 1rem; /* Adjusted font size */
+  color: #6c757d;
+}
+
+/* Tag styles are defined in DishDetailModal.module.css and MenuItemCard.module.css,
+   but if they were intended to be shared globally from here, ensure consistency.
+   The previous setup placed specific tag colors in DishDetailModal, which is fine. */
