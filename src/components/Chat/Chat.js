@@ -4,13 +4,15 @@ import ReactMarkdown from 'react-markdown';
 import styles from './Chat.module.css'; // Changed import
     
 import { ReactComponent as Send} from '../../assets/up-arrow-icon.svg';
+import {firstMessageSpanish, firstMessageEnglish} from './firstMessage';
 
 const Chat = ({currentLanguage}) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef(null); 
+  const firstMessageFrontend = currentLanguage === 'Español' ? firstMessageSpanish : firstMessageEnglish; 
 
   const fetchConversation = useCallback(async () => {
     setIsLoading(true);
@@ -29,7 +31,10 @@ const Chat = ({currentLanguage}) => {
       }
 
       const data = await response.json();
-      setMessages(data.messages || []);
+      if (data.messages && data.messages.length > 0) {
+        data.messages[0]['text'] = firstMessageFrontend;
+      } 
+      setMessages(data.messages || []); // Fallback to empty array if data.messages is null/undefined
 
     } catch (err) {
       console.error('Error al cargar la conversación:', err);
@@ -37,7 +42,7 @@ const Chat = ({currentLanguage}) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [currentLanguage]);
 
   useEffect(() => {
     fetchConversation();

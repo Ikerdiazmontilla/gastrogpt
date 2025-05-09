@@ -147,7 +147,7 @@ app.get('/api/conversation', async (req, res) => {
     if (result.rows.length > 0 && result.rows[0].messages && result.rows[0].messages.length > 0) {
       const savedMessages = result.rows[0].messages;
       const frontendMessages = [
-        { sender: 'bot', text: firstMessage },
+        // { sender: 'bot', text: firstMessage },
         ...savedMessages.map(msg => ({
           sender: msg.role === 'assistant' ? 'bot' : 'user',
           text: msg.content
@@ -156,8 +156,8 @@ app.get('/api/conversation', async (req, res) => {
       res.json({ messages: frontendMessages });
     } else {
       // No hay conversación activa, devolver solo el mensaje inicial
-      res.json({ messages: [{ sender: 'bot', text: firstMessage }] });
-      // res.json('');
+      // res.json({ messages: [{ sender: 'bot', text: firstMessage }] });
+      res.json({ messages: [{ sender: 'bot', text: '' }]}); //Send empty string to put text from frontend
     }
   } catch (error) {
     console.error('Error al obtener la conversación activa del chat:', error);
