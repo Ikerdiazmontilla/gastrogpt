@@ -2,18 +2,17 @@
 .card {
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Softer shadow for mobile */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* max-width removed, will take width from grid column */
-  width: 100%; /* Ensure it fills the grid cell */
+  width: 100%;
 }
 
 .imageContainer {
   position: relative;
   width: 100%;
-  height: 160px; /* Slightly reduced height for mobile */
+  height: 160px;
 }
 
 .dishImage {
@@ -22,33 +21,54 @@
   object-fit: cover;
 }
 
-.tagsOverlay {
+.tagsOverlayContainer { /* Renamed from tagsOverlay */
   position: absolute;
   top: 8px;
   left: 8px;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-direction: column; /* Stack tags vertically */
+  gap: 5px; /* Space between tags */
 }
 
-.tag {
-  padding: 3px 7px; /* Slightly smaller padding */
+.tagOverlay { /* Base style for all overlay tags */
+  padding: 4px 8px;
   border-radius: 4px;
-  font-size: 0.7rem; /* Smaller font for tags */
+  font-size: 0.75rem;
   font-weight: 600;
   color: #fff;
+  display: inline-flex; /* Align icon and text */
+  align-items: center;
 }
 
-.popularTag {
-  background-color: #007bff;
+.tagOverlayIcon {
+  margin-right: 4px; /* Space between icon and text */
+  font-size: 0.85rem; /* Slightly larger icon if needed */
 }
 
-.recommendedTag {
-  background-color: #28a745;
+/* Specific styles for overlay tags */
+.popularTagOverlay {
+  background-color: #007bff; /* Blue for popular */
 }
+
+.recommendedTagOverlay {
+  background-color: #28a745; /* Green for recommended */
+}
+
+.veganTagOverlay {
+  background-color: #1e8a4f; /* Darker Green for vegan */
+}
+
+.vegetarianTagOverlay {
+  background-color: #f0ad4e; /* Orange for vegetarian */
+}
+
+.spicyTagOverlay {
+  background-color: #d9534f; /* Red for spicy */
+}
+
 
 .cardContent {
-  padding: 12px; /* Reduced padding for mobile */
+  padding: 12px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -58,11 +78,11 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 6px; /* Reduced margin */
+  margin-bottom: 6px;
 }
 
 .dishName {
-  font-size: 1rem; /* Adjusted font size */
+  font-size: 1rem;
   font-weight: 700;
   color: #333;
   margin: 0;
@@ -71,53 +91,53 @@
 }
 
 .dishPrice {
-  font-size: 0.95rem; /* Adjusted font size */
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--main-color);
   white-space: nowrap;
 }
 
 .dishDescription {
-  font-size: 0.8rem; /* Adjusted font size */
+  font-size: 0.8rem;
   color: #666;
-  margin-bottom: 10px; /* Reduced margin */
+  margin-bottom: 10px;
   flex-grow: 1;
   line-height: 1.4;
 }
 
 .allergenIcons {
   display: flex;
-  gap: 5px; /* Reduced gap */
-  margin-bottom: 12px; /* Reduced margin */
+  gap: 5px;
+  margin-bottom: 12px;
   flex-wrap: wrap;
 }
 
 .allergenIcon {
-  font-size: 1rem; /* Adjusted icon size */
+  font-size: 1rem;
   padding: 2px;
-  border-radius: 3px; /* Slightly smaller radius */
+  border-radius: 3px;
   background-color: #f0f0f0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px; /* Adjusted size */
-  height: 22px; /* Adjusted size */
+  width: 22px;
+  height: 22px;
 }
 
 .viewMoreButton {
   background-color: var(--main-color);
   color: white;
   border: none;
-  padding: 10px 12px; /* Adjusted padding for mobile tap */
+  padding: 10px 12px;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
   text-align: center;
   transition: background-color 0.2s ease;
   margin-top: auto;
-  font-size: 0.9rem; /* Button text size */
+  font-size: 0.9rem;
 }
 
-.viewMoreButton:hover { /* Hover might not be relevant on mobile, but good for dev */
+.viewMoreButton:hover {
   background-color: #0056b3;
 }

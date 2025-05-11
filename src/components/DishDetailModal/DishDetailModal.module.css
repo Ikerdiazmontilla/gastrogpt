@@ -5,37 +5,37 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.65); /* Slightly darker overlay */
+  background-color: rgba(0, 0, 0, 0.65);
   display: flex;
-  align-items: center; /* Vertically center */
-  justify-content: center; /* Horizontally center */
+  align-items: center;
+  justify-content: center;
   z-index: 1000;
-  padding: 15px; /* Padding around the modal content */
+  padding: 15px;
 }
 
 .modalContent {
   background-color: #fff;
-  padding: 20px; /* Main padding inside modal */
+  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
-  width: 100%; /* Take full width of padded overlay area */
-  max-width: 500px; /* Still good to have a max for larger phones/tablets */
-  max-height: 85vh; /* Max height to prevent overflow */
-  overflow-y: auto; /* Enable scroll if content exceeds max-height */
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 .closeButton {
   position: absolute;
-  top: 8px; /* Adjusted position */
-  right: 10px; /* Adjusted position */
+  top: 8px;
+  right: 10px;
   background: none;
   border: none;
-  font-size: 1.8rem; /* Slightly smaller, but still tappable */
+  font-size: 1.8rem;
   color: #777;
   cursor: pointer;
   line-height: 1;
-  padding: 5px; /* Increase tap area */
+  padding: 5px;
 }
 .closeButton:hover {
   color: #333;
@@ -43,37 +43,37 @@
 
 .modalImage {
   width: 100%;
-  height: auto; /* Let aspect ratio define height */
-  max-height: 200px; /* Max height for the image */
+  height: auto;
+  max-height: 200px;
   object-fit: cover;
   border-radius: 6px;
-  margin-bottom: 15px; /* Reduced margin */
+  margin-bottom: 15px;
 }
 
 .modalHeader {
   display: flex;
-  flex-direction: column; /* Stack title and price on mobile */
-  align-items: flex-start; /* Align to left */
+  flex-direction: column;
+  align-items: flex-start;
   margin-bottom: 12px;
 }
 
 .modalTitle {
-  font-size: 1.6rem; /* Adjusted font size */
+  font-size: 1.6rem;
   font-weight: 700;
   color: #333;
-  margin-bottom: 5px; /* Space between title and price */
+  margin-bottom: 5px;
 }
 
 .modalPrice {
-  font-size: 1.3rem; /* Adjusted font size */
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--main-color);
 }
 
 .modalDescription {
-  font-size: 0.9rem; /* Adjusted font size */
+  font-size: 0.9rem;
   color: #555;
-  line-height: 1.5; /* Adjusted line height */
+  line-height: 1.5;
   margin-bottom: 15px;
 }
 
@@ -82,7 +82,7 @@
 }
 
 .sectionTitle {
-  font-size: 1rem; /* Adjusted font size */
+  font-size: 1rem;
   font-weight: 600;
   color: #444;
   margin-bottom: 8px;
@@ -93,13 +93,13 @@
 .tagsContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px; /* Reduced gap */
+  gap: 6px;
 }
 
-.detailTag {
-  padding: 5px 10px; /* Adjusted padding */
-  border-radius: 15px;
-  font-size: 0.8rem; /* Adjusted font size */
+.detailTagPill { /* Renamed from detailTag */
+  padding: 5px 10px;
+  border-radius: 15px; /* Pill shape */
+  font-size: 0.8rem;
   font-weight: 500;
   background-color: #e9ecef;
   color: #495057;
@@ -109,33 +109,43 @@
   gap: 4px;
 }
 
-/* Tag specific styles (colors remain the same) */
-.tagPopular {
+.detailTagIcon {
+  font-size: 0.9em; /* Slightly smaller than text */
+}
+
+
+/* Pill Tag specific styles from getEtiquetaClass */
+.tagPopularPill {
   background-color: #e6f7ff;
   border-color: #91d5ff;
   color: #0050b3;
 }
-.tagRecomendado {
+.tagRecomendadoPill {
   background-color: #f6ffed;
   border-color: #b7eb8f;
   color: #237804;
 }
-.tagVegano {
-  background-color: #f9f0ff;
-  border-color: #d3adf7;
-  color: #531dab;
+.tagVeganoPill {
+  background-color: #f0fff0; /* Light green for vegan pill */
+  border-color: #a7d7a7;
+  color: #1e8a4f;
 }
-.tagVegetariano {
-  background-color: #e6fffb;
-  border-color: #87e8de;
-  color: #006d75;
+.tagVegetarianoPill {
+  background-color: #fff8e1; /* Light orange/yellow for vegetarian pill */
+  border-color: #ffecb3;
+  color: #f57c00;
 }
-.tagSinGluten {
+.tagSinGlutenPill {
   background-color: #fffbe6;
   border-color: #ffe58f;
   color: #ad6800;
 }
-.tagDefault {
+.tagPicanteSuavePill { /* Style for the new spicy pill tag */
+  background-color: #ffebee; /* Light red for spicy pill */
+  border-color: #ffcdd2;
+  color: #c62828;
+}
+.tagDefaultPill {
   background-color: #f5f5f5;
   border-color: #d9d9d9;
   color: #595959;

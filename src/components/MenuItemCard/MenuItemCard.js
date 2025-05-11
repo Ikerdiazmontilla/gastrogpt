@@ -1,19 +1,26 @@
 // src/components/MenuItemCard/MenuItemCard.js
 import React from 'react';
 import styles from './MenuItemCard.module.css';
-import { getAlergenoIcon, getTranslatedDishText } from '../../data/menuData'; // Updated import
+import { getAlergenoIcon, getTranslatedDishText, getEtiquetaUIData } from '../../data/menuData';
 
 const translations = {
   Español: {
     viewMore: "Ver más",
-    popular: "Popular",
-    recommended: "Recomendado"
+    // Overlay tag labels will now come from getEtiquetaUIData
   },
   English: {
     viewMore: "View More",
-    popular: "Popular",
-    recommended: "Recommended"
   }
+};
+
+// Define which tags should appear in the overlay
+const overlayTagsConfig = {
+  popular: { styleClass: styles.popularTagOverlay },
+  recomendado: { styleClass: styles.recommendedTagOverlay },
+  vegano: { styleClass: styles.veganTagOverlay },
+  vegetariano: { styleClass: styles.vegetarianTagOverlay },
+  picante_suave: { styleClass: styles.spicyTagOverlay }
+  // Add other picante levels here if needed
 };
 
 const MenuItemCard = ({ plato, onViewMore, currentLanguage }) => {
@@ -26,17 +33,20 @@ const MenuItemCard = ({ plato, onViewMore, currentLanguage }) => {
     <div className={styles.card}>
       <div className={styles.imageContainer}>
         <img src={plato.imagen} alt={nombre} className={styles.dishImage} />
-        <div className={styles.tagsOverlay}>
-          {plato.etiquetas.includes("popular") && (
-            <span className={`${styles.tag} ${styles.popularTag}`}>
-              ⭐ {T.popular}
-            </span>
-          )}
-          {plato.etiquetas.includes("recomendado") && (
-            <span className={`${styles.tag} ${styles.recommendedTag}`}>
-              👨‍🍳 {T.recommended}
-            </span>
-          )}
+        <div className={styles.tagsOverlayContainer}>
+          {plato.etiquetas.map(tagKey => {
+            const config = overlayTagsConfig[tagKey];
+            if (config) {
+              const { label, icon } = getEtiquetaUIData(tagKey, currentLanguage);
+              return (
+                <span key={tagKey} className={`${styles.tagOverlay} ${config.styleClass}`}>
+                  {icon && <span className={styles.tagOverlayIcon}>{icon}</span>}
+                  {label}
+                </span>
+              );
+            }
+            return null;
+          })}
         </div>
       </div>
       <div className={styles.cardContent}>
@@ -50,7 +60,7 @@ const MenuItemCard = ({ plato, onViewMore, currentLanguage }) => {
             <span
               key={alergenoKey}
               className={styles.allergenIcon}
-              title={alergenoKey}
+              title={getAlergenoIcon(alergenoKey)} // Title could be translated name later
             >
               {getAlergenoIcon(alergenoKey)}
             </span>

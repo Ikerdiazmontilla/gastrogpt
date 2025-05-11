@@ -18,34 +18,43 @@
   flex: 1;
   padding-top: 0px;
   padding: 0px 15px;
-  padding-bottom: 10vh;
+  padding-bottom: 10vh; /* Ensure space for fixed input area */
   overflow-y: auto;
-  gap: 10px;
+  gap: 10px; /* This might not work as expected directly on .messages, apply to children or use flex */
+  display: flex; /* Added to make gap work, and align messages */
+  flex-direction: column; /* Stack messages vertically */
 }
 
 .message {
   position: relative;
-  margin: 10px 0;
-  margin-top: 0px;
+  /* margin: 10px 0; remove direct margin here if using gap in parent */
+  /* margin-top: 0px; */
   max-width: 100%;
-  padding: 20px;
+  padding: 15px; /* Standardized padding */
   border-radius: 10px;
+  word-wrap: break-word; /* Ensure long words break */
 }
 
 .messages ul {
   list-style-type: disc; 
   padding-left: 20px; 
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .messages ol {
   list-style-type: decimal; 
   padding-left: 20px; 
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
-.message.user { /* This will be accessed as styles.user when message class is also present */
+.message.user {
   background-color: #b3deef;
   align-self: flex-end;
   border-top-right-radius: 4px;
+  margin-left: auto; /* Push to the right */
+  max-width: 80%; /* Max width for user messages */
 }
 
 .message.user::before {
@@ -60,10 +69,12 @@
   border-bottom: 10px solid transparent;
 }
 
-.message.bot { /* Accessed as styles.bot */
+.message.bot {
   background-color: #e2e0e0;
   align-self: flex-start;
   border-top-left-radius: 4px;
+  margin-right: auto; /* Push to the left */
+  max-width: 80%; /* Max width for bot messages */
 }
 
 .message.bot::before {
@@ -78,11 +89,20 @@
   border-bottom: 10px solid transparent;
 }
 
+.message.bot.loading span { /* Styling for bot typing indicator */
+  font-style: italic;
+  color: #555;
+}
+
+
 /* Added for system messages like loading/error */
 .message.system {
   font-style: italic;
   color: #666;
   text-align: center;
+  background-color: transparent;
+  align-self: center;
+  padding: 5px;
 }
 .message.system.error {
   color: red;
@@ -96,48 +116,49 @@
   border-radius: 14px;
   padding: 10px;
   background-color: white;
-  margin-top: auto;
+  margin-top: auto; /* This might be overridden by fixed positioning */
   position:fixed;
   bottom: 1%;
   left: 5%;
   width: 90%;
+  z-index: 10; /* Ensure it's above messages */
 }
 
-.inputArea { /* Was input-area */
+.inputArea {
   display: flex;
-  
 }
 
-.inputArea input { /* Target input within .inputArea */
+.inputArea input {
   flex: 1;
   padding: 10px;
   border: none;
   outline: none;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
+  font-size: 1rem;
 }
 
 /* General button style within this component, if needed, or style specific buttons */
-.chatContainer button, button.sendMessage {
-  padding: 10px 20px;
-  border: none;
-  background-color: var(--main-color);
-  color: white;
-  cursor: pointer;
-}
+/* .chatContainer button, button.sendMessage { ... } */ /* This seems too broad */
 
-.sendMessage{ /* Was send-message */
+.sendMessage{
   border-radius: 14px;
   padding: 10px 15px;
-  /* Inherits general button styles if .chatContainer button is broad enough,
-     or define all properties here if it's the only styled button */
-  background-color: var(--main-color); /* Ensure it has these if not covered */
+  background-color: var(--main-color);
   color: white;
   border:none;
   cursor: pointer;
+  display: flex; /* For aligning icon */
+  align-items: center;
+  justify-content: center;
+}
+.sendMessage:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
-.sendSvg { /* Was send-svg */
+
+.sendSvg {
   width: 15px; 
   height: 15px;
   fill: white;
@@ -150,5 +171,40 @@
   color: white;
   cursor: pointer;
   border-radius: 12px;
-  /* position: absolute; top: 10px; right: 10px; /* If you want it positioned */
+}
+.resetConversationButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+
+.dishDetailLink {
+  background: none;
+  border: none;
+  padding: 0;
+  color: blue; /* Or your app's link color */
+  text-decoration: none; /* underline is in the text itself via <u> */
+  cursor: pointer;
+  font: inherit;
+  font-weight: bold; /* Make it stand out a bit */
+}
+
+.dishDetailLink:hover {
+  color: darkblue; /* Darken on hover */
+}
+
+.dishLink {
+  background: none;
+  border: none;
+  color: var(--main-color); /* Or your preferred link color */
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font: inherit; /* Inherit font from parent */
+  display: inline; /* Make it behave like a text link */
+}
+
+.dishLink:hover {
+  color: #0056b3; /* Darker shade on hover */
+  text-decoration: none; /* Optional: remove underline on hover */
 }

@@ -196,6 +196,7 @@ app.post('/api/chat', async (req, res) => {
       messagesToSaveInDB = [userMessageForAI];
     }
     const replyContent = await getChatbotResponse(messagesForAI);
+    console.log("AI Reply (Chat):", JSON.stringify(replyContent)); 
     const assistantMessageForAI = { role: 'assistant', content: replyContent };
     messagesToSaveInDB.push(assistantMessageForAI);
     if (findResult.rows.length > 0) {
@@ -275,6 +276,7 @@ app.post('/api/questionnaire', async (req, res) => {
   const client = await pool.connect();
   try {
     const recommendationsText = await getChatbotResponse(messagesForQuestionnaireAI);
+    console.log("AI Reply (Questionnaire):", JSON.stringify(recommendationsText));
     const questionnaireInteractionId = uuidv4();
     await client.query(
       'INSERT INTO questionnaire_interactions (id, session_id, submission_data, recommendation_text) VALUES ($1, $2, $3, $4)',

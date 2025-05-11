@@ -4,9 +4,9 @@ import styles from './DishDetailModal.module.css';
 import {
   getAlergenoIcon,
   getAlergenoNombre,
-  getEtiquetaLabel,
+  getEtiquetaUIData, // Changed from getEtiquetaLabel
   getEtiquetaClass,
-  getTranslatedDishText // Added import
+  getTranslatedDishText
 } from '../../data/menuData';
 
 const translations = {
@@ -46,7 +46,7 @@ const DishDetailModal = ({ plato, onClose, currentLanguage }) => {
             <h4 className={styles.sectionTitle}>{T.allergens}</h4>
             <div className={styles.tagsContainer}>
               {plato.alergenos.map((alergenoKey) => (
-                <span key={alergenoKey} className={styles.detailTag}>
+                <span key={alergenoKey} className={styles.detailTagPill}>
                   {getAlergenoIcon(alergenoKey)} {getAlergenoNombre(alergenoKey, currentLanguage)}
                 </span>
               ))}
@@ -58,11 +58,15 @@ const DishDetailModal = ({ plato, onClose, currentLanguage }) => {
           <div className={styles.section}>
             <h4 className={styles.sectionTitle}>{T.tags}</h4>
             <div className={styles.tagsContainer}>
-              {plato.etiquetas.map((etiquetaKey) => (
-                <span key={etiquetaKey} className={`${styles.detailTag} ${getEtiquetaClass(etiquetaKey, styles)}`}>
-                  {getEtiquetaLabel(etiquetaKey, currentLanguage)}
-                </span>
-              ))}
+              {plato.etiquetas.map((etiquetaKey) => {
+                const { label, icon } = getEtiquetaUIData(etiquetaKey, currentLanguage); // Use getEtiquetaUIData
+                return (
+                  <span key={etiquetaKey} className={`${styles.detailTagPill} ${getEtiquetaClass(etiquetaKey, styles)}`}>
+                    {icon && etiquetaKey !== 'popular' && etiquetaKey !== 'recomendado' && etiquetaKey !== 'vegano' && etiquetaKey !== 'vegetariano' && !etiquetaKey.startsWith('picante') && <span className={styles.detailTagIcon}>{icon}</span>} {/* Conditionally show icon for non-overlayed tags */}
+                    {label}
+                  </span>
+                );
+              })}
             </div>
           </div>
         )}

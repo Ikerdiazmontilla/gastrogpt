@@ -1,5 +1,5 @@
 /* src/components/Questionnaire/Questionnaire.module.css */
-.questionnaireContainer { /* Was questionnaire-container */
+.questionnaireContainer {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -7,19 +7,24 @@
   gap: 15px;
   padding: 2vh 2vw;
   padding-top: 0px;
+  padding-bottom: 5vh; /* Added padding to bottom */
 }
 
-.questionnaireTitle{ /* Was questionnaire-title */
+.questionnaireTitle{
   font-size: 1.5rem;
+  text-align: center; /* Center title */
+  margin-bottom: 10px; /* Add some space below title */
 }
 
-.preferencesForm{ /* Was preferences-form */
+.preferencesForm{
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%; /* Make form take full width */
+  max-width: 500px; /* Optional: constrain max width */
 }
 
-.formGroup { /* Was form-group */
+.formGroup {
   display: flex;
   flex-direction: column;
 }
@@ -29,61 +34,121 @@
   font-weight: bold;
 }
 
-.formGroup select { /* Styles for all selects within a formGroup */
-
+.formGroup select,
+.formGroup textarea { /* Common styles for select and textarea */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
 }
 
-.multiSelect { /* Define if you have specific styles for multi-select */
-  /* e.g., min-height: 100px; */
+.multiSelect {
+  min-height: 80px; /* Give multi-selects some default height */
 }
 
-.questionnaireContainer button { /* General button style within this component */
-  padding: 10px 20px;
+
+.submitButton { /* Specific class for submit button */
+  padding: 12px 20px;
   border: none;
   background-color: var(--main-color);
   color: white;
   cursor: pointer;
   border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+.submitButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+.submitButton:hover:not(:disabled) {
+  background-color: rgb(33, 127, 196); /* Darker shade on hover */
 }
 
-.submitButton { /* Specific class for submit button, inherits from above or overrides */
-  /* Add any specific styles or rely on the general .questionnaireContainer button */
-}
 
 .result {
-  padding: 30px;
-  border: 2px solid var(--main-color);
-  border-radius: 5px;
-  background-color: #f9fff9;
-  width: 100%; /* Ensure it takes up space */
-  margin-top: 20px; /* Added for spacing */
+  padding: 20px; /* Adjusted padding */
+  border: 1px solid #e0e0e0; /* Softer border */
+  border-radius: 8px; /* More rounded */
+  background-color: #f9f9f9; /* Slightly off-white */
+  width: 100%;
+  max-width: 600px; /* Max width for readability */
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+.result h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--main-color);
 }
 .result ul {
   list-style-type: disc; 
   padding-left: 20px; 
+  margin-bottom: 10px;
 }
 
 .result ol {
   list-style-type: decimal; 
   padding-left: 20px; 
+  margin-bottom: 10px;
+}
+.result p {
+  margin-bottom: 10px;
+  line-height: 1.6;
 }
 
-.errorMessage { /* For styling error messages within the result box structure */
-  background-color: #ffebee; /* Light red background for errors */
-  border-color: red;
-  color: red;
+.errorMessage {
+  background-color: #ffebee;
+  border-color: #e57373; /* Softer red for border */
+  color: #c62828; /* Darker red for text */
+  font-weight: 500;
 }
 
 
-.consideracionesAdicionales{ /* Was consideraciones-adicionales */
-  padding: 6px;
-  width: 100%; /* ensure it takes full width of its container */
-  border: 1px solid #ccc; /* Default border */
+.consideracionesAdicionales{
+  padding: 10px; /* Match select padding */
+  width: 100%; 
+  border: 1px solid #ccc;
   border-radius: 4px;
+  min-height: 80px; /* Minimum height */
+  font-size: 1rem;
 }
 
-/* Scoped input/textarea outline color */
+
 .questionnaireContainer input,
-.questionnaireContainer textarea{
+.questionnaireContainer textarea,
+.questionnaireContainer select { /* Apply to select as well */
   outline-color:var(--main-color);
+}
+
+
+.dishDetailLink { /* Style for the clickable dish detail "link" */
+  background: none;
+  border: none;
+  padding: 0;
+  color: blue; /* Or your app's link color */
+  text-decoration: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: bold; /* Make it stand out a bit */
+}
+
+.dishDetailLink:hover {
+  color: darkblue; /* Darken on hover */
+}
+.dishLink { /* Copied from Chat.module.css for consistency */
+  background: none;
+  border: none;
+  color: var(--main-color);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  display: inline;
+}
+
+.dishLink:hover {
+  color: #0056b3;
+  text-decoration: none;
 }
