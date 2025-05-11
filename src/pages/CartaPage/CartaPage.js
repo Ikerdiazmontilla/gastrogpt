@@ -1,7 +1,7 @@
 // src/pages/CartaPage/CartaPage.js
 import React, { useState, useMemo } from 'react';
 import styles from './CartaPage.module.css';
-import { menuData, getAlergenoIcon, getEtiquetaLabel, getEtiquetaClass } from '../../data/menuData';
+import { menuData, getTranslatedDishText } from '../../data/menuData'; // Removed unused imports, added getTranslatedDishText
 import MenuItemCard from '../../components/MenuItemCard/MenuItemCard';
 import DishDetailModal from '../../components/DishDetailModal/DishDetailModal';
 
@@ -25,14 +25,14 @@ const translations = {
     tabEntrantes: "🥗 Appetizers",
     tabPrincipales: "🍲 Main Courses",
     tabPostres: "🍰 Desserts",
-    tabBebidas: "🍹 Drinks", // Changed icon for drinks for EN example
+    tabBebidas: "🍹 Drinks",
     noResults: "No dishes found matching your search in this category."
   }
 };
 
 const CartaPage = ({ currentLanguage }) => {
   const T = translations[currentLanguage] || translations['Español'];
-  const [activeTab, setActiveTab] = useState('destacados'); // 'destacados', 'entrantes', etc.
+  const [activeTab, setActiveTab] = useState('destacados');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlato, setSelectedPlato] = useState(null);
 
@@ -68,14 +68,19 @@ const CartaPage = ({ currentLanguage }) => {
 
     if (searchTerm) {
       const lowerSearchTerm = searchTerm.toLowerCase();
-      return platosToShow.filter(plato =>
-        plato.nombre.toLowerCase().includes(lowerSearchTerm) ||
-        plato.descripcionCorta.toLowerCase().includes(lowerSearchTerm) ||
-        plato.descripcionLarga.toLowerCase().includes(lowerSearchTerm)
-      );
+      return platosToShow.filter(plato => {
+        const nombre = getTranslatedDishText(plato.nombre, currentLanguage).toLowerCase();
+        const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage).toLowerCase();
+        // Note: For simplicity, descripcionLarga is not typically searched in card view, but can be added
+        // const descripcionLarga = getTranslatedDishText(plato.descripcionLarga, currentLanguage).toLowerCase();
+
+        return nombre.includes(lowerSearchTerm) ||
+               descripcionCorta.includes(lowerSearchTerm);
+               // || descripcionLarga.includes(lowerSearchTerm); 
+      });
     }
     return platosToShow;
-  }, [activeTab, searchTerm, allPlatos]);
+  }, [activeTab, searchTerm, allPlatos, currentLanguage]); // Added currentLanguage to dependency array
 
   const tabs = [
     { key: 'destacados', label: T.tabDestacados },

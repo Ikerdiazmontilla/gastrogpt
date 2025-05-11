@@ -1,7 +1,13 @@
 // src/components/DishDetailModal/DishDetailModal.js
 import React from 'react';
 import styles from './DishDetailModal.module.css';
-import { getAlergenoIcon, getAlergenoNombre, getEtiquetaLabel, getEtiquetaClass } from '../../data/menuData';
+import {
+  getAlergenoIcon,
+  getAlergenoNombre,
+  getEtiquetaLabel,
+  getEtiquetaClass,
+  getTranslatedDishText // Added import
+} from '../../data/menuData';
 
 const translations = {
   Español: {
@@ -21,16 +27,19 @@ const DishDetailModal = ({ plato, onClose, currentLanguage }) => {
 
   const T = translations[currentLanguage] || translations['Español'];
 
+  const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
+  const descripcionLarga = getTranslatedDishText(plato.descripcionLarga, currentLanguage);
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <button className={styles.closeButton} onClick={onClose}>×</button>
-        <img src={plato.imagen} alt={plato.nombre} className={styles.modalImage} />
+        <img src={plato.imagen} alt={nombre} className={styles.modalImage} />
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>{plato.nombre}</h2>
+          <h2 className={styles.modalTitle}>{nombre}</h2>
           <p className={styles.modalPrice}>{plato.precio.toFixed(2)}€</p>
         </div>
-        <p className={styles.modalDescription}>{plato.descripcionLarga}</p>
+        <p className={styles.modalDescription}>{descripcionLarga}</p>
 
         {plato.alergenos.length > 0 && (
           <div className={styles.section}>
