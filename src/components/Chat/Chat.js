@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './Chat.module.css';
-import { ReactComponent as SendIcon } from '../../assets/up-arrow-icon.svg'; // Renamed for clarity
+import { ReactComponent as SendIcon } from '../../assets/up-arrow-icon.svg';
 import { firstMessageSpanish, firstMessageEnglish } from './firstMessage';
 import { findDishById } from '../../data/menuData';
 
@@ -16,8 +16,7 @@ const getErrorFromResponse = async (response) => {
   }
 };
 
-// Define CustomLink and urlTransform logic once, to be used by ReactMarkdown
-// This could be outside if it didn't need `onViewDishDetails` and `styles`
+// Define CustomLink and urlTransform logic
 const createMarkdownLinkRenderer = (onViewDishDetailsCallback, componentStyles) => {
   const CustomLinkComponent = (props) => {
     const { href, children, node, ...rest } = props;
@@ -28,7 +27,7 @@ const createMarkdownLinkRenderer = (onViewDishDetailsCallback, componentStyles) 
       if (dish) {
         return (
           <button
-            className={componentStyles.dishLink} // Use passed styles
+            className={componentStyles.dishLink}
             onClick={() => {
               if (onViewDishDetailsCallback) {
                 onViewDishDetailsCallback(dish);
@@ -47,11 +46,11 @@ const createMarkdownLinkRenderer = (onViewDishDetailsCallback, componentStyles) 
       }
     }
 
-    if (href) { // Standard external link
+    if (href) {
       return <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>{children}</a>;
     }
 
-    return <span {...rest}>{children}</span>; // Fallback for link-like text without href
+    return <span {...rest}>{children}</span>;
   };
   return CustomLinkComponent;
 };
@@ -68,7 +67,23 @@ const markdownUrlTransform = (uri) => {
   } catch (e) {
     // Not a standard absolute URL
   }
-  return null; // Disallow other URI schemes by default
+  return null;
+};
+
+// Suggestions
+const suggestions = {
+  Español: [
+    'dame opciones veganas',
+    '¿cuáles son los platos más populares?',
+    '¿qué postres tienen?',
+    'recomiéndame algo ligero',
+  ],
+  English: [
+    'give me vegan options',
+    'what are the most popular dishes?',
+    'what desserts do you have?',
+    'recommend something light',
+  ],
 };
 
 
@@ -80,6 +95,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const messagesEndRef = useRef(null);
 
   const firstMessageText = currentLanguage === 'Español' ? firstMessageSpanish : firstMessageEnglish;
+  const currentSuggestions = suggestions[currentLanguage] || suggestions['English'];
 
   const fetchConversation = useCallback(async () => {
     setIsLoading(true);
@@ -99,14 +115,14 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
       if (initialMessages.length > 0 && initialMessages[0].sender === 'bot') {
         initialMessages[0].text = firstMessageText;
-      } else { // Handles empty or user-first history
+      } else {
         initialMessages.unshift({ sender: 'bot', text: firstMessageText });
       }
       setMessages(initialMessages);
     } catch (err) {
       console.error('Error al cargar la conversación:', err.message);
       setError('No se pudo cargar el historial. Inténtalo de nuevo más tarde.');
-      setMessages([{ sender: 'bot', text: firstMessageText }]); // Fallback to first message
+      setMessages([{ sender: 'bot', text: firstMessageText }]);
     } finally {
       setIsLoading(false);
     }
@@ -127,7 +143,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     const userMessage = { sender: 'user', text: trimmedInput };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
-    setError(null); // Clear previous errors
+    setError(null);
 
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/chat`, {
@@ -162,7 +178,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   };
 
   const handleReset = async () => {
-    setIsLoading(true); // Indicate loading during reset
+    setIsLoading(true);
     setError(null);
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/reset`, {
@@ -174,17 +190,22 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         const errorMessage = await getErrorFromResponse(response);
         throw new Error(errorMessage);
       }
-      await fetchConversation(); // Refresh to new conversation state
+      await fetchConversation();
     } catch (err) {
       console.error('Error al reiniciar la conversación:', err.message);
       setError(`Error al reiniciar: ${err.message}`);
-      await fetchConversation(); // Attempt to fetch fresh state even on reset error
+      await fetchConversation();
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Memoize the link renderer to avoid re-creating it on every render if onViewDishDetails doesn't change
+  const handleSuggestionClick = (suggestionText) => {
+    setInput(suggestionText);
+    // Optionally, focus the input field after clicking a suggestion
+    // document.querySelector(`.${styles.inputArea} input`)?.focus();
+  };
+
   const CustomLink = React.useMemo(() => createMarkdownLinkRenderer(onViewDishDetails, styles), [onViewDishDetails]);
 
   return (
@@ -221,7 +242,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
-            disabled={isLoading && messages.length === 0} // Disable only on initial load
+            disabled={isLoading && messages.length === 0}
           />
           <button
             className={styles.sendMessage}
@@ -231,11 +252,22 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             <SendIcon className={styles.sendSvg} />
           </button>
         </div>
+        <div className={styles.suggestionsContainer}>
+          {currentSuggestions.map((suggestion, index) => (
+            <button
+              key={index}
+              className={styles.suggestionChip}
+              onClick={() => handleSuggestionClick(suggestion)}
+              disabled={isLoading && messages.length === 0}
+            >
+              {suggestion}
+            </button>
+          ))}
+        </div>
         <button
           onClick={handleReset}
-          disabled={isLoading && messages.length === 0} // Disable only on initial load
+          disabled={isLoading && messages.length === 0} // Keep disabled logic for initial load
           className={styles.resetConversationButton}
-          style={{ marginTop: '10px' }}
         >
           {currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'}
         </button>

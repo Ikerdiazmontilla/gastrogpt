@@ -2,59 +2,67 @@
   /* --main-color: rgb(38, 144, 214); */
   /* --old-color:#4CAF50; */
 /* } */
-
-
+/* src/components/Chat/Chat.module.css */
+/* src/components/Chat/Chat.module.css */
 .chatContainer {
   display: flex;
   flex-direction: column;
-  padding:2vh 2vw;
+  padding: 2vh 2vw;
+  /* Adjust height: 100vh MINUS any global header/footer height on the page */
+  /* height: 100vh; Or calc(100vh - GlobalHeaderHeight) */
+  box-sizing: border-box;
 }
 
-.resetButton{ /* Was reset-button, changed to camelCase for consistency if desired, or keep as is */
-  width: fit-content;
+.resetConversationButton {
+  padding: 10px 20px;
+  border: none;
+  background-color: var(--main-color);
+  color: white;
+  cursor: pointer;
+  border-radius: 12px;
 }
+.resetConversationButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+
 
 .messages {
-  flex: 1;
-  padding-top: 0px;
-  padding: 0px 15px;
-  padding-bottom: 10vh; /* Ensure space for fixed input area */
+  flex: 1; 
+  padding: 0px 15px; /* Removed top padding, handled by button margin */
   overflow-y: auto;
-  gap: 10px; /* This might not work as expected directly on .messages, apply to children or use flex */
-  display: flex; /* Added to make gap work, and align messages */
-  flex-direction: column; /* Stack messages vertically */
+  gap: 10px; 
+  display: flex; 
+  flex-direction: column;
+  /* Adjust padding-bottom to account for the new inputWrapper height */
+  /* Original was 130px, now inputWrapper is shorter. Roughly input height + suggestions height + padding */
+  padding-bottom: 100px; /* Example value, adjust this carefully */
 }
 
 .message {
   position: relative;
-  /* margin: 10px 0; remove direct margin here if using gap in parent */
-  /* margin-top: 0px; */
   max-width: 100%;
-  padding: 15px; /* Standardized padding */
+  padding: 15px; 
   border-radius: 10px;
-  word-wrap: break-word; /* Ensure long words break */
+  word-wrap: break-word; 
 }
 
-.messages ul {
-  list-style-type: disc; 
+.messages ul, .messages ol {
   padding-left: 20px; 
   margin-top: 5px;
   margin-bottom: 5px;
 }
+.messages ul { list-style-type: disc; }
+.messages ol { list-style-type: decimal; }
 
-.messages ol {
-  list-style-type: decimal; 
-  padding-left: 20px; 
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
 
 .message.user {
   background-color: #b3deef;
   align-self: flex-end;
   border-top-right-radius: 4px;
-  margin-left: auto; /* Push to the right */
-  max-width: 80%; /* Max width for user messages */
+  margin-left: auto; 
+  max-width: 80%; 
 }
 
 .message.user::before {
@@ -73,8 +81,8 @@
   background-color: #e2e0e0;
   align-self: flex-start;
   border-top-left-radius: 4px;
-  margin-right: auto; /* Push to the left */
-  max-width: 80%; /* Max width for bot messages */
+  margin-right: auto; 
+  max-width: 80%; 
 }
 
 .message.bot::before {
@@ -89,13 +97,11 @@
   border-bottom: 10px solid transparent;
 }
 
-.message.bot.loading span { /* Styling for bot typing indicator */
+.message.bot.loading span { 
   font-style: italic;
   color: #555;
 }
 
-
-/* Added for system messages like loading/error */
 .message.system {
   font-style: italic;
   color: #666;
@@ -116,39 +122,41 @@
   border-radius: 14px;
   padding: 10px;
   background-color: white;
-  margin-top: auto; /* This might be overridden by fixed positioning */
   position:fixed;
   bottom: 1%;
   left: 5%;
   width: 90%;
-  z-index: 10; /* Ensure it's above messages */
+  z-index: 10; 
+  box-sizing: border-box;
 }
 
 .inputArea {
   display: flex;
+  width: 100%; 
 }
 
 .inputArea input {
   flex: 1;
   padding: 10px;
-  border: none;
+  border: none; /* Consider adding '1px solid #ccc' if you want a visible border */
   outline: none;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
   font-size: 1rem;
 }
 
-/* General button style within this component, if needed, or style specific buttons */
-/* .chatContainer button, button.sendMessage { ... } */ /* This seems too broad */
-
 .sendMessage{
-  border-radius: 14px;
+  /* border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px; */
+  border-radius: 8px;
   padding: 10px 15px;
   background-color: var(--main-color);
   color: white;
   border:none;
   cursor: pointer;
-  display: flex; /* For aligning icon */
+  display: flex; 
   align-items: center;
   justify-content: center;
 }
@@ -157,54 +165,78 @@
     cursor: not-allowed;
 }
 
-
 .sendSvg {
   width: 15px; 
   height: 15px;
   fill: white;
 }
 
-.resetConversationButton {
-  padding: 10px 20px;
-  border: none;
-  background-color: var(--main-color);
-  color: white;
+/* Suggestions Container - Modified for horizontal scroll */
+.suggestionsContainer {
+  display: flex; /* Aligns chips in a row */
+  gap: 8px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent chips from wrapping */
+  padding-top: 8px; /* Space above the chips */
+  padding-bottom: 4px; /* Space for scrollbar, though we hide it */
+  width: 100%; /* Take full width of inputWrapper */
+
+  /* Hide scrollbar for a cleaner mobile look */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.suggestionsContainer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+
+.suggestionChip {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  border-radius: 16px;
+  font-size: 0.85rem;
   cursor: pointer;
-  border-radius: 12px;
-}
-.resetConversationButton:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+  color: #333;
+  transition: background-color 0.2s;
+  flex-shrink: 0; /* Prevent chips from shrinking if container is constrained */
+  /* display: inline-block; /* Not needed if parent is flex and we use flex-shrink */
 }
 
+.suggestionChip:hover {
+  background-color: #e0e0e0;
+}
 
-.dishDetailLink {
+.suggestionChip:disabled {
+  background-color: #f5f5f5;
+  color: #aaa;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+/* resetConversationButton class is no longer used here as it was moved and renamed */
+
+.dishDetailLink, .dishLink {
   background: none;
   border: none;
   padding: 0;
-  color: blue; /* Or your app's link color */
-  text-decoration: none; /* underline is in the text itself via <u> */
   cursor: pointer;
   font: inherit;
-  font-weight: bold; /* Make it stand out a bit */
 }
 
-.dishDetailLink:hover {
-  color: darkblue; /* Darken on hover */
+.dishDetailLink {
+  color: blue; 
+  text-decoration: none; 
+  font-weight: bold; 
 }
+.dishDetailLink:hover { color: darkblue; }
 
 .dishLink {
-  background: none;
-  border: none;
-  color: var(--main-color); /* Or your preferred link color */
+  color: var(--main-color); 
   text-decoration: underline;
-  cursor: pointer;
-  padding: 0;
-  font: inherit; /* Inherit font from parent */
-  display: inline; /* Make it behave like a text link */
+  display: inline; 
 }
-
 .dishLink:hover {
-  color: #0056b3; /* Darker shade on hover */
-  text-decoration: none; /* Optional: remove underline on hover */
+  color: #0056b3; 
+  text-decoration: none; 
 }
