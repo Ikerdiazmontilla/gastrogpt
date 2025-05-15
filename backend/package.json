@@ -17,9 +17,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
-    "openai": "^4.62.0",
     "express-session": "^1.18.1",
-    "pg": "^8.15.6",
+    "openai": "^4.62.0",
+    "pg": "^8.16.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
