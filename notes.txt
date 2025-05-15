@@ -27,8 +27,6 @@ Poner un dialogo explicando como funciona cuando te metes
 
 Add more languages
 
-Add a message limit
-
 On mobile when you try to chat it scrolls down too much, fix it
 Change styles for different viewports
 
