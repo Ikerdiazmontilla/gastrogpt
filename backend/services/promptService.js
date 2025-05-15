@@ -1,17 +1,24 @@
-// backend/promptBuilder.js
+// <file path="backend/services/promptService.js">
+// This is the refactored version of the original backend/promptBuilder.js
+
+/**
+ * @file promptService.js
+ * @description Service for building and formatting prompts for AI,
+ * particularly for the questionnaire feature.
+ */
 
 /**
  * Converts an array of strings into a human-readable list.
  * @param {string[]} array - The array of items.
  * @param {string} lang - The language ('Español' or 'English').
- * @param {object} conjunctions - Object containing language-specific conjunctions (e.g., { and: 'y' }).
- * @param {object} noneStrings - Object containing language-specific "none" strings (e.g., { none: 'ninguna' }).
+ * @param {object} conjunctions - Object containing language-specific conjunctions.
+ * @param {object} noneStrings - Object containing language-specific "none" strings.
  * @returns {string} A formatted string.
  */
 const arrayToString = (array, lang, conjunctions, noneStrings) => {
-  if (!array || array.length === 0) return noneStrings[lang] || noneStrings['Español'];
+  if (!array || array.length === 0) return noneStrings[lang] || noneStrings['Español']; // Default to Spanish "none"
   if (array.length === 1) return array[0];
-  const and = conjunctions[lang] || conjunctions['Español'];
+  const and = conjunctions[lang] || conjunctions['Español']; // Default to Spanish "and"
   return array.slice(0, -1).join(', ') + ` ${and} ` + array[array.length - 1];
 };
 
@@ -42,12 +49,12 @@ const promptStrings = {
 
 /**
  * Builds the user preferences prompt for the AI based on submission data and language.
- * @param {object} submissionData - The form data from the questionnaire.
- * @param {string} language - The selected language ('Español' or 'English').
+ * @param {object} submissionData - The form data from the questionnaire, including a 'language' field.
  * @returns {string} The formatted prompt for the AI.
  */
-const buildQuestionnairePrompt = (submissionData, language) => {
-  const langStrings = promptStrings[language] || promptStrings['Español']; // Default to Spanish
+const buildQuestionnaireUserPrompt = (submissionData) => {
+  const language = submissionData.language || 'Español'; // Default to Spanish if language not provided
+  const langStrings = promptStrings[language] || promptStrings['Español'];
   const { tipoComida, precio, alergias, nivelPicante, consideraciones: userConsideraciones } = submissionData;
 
   const tipoComidaStr = arrayToString(tipoComida, language, langStrings.conjunctions, langStrings.noneStrings);
@@ -64,8 +71,10 @@ const buildQuestionnairePrompt = (submissionData, language) => {
   if (userConsideraciones && userConsideraciones.trim() !== '') {
     prompt += `- ${langStrings.consideraciones} ${userConsideraciones.trim()}\n`;
   }
+  // The instruction to answer in a specific language is now part of the user prompt
   prompt += `\n${langStrings.answerInstruction}`;
   return prompt;
 };
 
-module.exports = { buildQuestionnairePrompt };
+module.exports = { buildQuestionnaireUserPrompt };
+// </file>

@@ -1,6 +1,60 @@
 
 cambiar alergias para que no sea necesario seleccionar nada ahi
 
+(Si no aceptan las cookies se puede hacer un fallback a localstorage o se le puede inhabilitar el uso del chat o que salte un banner diciendo que tienen las cookies desactivadas)
+
+when you click on a dish, add ask chat about the dish functionality
+
+Remove searchbar to add filtering by healthy or by spicy, or by vegan
+
+
+For stt in spanish:
+https://www.speechmatics.com/
+
+also see this https://github.com/ufal/whisper_streaming
+
+real time voice chat example
+http://github.com/KoljaB/RealtimeVoiceChat
+
+also look at this:
+https://www.chat-data.com/blog/create-your-own-realtime-voice-to-voice-ai-chatbot-with-code-examples
+
+AND THIS:
+https://github.com/iamNilotpal/talky-frontend
+
+
+Poner un dialogo explicando como funciona cuando te metes
+
+Add more languages
+
+Add a message limit
+
+On mobile when you try to chat it scrolls down too much, fix it
+Change styles for different viewports
+
+
+
+react.render is deprecated
+onkey press is deprecated
+
+Add selection of best dishes from the restaurant and prioritize those.
+Improve prompt instructions
+Asegurarse que las instrucciones funcionan bien
+
+
+Marketing: 
+make offer to refund money
+Establish prices
+Maintenance fee
+Could charge them a fixed price or give them the option to handle their own token expense.
+
+
+
+<button onClick={handleReset} className="reset-button">Reiniciar</button>
+<h2> <a href='/chat'> GastroGPT</a></h2>
+
+
+
 put navbar in position fixed with javascript
 If you **don’t know the height** of the element in advance but still want to **preserve its space** in the document **and** have it behave as `position: fixed`, you can do this with JavaScript.
 
@@ -43,86 +97,3 @@ window.addEventListener('resize', syncHeight);
 This is the only clean way to make it work when the height is dynamic and unknown at CSS time.
 
 Do you want it to work if the content changes dynamically after load (e.g. animations, expanding sections)?
-
-
-
-Si no aceptan las cookies se puede hacer un fallback a localstorage o se le puede inhabilitar el uso del chat o que salte un banner diciendo que tienen las cookies desactivadas
-
-
-Añadir opciones de bebida al formulario y hacer que estructure bien la respuesta, que de mas variedad de lo que le piden.
-
-Asegurarse que las instrucciones funcionan bien
-
-
-
-
-Poner un dialogo explicando como funciona cuando te metes
-Languages
-  Do it for different languages.
-  You can choose a flag and it translates the first message to that language, or you can provide a language and chatgpt translate it for you
-
-Add a message limit
-Finish tweaking chat
-
-On mobile when you try to chat it scrolls down too much, fix it
-Change styles for different viewports
-
-
-
-react.render is deprecated
-onkey press is deprecated
-
-Add selection of best dishes from the restaurant and prioritize those.
-Improve prompt instructions
-
-
-Improve reset conversation method but still do it in navbar logo
-
-Marketing: 
-make offer to refund money
-Establish prices
-Maintenance fee
-Could charge them a fixed price or give them the option to handle their own token expense.
-
-
-
-<button onClick={handleReset} className="reset-button">Reiniciar</button>
-<h2> <a href='/chat'> GastroGPT</a></h2>
-
-
-
-Perfecto. Aquí tienes ambas versiones, mejoradas y con emojis para que sean más visuales y atractivas:
-
----
-
-### 🇪🇸 **¡Hola! Soy GastroGPT, tu asistente personal para elegir el mejor menú 🍽️**
-
-Para ayudarte a encontrar tu comida ideal, dime:
-
-* 🥤 **Bebida** que te apetece
-* 🥗 ¿Quieres **entrantes**?
-* 🍖 **Tipo de comida** (carne, pescado, marisco, vegano...)
-* 💰 **Rango de precio**
-* 🌶️ **Nivel de picante** (suave, medio, picante, muy picante)
-* ⚠️ **Alergias o restricciones dietéticas** (gluten, frutos secos, lactosa...)
-
-O pregúntame lo que quieras. ¡Estoy aquí para ayudarte! 🤖
-
----
-
-### 🇬🇧 **Hi! I’m GastroGPT, your personal food assistant 🍽️**
-
-To help you build your perfect menu, just tell me:
-
-* 🥤 **Drink** you'd like
-* 🥗 Do you want any **appetizers**?
-* 🍖 **Type of food** (meat, fish, seafood, vegan...)
-* 💰 **Price range**
-* 🌶️ **Spice level** (mild, medium, spicy, very spicy)
-* ⚠️ **Allergies or dietary restrictions** (gluten, nuts, dairy...)
-
-Or ask me anything — I’m here to help! 🤖
-
----
-
-¿Quieres que adapte el estilo a un chatbot para WhatsApp, web o app?

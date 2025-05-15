@@ -1,4 +1,6 @@
-const menu = require('./menu') // This will now load the updated menu
+// <file path="backend/prompts/instructions.js">
+// Updated to require menu from its new relative path.
+const menu = require('./menu.js'); // Path updated
 
 const instructions = `
 Eres un chatbot experto en el menú de un restaurante.
@@ -16,3 +18,4 @@ Aquí empieza la conversación con el usuario:
 `;
 
 module.exports = instructions;
+// </file>

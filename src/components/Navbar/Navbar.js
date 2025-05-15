@@ -1,22 +1,8 @@
-// import {ReactComponent as ChatImg} from '../../assets/chat-svgrepo-com.svg'
-// import {ReactComponent as QuestionnaireImg} from '../../assets/question-circle-svgrepo-com.svg'
-// import secondNavbar from './secondNavbar';
+// src/components/Navbar/Navbar.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Navbar.module.css';
-
-const navLinkTexts = {
-  Español: {
-    carta: "📖 Carta",
-    chat: "💬 Chat",
-    menuRapido: "🍔 Menú rápido"
-  },
-  English: {
-    carta: "📖 Menu",
-    chat: "💬 Chat",
-    menuRapido: "🍔 Quick Menu"
-  }
-};
+import { navbarTranslations } from '../../data/translations'; // Translations
 
 const Navbar = ({ onLanguageChange, currentLanguage }) => {
   const handleLanguageSelect = (event) => {
@@ -24,13 +10,14 @@ const Navbar = ({ onLanguageChange, currentLanguage }) => {
     onLanguageChange(selectedValue);
   };
 
-  const T = navLinkTexts[currentLanguage] || navLinkTexts['Español']; // Fallback
+  const T = navbarTranslations[currentLanguage] || navbarTranslations['Español'];
 
   return (
     <>
       <nav className={styles.navbar}>
         <div className={styles.firstGroup}>
-          <h2> <a href='/chat'> GastroGPT</a></h2>
+          {/* Link to /chat which redirects to / if it's the home */}
+          <h2> <NavLink to="/chat" style={{color: 'white'}}> GastroGPT</NavLink></h2>
           <select
             className={styles.selectLanguage}
             value={currentLanguage}

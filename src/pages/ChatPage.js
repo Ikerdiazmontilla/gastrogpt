@@ -1,8 +1,7 @@
 // src/pages/ChatPage.js
 import React, { useState } from 'react';
-import Chat from '../components/Chat/Chat';
-import DishDetailModal from '../components/DishDetailModal/DishDetailModal';
-// No need to import all menuData here if Chat component handles findDishById
+import Chat from '../features/Chat/Chat'; // Updated path
+import DishDetailModal from '../components/Dish/DishDetailModal'; // Updated path
 
 const ChatPage = ({ currentLanguage }) => {
   const [selectedPlatoModal, setSelectedPlatoModal] = useState(null);
@@ -19,7 +18,7 @@ const ChatPage = ({ currentLanguage }) => {
     <>
       <Chat
         currentLanguage={currentLanguage}
-        onViewDishDetails={handleViewDishDetails} // Pass the handler
+        onViewDishDetails={handleViewDishDetails}
       />
       {selectedPlatoModal && (
         <DishDetailModal

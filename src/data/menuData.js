@@ -1,4 +1,6 @@
 // src/data/menuData.js
+
+// Raw menu data structure
 export const menuData = {
   entrantes: [
     {
@@ -11,6 +13,7 @@ export const menuData = {
       alergenos: ["gluten", "lactosa"],
       etiquetas: ["popular"],
     },
+    // ... other entrantes
     {
       id: 2,
       nombre: { es: "Ensalada César", en: "Caesar Salad" },
@@ -32,7 +35,7 @@ export const menuData = {
       etiquetas: ["vegano", "sin_gluten"],
     },
   ],
-  principales: [ // Note: frontend 'principales' is a flat array.
+  principales: [
     {
       id: 4,
       nombre: { es: "Paella de Mariscos", en: "Seafood Paella" },
@@ -41,8 +44,9 @@ export const menuData = {
       precio: 18.50,
       imagen: "/assets/paella-marisco.jpg",
       alergenos: ["mariscos", "crustaceos", "moluscos"],
-      etiquetas: ["popular", "recomendado", "picante_suave"], // Added picante_suave based on your example
+      etiquetas: ["popular", "recomendado", "picante_suave"],
     },
+    // ... other principales
     {
       id: 5,
       nombre: { es: "Solomillo al Whisky", en: "Whiskey Sirloin Steak" },
@@ -75,6 +79,7 @@ export const menuData = {
       alergenos: ["gluten", "lactosa", "huevo"],
       etiquetas: ["popular"],
     },
+    // ... other postres
     {
       id: 8,
       nombre: { es: "Crema Catalana", en: "Catalan Cream" },
@@ -107,7 +112,8 @@ export const menuData = {
       alergenos: ["sulfitos"],
       etiquetas: ["recomendado"],
     },
-    {
+    // ... other bebidas
+     {
       id: 11,
       nombre: { es: "Sangría Casera", en: "Homemade Sangria" },
       descripcionCorta: { es: "Refrescante sangría con vino tinto, frutas...", en: "Refreshing sangria with red wine, fruits..." },
@@ -129,6 +135,8 @@ export const menuData = {
     },
   ],
 };
+
+// Definitions for allergens
 export const alergenosDetails = {
   gluten: { icon: "🌾", nombre: "Gluten", nombre_en: "Gluten" },
   lactosa: { icon: "🥛", nombre: "Lactosa", nombre_en: "Dairy" },
@@ -143,76 +151,16 @@ export const alergenosDetails = {
   default: { icon: "⚠️", nombre: "Otro", nombre_en: "Other" },
 };
 
+// Definitions for tags/labels
 export const etiquetasDetails = {
   popular: { label: "Popular", label_en: "Popular", icon: "⭐" },
   recomendado: { label: "Recomendado", label_en: "Recommended", icon: "👨‍🍳" },
   vegano: { label: "Vegano", label_en: "Vegan", icon: "🌿" },
   vegetariano: { label: "Vegetariano", label_en: "Vegetarian", icon: "🥕" },
-  sin_gluten: { label: "Sin Gluten", label_en: "Gluten-Free" }, // No icon for overlay by default, appears in modal
-  picante_suave: { label: "Picante Suave", label_en: "Mild Spicy", icon: "🌶️" }, // Example spicy tag
-  // Add more spicy levels if needed: picante_medio, picante_fuerte
+  sin_gluten: { label: "Sin Gluten", label_en: "Gluten-Free" },
+  picante_suave: { label: "Picante Suave", label_en: "Mild Spicy", icon: "🌶️" },
+  // Add more spicy levels if needed
 };
 
-// Helper function to get translated text from dish properties
-export const getTranslatedDishText = (dishProperty, lang) => {
-  if (typeof dishProperty === 'object' && dishProperty !== null) {
-    const langKey = lang === 'English' ? 'en' : 'es';
-    return dishProperty[langKey] || dishProperty['es']; // Fallback to Spanish
-  }
-  return dishProperty; // If not an object, return as is (e.g. price, id)
-};
-
-export const getAlergenoIcon = (alergenoKey) => {
-  return alergenosDetails[alergenoKey]?.icon || alergenosDetails.default.icon;
-};
-
-export const getAlergenoNombre = (alergenoKey, lang = 'Español') => {
-  const details = alergenosDetails[alergenoKey] || alergenosDetails.default;
-  const langKey = lang === 'English' ? 'nombre_en' : 'nombre';
-  return details[langKey] || details.nombre; // Fallback to Spanish name
-};
-
-export const getEtiquetaUIData = (etiquetaKey, lang = 'Español') => {
-  const detail = etiquetasDetails[etiquetaKey];
-  if (!detail) return { label: etiquetaKey, icon: null }; // Return key itself if not found
-
-  const langKey = lang === 'English' ? 'label_en' : 'label';
-  return {
-    label: detail[langKey] || detail.label, // Fallback to Spanish label
-    icon: detail.icon || null
-  };
-};
-
-
-export const getEtiquetaClass = (etiquetaKey, styles) => {
-  // This function is primarily for the pill-style tags in the modal.
-  // Overlay tags on the card will have their own dedicated classes.
-  switch (etiquetaKey) {
-    case "popular":
-      return styles.tagPopularPill; // Changed to avoid clash if styles are merged
-    case "recomendado":
-      return styles.tagRecomendadoPill;
-    case "vegano":
-      return styles.tagVeganoPill;
-    case "vegetariano":
-      return styles.tagVegetarianoPill;
-    case "sin_gluten":
-      return styles.tagSinGlutenPill;
-    case "picante_suave": // Added spicy
-      return styles.tagPicanteSuavePill;
-    default:
-      return styles.tagDefaultPill;
-  }
-};
-
-const allPlatosArray = [
-  ...menuData.entrantes,
-  ...menuData.principales,
-  ...menuData.postres,
-  ...menuData.bebidas,
-];
-
-export const findDishById = (id) => {
-  const dishId = parseInt(id, 10);
-  return allPlatosArray.find(plato => plato.id === dishId) || null;
-};
+// Helper functions (getTranslatedDishText, getAlergenoIcon, etc.) have been moved to src/utils/menuUtils.js
+// findDishById has also been moved to src/utils/menuUtils.js

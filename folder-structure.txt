@@ -1,0 +1,30 @@
+gastrogpt_repomix/
+  backend/
+├── config/
+│   └── config.js
+├── controllers/
+│   ├── chatController.js
+│   └── questionnaireController.js
+├── db/
+│   ├── chatRepository.js
+│   ├── databaseSetup.js
+│   ├── pool.js
+│   └── questionnaireRepository.js
+├── prompts/
+│   ├── firstMessage.js
+│   ├── instructions.js
+│   ├── menu.js
+│   └── questionnaire_instructions.js
+├── routes/
+│   ├── chatRoutes.js
+│   ├── index.js
+│   └── questionnaireRoutes.js
+├── services/
+│   ├── llmService.js
+│   ├── promptService.js
+│   └── providers/
+│       ├── geminiProvider.js
+│       └── openaiProvider.js
+├── .env
+├── package.json
+└── server.js

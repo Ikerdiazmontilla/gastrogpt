@@ -1,47 +1,25 @@
 // src/pages/CartaPage/CartaPage.js
 import React, { useState, useMemo } from 'react';
 import styles from './CartaPage.module.css';
-import { menuData, getTranslatedDishText } from '../../data/menuData'; // Removed unused imports, added getTranslatedDishText
-import MenuItemCard from '../../components/MenuItemCard/MenuItemCard';
-import DishDetailModal from '../../components/DishDetailModal/DishDetailModal';
-
-const translations = {
-  Español: {
-    pageTitle: "Nuestra Carta",
-    pageDescription: "Descubre nuestra selección de platos preparados con los mejores ingredientes",
-    searchPlaceholder: "Buscar platos, ingredientes...",
-    tabDestacados: "⭐ Destacados",
-    tabEntrantes: "🥗 Entrantes",
-    tabPrincipales: "🍲 Platos Principales",
-    tabPostres: "🍰 Postres",
-    tabBebidas: "🍷 Bebidas",
-    noResults: "No se encontraron platos que coincidan con tu búsqueda en esta categoría."
-  },
-  English: {
-    pageTitle: "Our Menu",
-    pageDescription: "Discover our selection of dishes prepared with the finest ingredients",
-    searchPlaceholder: "Search dishes, ingredients...",
-    tabDestacados: "⭐ Featured",
-    tabEntrantes: "🥗 Appetizers",
-    tabPrincipales: "🍲 Main Courses",
-    tabPostres: "🍰 Desserts",
-    tabBebidas: "🍹 Drinks",
-    noResults: "No dishes found matching your search in this category."
-  }
-};
+import { menuData } from '../../data/menuData'; // Raw menu data
+import { cartaPageTranslations } from '../../data/translations'; // Translations
+import { getTranslatedDishText } from '../../utils/menuUtils'; // Utilities
+import MenuItemCard from '../../components/Dish/MenuItemCard'; // Updated path
+import DishDetailModal from '../../components/Dish/DishDetailModal'; // Updated path
 
 const CartaPage = ({ currentLanguage }) => {
-  const T = translations[currentLanguage] || translations['Español'];
+  const T = cartaPageTranslations[currentLanguage] || cartaPageTranslations['Español'];
   const [activeTab, setActiveTab] = useState('destacados');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlato, setSelectedPlato] = useState(null);
 
+  // Memoize allPlatos to prevent recalculation on every render
   const allPlatos = useMemo(() => [
-    ...menuData.entrantes,
-    ...menuData.principales,
-    ...menuData.postres,
-    ...menuData.bebidas
-  ], []);
+    ...(menuData.entrantes || []),
+    ...(menuData.principales || []),
+    ...(menuData.postres || []),
+    ...(menuData.bebidas || [])
+  ], []); // menuData is stable, so dependency array is empty if menuData itself doesn't change reference
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -60,10 +38,12 @@ const CartaPage = ({ currentLanguage }) => {
 
     if (activeTab === 'destacados') {
       platosToShow = allPlatos.filter(plato =>
-        plato.etiquetas.includes('popular') || plato.etiquetas.includes('recomendado')
+        plato.etiquetas && (plato.etiquetas.includes('popular') || plato.etiquetas.includes('recomendado'))
       );
     } else if (menuData[activeTab]) {
       platosToShow = menuData[activeTab];
+    } else {
+      platosToShow = []; // Default to empty if tab key is invalid
     }
 
     if (searchTerm) {
@@ -71,24 +51,26 @@ const CartaPage = ({ currentLanguage }) => {
       return platosToShow.filter(plato => {
         const nombre = getTranslatedDishText(plato.nombre, currentLanguage).toLowerCase();
         const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage).toLowerCase();
-        // Note: For simplicity, descripcionLarga is not typically searched in card view, but can be added
+        // Optional: search in descripcionLarga, ingredientes etc.
         // const descripcionLarga = getTranslatedDishText(plato.descripcionLarga, currentLanguage).toLowerCase();
+        // const ingredientes = (plato.ingredientes || []).join(' ').toLowerCase();
 
         return nombre.includes(lowerSearchTerm) ||
                descripcionCorta.includes(lowerSearchTerm);
-               // || descripcionLarga.includes(lowerSearchTerm); 
+        //        || descripcionLarga.includes(lowerSearchTerm)
+        //        || ingredientes.includes(lowerSearchTerm);
       });
     }
     return platosToShow;
-  }, [activeTab, searchTerm, allPlatos, currentLanguage]); // Added currentLanguage to dependency array
+  }, [activeTab, searchTerm, allPlatos, currentLanguage]);
 
-  const tabs = [
+  const tabs = useMemo(() => [ // Memoize tabs array as well
     { key: 'destacados', label: T.tabDestacados },
     { key: 'entrantes', label: T.tabEntrantes },
     { key: 'principales', label: T.tabPrincipales },
     { key: 'postres', label: T.tabPostres },
     { key: 'bebidas', label: T.tabBebidas },
-  ];
+  ], [T]); // Dependency on T (translations based on currentLanguage)
 
   return (
     <div className={styles.cartaContainer}>

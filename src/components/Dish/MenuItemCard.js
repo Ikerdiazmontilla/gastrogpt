@@ -1,19 +1,15 @@
-// src/components/MenuItemCard/MenuItemCard.js
+// src/components/Dish/MenuItemCard.js
 import React from 'react';
 import styles from './MenuItemCard.module.css';
-import { getAlergenoIcon, getTranslatedDishText, getEtiquetaUIData } from '../../data/menuData';
+import { menuItemCardTranslations } from '../../data/translations'; // Translations
+import {
+  getTranslatedDishText,
+  getEtiquetaUIData,
+  getAlergenoIcon,
+  // getAlergenoNombre // Not used directly in card, but icon title could use it
+} from '../../utils/menuUtils'; // Utilities from menuUtils
 
-const translations = {
-  Español: {
-    viewMore: "Ver más",
-    // Overlay tag labels will now come from getEtiquetaUIData
-  },
-  English: {
-    viewMore: "View More",
-  }
-};
-
-// Define which tags should appear in the overlay
+// Define which tags should appear in the overlay (config can stay here or move to menuUtils if complex)
 const overlayTagsConfig = {
   popular: { styleClass: styles.popularTagOverlay },
   recomendado: { styleClass: styles.recommendedTagOverlay },
@@ -24,7 +20,7 @@ const overlayTagsConfig = {
 };
 
 const MenuItemCard = ({ plato, onViewMore, currentLanguage }) => {
-  const T = translations[currentLanguage] || translations['Español'];
+  const T = menuItemCardTranslations[currentLanguage] || menuItemCardTranslations['Español'];
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage);
@@ -32,9 +28,10 @@ const MenuItemCard = ({ plato, onViewMore, currentLanguage }) => {
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer}>
-        <img src={plato.imagen} alt={nombre} className={styles.dishImage} />
+        {/* Ensure plato.imagen path is correct */}
+        <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
         <div className={styles.tagsOverlayContainer}>
-          {plato.etiquetas.map(tagKey => {
+          {plato.etiquetas && plato.etiquetas.map(tagKey => { // Added check for plato.etiquetas
             const config = overlayTagsConfig[tagKey];
             if (config) {
               const { label, icon } = getEtiquetaUIData(tagKey, currentLanguage);
@@ -56,11 +53,11 @@ const MenuItemCard = ({ plato, onViewMore, currentLanguage }) => {
         </div>
         <p className={styles.dishDescription}>{descripcionCorta}</p>
         <div className={styles.allergenIcons}>
-          {plato.alergenos.map((alergenoKey) => (
+          {plato.alergenos && plato.alergenos.map((alergenoKey) => ( // Added check for plato.alergenos
             <span
               key={alergenoKey}
               className={styles.allergenIcon}
-              title={getAlergenoIcon(alergenoKey)} // Title could be translated name later
+              title={getAlergenoIcon(alergenoKey)} // Icon itself as title, could be getAlergenoNombre for full name
             >
               {getAlergenoIcon(alergenoKey)}
             </span>

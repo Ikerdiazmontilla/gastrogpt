@@ -1,8 +1,7 @@
 // src/pages/QuestionnairePage.js
 import React, { useState } from 'react';
-import Questionnaire from '../components/Questionnaire/Questionnaire';
-import DishDetailModal from '../components/DishDetailModal/DishDetailModal';
-// No need to import all menuData here
+import Questionnaire from '../features/Questionnaire/Questionnaire'; // Updated path
+import DishDetailModal from '../components/Dish/DishDetailModal';   // Updated path
 
 const QuestionnairePage = ({ currentLanguage }) => {
   const [selectedPlatoModal, setSelectedPlatoModal] = useState(null);
@@ -19,7 +18,7 @@ const QuestionnairePage = ({ currentLanguage }) => {
     <>
       <Questionnaire
         currentLanguage={currentLanguage}
-        onViewDishDetails={handleViewDishDetails} // Pass the handler
+        onViewDishDetails={handleViewDishDetails}
       />
       {selectedPlatoModal && (
         <DishDetailModal

@@ -1,4 +1,3 @@
-// gastrogpt_repomix/backend/menu.js
 const menu = {
   entrantes: [
     {
@@ -7,10 +6,9 @@ const menu = {
       descripcionCorta: { es: "Deliciosas croquetas caseras de jamón ibérico...", en: "Delicious homemade Iberian ham croquettes..." },
       descripcionLarga: { es: "Deliciosas croquetas caseras de jamón ibérico con bechamel cremosa, servidas con un toque de perejil fresco.", en: "Delicious homemade Iberian ham croquettes with creamy béchamel, served with a touch of fresh parsley." },
       precio: 8.50,
-      imagen: "/assets/croquetas.jpg", // Path for frontend, AI won't use image
+      imagen: "/assets/croquetas.jpg", 
       alergenos: ["gluten", "lactosa"],
       etiquetas: ["popular"],
-      // For AI context, ingredients can be useful if you want it to discuss them
       ingredientes: ["jamón ibérico", "bechamel", "pan rallado", "huevo", "aceite", "perejil"]
     },
     {
@@ -36,15 +34,10 @@ const menu = {
       ingredientes: ["tomates", "pepino", "pimiento", "ajo", "aceite de oliva virgen extra", "vinagre de Jerez"]
     },
   ],
-  platosPrincipales: { // Matching frontend key for main courses if it was 'principales'
-    // Note: Original backend/menu.js had platosPrincipales as an object with sub-categories.
-    // For simplicity with linking by ID, I'll assume a flatter structure here or a combined list for the AI,
-    // or ensure the AI instructions are clear on how to refer to IDs within nested structures if needed.
-    // Let's assume for the AI, it primarily needs a list of dishes with IDs.
-    // The provided `src/data/menuData.js` has `principales` as a direct array.
-    carne: [ // If you keep subcategories, ensure IDs are unique across all.
+  platosPrincipales: { 
+    carne: [ 
       {
-        id: 5, // Example continuation of unique IDs
+        id: 5, 
         nombre: { es: "Solomillo al Whisky", en: "Whiskey Sirloin Steak" },
         descripcionCorta: { es: "Solomillo de ternera con salsa de whisky...", en: "Beef sirloin with whiskey sauce..." },
         descripcionLarga: { es: "Tierno solomillo de ternera nacional, marcado a la plancha y terminado con una suave y aromática salsa al whisky, acompañado de patatas panaderas y pimientos de padrón.", en: "Tender national beef sirloin, grilled and finished with a smooth and aromatic whiskey sauce, accompanied by baker potatoes and Padrón peppers." },
@@ -52,12 +45,11 @@ const menu = {
         imagen: "/assets/solomillo-al-whisky.jpg",
         alergenos: ["gluten"],
         etiquetas: ["recomendado"],
-        tipo: "carne", // Keep type for AI filtering
+        tipo: "carne", 
         ingredientes: ["solomillo de ternera", "salsa al whisky", "patatas panaderas", "pimientos de padrón"]
       },
     ],
     pescado: [
-      // Add fish dishes with IDs and es/en text
     ],
     vegetariano: [
       {
@@ -73,7 +65,7 @@ const menu = {
         ingredientes: ["arroz arborio", "setas silvestres", "parmesano", "trufa"]
       },
     ],
-    mariscos: [ // Example using an ID from your frontend data
+    mariscos: [ 
        {
         id: 4,
         nombre: { es: "Paella de Mariscos", en: "Seafood Paella" },
@@ -87,7 +79,6 @@ const menu = {
         ingredientes: ["arroz bomba", "azafrán", "calamares", "gambas", "mejillones", "almejas"]
       },
     ]
-    // ... other categories like vegano if they were separate
   },
   postres: [
     {
