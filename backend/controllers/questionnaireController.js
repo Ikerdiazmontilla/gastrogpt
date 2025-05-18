@@ -42,7 +42,7 @@ async function handleQuestionnaireSubmission(req, res) {
       { role: 'system', content: questionnaireSystemInstructions },
       { role: 'user', content: userPreferencesPrompt }
     ];
-
+      console.log(messagesForQuestionnaireAI)
     // Get AI recommendations
     const recommendationsText = await llmService.getChatbotResponse(messagesForQuestionnaireAI);
     console.log("AI Reply (Questionnaire Controller):", JSON.stringify(recommendationsText));

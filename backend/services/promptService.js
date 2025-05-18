@@ -24,7 +24,7 @@ const arrayToString = (array, lang, conjunctions, noneStrings) => {
 
 const promptStrings = {
   Español: {
-    intro: "Mis preferencias son:",
+    intro: "Me gustaría comer un plato con estas características, aunque si no encuentras ninguno simplemente explicamelo y dame otras opciones. Solo recomiendame los platos que estén en el menú, es muy importante. Aqui van mis preferencias:",
     tipoComida: "Tipo de comida:",
     precio: "Rango de precio:",
     alergias: "Alergias:",
@@ -35,7 +35,7 @@ const promptStrings = {
     noneStrings: { Español: "ninguna", English: "none" }
   },
   English: {
-    intro: "My preferences are:",
+    intro: "“I’d like to have a dish with these characteristics; however, if you don’t find one, just explain it to me and give me other options. Only recommend dishes that are on the menu—it’s very important. Here are my preferences:”",
     tipoComida: "Type of food:",
     precio: "Price range:",
     alergias: "Allergies:",
