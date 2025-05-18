@@ -47,7 +47,7 @@ const config = {
   // CORS Configuration
   corsOrigins: [
     'http://localhost:3000',
-    'https://restaurant-chatbot-three.vercel.app'
+    process.env.CORSLINK1,
   ],
 };
 
