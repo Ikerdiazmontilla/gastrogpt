@@ -47,7 +47,7 @@ const config = {
   // CORS Configuration
   corsOrigins: [
     'http://localhost:3000',
-    process.env.CORSLINK1,
+    process.env.CORS_LINK_1,
   ],
 };
 
