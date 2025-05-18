@@ -1,7 +1,7 @@
 // src/services/apiService.js
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || ''; // Base URL for backend
-
+console.log('base url: ',BASE_URL)
 /**
  * Helper to process API responses and extract errors.
  * @param {Response} response - The fetch response object.
