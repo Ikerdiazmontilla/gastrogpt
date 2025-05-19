@@ -3,6 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import { navbarTranslations } from '../../data/translations'; // Translations
+import logoImage from '../../assets/gastrogpt-logo-no-bg.png'
 
 const Navbar = ({ onLanguageChange, currentLanguage }) => {
   const handleLanguageSelect = (event) => {
@@ -17,14 +18,16 @@ const Navbar = ({ onLanguageChange, currentLanguage }) => {
       <nav className={styles.navbar}>
         <div className={styles.firstGroup}>
           {/* Link to /chat which redirects to / if it's the home */}
-          <h2> <NavLink to="/chat" style={{color: 'white'}}> GastroGPT</NavLink></h2>
+          <h2> <NavLink to="/chat" style={{color: 'white'}}> 
+            <img src={logoImage} alt="GastroGPT Logo" className={styles.logoImage} />
+          </NavLink></h2>
           <select
             className={styles.selectLanguage}
             value={currentLanguage}
             onChange={handleLanguageSelect}
           >
-            <option value={'Español'}>Español</option>
-            <option value={'English'}>English</option>
+            <option value={'Español'}>🇪🇸Español</option>
+            <option value={'English'}>🇬🇧English</option>
           </select>
         </div>
         <div className={styles.secondNavGroup}>

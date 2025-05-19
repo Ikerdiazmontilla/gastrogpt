@@ -204,27 +204,28 @@ export const navbarTranslations = {
   Español: {
     carta: "📖 Carta",
     chat: "💬 Chat",
-    menuRapido: "🍔 Menú rápido"
+    menuRapido: "📝 Elegir"
   },
   English: {
     carta: "📖 Menu",
     chat: "💬 Chat",
-    menuRapido: "🍔 Quick Menu"
+    menuRapido: "📝 Elegir"
   }
 };
 
 // Chat suggestions
 export const chatSuggestions = {
   Español: [
-    'dame opciones veganas',
-    '¿cuáles son los platos más populares?',
-    '¿qué postres tienen?',
-    'recomiéndame algo ligero',
+    '¿Cuáles son los platos más populares?',
+    'Dame opciones vegetarianas',
+    '¿Qué postres tenéis?',
+    'Recomiéndame algo ligero',
+
   ],
   English: [
-    'give me vegan options',
-    'what are the most popular dishes?',
-    'what desserts do you have?',
-    'recommend something light',
+    'What are the most popular dishes?',
+    'Give me vegetarian options',
+    'What desserts do you have?',
+    'Recommend something light',
   ],
 };

@@ -2,8 +2,7 @@
 // MODIFICATION: Import the menu data.
 const menu = require('./menu.js');
 
-// MODIFICATION: Updated instructions to be more forceful about using the provided menu
-// and to include the menu JSON directly.
+
 const questionnaire_instructions = `Eres GastroGPT, un asistente experto en menús de restaurantes.
 Tu tarea es analizar las preferencias del usuario y ofrecer recomendaciones de platos basadas en ellas, utilizando EXCLUSIVAMENTE el menú del restaurante que se proporciona a continuación.
 NO DEBES INVENTAR PLATOS NI SUGERIR NADA QUE NO ESTÉ EXPLÍCITAMENTE EN EL SIGUIENTE MENÚ. Si no encuentras una coincidencia exacta para todos los criterios, explica por qué y sugiere las alternativas más cercanas que SÍ estén en el menú.

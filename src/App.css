@@ -44,6 +44,7 @@
  :root{
   --background-color: #F0EFE6;
   --main-color:rgb(43, 147, 216);
+  --navbar-color:rgb(69, 177, 248);
  }
 
  body{
