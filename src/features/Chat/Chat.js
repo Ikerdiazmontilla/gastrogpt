@@ -40,25 +40,23 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     setLimitNotification('');
     try {
       const data = await fetchConversation();
-      let initialMessages = data.messages || [];
 
-      if (initialMessages.length > 0 && initialMessages[0].sender === 'bot') {
-        initialMessages[0].text = firstMessageText;
-      } else {
-        initialMessages.unshift({ sender: 'bot', text: firstMessageText });
-      }
-      setMessages(initialMessages);
+      // MODIFICATION: Refined logic for handling fetched conversation data.
+      // If data.meta exists and there are messages, it's an existing conversation.
+      // The backend's getConversationHistory already maps DB messages to the {sender, text} format.
+      if (data.meta && data.messages && data.messages.length > 0) {
+        setMessages(data.messages); // Use the fetched history as is.
 
-      // Check for limit state from backend meta data
-      if (data.meta) {
+        // Handle limit state from backend meta data
         if (data.meta.limitEffectivelyReached) {
           setIsLimitReached(true);
-          // Attempt to find the notification message if it was persisted
-          const lastBotMsg = initialMessages.slice().reverse().find(m => m.sender === 'bot' && m.limitReachedNotification);
-          if (lastBotMsg) {
-            // This relies on the backend sending the notification text again or a flag to reconstruct it
-            // For simplicity, let's use a generic one if not directly provided on load.
-            // The backend will provide it on the exact turn it's hit.
+          // Attempt to find if the limit notification was part of the persisted history
+          // Backend should ideally ensure the notification text or a clear flag is present.
+          // For now, using a generic message if the flag is true.
+          const lastBotMsgWithNotification = data.messages.slice().reverse().find(
+            m => m.sender === 'bot' && m.limitReachedNotification // Check for the flag set by backend
+          );
+          if (lastBotMsgWithNotification) { // If flag found, means limit was reached and noted
              setLimitNotification(
                 currentLanguage === 'Español'
                 ? "Has alcanzado el límite de 10 mensajes. Por favor, inicia un nuevo chat para continuar."
@@ -66,24 +64,24 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             );
           }
         }
-      } else {
-        // If meta is not present, check the last message for the explicit notification
-        // (This handles the case where the limit was just hit on the last turn of a previous session)
-        const lastMessage = initialMessages[initialMessages.length - 1];
-        if (lastMessage && lastMessage.sender === 'bot' && lastMessage.limitReachedNotification) {
-             setIsLimitReached(true);
-             setLimitNotification(
-                currentLanguage === 'Español'
-                ? "Has alcanzado el límite de 10 mensajes. Por favor, inicia un nuevo chat para continuar."
-                : "You have reached the 10-message limit. Please start a new chat to continue."
-            );
-        }
       }
-
+      // MODIFICATION: If no data.meta, it implies a new chat initialization from the backend.
+      // The backend sends its basic `firstBotMessage` (defined in backend/prompts/firstMessage.js).
+      // We replace this basic text message with the frontend's rich markdown `firstMessageText`.
+      else if (data.messages && data.messages.length === 1 && data.messages[0].sender === 'bot') {
+        setMessages([{ sender: 'bot', text: firstMessageText }]);
+      }
+      // MODIFICATION: Fallback if data.messages is empty or structure is unexpected after backend call.
+      // This ensures the chat always starts with some initial message.
+      else {
+        console.warn("Chat.js: Unexpected data from fetchConversation or empty messages array, initializing with default first message:", data);
+        setMessages([{ sender: 'bot', text: firstMessageText }]);
+      }
 
     } catch (err) {
       console.error('Error loading conversation:', err.message);
       setError(`Failed to load history: ${err.message}. Please try again later.`);
+      // On error, always initialize with the frontend's rich first message.
       setMessages([{ sender: 'bot', text: firstMessageText }]);
     } finally {
       setIsLoading(false);
@@ -92,7 +90,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
   useEffect(() => {
     loadConversation();
-  }, [loadConversation]);
+  }, [loadConversation]); // loadConversation dependency is now correct due to useCallback
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -119,6 +117,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         setError(data.error || (currentLanguage === 'Español' ? "Límite de mensajes alcanzado." : "Message limit reached."));
         setIsLimitReached(true); // Ensure UI is locked
         // The backend already sent the error, we might add a generic bot message here if data.error is not user-friendly
+        // MODIFICATION: Using data.error directly as the limit notification for consistency
         setLimitNotification(data.error || (currentLanguage === 'Español' ? "Por favor, inicia un nuevo chat para continuar." : "Please start a new chat to continue."));
         return; // Stop further processing for this send
       } else {
@@ -128,8 +127,11 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
       if (data.limitReached && data.notification) {
         setIsLimitReached(true);
-        setLimitNotification(data.notification); // Backend sends this in English
-        // Optionally, you can localize data.notification here if you set up a system for it
+        // MODIFICATION: Ensure notification is localized if backend sends it in one language
+        // For now, if backend notification is generic, we use frontend localization.
+        // If backend sends specific text, we can choose to use it or override.
+        // Assuming data.notification might be backend's generic string.
+        setLimitNotification(data.notification);
       }
        // The currentUserMessageCount from backend can be used if needed, but isLimitReached is primary flag
     } catch (err) {
@@ -138,7 +140,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       if (err.response && err.response.data && err.response.data.limitExceeded) {
         displayError = err.response.data.error || (currentLanguage === 'Español' ? "Límite de mensajes superado. Inicia un nuevo chat." : "Message limit exceeded. Start a new chat.");
         setIsLimitReached(true);
-        setLimitNotification(displayError);
+        setLimitNotification(displayError); // Use the error message as the notification
       } else if (err.response && err.response.data && err.response.data.error) {
         displayError = err.response.data.error;
       }
@@ -164,12 +166,15 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     setError(null);
     try {
       await resetChatConversation();
-      await loadConversation(); // This will reset isLimitReached and limitNotification
+      // MODIFICATION: loadConversation will now correctly reset limit states.
+      await loadConversation();
     } catch (err) {
       console.error('Error resetting conversation:', err.message);
       setError(`Error resetting: ${err.message}`);
-      await loadConversation(); // Attempt to reload even on error to get a clean state
+      // MODIFICATION: Attempt to reload even on error to get a clean state.
+      await loadConversation();
     }
+    // setIsLoading(false) is handled by loadConversation's finally block
   };
 
   const handleSuggestionClick = (suggestionText) => {
@@ -189,7 +194,8 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
               {currentLanguage === 'Español' ? 'Cargando historial...' : 'Loading history...'}
             </div>
           )}
-          {error && !limitNotification && ( // Show general errors if not a limit notification
+          {/* MODIFICATION: Ensure general errors are not shown if a specific limit notification is already active */}
+          {error && (!isLimitReached || !limitNotification) && (
             <div className={`${styles.message} ${styles.system} ${styles.error}`}>{error}</div>
           )}
 
@@ -207,9 +213,10 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             ))}
           
           {/* Display limit notification distinctly */}
+          {/* MODIFICATION: The content of limitNotification is now set by logic considering backend responses and current language */}
           {isLimitReached && limitNotification && (
             <div className={`${styles.message} ${styles.system} ${styles.limitNotification}`}>
-              {currentLanguage === 'Español' ? 'Límite de mensajes alcanzado: ' : 'Message limit reached: '}
+              {/* The limitNotification state should now hold the appropriate localized message */}
               {limitNotification}
             </div>
           )}
@@ -246,7 +253,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
               key={index}
               className={styles.suggestionChip}
               onClick={() => handleSuggestionClick(suggestion)}
-              disabled={isInputDisabled}
+              disabled={isInputDisabled} // Suggestions should also be disabled if input is
             >
               {suggestion}
             </button>
@@ -254,9 +261,10 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         </div>
         <button
           onClick={handleReset}
-          // Reset button should always be enabled if messages are loaded,
-          // or specifically enabled if the limit is reached to allow user to escape.
-          disabled={isLoading && messages.length === 0 && !isLimitReached}
+          // MODIFICATION: Reset button logic refined.
+          // Should be enabled if messages are loaded, OR if limit is reached (to allow user to start over),
+          // but disabled if it's the initial load (no messages yet) AND limit not reached.
+          disabled={(isLoading && messages.length === 0 && !isLimitReached)}
           className={styles.resetConversationButton}
         >
           {currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'}
