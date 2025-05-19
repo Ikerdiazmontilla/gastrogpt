@@ -1,3 +1,4 @@
+// <file path="gastrogpts/backend/prompts/menu.js">
 const menu = {
   entrantes: [
     {
@@ -6,10 +7,11 @@ const menu = {
       descripcionCorta: { es: "Deliciosas croquetas caseras de jamón ibérico...", en: "Delicious homemade Iberian ham croquettes..." },
       descripcionLarga: { es: "Deliciosas croquetas caseras de jamón ibérico con bechamel cremosa, servidas con un toque de perejil fresco.", en: "Delicious homemade Iberian ham croquettes with creamy béchamel, served with a touch of fresh parsley." },
       precio: 8.50,
-      imagen: "/assets/croquetas.jpg", 
+      imagen: "/assets/croquetas.jpg",
       alergenos: ["gluten", "lactosa"],
       etiquetas: ["popular"],
-      ingredientes: ["jamón ibérico", "bechamel", "pan rallado", "huevo", "aceite", "perejil"]
+      ingredientes: ["jamón ibérico", "bechamel", "pan rallado", "huevo", "aceite", "perejil"],
+      pairsWith: { main: 4 } // Pairs with Paella de Mariscos (ID 4)
     },
     {
       id: 2,
@@ -20,7 +22,8 @@ const menu = {
       imagen: "/assets/ensalada-cesar.jpg",
       alergenos: ["gluten", "lactosa", "huevo", "pescado"],
       etiquetas: [],
-      ingredientes: ["lechuga romana", "pollo a la parrilla", "crutones", "queso parmesano", "aderezo césar"]
+      ingredientes: ["lechuga romana", "pollo a la parrilla", "crutones", "queso parmesano", "aderezo césar"],
+      pairsWith: { main: 5 } // Pairs with Solomillo al Whisky (ID 5)
     },
     {
       id: 3,
@@ -31,13 +34,14 @@ const menu = {
       imagen: "/assets/gazpacho.jpg",
       alergenos: [],
       etiquetas: ["vegano", "sin_gluten"],
-      ingredientes: ["tomates", "pepino", "pimiento", "ajo", "aceite de oliva virgen extra", "vinagre de Jerez"]
+      ingredientes: ["tomates", "pepino", "pimiento", "ajo", "aceite de oliva virgen extra", "vinagre de Jerez"],
+      pairsWith: { main: 6 } // Pairs with Risotto de Setas (ID 6)
     },
   ],
-  platosPrincipales: { 
-    carne: [ 
+  platosPrincipales: {
+    carne: [
       {
-        id: 5, 
+        id: 5,
         nombre: { es: "Solomillo al Whisky", en: "Whiskey Sirloin Steak" },
         descripcionCorta: { es: "Solomillo de ternera con salsa de whisky...", en: "Beef sirloin with whiskey sauce..." },
         descripcionLarga: { es: "Tierno solomillo de ternera nacional, marcado a la plancha y terminado con una suave y aromática salsa al whisky, acompañado de patatas panaderas y pimientos de padrón.", en: "Tender national beef sirloin, grilled and finished with a smooth and aromatic whiskey sauce, accompanied by baker potatoes and Padrón peppers." },
@@ -45,8 +49,9 @@ const menu = {
         imagen: "/assets/solomillo-al-whisky.jpg",
         alergenos: ["gluten"],
         etiquetas: ["recomendado"],
-        tipo: "carne", 
-        ingredientes: ["solomillo de ternera", "salsa al whisky", "patatas panaderas", "pimientos de padrón"]
+        tipo: "carne",
+        ingredientes: ["solomillo de ternera", "salsa al whisky", "patatas panaderas", "pimientos de padrón"],
+        pairsWith: { drink: 10, dessert: 7 } // Drink: Vino Tinto Rioja Crianza (10), Dessert: Tarta de Queso (7)
       },
     ],
     pescado: [
@@ -62,10 +67,11 @@ const menu = {
         alergenos: ["lactosa"],
         etiquetas: ["vegetariano"],
         tipo: "vegetariano",
-        ingredientes: ["arroz arborio", "setas silvestres", "parmesano", "trufa"]
+        ingredientes: ["arroz arborio", "setas silvestres", "parmesano", "trufa"],
+        pairsWith: { drink: 12, dessert: 8 } // Drink: Agua Mineral Natural (12), Dessert: Crema Catalana (8)
       },
     ],
-    mariscos: [ 
+    mariscos: [
        {
         id: 4,
         nombre: { es: "Paella de Mariscos", en: "Seafood Paella" },
@@ -76,7 +82,8 @@ const menu = {
         alergenos: ["mariscos", "crustaceos", "moluscos"],
         etiquetas: ["popular", "recomendado"],
         tipo: "mariscos",
-        ingredientes: ["arroz bomba", "azafrán", "calamares", "gambas", "mejillones", "almejas"]
+        ingredientes: ["arroz bomba", "azafrán", "calamares", "gambas", "mejillones", "almejas"],
+        pairsWith: { drink: 11, dessert: 9 } // Drink: Sangría Casera (11), Dessert: Sorbete de Limón al Cava (9)
       },
     ]
   },
@@ -91,6 +98,7 @@ const menu = {
       alergenos: ["gluten", "lactosa", "huevo"],
       etiquetas: ["popular"],
       ingredientes: ["queso crema", "galleta", "mantequilla", "azúcar", "frutos rojos"]
+      // Desserts are paired with by main dishes.
     },
     {
       id: 8,
@@ -126,7 +134,8 @@ const menu = {
       alergenos: ["sulfitos"],
       etiquetas: ["recomendado"],
       tipo: "bebida con alcohol",
-      ingredientes: ["uvas tempranillo", "uvas graciano", "sulfitos"]
+      ingredientes: ["uvas tempranillo", "uvas graciano", "sulfitos"],
+      pairsWith: { main: 5 } // Pairs with Solomillo al Whisky (ID 5)
     },
     {
       id: 11,
@@ -138,7 +147,8 @@ const menu = {
       alergenos: ["sulfitos"],
       etiquetas: ["popular"],
       tipo: "bebida con alcohol",
-      ingredientes: ["vino tinto", "frutas de temporada", "licor", "canela", "sulfitos"]
+      ingredientes: ["vino tinto", "frutas de temporada", "licor", "canela", "sulfitos"],
+      pairsWith: { main: 4 } // Pairs with Paella de Mariscos (ID 4)
     },
     {
       id: 12,
@@ -150,7 +160,8 @@ const menu = {
       alergenos: [],
       etiquetas: [],
       tipo: "bebida sin alcohol",
-      ingredientes: ["agua mineral"]
+      ingredientes: ["agua mineral"],
+      pairsWith: { main: 6 } // Pairs with Risotto de Setas (ID 6)
     },
   ]
 };

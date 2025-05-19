@@ -1,3 +1,4 @@
+// <file path="gastrogpts/src/data/menuData.js">
 // src/data/menuData.js
 
 // Raw menu data structure
@@ -12,6 +13,7 @@ export const menuData = {
       imagen: "/assets/croquetas.jpg",
       alergenos: ["gluten", "lactosa"],
       etiquetas: ["popular"],
+      pairsWith: { main: 4 } // Pairs with Paella de Mariscos (ID 4)
     },
     // ... other entrantes
     {
@@ -23,6 +25,7 @@ export const menuData = {
       imagen: "/assets/ensalada-cesar.jpg",
       alergenos: ["gluten", "lactosa", "huevo", "pescado"],
       etiquetas: [],
+      pairsWith: { main: 5 } // Pairs with Solomillo al Whisky (ID 5)
     },
     {
       id: 3,
@@ -33,6 +36,7 @@ export const menuData = {
       imagen: "/assets/gazpacho.jpg",
       alergenos: [],
       etiquetas: ["vegano", "sin_gluten"],
+      pairsWith: { main: 6 } // Pairs with Risotto de Setas (ID 6)
     },
   ],
   principales: [
@@ -45,6 +49,7 @@ export const menuData = {
       imagen: "/assets/paella-marisco.jpg",
       alergenos: ["mariscos", "crustaceos", "moluscos"],
       etiquetas: ["popular", "recomendado", "picante_suave"],
+      pairsWith: { drink: 11, dessert: 9 } // Drink: Sangría Casera (11), Dessert: Sorbete de Limón al Cava (9)
     },
     // ... other principales
     {
@@ -56,6 +61,7 @@ export const menuData = {
       imagen: "/assets/solomillo-al-whisky.jpg",
       alergenos: ["gluten"],
       etiquetas: ["recomendado"],
+      pairsWith: { drink: 10, dessert: 7 } // Drink: Vino Tinto Rioja Crianza (10), Dessert: Tarta de Queso (7)
     },
     {
       id: 6,
@@ -66,6 +72,7 @@ export const menuData = {
       imagen: "/assets/rissotto-setas.jpg",
       alergenos: ["lactosa"],
       etiquetas: ["vegetariano"],
+      pairsWith: { drink: 12, dessert: 8 } // Drink: Agua Mineral Natural (12), Dessert: Crema Catalana (8)
     },
   ],
   postres: [
@@ -78,6 +85,7 @@ export const menuData = {
       imagen: "/assets/tarta-queso.jpg",
       alergenos: ["gluten", "lactosa", "huevo"],
       etiquetas: ["popular"],
+      // Desserts are paired with by main dishes, they don't initiate a "pairsWith" currently.
     },
     // ... other postres
     {
@@ -111,6 +119,7 @@ export const menuData = {
       imagen: "/assets/vino-tinto.jpg",
       alergenos: ["sulfitos"],
       etiquetas: ["recomendado"],
+      pairsWith: { main: 5 } // Pairs with Solomillo al Whisky (ID 5)
     },
     // ... other bebidas
      {
@@ -122,6 +131,7 @@ export const menuData = {
       imagen: "/assets/sangria.jpg",
       alergenos: ["sulfitos"],
       etiquetas: ["popular"],
+      pairsWith: { main: 4 } // Pairs with Paella de Mariscos (ID 4)
     },
     {
       id: 12,
@@ -132,6 +142,7 @@ export const menuData = {
       imagen: "/assets/agua-mineral.jpg",
       alergenos: [],
       etiquetas: [],
+      pairsWith: { main: 6 } // Pairs with Risotto de Setas (ID 6)
     },
   ],
 };

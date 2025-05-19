@@ -1,3 +1,4 @@
+// <file path="gastrogpts/src/data/translations.js">
 // src/data/translations.js
 
 // For DishDetailModal
@@ -5,12 +6,16 @@ export const dishDetailModalTranslations = {
   Español: {
     allergens: "Alérgenos:",
     tags: "Etiquetas:",
-    close: "Cerrar"
+    close: "Cerrar",
+    pairsWellWith: "Combina bien con:", // Changed from "Marida bien con:"
+    // Removed suggestedDrink, suggestedDessert, suggestedMain as per request
   },
   English: {
     allergens: "Allergens:",
     tags: "Tags:",
-    close: "Close"
+    close: "Close",
+    pairsWellWith: "Pairs well with:", // Kept English as is, but can be changed if needed
+    // Removed suggestedDrink, suggestedDessert, suggestedMain as per request
   }
 };
 

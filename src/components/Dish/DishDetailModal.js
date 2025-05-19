@@ -1,3 +1,4 @@
+// <file path="gastrogpts/src/components/Dish/DishDetailModal.js">
 // src/components/Dish/DishDetailModal.js
 import React from 'react';
 import styles from './DishDetailModal.module.css';
@@ -7,16 +8,38 @@ import {
   getAlergenoNombre,
   getEtiquetaUIData,
   getEtiquetaClass,
-  getTranslatedDishText
+  getTranslatedDishText,
+  findDishById // Import findDishById
 } from '../../utils/menuUtils'; // Utilities from menuUtils
 
-const DishDetailModal = ({ plato, onClose, currentLanguage }) => {
+const DishDetailModal = ({ plato, onClose, currentLanguage, onSelectPairedDish }) => {
   if (!plato) return null;
 
   const T = dishDetailModalTranslations[currentLanguage] || dishDetailModalTranslations['Español'];
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionLarga = getTranslatedDishText(plato.descripcionLarga, currentLanguage);
+
+  // Updated renderPairedItem to not require a specific label, just the item ID
+  const renderPairedItem = (pairedItemId) => {
+    const pairedDish = findDishById(pairedItemId);
+    if (!pairedDish) return null;
+
+    const pairedDishName = getTranslatedDishText(pairedDish.nombre, currentLanguage);
+    return (
+      // Removed the specific label (like "Suggested Drink:") from here
+      // The general section title "Combina bien con:" will cover it.
+      // Each paired item will just be a clickable name.
+      <div className={styles.pairedItem}>
+        <button
+          className={styles.pairedItemLink}
+          onClick={() => onSelectPairedDish(pairedDish)}
+        >
+          {pairedDishName}
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -58,6 +81,21 @@ const DishDetailModal = ({ plato, onClose, currentLanguage }) => {
                   </span>
                 );
               })}
+            </div>
+          </div>
+        )}
+
+        {/* Pairs Well With Section */}
+        {plato.pairsWith && (Object.keys(plato.pairsWith).length > 0) && ( // Ensure pairsWith is not an empty object
+          <div className={styles.section}>
+            <h4 className={styles.sectionTitle}>{T.pairsWellWith}</h4>
+            <div className={styles.pairedItemsContainer}>
+              {/* Appetizer or Drink pairing (single main dish) */}
+              {plato.pairsWith.main && renderPairedItem(plato.pairsWith.main)}
+
+              {/* Main dish pairings (drink and dessert) */}
+              {plato.pairsWith.drink && renderPairedItem(plato.pairsWith.drink)}
+              {plato.pairsWith.dessert && renderPairedItem(plato.pairsWith.dessert)}
             </div>
           </div>
         )}

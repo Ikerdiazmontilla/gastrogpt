@@ -1,3 +1,4 @@
+// <file path="gastrogpts/src/pages/CartaPage/CartaPage.js">
 // src/pages/CartaPage/CartaPage.js
 import React, { useState, useMemo } from 'react';
 import styles from './CartaPage.module.css';
@@ -25,7 +26,8 @@ const CartaPage = ({ currentLanguage }) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleViewMore = (plato) => {
+  // This function is used when a card is clicked AND when a paired item in the modal is clicked
+  const handleSelectDishForModal = (plato) => {
     setSelectedPlato(plato);
   };
 
@@ -108,7 +110,7 @@ const CartaPage = ({ currentLanguage }) => {
               <MenuItemCard
                 key={plato.id}
                 plato={plato}
-                onViewMore={handleViewMore}
+                onViewMore={handleSelectDishForModal} // Use the unified handler
                 currentLanguage={currentLanguage}
               />
             ))}
@@ -123,6 +125,7 @@ const CartaPage = ({ currentLanguage }) => {
           plato={selectedPlato}
           onClose={handleCloseModal}
           currentLanguage={currentLanguage}
+          onSelectPairedDish={handleSelectDishForModal} // Pass the handler here
         />
       )}
     </div>
