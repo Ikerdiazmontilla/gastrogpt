@@ -25,6 +25,8 @@ https://github.com/iamNilotpal/talky-frontend
 
 Poner un dialogo explicando como funciona cuando te metes
 
+reduce temperature
+
 Add more languages
 
 On mobile when you try to chat it scrolls down too much, fix it
