@@ -1,4 +1,3 @@
-
 cambiar alergias para que no sea necesario seleccionar nada ahi
 
 (Si no aceptan las cookies se puede hacer un fallback a localstorage o se le puede inhabilitar el uso del chat o que salte un banner diciendo que tienen las cookies desactivadas)
@@ -6,6 +5,10 @@ cambiar alergias para que no sea necesario seleccionar nada ahi
 when you click on a dish, add ask chat about the dish functionality
 
 Remove searchbar to add filtering by healthy or by spicy, or by vegan
+
+implementar upsell y crossell del chat, ampliar menu
+
+dejar navbar fixed
 
 
 For stt in spanish:

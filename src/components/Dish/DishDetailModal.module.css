@@ -1,3 +1,4 @@
+/* src/components/Dish/DishDetailModal.module.css */
 /* <file path="gastrogpts/src/components/Dish/DishDetailModal.module.css"> */
 /* src/components/DishDetailModal/DishDetailModal.module.css */
 .modalOverlay {
@@ -6,7 +7,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: var(--dish-modal-overlay-background-color); /* Updated */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,11 +15,12 @@
   padding: 15px;
 }
 
+
 .modalContent {
-  background-color: #fff;
+  background-color: var(--dish-modal-content-background-color); /* Updated */
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px var(--dish-modal-content-shadow-color); /* Updated */
   position: relative;
   width: 100%;
   max-width: 500px;
@@ -33,13 +35,13 @@
   background: none;
   border: none;
   font-size: 1.8rem;
-  color: #777;
+  color: var(--dish-modal-close-button-text-color); /* Updated */
   cursor: pointer;
   line-height: 1;
   padding: 5px;
 }
 .closeButton:hover {
-  color: #333;
+  color: var(--dish-modal-close-button-hover-text-color); /* Updated */
 }
 
 .modalImage {
@@ -61,19 +63,19 @@
 .modalTitle {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #333;
+  color: var(--dish-modal-title-text-color); /* Updated */
   margin-bottom: 5px;
 }
 
 .modalPrice {
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--main-color);
+  color: var(--dish-modal-price-text-color); /* Updated */
 }
 
 .modalDescription {
   font-size: 0.9rem;
-  color: #555;
+  color: var(--dish-modal-description-text-color); /* Updated */
   line-height: 1.5;
   margin-bottom: 15px;
 }
@@ -85,9 +87,9 @@
 .sectionTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: #444;
+  color: var(--dish-modal-section-title-text-color); /* Updated */
   margin-bottom: 8px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--dish-modal-section-title-border-color); /* Updated */
   padding-bottom: 4px;
 }
 
@@ -102,9 +104,9 @@
   border-radius: 15px; /* Pill shape */
   font-size: 0.8rem;
   font-weight: 500;
-  background-color: #e9ecef;
-  color: #495057;
-  border: 1px solid #dee2e6;
+  background-color: var(--detail-tag-pill-background-color); /* Updated */
+  color: var(--detail-tag-pill-text-color); /* Updated */
+  border: 1px solid var(--detail-tag-pill-border-color); /* Updated */
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -114,42 +116,41 @@
   font-size: 0.9em; /* Slightly smaller than text */
 }
 
-
 /* Pill Tag specific styles from getEtiquetaClass */
 .tagPopularPill {
-  background-color: #e6f7ff;
-  border-color: #91d5ff;
-  color: #0050b3;
+  background-color: var(--detail-tag-pill-popular-background-color); /* Updated */
+  border-color: var(--detail-tag-pill-popular-border-color); /* Updated */
+  color: var(--detail-tag-pill-popular-text-color); /* Updated */
 }
 .tagRecomendadoPill {
-  background-color: #f6ffed;
-  border-color: #b7eb8f;
-  color: #237804;
+  background-color: var(--detail-tag-pill-recommended-background-color); /* Updated */
+  border-color: var(--detail-tag-pill-recommended-border-color); /* Updated */
+  color: var(--detail-tag-pill-recommended-text-color); /* Updated */
 }
 .tagVeganoPill {
-  background-color: #f0fff0; /* Light green for vegan pill */
-  border-color: #a7d7a7;
-  color: #1e8a4f;
+  background-color: var(--detail-tag-pill-vegan-background-color); /* Updated */
+  border-color: var(--detail-tag-pill-vegan-border-color); /* Updated */
+  color: var(--detail-tag-pill-vegan-text-color); /* Updated */
 }
 .tagVegetarianoPill {
-  background-color: #fff8e1; /* Light orange/yellow for vegetarian pill */
-  border-color: #ffecb3;
-  color: #f57c00;
+  background-color: var(--detail-tag-pill-vegetarian-background-color); /* Updated */
+  border-color: var(--detail-tag-pill-vegetarian-border-color); /* Updated */
+  color: var(--detail-tag-pill-vegetarian-text-color); /* Updated */
 }
 .tagSinGlutenPill {
-  background-color: #fffbe6;
-  border-color: #ffe58f;
-  color: #ad6800;
+  background-color: var(--detail-tag-pill-gluten-free-background-color); /* Updated */
+  border-color: var(--detail-tag-pill-gluten-free-border-color); /* Updated */
+  color: var(--detail-tag-pill-gluten-free-text-color); /* Updated */
 }
 .tagPicanteSuavePill { /* Style for the new spicy pill tag */
-  background-color: #ffebee; /* Light red for spicy pill */
-  border-color: #ffcdd2;
-  color: #c62828;
+  background-color: var(--detail-tag-pill-spicy-mild-background-color); /* Updated */
+  border-color: var(--detail-tag-pill-spicy-mild-border-color); /* Updated */
+  color: var(--detail-tag-pill-spicy-mild-text-color); /* Updated */
 }
 .tagDefaultPill {
-  background-color: #f5f5f5;
-  border-color: #d9d9d9;
-  color: #595959;
+  background-color: var(--detail-tag-pill-default-background-color); /* Updated */
+  border-color: var(--detail-tag-pill-default-border-color); /* Updated */
+  color: var(--detail-tag-pill-default-text-color); /* Updated */
 }
 
 /* Styles for "Pairs Well With" section */
@@ -167,7 +168,7 @@
 
 .pairedItemLabel {
   font-weight: 500;
-  color: #555;
+  color: var(--dish-modal-paired-item-label-text-color); /* Updated */
   margin-right: 5px;
 }
 
@@ -175,7 +176,7 @@
   background: none;
   border: none;
   padding: 0;
-  color: var(--main-color); /* Use your app's link color */
+  color: var(--dish-modal-paired-item-link-text-color); /* Updated */
   text-decoration: underline;
   cursor: pointer;
   font-size: 0.9rem; /* Ensure font size matches surrounding text or is slightly larger */
@@ -184,6 +185,6 @@
 }
 
 .pairedItemLink:hover {
-  color: #0056b3; /* Darken on hover */
+  color: var(--dish-modal-paired-item-link-hover-text-color); /* Updated */
   text-decoration: none;
 }

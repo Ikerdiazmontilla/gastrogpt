@@ -1,3 +1,4 @@
+/* src/features/Questionnaire/Questionnaire.module.css */
 /* src/components/Questionnaire/Questionnaire.module.css */
 .questionnaireContainer {
   height: 100%;
@@ -9,6 +10,7 @@
   padding-top: 0px;
   padding-bottom: 5vh; /* Added padding to bottom */
 }
+
 
 .questionnaireTitle{
   font-size: 1.5rem;
@@ -37,7 +39,7 @@
 .formGroup select,
 .formGroup textarea { /* Common styles for select and textarea */
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--questionnaire-form-element-border-color); /* Updated */
   border-radius: 4px;
   font-size: 1rem;
 }
@@ -46,12 +48,11 @@
   min-height: 80px; /* Give multi-selects some default height */
 }
 
-
 .submitButton { /* Specific class for submit button */
   padding: 12px 20px;
   border: none;
-  background-color: var(--main-color);
-  color: white;
+  background-color: var(--questionnaire-submit-button-background-color); /* Updated */
+  color: var(--questionnaire-submit-button-text-color); /* Updated */
   cursor: pointer;
   border-radius: 8px;
   font-size: 1rem;
@@ -59,38 +60,37 @@
   transition: background-color 0.2s;
 }
 .submitButton:disabled {
-  background-color: #cccccc;
+  background-color: var(--questionnaire-submit-button-disabled-background-color); /* Updated */
   cursor: not-allowed;
 }
 .submitButton:hover:not(:disabled) {
-  background-color: rgb(33, 127, 196); /* Darker shade on hover */
+  background-color: var(--questionnaire-submit-button-hover-background-color); /* Updated */
 }
-
 
 .result {
   padding: 20px; /* Adjusted padding */
-  border: 1px solid #e0e0e0; /* Softer border */
+  border: 1px solid var(--questionnaire-result-border-color); /* Updated */
   border-radius: 8px; /* More rounded */
-  background-color: #f9f9f9; /* Slightly off-white */
+  background-color: var(--questionnaire-result-background-color); /* Updated */
   width: 100%;
   max-width: 600px; /* Max width for readability */
   margin-top: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow */
+  box-shadow: 0 2px 4px var(--questionnaire-result-shadow-color); /* Updated */
 }
 .result h3 {
   margin-top: 0;
   margin-bottom: 15px;
-  color: var(--main-color);
+  color: var(--questionnaire-result-title-text-color); /* Updated */
 }
 .result ul {
-  list-style-type: disc; 
-  padding-left: 20px; 
+  list-style-type: disc;
+  padding-left: 20px;
   margin-bottom: 10px;
 }
 
 .result ol {
-  list-style-type: decimal; 
-  padding-left: 20px; 
+  list-style-type: decimal;
+  padding-left: 20px;
   margin-bottom: 10px;
 }
 .result p {
@@ -99,35 +99,32 @@
 }
 
 .errorMessage {
-  background-color: #ffebee;
-  border-color: #e57373; /* Softer red for border */
-  color: #c62828; /* Darker red for text */
+  background-color: var(--questionnaire-error-message-background-color); /* Updated */
+  border-color: var(--questionnaire-error-message-border-color); /* Updated */
+  color: var(--questionnaire-error-message-text-color); /* Updated */
   font-weight: 500;
 }
 
-
 .consideracionesAdicionales{
   padding: 10px; /* Match select padding */
-  width: 100%; 
-  border: 1px solid #ccc;
+  width: 100%;
+  border: 1px solid var(--questionnaire-form-element-border-color); /* Updated */
   border-radius: 4px;
   min-height: 80px; /* Minimum height */
   font-size: 1rem;
 }
 
-
 .questionnaireContainer input,
 .questionnaireContainer textarea,
 .questionnaireContainer select { /* Apply to select as well */
-  outline-color:var(--main-color);
+  outline-color: var(--questionnaire-form-element-outline-focus-color); /* Updated */
 }
-
 
 .dishDetailLink { /* Style for the clickable dish detail "link" */
   background: none;
   border: none;
   padding: 0;
-  color: blue; /* Or your app's link color */
+  color: var(--questionnaire-markdown-dish-detail-link-text-color); /* Updated */
   text-decoration: none;
   cursor: pointer;
   font: inherit;
@@ -135,12 +132,12 @@
 }
 
 .dishDetailLink:hover {
-  color: darkblue; /* Darken on hover */
+  color: var(--questionnaire-markdown-dish-detail-link-hover-text-color); /* Updated */
 }
 .dishLink { /* Copied from Chat.module.css for consistency */
   background: none;
   border: none;
-  color: var(--main-color);
+  color: var(--questionnaire-markdown-dish-link-text-color); /* Updated */
   text-decoration: underline;
   cursor: pointer;
   padding: 0;
@@ -149,6 +146,6 @@
 }
 
 .dishLink:hover {
-  color: #0056b3;
+  color: var(--questionnaire-markdown-dish-link-hover-text-color); /* Updated */
   text-decoration: none;
 }

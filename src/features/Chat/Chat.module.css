@@ -1,3 +1,4 @@
+/* src/features/Chat/Chat.module.css */
 /* :root{ */
   /* --main-color: rgb(38, 144, 214); */
   /* --old-color:#4CAF50; */
@@ -13,27 +14,26 @@
   box-sizing: border-box;
 }
 
+
 .resetConversationButton {
   padding: 10px 20px;
   border: none;
-  background-color: var(--main-color);
-  color: white;
+  background-color: var(--chat-reset-button-background-color); /* Updated */
+  color: var(--chat-reset-button-text-color); /* Updated */
   cursor: pointer;
   border-radius: 12px;
 }
 .resetConversationButton:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+  background-color: var(--chat-reset-button-disabled-background-color); /* Updated */
+  cursor: not-allowed;
 }
 
-
-
 .messages {
-  flex: 1; 
+  flex: 1;
   padding: 0px 15px; /* Removed top padding, handled by button margin */
   overflow-y: auto;
-  gap: 10px; 
-  display: flex; 
+  gap: 10px;
+  display: flex;
   flex-direction: column;
   /* Adjust padding-bottom to account for the new inputWrapper height */
   /* Original was 130px, now inputWrapper is shorter. Roughly input height + suggestions height + padding */
@@ -43,102 +43,103 @@
 .message {
   position: relative;
   max-width: 100%;
-  padding: 15px; 
+  padding: 15px;
   border-radius: 10px;
-  word-wrap: break-word; 
+  word-wrap: break-word;
 }
 
 .messages ul, .messages ol {
-  padding-left: 20px; 
+  padding-left: 20px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 .messages ul { list-style-type: disc; }
 .messages ol { list-style-type: decimal; }
 
-
 .message.user {
-  background-color: #b3deef;
+  background-color: var(--chat-message-user-background-color); /* Updated */
   align-self: flex-end;
   border-top-right-radius: 4px;
-  margin-left: auto; 
-  max-width: 80%; 
+  margin-left: auto;
+  max-width: 80%;
 }
 
 .message.user::before {
   content: '';
   position: absolute;
   top: 0;
-  right: -9px; 
+  right: -9px;
   width: 0;
   height: 0;
-  border-left: 10px solid #b3deef; 
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
+  border-left: 10px solid var(--chat-message-user-tip-border-color); /* Updated */
+  border-top: 10px solid var(--palette-transparent); /* Updated */
+  border-bottom: 10px solid var(--palette-transparent); /* Updated */
 }
 
 .message.bot {
-  background-color: #e2e0e0;
+  background-color: var(--chat-message-bot-background-color); /* Updated */
   align-self: flex-start;
   border-top-left-radius: 4px;
-  margin-right: auto; 
-  max-width: 80%; 
+  margin-right: auto;
+  max-width: 80%;
 }
 
 .message.bot::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -10px; 
+  left: -10px;
   width: 0;
   height: 0;
-  border-right: 14px solid #e2e0e0; 
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
+  border-right: 14px solid var(--chat-message-bot-tip-border-color); /* Updated */
+  border-top: 10px solid var(--palette-transparent); /* Updated */
+  border-bottom: 10px solid var(--palette-transparent); /* Updated */
 }
 
-.message.bot.loading span { 
+.message.bot.loading span {
   font-style: italic;
-  color: #555;
+  color: var(--chat-message-bot-loading-text-color); /* Updated */
 }
 
 .message.system {
   font-style: italic;
-  color: #666;
+  color: var(--chat-message-system-text-color); /* Updated */
   text-align: center;
-  background-color: transparent;
+  background-color: var(--chat-message-system-background-color); /* Updated */
   align-self: center;
   padding: 5px;
 }
 .message.system.error {
-  color: red;
+  color: var(--chat-message-system-error-text-color); /* Updated */
   font-weight: bold;
 }
 
 .inputWrapper{
   display: flex;
   flex-direction: column;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; /* Will be var(--chat-input-wrapper-shadow-color) if consistent, or needs new var */
+  /* Using existing palette var for this specific shadow value */
+  box-shadow: 0px 3px 8px var(--palette-shadow-lg);
   border-radius: 14px;
   padding: 10px;
-  background-color: white;
+  background-color: var(--chat-input-wrapper-background-color); /* Updated */
   position:fixed;
   bottom: 1%;
   left: 5%;
   width: 90%;
-  z-index: 10; 
+  z-index: 10;
   box-sizing: border-box;
 }
 
 .inputArea {
   display: flex;
-  width: 100%; 
+  width: 100%;
 }
 
 .inputArea input {
   flex: 1;
   padding: 10px;
-  border: none; /* Consider adding '1px solid #ccc' if you want a visible border */
+  border: none; /* Consider adding '1px solid var(--chat-input-border-color)' if you want a visible border */
   outline: none;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
@@ -152,23 +153,23 @@
   border-bottom-right-radius: 8px; */
   border-radius: 8px;
   padding: 10px 15px;
-  background-color: var(--main-color);
-  color: white;
+  background-color: var(--chat-send-message-button-background-color); /* Updated */
+  color: var(--palette-pure-white); /* Assuming text color for button is white */
   border:none;
   cursor: pointer;
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 .sendMessage:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+  background-color: var(--chat-send-message-button-disabled-background-color); /* Updated */
+  cursor: not-allowed;
 }
 
 .sendSvg {
-  width: 15px; 
+  width: 15px;
   height: 15px;
-  fill: white;
+  fill: var(--chat-send-message-button-icon-fill-color); /* Updated */
 }
 
 /* Suggestions Container - Modified for horizontal scroll */
@@ -189,29 +190,28 @@
   display: none; /* Chrome, Safari, Opera */
 }
 
-
 .suggestionChip {
   padding: 6px 12px;
-  border: 1px solid #ccc;
-  background-color: #f0f0f0;
+  border: 1px solid var(--chat-suggestion-chip-border-color); /* Updated */
+  background-color: var(--chat-suggestion-chip-background-color); /* Updated */
   border-radius: 16px;
   font-size: 0.85rem;
   cursor: pointer;
-  color: #333;
+  color: var(--chat-suggestion-chip-text-color); /* Updated */
   transition: background-color 0.2s;
   flex-shrink: 0; /* Prevent chips from shrinking if container is constrained */
   /* display: inline-block; /* Not needed if parent is flex and we use flex-shrink */
 }
 
 .suggestionChip:hover {
-  background-color: #e0e0e0;
+  background-color: var(--chat-suggestion-chip-hover-background-color); /* Updated */
 }
 
 .suggestionChip:disabled {
-  background-color: #f5f5f5;
-  color: #aaa;
+  background-color: var(--chat-suggestion-chip-disabled-background-color); /* Updated */
+  color: var(--chat-suggestion-chip-disabled-text-color); /* Updated */
   cursor: not-allowed;
-  border-color: #ddd;
+  border-color: var(--chat-suggestion-chip-disabled-border-color); /* Updated */
 }
 
 /* resetConversationButton class is no longer used here as it was moved and renamed */
@@ -225,29 +225,28 @@
 }
 
 .dishDetailLink {
-  color: blue; 
-  text-decoration: none; 
-  font-weight: bold; 
+  color: var(--chat-markdown-dish-detail-link-text-color); /* Updated */
+  text-decoration: none;
+  font-weight: bold;
 }
-.dishDetailLink:hover { color: darkblue; }
+.dishDetailLink:hover { color: var(--chat-markdown-dish-detail-link-hover-text-color); /* Updated */ }
 
 .dishLink {
-  color: var(--main-color); 
+  color: var(--chat-markdown-dish-link-text-color); /* Updated */
   text-decoration: underline;
-  display: inline; 
+  display: inline;
 }
 .dishLink:hover {
-  color: #0056b3; 
-  text-decoration: none; 
+  color: var(--chat-markdown-dish-link-hover-text-color); /* Updated */
+  text-decoration: none;
 }
-
 
 .limitNotification {
   text-align: center;
   padding: 10px;
-  background-color: #fff3cd; /* A light yellow, for example */
-  color: #856404;
-  border: 1px solid #ffeeba;
+  background-color: var(--chat-notification-limit-background-color); /* Updated */
+  color: var(--chat-notification-limit-text-color); /* Updated */
+  border: 1px solid var(--chat-notification-limit-border-color); /* Updated */
   border-radius: 4px;
   margin: 10px 0;
 }

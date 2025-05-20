@@ -1,12 +1,14 @@
 /* src/pages/CartaPage/CartaPage.module.css */
+/* src/pages/CartaPage/CartaPage.module.css */
 .cartaContainer {
   padding: 15px; /* Reduced padding for mobile */
-  background-color: #f0f3f5; /* Slightly adjusted light background */
+  background-color: var(--carta-page-background-color); /* Updated */
   border-radius: 0; /* Full width, no rounding needed unless it's a card within page */
   box-shadow: none; /* No shadow for full page view */
   width: 100%;
   min-height: 100vh; /* Ensure it takes full viewport height if content is less */
 }
+
 
 .headerSection {
   margin-bottom: 20px;
@@ -16,28 +18,28 @@
 .pageTitle {
   font-size: 1.8rem; /* Adjusted for mobile */
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--carta-page-title-text-color); /* Updated */
   margin-bottom: 6px;
 }
 
 .pageDescription {
   font-size: 0.9rem; /* Adjusted for mobile */
-  color: #7f8c8d;
+  color: var(--carta-page-description-text-color); /* Updated */
   margin-bottom: 15px;
 }
 
 .searchContainer {
   display: flex;
   align-items: center;
-  background-color: #fff;
-  border: 1px solid #ced4da;
+  background-color: var(--carta-page-search-container-background-color); /* Updated */
+  border: 1px solid var(--carta-page-search-container-border-color); /* Updated */
   border-radius: 6px;
   padding: 0 8px; /* Reduced padding */
 }
 
 .searchIcon {
   font-size: 1.1rem; /* Adjusted size */
-  color: #6c757d;
+  color: var(--carta-page-search-icon-text-color); /* Updated */
   margin-right: 6px;
 }
 
@@ -47,17 +49,17 @@
   border: none;
   outline: none;
   font-size: 0.95rem; /* Adjusted font size */
-  background-color: transparent;
+  background-color: var(--palette-transparent); /* Updated */
 }
 .searchInput::placeholder {
-  color: #adb5bd;
+  color: var(--carta-page-search-input-placeholder-text-color); /* Updated */
 }
 
 .tabsList {
   display: flex;
   gap: 8px; /* Reduced gap */
   margin-bottom: 20px;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid var(--carta-page-tabs-list-border-color); /* Updated */
   padding-bottom: 0; /* Remove padding here, active tab border will create space */
   overflow-x: auto; /* Enable horizontal scroll for tabs */
   white-space: nowrap; /* Keep tabs in one line */
@@ -72,15 +74,14 @@
   scrollbar-width: none;  /* Firefox */
 }
 
-
 .tabTrigger {
   padding: 10px 15px; /* Adjusted padding */
   font-size: 0.85rem; /* Adjusted font size */
   font-weight: 500;
-  color: #495057;
-  background-color: transparent; /* Cleaner look for inactive tabs */
+  color: var(--carta-page-tab-trigger-text-color); /* Updated */
+  background-color: var(--carta-page-tab-trigger-background-color); /* Updated */
   border: none;
-  border-bottom: 3px solid transparent; /* Placeholder for active state */
+  border-bottom: 3px solid var(--carta-page-tab-trigger-border-color); /* Updated */
   border-radius: 0; /* No rounding for tab-like feel */
   cursor: pointer;
   transition: color 0.2s ease, border-bottom-color 0.2s ease;
@@ -89,12 +90,12 @@
 }
 
 .tabTrigger:hover { /* Hover is less relevant for mobile */
-  color: var(--main-color);
+  color: var(--carta-page-tab-trigger-hover-text-color); /* Updated */
 }
 
 .activeTab {
-  color: var(--main-color);
-  border-bottom-color: var(--main-color); /* Blue underline for active tab */
+  color: var(--carta-page-tab-trigger-active-text-color); /* Updated */
+  border-bottom-color: var(--carta-page-tab-trigger-active-border-color); /* Updated */
   font-weight: 600;
 }
 
@@ -112,9 +113,9 @@
   text-align: center;
   padding: 20px 10px; /* Adjusted padding */
   font-size: 1rem; /* Adjusted font size */
-  color: #6c757d;
+  color: var(--carta-page-no-results-message-text-color); /* Updated */
 }
 
 /* Tag styles are defined in DishDetailModal.module.css and MenuItemCard.module.css,
-   but if they were intended to be shared globally from here, ensure consistency.
-   The previous setup placed specific tag colors in DishDetailModal, which is fine. */
+but if they were intended to be shared globally from here, ensure consistency.
+The previous setup placed specific tag colors in DishDetailModal, which is fine. */

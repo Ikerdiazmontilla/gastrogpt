@@ -1,61 +1,341 @@
-
+/* src/App.css */
 *, *::before, *::after {
   box-sizing: border-box;
  }
- 
- 
- * {
+
+
+/* General Resets */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
   margin: 0;
   padding: 0;
- }
- 
- 
- body {
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
- }
- 
- 
- img, picture, video, canvas, svg {
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Custom Resets from original file */
+img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
- }
- 
- 
- input, button, textarea, select {
+}
+
+input, button, textarea, select {
   font: inherit;
- }
- 
- 
- p, h1, h2, h3, h4, h5, h6 {
+}
+
+p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
- }
- 
- 
- button, a{
+}
+
+button, a {
   cursor: pointer;
-  }
- 
- 
- a{
-    text-decoration: none;
- }
+}
 
- :root{
-  --background-color: #F0EFE6;
-  --main-color:rgb(43, 147, 216);
-  --navbar-color:rgb(69, 177, 248);
- }
+a {
+  text-decoration: none;
+}
 
- body{
-  background-color: var(--background-color);
+:root {
+  /* Base Color Palette */
+  --palette-pure-white: #FFFFFF;
+  --palette-pure-black: #161617;
+  --palette-transparent: transparent;
+
+  --palette-brand-blue: #0071E3;
+  --palette-brand-blue-hover: #0056b3;
+  --palette-brand-blue-alt-hover: rgb(33, 127, 196);
+
+  --palette-app-page-background: #FAFAFC;
+  --palette-app-page-background-alt: #f0f3f5; /* CartaPage background */
+
+  --palette-grey-50: #f9f9f9;   /* Questionnaire result background */
+  --palette-grey-100: #f5f5f5;  /* tagDefaultPill background, suggestionChip disabled background */
+  --palette-grey-150: #f0f0f0;  /* allergenIcon background, suggestionChip background */
+  --palette-grey-200: #e9ecef;  /* detailTagPill background */
+  --palette-grey-250: #eeebde;  /* message.bot background */
+  --palette-grey-300: #e0e0e0;  /* Questionnaire result border, suggestionChip hover background */
+  --palette-grey-350: #dee2e6;  /* detailTagPill border, tabsList border */
+  --palette-grey-400: #d9d9d9;  /* tagDefaultPill border */
+  --palette-grey-450: #ced4da;  /* searchContainer border */
+  --palette-grey-500: #cccccc;  /* disabled button background, select border */
+  --palette-grey-550: #adb5bd;  /* searchInput placeholder */
+  --palette-grey-600: #aaa;     /* suggestionChip disabled color */
+  --palette-grey-650: #7f8c8d;  /* pageDescription color */
+  --palette-grey-700: #777777;  /* modal closeButton color */
+  --palette-grey-750: #6c757d;  /* searchIcon, noResultsMessage color */
+  --palette-grey-800: #666666;  /* dishDescription, message.system color */
+  --palette-grey-850: #595959;  /* tagDefaultPill color */
+  --palette-grey-900: #555555;  /* modalDescription, pairedItemLabel, message.bot.loading color */
+  --palette-grey-950: #444444;  /* modal sectionTitle color */
+
+  --palette-charcoal-light: #495057; /* detailTagPill color, tabTrigger color */
+  --palette-charcoal-medium: #333333;  /* modalTitle, dishName, suggestionChip color */
+  --palette-charcoal-dark: #2c3e50;   /* pageTitle color */
+
+  --palette-blue-link-default: blue;
+  --palette-blue-link-default-hover: darkblue;
+  --palette-blue-tag-popular-background: #e6f7ff;
+  --palette-blue-tag-popular-border: #91d5ff;
+  --palette-blue-tag-popular-text: #0050b3; /* Same as brand-blue-hover */
+  --palette-blue-message-user-background:#b3e3ff ;
+  /* #b3deef */
+  --palette-blue-overlay-tag-popular-background: #007bff;
+
+  --palette-green-tag-recommended-background: #f6ffed;
+  --palette-green-tag-recommended-border: #b7eb8f;
+  --palette-green-tag-recommended-text: #237804;
+  --palette-green-tag-vegan-background: #f0fff0;
+  --palette-green-tag-vegan-border: #a7d7a7;
+  --palette-green-tag-vegan-text: #1e8a4f; /* Also used for veganTagOverlay bg */
+  --palette-green-overlay-tag-recommended-background: #28a745;
+
+  --palette-orange-tag-vegetarian-background: #fff8e1;
+  --palette-orange-tag-vegetarian-border: #ffecb3;
+  --palette-orange-tag-vegetarian-text: #f57c00;
+  --palette-orange-overlay-tag-vegetarian-background: #f0ad4e;
+
+  --palette-yellow-tag-gluten-free-background: #fffbe6;
+  --palette-yellow-tag-gluten-free-border: #ffe58f;
+  --palette-yellow-tag-gluten-free-text: #ad6800;
+  --palette-yellow-notification-limit-background: #fff3cd;
+  --palette-yellow-notification-limit-border: #ffeeba;
+  --palette-yellow-notification-limit-text: #856404;
+
+  --palette-red-tag-spicy-background: #ffebee; /* Also questionnaire error bg */
+  --palette-red-tag-spicy-border: #ffcdd2;
+  --palette-red-tag-spicy-text: #c62828; /* Also questionnaire error text */
+  --palette-red-error-border: #e57373;
+  --palette-red-error-text-alt: red; /* For system error message */
+  --palette-red-overlay-tag-spicy-background: #d9534f;
+
+  --palette-shadow-sm: rgba(0, 0, 0, 0.05);
+  --palette-shadow-md: rgba(0, 0, 0, 0.1);
+  --palette-shadow-lg: rgba(0, 0, 0, 0.24);
+  --palette-shadow-xl: rgba(0, 0, 0, 0.3);
+  --palette-overlay-dark-alpha: rgba(0, 0, 0, 0.65);
+
+  --palette-border-divider-light: #eee; /* modal section title border */
+  --palette-border-input-disabled: #ddd; /* suggestionChip disabled border */
+  --palette-outline-focus-default: rgb(25, 24, 24); /* select focus outline */
+
+  /* Commented out original colors from Navbar module, for reference if needed */
+  /* --palette-navbar-link-bg-commented: rgb(241, 239, 239); */
+  /* --palette-navbar-link-active-bg-commented: rgb(175, 171, 171); */
+
+
+  /* Semantic Color Variables */
+
+  /* App & Global */
+  --app-background-color: var(--palette-app-page-background);
+  --app-main-brand-color: var(--palette-brand-blue);
+  --app-text-color-default: var(--palette-charcoal-medium); /* General text if not specified */
+  --app-link-color: var(--palette-blue-link-default);
+  --app-link-hover-color: var(--palette-blue-link-default-hover);
+  --app-global-nav-container-shadow-color: var(--palette-shadow-md);
+
+  /* Navbar */
+  --navbar-background-color: var(--palette-pure-white); /* Replaces old --navbar-color */
+  --navbar-logo-link-text-color: var(--palette-pure-white);
+  --navbar-language-select-border-color: var(--palette-grey-500);
+  --navbar-language-select-focus-outline-color: var(--palette-outline-focus-default);
+  --navbar-link-text-color: var(--palette-pure-black);
+  --navbar-link-text-color-active: var(--palette-pure-white); /* For the 'black' that was overridden */
+  --navbar-link-background-color: var(--palette-pure-white); /* Replaces old --nav-link-color for background */
+  --navbar-link-active-background-color: var(--palette-brand-blue); /* Replaces old --nav-link-active-color */
+  --navbar-svg-icon-fill-color: var(--palette-pure-white);
+  --navbar-svg-icon-text-color: var(--palette-pure-white); /* 'color' attribute for SVG if used */
+  /* --navbar-first-group-background-color: var(--app-main-brand-color); (Commented out in original) */
+  /* --navbar-first-group-shadow-color: var(--palette-shadow-lg); (Commented out in original) */
+  /* --navbar-link-border-color: var(--app-main-brand-color); (Commented out in original) */
+  /* --navbar-link-background-color-commented: var(--palette-navbar-link-bg-commented); */
+  /* --navbar-link-active-background-color-commented: var(--palette-navbar-link-active-bg-commented); */
+
+
+  /* Dish Detail Modal */
+  --dish-modal-overlay-background-color: var(--palette-overlay-dark-alpha);
+  --dish-modal-content-background-color: var(--palette-pure-white);
+  --dish-modal-content-shadow-color: var(--palette-shadow-xl);
+  --dish-modal-close-button-text-color: var(--palette-grey-700);
+  --dish-modal-close-button-hover-text-color: var(--palette-charcoal-medium);
+  --dish-modal-title-text-color: var(--palette-charcoal-medium);
+  --dish-modal-price-text-color: var(--app-main-brand-color);
+  --dish-modal-description-text-color: var(--palette-grey-900);
+  --dish-modal-section-title-text-color: var(--palette-grey-950);
+  --dish-modal-section-title-border-color: var(--palette-border-divider-light);
+  --dish-modal-paired-item-label-text-color: var(--palette-grey-900);
+  --dish-modal-paired-item-link-text-color: var(--app-main-brand-color);
+  --dish-modal-paired-item-link-hover-text-color: var(--palette-brand-blue-hover);
+
+  /* Detail Tag Pills (Modal) */
+  --detail-tag-pill-background-color: var(--palette-grey-200);
+  --detail-tag-pill-text-color: var(--palette-charcoal-light);
+  --detail-tag-pill-border-color: var(--palette-grey-350);
+  --detail-tag-pill-popular-background-color: var(--palette-blue-tag-popular-background);
+  --detail-tag-pill-popular-border-color: var(--palette-blue-tag-popular-border);
+  --detail-tag-pill-popular-text-color: var(--palette-blue-tag-popular-text);
+  --detail-tag-pill-recommended-background-color: var(--palette-green-tag-recommended-background);
+  --detail-tag-pill-recommended-border-color: var(--palette-green-tag-recommended-border);
+  --detail-tag-pill-recommended-text-color: var(--palette-green-tag-recommended-text);
+  --detail-tag-pill-vegan-background-color: var(--palette-green-tag-vegan-background);
+  --detail-tag-pill-vegan-border-color: var(--palette-green-tag-vegan-border);
+  --detail-tag-pill-vegan-text-color: var(--palette-green-tag-vegan-text);
+  --detail-tag-pill-vegetarian-background-color: var(--palette-orange-tag-vegetarian-background);
+  --detail-tag-pill-vegetarian-border-color: var(--palette-orange-tag-vegetarian-border);
+  --detail-tag-pill-vegetarian-text-color: var(--palette-orange-tag-vegetarian-text);
+  --detail-tag-pill-gluten-free-background-color: var(--palette-yellow-tag-gluten-free-background);
+  --detail-tag-pill-gluten-free-border-color: var(--palette-yellow-tag-gluten-free-border);
+  --detail-tag-pill-gluten-free-text-color: var(--palette-yellow-tag-gluten-free-text);
+  --detail-tag-pill-spicy-mild-background-color: var(--palette-red-tag-spicy-background);
+  --detail-tag-pill-spicy-mild-border-color: var(--palette-red-tag-spicy-border);
+  --detail-tag-pill-spicy-mild-text-color: var(--palette-red-tag-spicy-text);
+  --detail-tag-pill-default-background-color: var(--palette-grey-100);
+  --detail-tag-pill-default-border-color: var(--palette-grey-400);
+  --detail-tag-pill-default-text-color: var(--palette-grey-850);
+
+  /* Menu Item Card */
+  --menu-item-card-background-color: var(--palette-pure-white);
+  --menu-item-card-shadow-color: var(--palette-shadow-md);
+  --menu-item-card-overlay-tag-text-color: var(--palette-pure-white);
+  --menu-item-card-overlay-tag-popular-background-color: var(--palette-blue-overlay-tag-popular-background);
+  --menu-item-card-overlay-tag-recommended-background-color: var(--palette-green-overlay-tag-recommended-background);
+  --menu-item-card-overlay-tag-vegan-background-color: var(--palette-green-tag-vegan-text); /* Uses text color for bg */
+  --menu-item-card-overlay-tag-vegetarian-background-color: var(--palette-orange-overlay-tag-vegetarian-background);
+  --menu-item-card-overlay-tag-spicy-background-color: var(--palette-red-overlay-tag-spicy-background);
+  --menu-item-card-dish-name-text-color: var(--palette-charcoal-medium);
+  --menu-item-card-dish-price-text-color: var(--app-main-brand-color);
+  --menu-item-card-dish-description-text-color: var(--palette-grey-800);
+  --menu-item-card-allergen-icon-background-color: var(--palette-grey-150);
+  --menu-item-card-view-more-button-background-color: var(--app-main-brand-color);
+  --menu-item-card-view-more-button-text-color: var(--palette-pure-white);
+  --menu-item-card-view-more-button-hover-background-color: var(--palette-brand-blue-hover);
+
+  /* Chat */
+  --chat-reset-button-background-color: var(--app-main-brand-color);
+  --chat-reset-button-text-color: var(--palette-pure-white);
+  --chat-reset-button-disabled-background-color: var(--palette-grey-500);
+  --chat-message-user-background-color: var(--palette-blue-message-user-background);
+  --chat-message-user-tip-border-color: var(--palette-blue-message-user-background);
+  --chat-message-bot-background-color: var(--palette-grey-250);
+  --chat-message-bot-tip-border-color: var(--palette-grey-250);
+  --chat-message-bot-loading-text-color: var(--palette-grey-900);
+  --chat-message-system-text-color: var(--palette-grey-800);
+  --chat-message-system-background-color: var(--palette-transparent);
+  --chat-message-system-error-text-color: var(--palette-red-error-text-alt);
+  --chat-input-wrapper-background-color: var(--palette-pure-white);
+  --chat-input-wrapper-shadow-color: var(--palette-shadow-lg);
+  /* --chat-input-border-color: var(--palette-grey-500); (Commented out in original) */
+  --chat-send-message-button-background-color: var(--app-main-brand-color);
+  --chat-send-message-button-icon-fill-color: var(--palette-pure-white);
+  --chat-send-message-button-disabled-background-color: var(--palette-grey-500);
+  --chat-suggestion-chip-border-color: var(--palette-grey-500);
+  --chat-suggestion-chip-background-color: var(--palette-grey-150);
+  --chat-suggestion-chip-text-color: var(--palette-charcoal-medium);
+  --chat-suggestion-chip-hover-background-color: var(--palette-grey-300);
+  --chat-suggestion-chip-disabled-background-color: var(--palette-grey-100);
+  --chat-suggestion-chip-disabled-text-color: var(--palette-grey-600);
+  --chat-suggestion-chip-disabled-border-color: var(--palette-border-input-disabled);
+  --chat-markdown-dish-detail-link-text-color: var(--palette-blue-link-default);
+  --chat-markdown-dish-detail-link-hover-text-color: var(--palette-blue-link-default-hover);
+  --chat-markdown-dish-link-text-color: var(--app-main-brand-color);
+  --chat-markdown-dish-link-hover-text-color: var(--palette-brand-blue-hover);
+  --chat-notification-limit-background-color: var(--palette-yellow-notification-limit-background);
+  --chat-notification-limit-text-color: var(--palette-yellow-notification-limit-text);
+  --chat-notification-limit-border-color: var(--palette-yellow-notification-limit-border);
+
+  /* Questionnaire */
+  --questionnaire-form-element-border-color: var(--palette-grey-500);
+  --questionnaire-form-element-outline-focus-color: var(--app-main-brand-color);
+  --questionnaire-submit-button-background-color: var(--app-main-brand-color);
+  --questionnaire-submit-button-text-color: var(--palette-pure-white);
+  --questionnaire-submit-button-disabled-background-color: var(--palette-grey-500);
+  --questionnaire-submit-button-hover-background-color: var(--palette-brand-blue-alt-hover);
+  --questionnaire-result-background-color: var(--palette-grey-50);
+  --questionnaire-result-border-color: var(--palette-grey-300);
+  --questionnaire-result-shadow-color: var(--palette-shadow-sm);
+  --questionnaire-result-title-text-color: var(--app-main-brand-color);
+  --questionnaire-error-message-background-color: var(--palette-red-tag-spicy-background); /* Consistent with spicy tag */
+  --questionnaire-error-message-border-color: var(--palette-red-error-border);
+  --questionnaire-error-message-text-color: var(--palette-red-tag-spicy-text); /* Consistent with spicy tag */
+  --questionnaire-markdown-dish-detail-link-text-color: var(--palette-blue-link-default);
+  --questionnaire-markdown-dish-detail-link-hover-text-color: var(--palette-blue-link-default-hover);
+  --questionnaire-markdown-dish-link-text-color: var(--app-main-brand-color);
+  --questionnaire-markdown-dish-link-hover-text-color: var(--palette-brand-blue-hover);
+
+  /* Carta Page */
+  --carta-page-background-color: var(--palette-app-page-background);
+  --carta-page-title-text-color: var(--palette-charcoal-dark);
+  --carta-page-description-text-color: var(--palette-grey-650);
+  --carta-page-search-container-background-color: var(--palette-pure-white);
+  --carta-page-search-container-border-color: var(--palette-grey-450);
+  --carta-page-search-icon-text-color: var(--palette-grey-750);
+  --carta-page-search-input-placeholder-text-color: var(--palette-grey-550);
+  --carta-page-tabs-list-border-color: var(--palette-grey-350);
+  --carta-page-tab-trigger-background-color: var(--palette-transparent);
+  --carta-page-tab-trigger-border-color: var(--palette-transparent); /* For bottom border placeholder */
+  --carta-page-tab-trigger-text-color: var(--palette-charcoal-light);
+  --carta-page-tab-trigger-hover-text-color: var(--app-main-brand-color);
+  --carta-page-tab-trigger-active-text-color: var(--app-main-brand-color);
+  --carta-page-tab-trigger-active-border-color: var(--app-main-brand-color);
+  --carta-page-no-results-message-text-color: var(--palette-grey-750);
+
+
+
+}
+
+body {
+  background-color: var(--app-background-color);
   /* font-family: Roboto, 'Times New Roman', Times, serif; */
-  font-family:sans-serif, serif;
+    /* Font */
+    font-family:'Poppins',sans-serif, serif;
+    /* Font */
+  /* font-family: sans-serif, serif; */
   font-weight: 300;
- }
+}
 
-
- .container {
+.container {
   padding: 0px 2vw;
   padding-bottom: 10%;
   /* padding-top: 40%; */
@@ -63,13 +343,17 @@
   display: flex;
   flex-direction: column;
 }
+/* c36f09 */
+/* BB9F06 */
 
-.nav-container{
+/* 417B5A */
+.nav-container {
   /* height: 15%; */
-  padding: 10px 20px;
-  /* position: fixed; */
-  /* width: 100%; */
-  /* z-index: 9; */
+  /* padding: 10px 20px; */
+  position: sticky;
+  top: 0px;
+  background-color: var(--navbar-background-color); /* Updated */
+  z-index: 9;
+  box-shadow: 0 2px 4px var(--app-global-nav-container-shadow-color); /* Updated */
 }
-
  
