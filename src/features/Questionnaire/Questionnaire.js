@@ -1,4 +1,3 @@
-// src/features/Questionnaire/Questionnaire.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import styles from './Questionnaire.module.css';
 import ReactMarkdown from 'react-markdown';
@@ -9,11 +8,14 @@ import { submitQuestionnaire } from '../../services/apiService';
 
 // Markdown utilities
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
-// Note: findDishById is used by createMarkdownLinkRenderer, so it's indirectly used.
 
 const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
-  const initialFormState = useMemo(() => ({ // Memoize initial state
-    tipoComida: [], precio: [], alergias: [], nivelPicante: [], consideraciones: ''
+  const initialFormState = useMemo(() => ({
+    tipoComida: [],
+    precio: [15, 30], // Initial range: [min, max]
+    alergias: [],
+    nivelPicante: [],
+    consideraciones: ''
   }), []);
 
   const [form, setForm] = useState(initialFormState);
@@ -21,10 +23,8 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Get translated texts
   const T = questionnaireTranslations[currentLanguage] || questionnaireTranslations['Español'];
 
-  // Reset form and results if language changes or component re-initializes
   useEffect(() => {
     setForm(initialFormState);
     setResult('');
@@ -32,31 +32,49 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
   }, [currentLanguage, initialFormState]);
 
   const handleChange = useCallback((e) => {
-    const { name, options, value, tagName, type, checked } = e.target;
-    setError(''); // Clear error on any change
+    const { name, value: rawValue, options, tagName, type, checked } = e.target;
+    setError('');
 
     setForm(prevForm => {
-      let newFieldValue;
-      if (tagName === 'SELECT') {
+      let newForm = { ...prevForm }; // Copy previous form state
+
+      if (name === "precioMin") {
+        const newMin = parseFloat(rawValue);
+        // If new min is greater than current max, "push" max to be newMin
+        if (newMin > prevForm.precio[1]) {
+          newForm.precio = [newMin, newMin];
+        } else {
+          newForm.precio = [newMin, prevForm.precio[1]];
+        }
+      } else if (name === "precioMax") {
+        const newMax = parseFloat(rawValue);
+        // If new max is less than current min, "push" min to be newMax
+        if (newMax < prevForm.precio[0]) {
+          newForm.precio = [newMax, newMax];
+        } else {
+          newForm.precio = [prevForm.precio[0], newMax];
+        }
+      } else if (tagName === 'SELECT') {
+        let newFieldValue;
         if (e.target.multiple) {
           newFieldValue = Array.from(options)
             .filter(option => option.selected)
             .map(option => option.value);
         } else {
-          // For single select, store as an array with one item or empty if placeholder
-          newFieldValue = value ? [value] : [];
+          newFieldValue = rawValue ? [rawValue] : [];
         }
-      } else if (type === 'checkbox') { // Example if using checkboxes for multi-select
+        newForm[name] = newFieldValue;
+      } else if (type === 'checkbox') {
         const currentValues = prevForm[name] || [];
         if (checked) {
-          newFieldValue = [...currentValues, value];
+          newForm[name] = [...currentValues, rawValue];
         } else {
-          newFieldValue = currentValues.filter(item => item !== value);
+          newForm[name] = currentValues.filter(item => item !== rawValue);
         }
       } else { // Textarea
-        newFieldValue = value;
+        newForm[name] = rawValue;
       }
-      return { ...prevForm, [name]: newFieldValue };
+      return newForm;
     });
   }, []);
 
@@ -65,8 +83,8 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
     setError('');
     const { tipoComida, precio, alergias, nivelPicante } = form;
 
-    // Validation
-    if (tipoComida.length === 0 || precio.length === 0 || nivelPicante.length === 0) {
+    // Validation: precio is now an array [min, max] and always has values.
+    if (tipoComida.length === 0 || nivelPicante.length === 0) {
       setError(T.errors.requiredFields);
       return;
     }
@@ -74,58 +92,59 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
       setError(T.errors.requiredAlergias);
       return;
     }
+    // Optional: Add validation for price if needed, e.g., ensuring min <= max (though UI handles this)
+    // if (precio[0] > precio[1]) {
+    //   setError("Minimum price cannot exceed maximum price."); // Or a translated error
+    //   return;
+    // }
 
     setLoading(true);
     setResult('');
 
-    const payload = { ...form, language: currentLanguage };
+    const payload = { ...form, language: currentLanguage }; // form.precio is already [min, max]
 
     try {
       const data = await submitQuestionnaire(payload);
       if (data.recommendations) {
         setResult(data.recommendations);
       } else {
-        setResult(T.errors.defaultFetchError); // Fallback, though apiService should throw
+        setResult(T.errors.defaultFetchError);
         console.warn("Unexpected response from backend (questionnaire):", data);
       }
     } catch (err) {
       console.error('Error getting recommendations:', err);
       setError(`${T.errors.fetchErrorPrefix}${err.message || T.errors.defaultFetchError}`);
-      setResult(''); // Clear previous results on error
+      setResult('');
     } finally {
       setLoading(false);
     }
   };
 
-  // Memoized Markdown components, passing onViewDishDetails and local styles
   const markdownComponents = useMemo(() => ({
-    a: createMarkdownLinkRenderer(onViewDishDetails, styles) // styles from Questionnaire.module.css
-  }), [onViewDishDetails, styles]);
+    a: createMarkdownLinkRenderer(onViewDishDetails, styles)
+  }), [onViewDishDetails]);
 
-
-  // Helper to generate select option values for backend, using translated labels for display.
-  // This logic remains, as it's specific to how Questionnaire maps form values.
   const getOptionValue = (category, optionKey) => {
     const T_options = T.options[category];
     if (!T_options || !T_options[optionKey]) return optionKey;
-
     switch (category) {
-        case 'tipoComida':
-            return optionKey === "otro" ? "lo que pone en consideraciones adicionales" : T_options[optionKey];
-        case 'precio':
-            if (optionKey === 'val1') return "menos de 15 euros";
-            if (optionKey === 'val2') return "menos de 20 euros";
-            if (optionKey === 'val3') return "menos de 30 euros";
-            if (optionKey === 'val4') return "sin limite";
-            return T_options[optionKey];
-        case 'alergias': // For alergias, send the key itself (e.g., "gluten", "lactosa") or translated value if AI expects that.
-        case 'nivelPicante': // Assuming backend expects lowercase translated values or specific keys.
-            // The current implementation seems to send translated lowercase value.
-            return T_options[optionKey].toLowerCase();
-        default:
-            return T_options[optionKey];
+      case 'tipoComida':
+        return optionKey === "otro" ? "lo que pone en consideraciones adicionales" : T_options[optionKey];
+      case 'alergias':
+      case 'nivelPicante':
+        return T_options[optionKey].toLowerCase();
+      default:
+        return T_options[optionKey];
     }
   };
+
+  // Calculate percentages for the fill bar of the range slider
+  const minPriceSlider = 15;
+  const maxPriceSlider = 30;
+  const priceRange = maxPriceSlider - minPriceSlider;
+  const fillLeftPercent = ((form.precio[0] - minPriceSlider) / priceRange) * 100;
+  const fillRightPercent = ((maxPriceSlider - form.precio[1]) / priceRange) * 100;
+
 
   return (
     <div className={styles.questionnaireContainer}>
@@ -142,15 +161,43 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
           </select>
         </div>
 
-        {/* Precio */}
+        {/* Precio - Dual Pointer Range Slider */}
         <div className={styles.formGroup}>
-          <label htmlFor="precio">{T.labels.precio}</label>
-          <select id="precio" name="precio" value={form.precio[0] || ''} onChange={handleChange} required>
-            <option value="" disabled>{T.options.precio.selectPlaceholder}</option>
-            {Object.entries(T.options.precio).filter(([key]) => key !== 'selectPlaceholder').map(([key, label]) => (
-              <option key={key} value={getOptionValue('precio', key)}>{label}</option>
-            ))}
-          </select>
+          <label htmlFor="precioMin">{T.labels.precio}</label> {/* Label points to the first interactive element */}
+          <div className={styles.priceRangeDisplay}>
+            {T.options.precio.minLabel || 'Min'}: {form.precio[0]} € - {T.options.precio.maxLabel || 'Max'}: {form.precio[1]} €
+          </div>
+          <div className={styles.priceRangeSliderComposite}>
+            <div className={styles.sliderTrack}></div>
+            <div
+              className={styles.sliderFill}
+              style={{ left: `${fillLeftPercent}%`, right: `${fillRightPercent}%` }}
+            ></div>
+            <input
+              type="range"
+              id="precioMin"
+              name="precioMin"
+              className={`${styles.rangeSliderInput} ${styles.minRangeSlider}`}
+              min={minPriceSlider}
+              max={maxPriceSlider}
+              step="1"
+              value={form.precio[0]}
+              onChange={handleChange}
+              aria-label={T.options.precio.minAriaLabel || "Minimum price"}
+            />
+            <input
+              type="range"
+              id="precioMax"
+              name="precioMax"
+              className={`${styles.rangeSliderInput} ${styles.maxRangeSlider}`}
+              min={minPriceSlider}
+              max={maxPriceSlider}
+              step="1"
+              value={form.precio[1]}
+              onChange={handleChange}
+              aria-label={T.options.precio.maxAriaLabel || "Maximum price"}
+            />
+          </div>
         </div>
 
         {/* Alergias */}

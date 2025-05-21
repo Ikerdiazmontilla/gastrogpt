@@ -134,16 +134,20 @@
 .inputArea {
   display: flex;
   width: 100%;
+  /* border: 1px solid red; */
 }
 
 .inputArea input {
-  flex: 1;
+  
   padding: 10px;
   border: none; /* Consider adding '1px solid var(--chat-input-border-color)' if you want a visible border */
   outline: none;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
   font-size: 1rem;
+  /* border: 1px solid blue; */
+  max-width: 83%;
+  margin-right: auto;
 }
 
 .sendMessage{
@@ -160,6 +164,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: fit-content;
+  
 }
 .sendMessage:disabled {
   background-color: var(--chat-send-message-button-disabled-background-color); /* Updated */
@@ -170,6 +176,7 @@
   width: 15px;
   height: 15px;
   fill: var(--chat-send-message-button-icon-fill-color); /* Updated */
+  font-family: sans-serif;
 }
 
 /* Suggestions Container - Modified for horizontal scroll */

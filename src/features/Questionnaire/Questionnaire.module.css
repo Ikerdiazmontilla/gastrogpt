@@ -1,5 +1,4 @@
 /* src/features/Questionnaire/Questionnaire.module.css */
-/* src/components/Questionnaire/Questionnaire.module.css */
 .questionnaireContainer {
   height: 100%;
   display: flex;
@@ -8,22 +7,21 @@
   gap: 15px;
   padding: 2vh 2vw;
   padding-top: 0px;
-  padding-bottom: 5vh; /* Added padding to bottom */
+  padding-bottom: 5vh;
 }
 
-
-.questionnaireTitle{
+.questionnaireTitle {
   font-size: 1.5rem;
-  text-align: center; /* Center title */
-  margin-bottom: 10px; /* Add some space below title */
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-.preferencesForm{
+.preferencesForm {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 100%; /* Make form take full width */
-  max-width: 500px; /* Optional: constrain max width */
+  width: 100%;
+  max-width: 500px;
 }
 
 .formGroup {
@@ -37,22 +35,124 @@
 }
 
 .formGroup select,
-.formGroup textarea { /* Common styles for select and textarea */
+.formGroup textarea {
   padding: 10px;
-  border: 1px solid var(--questionnaire-form-element-border-color); /* Updated */
+  border: 1px solid var(--questionnaire-form-element-border-color);
   border-radius: 4px;
   font-size: 1rem;
 }
 
 .multiSelect {
-  min-height: 80px; /* Give multi-selects some default height */
+  min-height: 80px;
 }
 
-.submitButton { /* Specific class for submit button */
+/* Styles for the dual-pointer price range slider */
+.priceRangeDisplay {
+  margin-bottom: 8px; /* Space between value display and slider */
+  font-size: 0.9rem;
+  color: var(--text-color-secondary, #555); /* A slightly dimmer color for the display */
+  text-align: center;
+}
+
+.priceRangeSliderComposite {
+  position: relative; /* Container for layering track, fill, and inputs */
+  height: 24px; /* Adjust based on thumb size to contain it */
+  margin-top: 10px; /* Space above the slider */
+  margin-bottom: 10px; /* Space below the slider */
+}
+
+.sliderTrack,
+.sliderFill {
+  position: absolute;
+  left: 0;
+  right: 0; /* Make track and fill span the width */
+  top: 50%;
+  transform: translateY(-50%); /* Center vertically */
+  height: 8px; /* Height of the track/fill */
+  border-radius: 4px;
+  pointer-events: none; /* Allow clicks to pass through to inputs below/above */
+}
+
+.sliderTrack {
+  background-color: #e0e0e0; /* Light grey for the base track */
+  z-index: 1; /* Behind the fill and thumbs */
+}
+
+.sliderFill {
+  background-color: #0071E3; /* Specified blue for the selected range */
+  z-index: 2; /* Above the track, below the thumbs' interaction layer */
+  /* left and right are set by inline styles in JS */
+}
+
+.rangeSliderInput {
+  -webkit-appearance: none; /* Remove default Safari/Chrome appearance */
+  appearance: none; /* Remove default Firefox/Edge appearance */
+  position: absolute;
+  top: 0; /* Align with the composite container's top */
+  left: 0;
+  width: 100%;
+  height: 100%; /* Cover the composite area to align thumbs correctly */
+  background: transparent; /* Make the input's own track invisible */
+  pointer-events: none; /* Allow clicks on thumbs only, not the transparent track */
+  margin: 0; /* Reset margin */
+  padding: 0; /* Reset padding */
+  z-index: 3; /* On top for thumb interaction */
+  outline: none; /* Remove default outline, will be handled by thumb focus */
+}
+
+/* Thumb styling for WebKit browsers (Chrome, Safari, newer Edge) */
+.rangeSliderInput::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Required */
+  appearance: none;
+  width: 20px; /* Thumb width */
+  height: 20px; /* Thumb height */
+  background: white; /* Thumb color */
+  border: 2px solid #0071E3; /* Thumb border */
+  border-radius: 50%; /* Circular thumb */
+  cursor: pointer;
+  pointer-events: auto; /* IMPORTANT: Re-enable pointer events for the thumb */
+  margin-top: -6px; /* Adjust to vertically center on the custom track based on (trackHeight - thumbHeight) / 2 */
+                       /* (8px - 20px) / 2 = -6px if custom track is 8px and thumb is 20px */
+  position: relative; /* Needed for z-index stacking if thumbs could overlap visually */
+  z-index: 4; /* Ensure thumbs are visually on top if they could overlap */
+}
+
+/* Thumb styling for Firefox */
+.rangeSliderInput::-moz-range-thumb {
+  width: 16px; /* Adjust if different from WebKit, border adds to size */
+  height: 16px;
+  background: white;
+  border: 2px solid #0071E3;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto; /* IMPORTANT */
+  position: relative;
+  z-index: 4;
+}
+
+/* Thumb focus styles (optional, but good for accessibility) */
+.rangeSliderInput:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3); /* Blue focus ring */
+}
+.rangeSliderInput:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3);
+}
+
+/* Ensure minRangeSlider's thumb can be grabbed even if maxRangeSlider is on top */
+/* This is mostly handled by pointer-events on thumbs, but z-index can help if visual overlap of thumbs is an issue */
+.minRangeSlider {
+  /* z-index might be needed if thumbs perfectly overlap and one becomes unclickable */
+}
+.maxRangeSlider {
+  /* z-index might be needed */
+}
+
+
+.submitButton {
   padding: 12px 20px;
   border: none;
-  background-color: var(--questionnaire-submit-button-background-color); /* Updated */
-  color: var(--questionnaire-submit-button-text-color); /* Updated */
+  background-color: var(--questionnaire-submit-button-background-color);
+  color: var(--questionnaire-submit-button-text-color);
   cursor: pointer;
   border-radius: 8px;
   font-size: 1rem;
@@ -60,34 +160,33 @@
   transition: background-color 0.2s;
 }
 .submitButton:disabled {
-  background-color: var(--questionnaire-submit-button-disabled-background-color); /* Updated */
+  background-color: var(--questionnaire-submit-button-disabled-background-color);
   cursor: not-allowed;
 }
 .submitButton:hover:not(:disabled) {
-  background-color: var(--questionnaire-submit-button-hover-background-color); /* Updated */
+  background-color: var(--questionnaire-submit-button-hover-background-color);
 }
 
 .result {
-  padding: 20px; /* Adjusted padding */
-  border: 1px solid var(--questionnaire-result-border-color); /* Updated */
-  border-radius: 8px; /* More rounded */
-  background-color: var(--questionnaire-result-background-color); /* Updated */
+  padding: 20px;
+  border: 1px solid var(--questionnaire-result-border-color);
+  border-radius: 8px;
+  background-color: var(--questionnaire-result-background-color);
   width: 100%;
-  max-width: 600px; /* Max width for readability */
+  max-width: 600px;
   margin-top: 20px;
-  box-shadow: 0 2px 4px var(--questionnaire-result-shadow-color); /* Updated */
+  box-shadow: 0 2px 4px var(--questionnaire-result-shadow-color);
 }
 .result h3 {
   margin-top: 0;
   margin-bottom: 15px;
-  color: var(--questionnaire-result-title-text-color); /* Updated */
+  color: var(--questionnaire-result-title-text-color);
 }
 .result ul {
   list-style-type: disc;
   padding-left: 20px;
   margin-bottom: 10px;
 }
-
 .result ol {
   list-style-type: decimal;
   padding-left: 20px;
@@ -99,53 +198,51 @@
 }
 
 .errorMessage {
-  background-color: var(--questionnaire-error-message-background-color); /* Updated */
-  border-color: var(--questionnaire-error-message-border-color); /* Updated */
-  color: var(--questionnaire-error-message-text-color); /* Updated */
+  background-color: var(--questionnaire-error-message-background-color);
+  border-color: var(--questionnaire-error-message-border-color);
+  color: var(--questionnaire-error-message-text-color);
   font-weight: 500;
 }
 
-.consideracionesAdicionales{
-  padding: 10px; /* Match select padding */
+.consideracionesAdicionales {
+  padding: 10px;
   width: 100%;
-  border: 1px solid var(--questionnaire-form-element-border-color); /* Updated */
+  border: 1px solid var(--questionnaire-form-element-border-color);
   border-radius: 4px;
-  min-height: 80px; /* Minimum height */
+  min-height: 80px;
   font-size: 1rem;
 }
 
 .questionnaireContainer input,
 .questionnaireContainer textarea,
-.questionnaireContainer select { /* Apply to select as well */
-  outline-color: var(--questionnaire-form-element-outline-focus-color); /* Updated */
+.questionnaireContainer select {
+  outline-color: var(--questionnaire-form-element-outline-focus-color);
 }
 
-.dishDetailLink { /* Style for the clickable dish detail "link" */
+.dishDetailLink {
   background: none;
   border: none;
   padding: 0;
-  color: var(--questionnaire-markdown-dish-detail-link-text-color); /* Updated */
+  color: var(--questionnaire-markdown-dish-detail-link-text-color);
   text-decoration: none;
   cursor: pointer;
   font: inherit;
-  font-weight: bold; /* Make it stand out a bit */
+  font-weight: bold;
 }
-
 .dishDetailLink:hover {
-  color: var(--questionnaire-markdown-dish-detail-link-hover-text-color); /* Updated */
+  color: var(--questionnaire-markdown-dish-detail-link-hover-text-color);
 }
-.dishLink { /* Copied from Chat.module.css for consistency */
+.dishLink {
   background: none;
   border: none;
-  color: var(--questionnaire-markdown-dish-link-text-color); /* Updated */
+  color: var(--questionnaire-markdown-dish-link-text-color);
   text-decoration: underline;
   cursor: pointer;
   padding: 0;
   font: inherit;
   display: inline;
 }
-
 .dishLink:hover {
-  color: var(--questionnaire-markdown-dish-link-hover-text-color); /* Updated */
+  color: var(--questionnaire-markdown-dish-link-hover-text-color);
   text-decoration: none;
-}
+} 
