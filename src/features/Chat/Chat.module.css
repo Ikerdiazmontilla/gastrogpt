@@ -9,8 +9,6 @@
   display: flex;
   flex-direction: column;
   padding: 2vh 2vw;
-  /* Adjust height: 100vh MINUS any global header/footer height on the page */
-  /* height: 100vh; Or calc(100vh - GlobalHeaderHeight) */
   box-sizing: border-box;
 }
 
@@ -18,27 +16,24 @@
 .resetConversationButton {
   padding: 10px 20px;
   border: none;
-  background-color: var(--chat-reset-button-background-color); /* Updated */
-  color: var(--chat-reset-button-text-color); /* Updated */
+  background-color: var(--chat-reset-button-background-color); 
+  color: var(--chat-reset-button-text-color); 
   cursor: pointer;
   border-radius: 12px;
-  margin-top: 8px; /* Added margin to separate from suggestions */
+  margin-top: 8px; 
 }
 .resetConversationButton:disabled {
-  background-color: var(--chat-reset-button-disabled-background-color); /* Updated */
+  background-color: var(--chat-reset-button-disabled-background-color); 
   cursor: not-allowed;
 }
 
 .messages {
   flex: 1;
-  padding: 0px 15px; /* Removed top padding, handled by button margin */
+  padding: 0px 15px; 
   overflow-y: auto;
   gap: 10px;
   display: flex;
   flex-direction: column;
-  /* Adjust padding-bottom to account for the new inputWrapper height */
-  /* Original was 130px. Textarea can grow, so needs more space. */
-  /* Estimate: max textarea height + suggestions + reset button + padding */
   padding-bottom: 200px; /* Increased padding to accommodate potentially taller input area */
 }
 
@@ -59,7 +54,7 @@
 .messages ol { list-style-type: decimal; }
 
 .message.user {
-  background-color: var(--chat-message-user-background-color); /* Updated */
+  background-color: var(--chat-message-user-background-color); 
   align-self: flex-end;
   border-top-right-radius: 4px;
   margin-left: auto;
@@ -73,13 +68,13 @@
   right: -9px;
   width: 0;
   height: 0;
-  border-left: 10px solid var(--chat-message-user-tip-border-color); /* Updated */
-  border-top: 10px solid var(--palette-transparent); /* Updated */
-  border-bottom: 10px solid var(--palette-transparent); /* Updated */
+  border-left: 10px solid var(--chat-message-user-tip-border-color); 
+  border-top: 10px solid var(--palette-transparent); 
+  border-bottom: 10px solid var(--palette-transparent); 
 }
 
 .message.bot {
-  background-color: var(--chat-message-bot-background-color); /* Updated */
+  background-color: var(--chat-message-bot-background-color); 
   align-self: flex-start;
   border-top-left-radius: 4px;
   margin-right: auto;
@@ -93,140 +88,145 @@
   left: -10px;
   width: 0;
   height: 0;
-  border-right: 14px solid var(--chat-message-bot-tip-border-color); /* Updated */
-  border-top: 10px solid var(--palette-transparent); /* Updated */
-  border-bottom: 10px solid var(--palette-transparent); /* Updated */
+  border-right: 14px solid var(--chat-message-bot-tip-border-color); 
+  border-top: 10px solid var(--palette-transparent); 
+  border-bottom: 10px solid var(--palette-transparent); 
 }
 
 .message.bot.loading span {
   font-style: italic;
-  color: var(--chat-message-bot-loading-text-color); /* Updated */
+  color: var(--chat-message-bot-loading-text-color); 
 }
 
 .message.system {
   font-style: italic;
-  color: var(--chat-message-system-text-color); /* Updated */
+  color: var(--chat-message-system-text-color); 
   text-align: center;
-  background-color: var(--chat-message-system-background-color); /* Updated */
+  background-color: var(--chat-message-system-background-color); 
   align-self: center;
   padding: 5px;
 }
 .message.system.error {
-  color: var(--chat-message-system-error-text-color); /* Updated */
+  color: var(--chat-message-system-error-text-color); 
   font-weight: bold;
 }
 
 .inputWrapper{
   display: flex;
   flex-direction: column;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; /* Will be var(--chat-input-wrapper-shadow-color) if consistent, or needs new var */
-  /* Using existing palette var for this specific shadow value */
   box-shadow: 0px 3px 8px var(--palette-shadow-lg);
   border-radius: 14px;
   padding: 10px;
-  background-color: var(--chat-input-wrapper-background-color); /* Updated */
+  background-color: var(--chat-input-wrapper-background-color); 
   position:fixed;
   bottom: 1%;
   left: 5%;
   width: 90%;
   z-index: 10;
   box-sizing: border-box;
+  transition: bottom 0.2s ease-out, left 0.2s ease-out, width 0.2s ease-out, border-radius 0.2s ease-out, box-shadow 0.2s ease-out; /* Added transition */
 }
+
+/* MODIFICATION: New class for when keyboard is active */
+.inputWrapperKeyboardActive {
+  bottom: 0px; /* Stick to the visual bottom */
+  left: 0px;   /* Full width */
+  width: 100%; /* Full width */
+  border-radius: 0; /* Typically square edges when docked with keyboard */
+  box-shadow: none; /* Shadow might look odd when edge-to-edge */
+  /* If you have specific padding variables for full-width mode, you can use them here */
+  /* padding: 10px 5px; /* Example of adjusting padding if needed */
+}
+
 
 .inputArea {
   display: flex;
   width: 100%;
-  align-items: flex-end; /* MODIFICATION: Align items to the bottom (textarea and button) */
-  gap: 8px; /* Added gap between textarea and send button */
+  align-items: flex-end; 
+  gap: 8px; 
 }
 
-/* MODIFICATION: Styles for the new textarea */
 .chatTextarea {
-  flex-grow: 1; /* Allow textarea to take available space */
+  flex-grow: 1; 
   padding: 10px;
   border: none; 
   outline: none;
-  border-radius: 8px; /* Rounded corners for the textarea itself */
+  border-radius: 8px; 
   font-size: 1rem;
-  line-height: 1.4; /* Adjust line height for better multiline readability */
-  min-height: calc(1rem * 1.4 + 20px); /* min-height for one line of text + padding */
-  max-height: calc(1rem * 1.4 * 6 + 20px); /* max-height for ~6 lines of text + padding */
-  overflow-y: auto; /* Show scrollbar when content exceeds max-height */
-  resize: none; /* Disable manual resizing by user */
-  box-sizing: border-box; /* Ensure padding doesn't add to width/height causing overflow */
-  background-color: var(--palette-pure-white); /* Or appropriate input background variable */
-  color: var(--palette-neutral-dark); /* Or appropriate input text color variable */
-  /* Remove width properties that might conflict with flex-grow */
-  /* max-width: 83%; /* Removed, flex-grow will handle width relative to button */
-  /* margin-right: auto; /* Removed, gap in .inputArea handles spacing */
+  line-height: 1.4; 
+  min-height: calc(1rem * 1.4 + 20px); 
+  max-height: calc(1rem * 1.4 * 6 + 20px); 
+  overflow-y: auto; 
+  resize: none; 
+  box-sizing: border-box; 
+  background-color: var(--palette-pure-white); 
+  color: var(--palette-neutral-dark); 
 }
 
 
 .sendMessage{
   border-radius: 8px;
   padding: 10px 15px;
-  background-color: var(--chat-send-message-button-background-color); /* Updated */
-  color: var(--palette-pure-white); /* Assuming text color for button is white */
+  background-color: var(--chat-send-message-button-background-color); 
+  color: var(--palette-pure-white); 
   border:none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: fit-content;
-  height: calc(1rem * 1.4 + 20px); /* Match initial height of textarea (1 line + padding) */
-  align-self: flex-end; /* Ensures button aligns with bottom if textarea has no content yet */
+  height: calc(1rem * 1.4 + 20px); 
+  align-self: flex-end; 
 }
 .sendMessage:disabled {
-  background-color: var(--chat-send-message-button-disabled-background-color); /* Updated */
+  background-color: var(--chat-send-message-button-disabled-background-color); 
   cursor: not-allowed;
 }
 
 .sendSvg {
   width: 15px;
   height: 15px;
-  fill: var(--chat-send-message-button-icon-fill-color); /* Updated */
+  fill: var(--chat-send-message-button-icon-fill-color); 
   font-family: sans-serif;
 }
 
-/* Suggestions Container - Modified for horizontal scroll */
 .suggestionsContainer {
-  display: flex; /* Aligns chips in a row */
+  display: flex; 
   gap: 8px;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  white-space: nowrap; /* Prevent chips from wrapping */
-  padding-top: 8px; /* Space above the chips */
-  padding-bottom: 4px; /* Space for scrollbar, though we hide it */
-  width: 100%; /* Take full width of inputWrapper */
+  overflow-x: auto; 
+  white-space: nowrap; 
+  padding-top: 8px; 
+  padding-bottom: 4px; 
+  width: 100%; 
 
-  /* Hide scrollbar for a cleaner mobile look */
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
 }
 .suggestionsContainer::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none; 
 }
 
 .suggestionChip {
   padding: 6px 12px;
-  border: 1px solid var(--chat-suggestion-chip-border-color); /* Updated */
-  background-color: var(--chat-suggestion-chip-background-color); /* Updated */
+  border: 1px solid var(--chat-suggestion-chip-border-color); 
+  background-color: var(--chat-suggestion-chip-background-color); 
   border-radius: 16px;
   font-size: 0.85rem;
   cursor: pointer;
-  color: var(--chat-suggestion-chip-text-color); /* Updated */
+  color: var(--chat-suggestion-chip-text-color); 
   transition: background-color 0.2s;
-  flex-shrink: 0; /* Prevent chips from shrinking if container is constrained */
+  flex-shrink: 0; 
 }
 
 .suggestionChip:hover {
-  background-color: var(--chat-suggestion-chip-hover-background-color); /* Updated */
+  background-color: var(--chat-suggestion-chip-hover-background-color); 
 }
 
 .suggestionChip:disabled {
-  background-color: var(--chat-suggestion-chip-disabled-background-color); /* Updated */
-  color: var(--chat-suggestion-chip-disabled-text-color); /* Updated */
+  background-color: var(--chat-suggestion-chip-disabled-background-color); 
+  color: var(--chat-suggestion-chip-disabled-text-color); 
   cursor: not-allowed;
-  border-color: var(--chat-suggestion-chip-disabled-border-color); /* Updated */
+  border-color: var(--chat-suggestion-chip-disabled-border-color); 
 }
 
 .dishDetailLink, .dishLink {
@@ -238,28 +238,28 @@
 }
 
 .dishDetailLink {
-  color: var(--chat-markdown-dish-detail-link-text-color); /* Updated */
+  color: var(--chat-markdown-dish-detail-link-text-color); 
   text-decoration: none;
   font-weight: bold;
 }
-.dishDetailLink:hover { color: var(--chat-markdown-dish-detail-link-hover-text-color); /* Updated */ }
+.dishDetailLink:hover { color: var(--chat-markdown-dish-detail-link-hover-text-color);  }
 
 .dishLink {
-  color: var(--chat-markdown-dish-link-text-color); /* Updated */
+  color: var(--chat-markdown-dish-link-text-color); 
   text-decoration: underline;
   display: inline;
 }
 .dishLink:hover {
-  color: var(--chat-markdown-dish-link-hover-text-color); /* Updated */
+  color: var(--chat-markdown-dish-link-hover-text-color); 
   text-decoration: none;
 }
 
 .limitNotification {
   text-align: center;
   padding: 10px;
-  background-color: var(--chat-notification-limit-background-color); /* Updated */
-  color: var(--chat-notification-limit-text-color); /* Updated */
-  border: 1px solid var(--chat-notification-limit-border-color); /* Updated */
+  background-color: var(--chat-notification-limit-background-color); 
+  color: var(--chat-notification-limit-text-color); 
+  border: 1px solid var(--chat-notification-limit-border-color); 
   border-radius: 4px;
   margin: 10px 0;
 }

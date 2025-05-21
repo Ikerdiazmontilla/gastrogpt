@@ -14,45 +14,36 @@ import {
 
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
 
-// const USER_MESSAGE_LIMIT = 10; // This constant is defined in backend, frontend uses isLimitReached flag
-
 const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(true); // Manages loading state, especially for initial history fetch
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const messagesEndRef = useRef(null);
-  const textareaRef = useRef(null); // Ref for the textarea element
+  const textareaRef = useRef(null);
   const [isLimitReached, setIsLimitReached] = useState(false);
   const [limitNotification, setLimitNotification] = useState('');
+  const [isKeyboardActive, setIsKeyboardActive] = useState(false); // State to track keyboard visibility
 
-  // Determine the rich welcome message text based on the current language
   const firstMessageText = currentLanguage === 'Español' ? firstMessageSpanish : firstMessageEnglish;
   const currentSuggestions = chatSuggestions[currentLanguage] || chatSuggestions['English'];
 
-  // Memoized markdown link renderer
   const CustomLink = useMemo(() =>
     createMarkdownLinkRenderer(onViewDishDetails, styles),
     [onViewDishDetails]
   );
 
-  // useCallback for loading conversation history
   const loadConversation = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     setIsLimitReached(false);
     setLimitNotification('');
-
     const richWelcomeMessageObject = { sender: 'bot', text: firstMessageText };
-
     try {
-      const data = await fetchConversation(); 
-
-      let actualConversationHistory = []; 
-
+      const data = await fetchConversation();
+      let actualConversationHistory = [];
       if (data.meta && data.messages && data.messages.length > 0) {
         actualConversationHistory = data.messages;
-
         if (data.meta.limitEffectivelyReached) {
           setIsLimitReached(true);
           const lastBotMsgWithNotification = actualConversationHistory.slice().reverse().find(
@@ -68,7 +59,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         }
       }
       setMessages([richWelcomeMessageObject, ...actualConversationHistory]);
-
     } catch (err) {
       console.error('Error loading conversation:', err.message);
       setError(`Failed to load history: ${err.message}. Please try again later.`);
@@ -76,30 +66,25 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentLanguage, firstMessageText]); // onViewDishDetails removed as it's part of CustomLink which is not directly in loadConversation's scope. If CustomLink itself were changing and needed to trigger re-memoization for loadConversation, this might differ.
+  }, [currentLanguage, firstMessageText]);
 
-  // Effect to load conversation when component mounts or dependencies change
   useEffect(() => {
     loadConversation();
   }, [loadConversation]);
 
-  // Effect to scroll to the bottom of messages when messages or notifications change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, limitNotification]);
 
-  // Effect to adjust textarea height
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'; // Reset height to shrink if text is deleted
-      // Set height based on scroll height to fit content, up to CSS max-height
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; 
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [input]); // Re-run when input text changes
+  }, [input]);
 
   const handleSend = async () => {
     if (isLimitReached) return;
-
     const trimmedInput = input.trim();
     if (trimmedInput === '') return;
 
@@ -107,9 +92,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     setMessages(prevMessages => [...prevMessages, userMessage]);
     setInput('');
     setError(null);
-
-    // Reset textarea height after sending if it was multiline
-    // This will be handled by the useEffect on `input` change when setInput('') is called.
 
     try {
       const data = await postChatMessage(trimmedInput);
@@ -124,7 +106,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         console.error('Unexpected response from backend (no reply):', data);
         setError('Unexpected server response.');
       }
-
       if (data.limitReached && data.notification) {
         setIsLimitReached(true);
         setLimitNotification(data.notification);
@@ -143,27 +124,25 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     }
   };
 
-  // Removed handleKeyPress as per user request for mobile-only focus
-
   const handleReset = async () => {
     try {
       await resetChatConversation();
-      setInput(''); // Clear input field on reset
-      await loadConversation(); 
+      setInput('');
+      await loadConversation();
     } catch (err) {
       console.error('Error resetting conversation:', err.message);
       setError(`Error resetting: ${err.message}`);
-      setInput(''); // Also clear input on error during reset
-      await loadConversation(); 
+      setInput('');
+      await loadConversation();
     }
   };
 
   const handleSuggestionClick = (suggestionText) => {
     if (isLimitReached) return;
     setInput(suggestionText);
-    // Focus the textarea after suggestion click to allow immediate typing/sending
     if (textareaRef.current) {
-        textareaRef.current.focus();
+        // Re-focusing helps ensure onFocus is triggered if it was blurred by suggestion tap
+        textareaRef.current.focus(); 
     }
   };
 
@@ -173,7 +152,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     <>
       <div className={styles.chatContainer}>
         <div className={styles.messages}>
-          {isLoading && messages.length <= 1 && !error && ( 
+          {isLoading && messages.length <= 1 && !error && (
             <div className={`${styles.message} ${styles.system}`}>
               {currentLanguage === 'Español' ? 'Cargando historial...' : 'Loading history...'}
             </div>
@@ -181,7 +160,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
           {error && (!isLimitReached || !limitNotification) && (
             <div className={`${styles.message} ${styles.system} ${styles.error}`}>{error}</div>
           )}
-
           {messages.map((msg, index) => (
               <div key={index} className={`${styles.message} ${styles[msg.sender]}`}>
                 {msg.sender === 'bot' ? (
@@ -193,7 +171,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
                 )}
               </div>
             ))}
-          
           {isLimitReached && limitNotification && (
             <div className={`${styles.message} ${styles.system} ${styles.limitNotification}`}>
               {limitNotification}
@@ -203,12 +180,14 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         </div>
       </div>
 
-      <div className={styles.inputWrapper}>
+      {/* MODIFICATION: Added conditional class based on isKeyboardActive state */}
+      <div 
+        className={`${styles.inputWrapper} ${isKeyboardActive ? styles.inputWrapperKeyboardActive : ''}`}
+      >
         <div className={styles.inputArea}>
-          {/* MODIFICATION: Changed input to textarea */}
           <textarea
             ref={textareaRef}
-            rows="1" // Start with one row, CSS and JS will handle expansion
+            rows="1"
             placeholder={
               isLimitReached
                 ? (currentLanguage === 'Español' ? 'Límite alcanzado. Reinicia.' : 'Limit reached. Reset chat.')
@@ -216,10 +195,12 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            // Removed onKeyPress={handleKeyPress}
+            // MODIFICATION: Added onFocus and onBlur handlers
+            onFocus={() => setIsKeyboardActive(true)}
+            onBlur={() => setIsKeyboardActive(false)}
             disabled={isInputDisabled}
             readOnly={isLimitReached}
-            className={styles.chatTextarea} // Added a specific class for styling
+            className={styles.chatTextarea}
           />
           <button
             className={styles.sendMessage}
