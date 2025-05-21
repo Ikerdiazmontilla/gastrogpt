@@ -1,4 +1,4 @@
-/* src/features/Chat/Chat.module.css */
+/* <file path="src/features/Chat/Chat.module.css"> */
 /* :root{ */
   /* --main-color: rgb(38, 144, 214); */
   /* --old-color:#4CAF50; */
@@ -22,6 +22,7 @@
   color: var(--chat-reset-button-text-color); /* Updated */
   cursor: pointer;
   border-radius: 12px;
+  margin-top: 8px; /* Added margin to separate from suggestions */
 }
 .resetConversationButton:disabled {
   background-color: var(--chat-reset-button-disabled-background-color); /* Updated */
@@ -36,8 +37,9 @@
   display: flex;
   flex-direction: column;
   /* Adjust padding-bottom to account for the new inputWrapper height */
-  /* Original was 130px, now inputWrapper is shorter. Roughly input height + suggestions height + padding */
-  padding-bottom: 100px; /* Example value, adjust this carefully */
+  /* Original was 130px. Textarea can grow, so needs more space. */
+  /* Estimate: max textarea height + suggestions + reset button + padding */
+  padding-bottom: 200px; /* Increased padding to accommodate potentially taller input area */
 }
 
 .message {
@@ -134,27 +136,33 @@
 .inputArea {
   display: flex;
   width: 100%;
-  /* border: 1px solid red; */
+  align-items: flex-end; /* MODIFICATION: Align items to the bottom (textarea and button) */
+  gap: 8px; /* Added gap between textarea and send button */
 }
 
-.inputArea input {
-  
+/* MODIFICATION: Styles for the new textarea */
+.chatTextarea {
+  flex-grow: 1; /* Allow textarea to take available space */
   padding: 10px;
-  border: none; /* Consider adding '1px solid var(--chat-input-border-color)' if you want a visible border */
+  border: none; 
   outline: none;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-radius: 8px; /* Rounded corners for the textarea itself */
   font-size: 1rem;
-  /* border: 1px solid blue; */
-  max-width: 83%;
-  margin-right: auto;
+  line-height: 1.4; /* Adjust line height for better multiline readability */
+  min-height: calc(1rem * 1.4 + 20px); /* min-height for one line of text + padding */
+  max-height: calc(1rem * 1.4 * 6 + 20px); /* max-height for ~6 lines of text + padding */
+  overflow-y: auto; /* Show scrollbar when content exceeds max-height */
+  resize: none; /* Disable manual resizing by user */
+  box-sizing: border-box; /* Ensure padding doesn't add to width/height causing overflow */
+  background-color: var(--palette-pure-white); /* Or appropriate input background variable */
+  color: var(--palette-neutral-dark); /* Or appropriate input text color variable */
+  /* Remove width properties that might conflict with flex-grow */
+  /* max-width: 83%; /* Removed, flex-grow will handle width relative to button */
+  /* margin-right: auto; /* Removed, gap in .inputArea handles spacing */
 }
+
 
 .sendMessage{
-  /* border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px; */
   border-radius: 8px;
   padding: 10px 15px;
   background-color: var(--chat-send-message-button-background-color); /* Updated */
@@ -165,7 +173,8 @@
   align-items: center;
   justify-content: center;
   min-width: fit-content;
-  
+  height: calc(1rem * 1.4 + 20px); /* Match initial height of textarea (1 line + padding) */
+  align-self: flex-end; /* Ensures button aligns with bottom if textarea has no content yet */
 }
 .sendMessage:disabled {
   background-color: var(--chat-send-message-button-disabled-background-color); /* Updated */
@@ -207,7 +216,6 @@
   color: var(--chat-suggestion-chip-text-color); /* Updated */
   transition: background-color 0.2s;
   flex-shrink: 0; /* Prevent chips from shrinking if container is constrained */
-  /* display: inline-block; /* Not needed if parent is flex and we use flex-shrink */
 }
 
 .suggestionChip:hover {
@@ -220,8 +228,6 @@
   cursor: not-allowed;
   border-color: var(--chat-suggestion-chip-disabled-border-color); /* Updated */
 }
-
-/* resetConversationButton class is no longer used here as it was moved and renamed */
 
 .dishDetailLink, .dishLink {
   background: none;

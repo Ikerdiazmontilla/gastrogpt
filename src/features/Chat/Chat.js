@@ -22,6 +22,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const [isLoading, setIsLoading] = useState(true); // Manages loading state, especially for initial history fetch
   const [error, setError] = useState(null);
   const messagesEndRef = useRef(null);
+  const textareaRef = useRef(null); // Ref for the textarea element
   const [isLimitReached, setIsLimitReached] = useState(false);
   const [limitNotification, setLimitNotification] = useState('');
 
@@ -42,25 +43,18 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     setIsLimitReached(false);
     setLimitNotification('');
 
-    // MODIFICATION: Define the rich welcome message object. This will always be the first message.
     const richWelcomeMessageObject = { sender: 'bot', text: firstMessageText };
 
     try {
-      const data = await fetchConversation(); // API call to get conversation history
+      const data = await fetchConversation(); 
 
-      let actualConversationHistory = []; // To store messages from DB, excluding any initial bot prompts
+      let actualConversationHistory = []; 
 
-      // Check if an existing conversation history was returned (signaled by data.meta)
       if (data.meta && data.messages && data.messages.length > 0) {
-        // If history exists, use it.
-        // We assume data.messages from backend is the pure turn-by-turn history
-        // and does not include the backend's plain `firstBotMessage`.
         actualConversationHistory = data.messages;
 
-        // Handle limit state from backend meta data
         if (data.meta.limitEffectivelyReached) {
           setIsLimitReached(true);
-          // Try to find the notification message if it was part of the history
           const lastBotMsgWithNotification = actualConversationHistory.slice().reverse().find(
             m => m.sender === 'bot' && m.limitReachedNotification
           );
@@ -73,23 +67,16 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
           }
         }
       }
-      // If `data.meta` is not present, it means the backend signaled a new chat
-      // by sending its plain `firstBotMessage`. In this case, `actualConversationHistory` remains empty.
-
-      // MODIFICATION: Always prepend the frontend's rich welcome message.
-      // If `actualConversationHistory` is empty (new chat), `messages` will be `[richWelcomeMessageObject]`.
-      // If `actualConversationHistory` has items, `richWelcomeMessageObject` is added at the start.
       setMessages([richWelcomeMessageObject, ...actualConversationHistory]);
 
     } catch (err) {
       console.error('Error loading conversation:', err.message);
       setError(`Failed to load history: ${err.message}. Please try again later.`);
-      // MODIFICATION: On error, ensure the chat UI still starts with the rich welcome message.
       setMessages([richWelcomeMessageObject]);
     } finally {
       setIsLoading(false);
     }
-  }, [currentLanguage, firstMessageText, onViewDishDetails]); // Dependencies for useCallback
+  }, [currentLanguage, firstMessageText]); // onViewDishDetails removed as it's part of CustomLink which is not directly in loadConversation's scope. If CustomLink itself were changing and needed to trigger re-memoization for loadConversation, this might differ.
 
   // Effect to load conversation when component mounts or dependencies change
   useEffect(() => {
@@ -101,6 +88,15 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, limitNotification]);
 
+  // Effect to adjust textarea height
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'; // Reset height to shrink if text is deleted
+      // Set height based on scroll height to fit content, up to CSS max-height
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; 
+    }
+  }, [input]); // Re-run when input text changes
+
   const handleSend = async () => {
     if (isLimitReached) return;
 
@@ -108,16 +104,16 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     if (trimmedInput === '') return;
 
     const userMessage = { sender: 'user', text: trimmedInput };
-    // MODIFICATION: Add user message to current messages.
-    // The rich welcome message is already part of `messages` state.
     setMessages(prevMessages => [...prevMessages, userMessage]);
     setInput('');
     setError(null);
 
+    // Reset textarea height after sending if it was multiline
+    // This will be handled by the useEffect on `input` change when setInput('') is called.
+
     try {
       const data = await postChatMessage(trimmedInput);
       if (data.reply) {
-        // MODIFICATION: Add bot's reply to current messages.
         setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: data.reply }]);
       } else if (data.limitExceeded) {
         setError(data.error || (currentLanguage === 'Español' ? "Límite de mensajes alcanzado." : "Message limit reached."));
@@ -147,41 +143,37 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      if (!isLimitReached) {
-          handleSend();
-      }
-    }
-  };
+  // Removed handleKeyPress as per user request for mobile-only focus
 
   const handleReset = async () => {
-    // Don't set isLoading(true) here if loadConversation does it, to avoid double setting.
-    // loadConversation will handle resetting states.
     try {
       await resetChatConversation();
-      await loadConversation(); // Reloads and prepends rich welcome message.
+      setInput(''); // Clear input field on reset
+      await loadConversation(); 
     } catch (err) {
       console.error('Error resetting conversation:', err.message);
       setError(`Error resetting: ${err.message}`);
-      await loadConversation(); // Attempt to reload even on error.
+      setInput(''); // Also clear input on error during reset
+      await loadConversation(); 
     }
   };
 
   const handleSuggestionClick = (suggestionText) => {
     if (isLimitReached) return;
     setInput(suggestionText);
+    // Focus the textarea after suggestion click to allow immediate typing/sending
+    if (textareaRef.current) {
+        textareaRef.current.focus();
+    }
   };
 
-  const isInputDisabled = (isLoading && messages.length <= 1 && !error) || isLimitReached; // Adjust messages.length check since welcome message might be present
+  const isInputDisabled = (isLoading && messages.length <= 1 && !error) || isLimitReached;
 
   return (
     <>
       <div className={styles.chatContainer}>
         <div className={styles.messages}>
-          {/* MODIFICATION:isLoading check considers that `messages` might contain the welcome message during load */}
-          {isLoading && messages.length <= 1 && !error && ( // Only show "Loading..." if only welcome message is there (or fewer) and no error
+          {isLoading && messages.length <= 1 && !error && ( 
             <div className={`${styles.message} ${styles.system}`}>
               {currentLanguage === 'Español' ? 'Cargando historial...' : 'Loading history...'}
             </div>
@@ -190,7 +182,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             <div className={`${styles.message} ${styles.system} ${styles.error}`}>{error}</div>
           )}
 
-          {/* Map and display messages. This will include the prepended rich welcome message. */}
           {messages.map((msg, index) => (
               <div key={index} className={`${styles.message} ${styles[msg.sender]}`}>
                 {msg.sender === 'bot' ? (
@@ -214,18 +205,21 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
       <div className={styles.inputWrapper}>
         <div className={styles.inputArea}>
-          <input
-            type="text"
+          {/* MODIFICATION: Changed input to textarea */}
+          <textarea
+            ref={textareaRef}
+            rows="1" // Start with one row, CSS and JS will handle expansion
             placeholder={
               isLimitReached
-                ? (currentLanguage === 'Español' ? 'Límite alcanzado. Reinicia el chat.' : 'Limit reached. Reset chat.')
+                ? (currentLanguage === 'Español' ? 'Límite alcanzado. Reinicia.' : 'Limit reached. Reset chat.')
                 : (currentLanguage === 'Español' ? 'Escribe tu mensaje...' : 'Write your message...')
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
+            // Removed onKeyPress={handleKeyPress}
             disabled={isInputDisabled}
             readOnly={isLimitReached}
+            className={styles.chatTextarea} // Added a specific class for styling
           />
           <button
             className={styles.sendMessage}
@@ -249,8 +243,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         </div>
         <button
           onClick={handleReset}
-          // MODIFICATION: Adjusted disabled logic for reset button.
-          // It's disabled if still loading initial state (messages array only has welcome or is empty) AND not limit reached.
           disabled={(isLoading && messages.length <= 1 && !isLimitReached && !error)}
           className={styles.resetConversationButton}
         >
@@ -262,4 +254,3 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 };
 
 export default Chat;
-// </file>
