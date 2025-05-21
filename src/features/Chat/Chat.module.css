@@ -124,18 +124,15 @@
   width: 90%;
   z-index: 10;
   box-sizing: border-box;
-  transition: bottom 0.2s ease-out, left 0.2s ease-out, width 0.2s ease-out, border-radius 0.2s ease-out, box-shadow 0.2s ease-out; /* Added transition */
+  transition: bottom 0.2s ease-out, left 0.2s ease-out, width 0.2s ease-out, border-radius 0.2s ease-out, box-shadow 0.2s ease-out; 
 }
 
-/* MODIFICATION: New class for when keyboard is active */
 .inputWrapperKeyboardActive {
-  bottom: 0px; /* Stick to the visual bottom */
-  left: 0px;   /* Full width */
-  width: 100%; /* Full width */
-  border-radius: 0; /* Typically square edges when docked with keyboard */
-  box-shadow: none; /* Shadow might look odd when edge-to-edge */
-  /* If you have specific padding variables for full-width mode, you can use them here */
-  /* padding: 10px 5px; /* Example of adjusting padding if needed */
+  bottom: 0px; 
+  left: 0px;   
+  width: 100%; 
+  border-radius: 0; 
+  box-shadow: none; 
 }
 
 
