@@ -8,7 +8,7 @@ Remove searchbar to add filtering by healthy or by spicy, or by vegan
 
 implementar upsell y crossell del chat, ampliar menu
 
-dejar navbar fixed
+change pairs with styling
 
 
 For stt in spanish:
