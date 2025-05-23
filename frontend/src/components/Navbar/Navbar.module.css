@@ -62,8 +62,6 @@
   padding: 10px 5px;
   color: var(--navbar-link-text-color); /* Updated, for the initial 'black' */
   /* border: 2px solid var(--main-color); */
-  border: none;
-  border-radius: 6px;
   /* background-color: rgb(241, 239, 239); */
   background-color: var(--navbar-link-background-color); /* Updated */
   flex: 1;
@@ -76,6 +74,7 @@
   /* background-color: rgb(175, 171, 171); */
   background-color: var(--navbar-link-active-background-color); /* Updated */
   color: var(--navbar-link-text-color-active);
+  border-radius: 6px;
 }
 /* .navLink:hover {
   text-decoration: underline;

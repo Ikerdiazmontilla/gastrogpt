@@ -183,7 +183,7 @@ a {
   --navbar-language-select-focus-outline-color: var(--palette-outline-focus-default);
   --navbar-link-text-color: var(--palette-pure-black);
   --navbar-link-text-color-active: var(--palette-pure-white); /* For the 'black' that was overridden */
-  --navbar-link-background-color: var(--palette-pure-white); /* Replaces old --nav-link-color for background */
+  --navbar-link-background-color: var(--palette-grey-50); /* Replaces old --nav-link-color for background */
   --navbar-link-active-background-color: var(--palette-brand-blue); /* Replaces old --nav-link-active-color */
   --navbar-svg-icon-fill-color: var(--palette-pure-white);
   --navbar-svg-icon-text-color: var(--palette-pure-white); /* 'color' attribute for SVG if used */

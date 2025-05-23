@@ -146,8 +146,8 @@
 .chatTextarea {
   flex-grow: 1; 
   padding: 10px;
-  border: none; 
-  outline: none;
+  border: 0.5px solid lightblue; 
+  outline: 1px solid transparent;
   border-radius: 8px; 
   font-size: 1rem;
   line-height: 1.4; 
@@ -158,6 +158,10 @@
   box-sizing: border-box; 
   background-color: var(--palette-pure-white); 
   color: var(--palette-neutral-dark); 
+}
+
+.chatTextarea:focus{
+  outline: 1px solid var(--palette-brand-blue);
 }
 
 

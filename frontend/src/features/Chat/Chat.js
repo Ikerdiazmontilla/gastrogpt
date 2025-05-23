@@ -23,7 +23,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const textareaRef = useRef(null);
   const [isLimitReached, setIsLimitReached] = useState(false);
   const [limitNotification, setLimitNotification] = useState('');
-  const [isKeyboardActive, setIsKeyboardActive] = useState(false); 
+  // REMOVED: const [isKeyboardActive, setIsKeyboardActive] = useState(false);
 
   const firstMessageText = currentLanguage === 'Español' ? firstMessageSpanish : firstMessageEnglish;
   const currentSuggestions = chatSuggestions[currentLanguage] || chatSuggestions['English'];
@@ -93,7 +93,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     setInput(''); // Clear the input
     setError(null);
 
-    // MODIFICATION: Programmatically re-focus the textarea
+    // Programmatically re-focus the textarea
     // We do this after setInput to ensure the height adjustment useEffect runs on empty input first,
     // and then focus is restored.
     // A slight delay can sometimes help ensure the OS processes the focus correctly after UI updates.
@@ -112,7 +112,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         setError(data.error || (currentLanguage === 'Español' ? "Límite de mensajes alcanzado." : "Message limit reached."));
         setIsLimitReached(true);
         setLimitNotification(data.error || (currentLanguage === 'Español' ? "Por favor, inicia un nuevo chat para continuar." : "Please start a new chat to continue."));
-        // No return here, allow focus to be set even on limit error if needed
       } else {
         console.error('Unexpected response from backend (no reply):', data);
         setError('Unexpected server response.');
@@ -134,16 +133,10 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       setError(displayError);
     }
     // Ensure focus is also attempted if an error occurs, in case the user wants to retry/edit.
-    // However, if a limit is reached, perhaps focus shouldn't be forced. This can be refined.
-    // For now, the timeout focus above handles the general case.
     // If isLimitReached is true, the textarea is readOnly, so focusing might not be desired.
     // Let's condition the focus:
     if (!isLimitReached && textareaRef.current) {
-        // The setTimeout above might be better placed here, after async operations.
-        // However, to ensure responsiveness of the keyboard *immediately* after send,
-        // the earlier setTimeout is often preferred.
-        // If issues arise, this is an alternative placement:
-        // textareaRef.current.focus(); 
+        // The setTimeout for focus is handled above, ensuring it happens after state updates for input clearing.
     }
   };
 
@@ -155,7 +148,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       if (textareaRef.current) {
           textareaRef.current.blur(); // Explicitly blur on reset to hide keyboard
       }
-      setIsKeyboardActive(false); // Ensure keyboard state is reset
+      // REMOVED: setIsKeyboardActive(false); // Ensure keyboard state is reset
     } catch (err)      {
       console.error('Error resetting conversation:', err.message);
       setError(`Error resetting: ${err.message}`);
@@ -207,7 +200,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       </div>
 
       <div 
-        className={`${styles.inputWrapper} ${isKeyboardActive ? styles.inputWrapperKeyboardActive : ''}`}
+        className={styles.inputWrapper} 
       >
         <div className={styles.inputArea}>
           <textarea
@@ -220,19 +213,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onFocus={() => setIsKeyboardActive(true)}
-            onBlur={() => {
-                // Add a small delay to onBlur. If a send button click causes blur,
-                // and then we immediately re-focus, we don't want this blur to prematurely set keyboard to inactive.
-                // This is a common pattern to handle focus shifts between related elements.
-                setTimeout(() => {
-                    // Check if the currently focused element is NOT the textarea itself.
-                    // This prevents the blur logic from running if we've programmatically re-focused it.
-                    if (document.activeElement !== textareaRef.current) {
-                        setIsKeyboardActive(false);
-                    }
-                }, 100); // 100ms delay, can be adjusted
-            }}
+   
             disabled={isInputDisabled}
             readOnly={isLimitReached}
             className={styles.chatTextarea}
