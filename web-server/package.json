@@ -1,0 +1,17 @@
+{
+  "name": "gastrogpt-web-server",
+  "version": "1.0.0",
+  "description": "Serves the GastroGPT frontend and proxies API requests.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "http-proxy-middleware": "^3.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4" 
+  }
+}

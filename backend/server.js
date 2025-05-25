@@ -49,7 +49,8 @@ app.use(session({
     // 'lax' is a good default for development.
     // 'none' is required for cross-origin (e.g., Vercel frontend to Render backend) requests in production.
     // When SameSite='none', 'secure: true' is also mandatory.
-    sameSite: config.nodeEnv === 'production' ? 'none' : 'lax',
+    sameSite: 'lax', 
+    // sameSite: config.nodeEnv === 'production' ? 'none' : 'lax',
   },
 }));
 
@@ -85,6 +86,8 @@ const startServer = async () => {
     process.exit(1); // Exit if critical setup fails
   }
 };
+
+console.log(`Session cookie SameSite policy: ${app.get('session').cookie.sameSite}`);
 
 startServer();
 // </file>
