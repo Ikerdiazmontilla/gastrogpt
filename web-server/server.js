@@ -65,10 +65,10 @@ app.use(express.static(frontendBuildPath));
 // 3. The "catchall" handler for SPA routing:
 // For any request that doesn't match /api/* or a static file in ../frontend/build,
 // send back React's index.html file.
-// app.get('*', (req, res) => {
-//   console.log(`[Web Server] Serving index.html for non-API, non-static route: ${req.path}`);
-//   res.sendFile(path.join(frontendBuildPath, 'index.html'));
-// });
+app.get('/*', (req, res) => {
+  console.log(`[Web Server] Serving index.html for non-API, non-static route: ${req.path}`);
+  res.sendFile(path.join(frontendBuildPath, 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`[Web Server] Frontend server with API proxy listening on port ${PORT}`);
