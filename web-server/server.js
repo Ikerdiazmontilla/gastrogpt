@@ -6,6 +6,7 @@ const app = express();
 
 // PORT for this web-server service (Railway injects this as $PORT)
 const PORT = process.env.PORT || 3001;
+console.log('The port chosen is:', PORT)
 
 // URL of your INTERNAL backend service.
 // Railway will inject this as INTERNAL_BACKEND_URL in production.
@@ -68,7 +69,7 @@ app.use((req, res) => {
   res.sendFile(path.join(frontendBuildPath, 'index.html'));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(
     `[Web Server] Frontend server with API proxy listening on port ${PORT}`
   );
@@ -81,3 +82,4 @@ app.listen(PORT, () => {
     );
   }
 });
+
