@@ -28,7 +28,7 @@ console.log(`[Web Server] Frontend will be served from this service.`);
 console.log(
   `[Web Server] API requests to /api will be proxied to: ${INTERNAL_BACKEND_URL}`
 );
-
+app.get('/_health', (req, res) => res.send('OK'));
 // 1. Proxy API requests to the backend
 app.use(
   '/api',
