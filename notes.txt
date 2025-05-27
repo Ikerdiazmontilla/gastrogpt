@@ -10,6 +10,9 @@ implementar upsell y crossell del chat, ampliar menu
 
 change pairs with styling
 
+add emojis to questionnaire
+remove some popular dishes
+
 
 For stt in spanish:
 https://www.speechmatics.com/

@@ -164,6 +164,9 @@
   outline: 1px solid var(--palette-brand-blue);
 }
 
+.chatTextarea::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Edge */
+}
 
 .sendMessage{
   border-radius: 8px;

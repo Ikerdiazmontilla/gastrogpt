@@ -11,7 +11,7 @@ export const menuData = {
       precio: 8.50,
       imagen: "/assets/croquetas.jpg",
       alergenos: ["gluten", "lactosa"],
-      etiquetas: ["popular"],
+      etiquetas: ["recomendado"],
       pairsWith: { main: 5 } // Pairs with Paella de Mariscos (Original ID 4, now ID 5)
     },
     {
@@ -44,7 +44,7 @@ export const menuData = {
       precio: 11.50,
       imagen: "/assets/gambas-al-ajillo.jpg",
       alergenos: ["crustaceos"],
-      etiquetas: ["popular"],
+      etiquetas: [],
       pairsWith: { main: 5 } // Pairs with Paella de Mariscos (Original ID 4, now ID 5)
     },
   ],
@@ -57,7 +57,7 @@ export const menuData = {
       precio: 18.50,
       imagen: "/assets/paella-marisco.jpg",
       alergenos: ["mariscos", "crustaceos", "moluscos"],
-      etiquetas: ["popular", "recomendado", "picante_suave"],
+      etiquetas: ["picante_suave"],
       pairsWith: { drink: 16, dessert: 12 } // Drink: Sangría Casera (Original ID 11, now 16), Dessert: Sorbete de Limón al Cava (Original ID 9, now 12)
     },
     {
@@ -68,7 +68,7 @@ export const menuData = {
       precio: 22.00,
       imagen: "/assets/solomillo-al-whisky.jpg",
       alergenos: ["gluten"],
-      etiquetas: ["recomendado"],
+      etiquetas: ["popular"],
       pairsWith: { drink: 15, dessert: 10 } // Drink: Vino Tinto Rioja Crianza (Original ID 10, now 15), Dessert: Tarta de Queso (Original ID 7, now 10)
     },
     {
@@ -90,8 +90,8 @@ export const menuData = {
       precio: 15.00,
       imagen: "/assets/lasana-vegana.jpg",
       alergenos: ["gluten", "soja"],
-      etiquetas: ["vegano", "recomendado"],
-      pairsWith: { drink: 19, dessert: 13 } // Pairs with Zumo de Naranja (ID 19 - not in current re-IDed bebidas list) and Brownie Vegano (Original ID 17, now 13)
+      etiquetas: ["recomendado","vegano"],
+      pairsWith: { drink: 16, dessert: 13 } // Pairs with Zumo de Naranja (ID 19 - not in current re-IDed bebidas list) and Brownie Vegano (Original ID 17, now 13)
     },
     // {
     //   id: 9, // Original ID 16
@@ -144,7 +144,7 @@ export const menuData = {
       precio: 7.00,
       imagen: "/assets/brownie-con-helado.jpg",
       alergenos: ["gluten", "frutos_secos"],
-      etiquetas: ["vegano", "popular"],
+      etiquetas: ["vegano"],
     },
   ],
   bebidas: [
