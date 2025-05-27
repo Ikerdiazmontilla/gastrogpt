@@ -47,6 +47,7 @@ const config = {
   // CORS Configuration
   corsOrigins: [
     'http://localhost:3000',
+    'https://gastroai.net',
     process.env.CORS_LINK_1,
   ],
 };
