@@ -5,11 +5,9 @@
 /backend/node_modules
 /backend/.env
 /frontend/node_modules
+/frontend/build
 /.pnp
 .pnp.js 
-/frontend/build
-/web-server/node_modules
-
 
 # testing
 /coverage

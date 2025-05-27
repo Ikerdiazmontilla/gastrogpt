@@ -81,7 +81,7 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    const { tipoComida, alergias, nivelPicante } = form;
+    const { tipoComida, precio, alergias, nivelPicante } = form;
 
     // Validation: precio is now an array [min, max] and always has values.
     if (tipoComida.length === 0 || nivelPicante.length === 0) {
