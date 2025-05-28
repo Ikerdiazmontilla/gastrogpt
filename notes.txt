@@ -1,16 +1,11 @@
 
 
-Hacer que deslizando a la derecha vayas a la carta. Y ponerlo en el primer mensaje 
-
-Poner(ver plato) al lado del link de cada plato.
-
-Añadir Aquarius y Cocacola a bebidas
 
 Añadir markdown rendering to firstmessage and other messages
 
 Que te sugiera directamente los platos
 
-limite de mensajes
+Subir limite de mensajes
 
 cuando alguien pide algo q no existe gestionarlo
 

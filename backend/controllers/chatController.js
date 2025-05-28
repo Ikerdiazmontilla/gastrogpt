@@ -6,7 +6,7 @@ const pool = require('../db/pool');
 const systemInstructions = require('../prompts/chatInstructions');
 const firstBotMessage = require('../prompts/firstMessage');
 
-const USER_MESSAGE_LIMIT = 10; // Define the limit
+const USER_MESSAGE_LIMIT = 15; // Define the limit - CHANGED FROM 10 to 15
 
 /**
  * @file chatController.js
@@ -104,7 +104,7 @@ async function handleChatMessage(req, res) {
       // If limit was hit and signaled, and user tries to send another message
       await client.query('ROLLBACK'); // No changes to DB
       return res.status(403).json({
-        error: 'Message limit reached. Please start a new chat to continue.',
+        error: `Message limit of ${USER_MESSAGE_LIMIT} reached. Please start a new chat to continue.`, // Updated message
         limitExceeded: true // Special flag for frontend
       });
     }
@@ -140,7 +140,8 @@ async function handleChatMessage(req, res) {
 
     if (updatedUserMessageCount === USER_MESSAGE_LIMIT) {
       limitReachedThisTurn = true;
-      notificationMessageForFrontend = "You have reached the 10-message limit. Please start a new chat to continue.";
+      // Updated notification message to use the constant
+      notificationMessageForFrontend = `You have reached the ${USER_MESSAGE_LIMIT}-message limit. Please start a new chat to continue.`; 
       // Add a marker to the assistant's message in DB for future reference
       assistantMessageForAI.limitReachedNotification = true;
     }
@@ -200,4 +201,3 @@ module.exports = {
   handleChatMessage,
   resetChat,
 };
-// </file>
