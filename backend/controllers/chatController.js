@@ -3,7 +3,7 @@ const chatRepository = require('../db/chatRepository');
 const llmService = require('../services/llmService');
 const pool = require('../db/pool');
 
-const systemInstructions = require('../prompts/instructions');
+const systemInstructions = require('../prompts/chatInstructions');
 const firstBotMessage = require('../prompts/firstMessage');
 
 const USER_MESSAGE_LIMIT = 10; // Define the limit

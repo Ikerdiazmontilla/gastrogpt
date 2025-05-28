@@ -9,7 +9,7 @@ const menu = {
       precio: 8.50,
       imagen: "/assets/croquetas.jpg",
       alergenos: ["gluten", "lactosa"],
-      etiquetas: ["popular"],
+      etiquetas: ["recomendado"],
       pairsWith: { main: 5 } // Pairs with Paella de Mariscos (Original ID 4, now ID 5)
     },
     {
@@ -42,21 +42,21 @@ const menu = {
       precio: 11.50,
       imagen: "/assets/gambas-al-ajillo.jpg",
       alergenos: ["crustaceos"],
-      etiquetas: ["popular"],
+      etiquetas: [],
       pairsWith: { main: 5 } // Pairs with Paella de Mariscos (Original ID 4, now ID 5)
     },
   ],
   principales: [
     {
-      id: 5, // Original ID 4
-      nombre: { es: "Paella de Mariscos", en: "Seafood Paella" },
-      descripcionCorta: { es: "Arroz con azafrán, calamares, gambas...", en: "Rice with saffron, squid, prawns..." },
-      descripcionLarga: { es: "Auténtica paella de mariscos con arroz bomba, azafrán, calamares tiernos, gambas frescas, mejillones y almejas, cocinada lentamente en su caldo. Toque picante opcional.", en: "Authentic seafood paella with bomba rice, saffron, tender squid, fresh prawns, mussels, and clams, slowly cooked in its broth. Optional spicy touch." },
-      precio: 18.50,
-      imagen: "/assets/paella-marisco.jpg",
-      alergenos: ["mariscos", "crustaceos", "moluscos"],
-      etiquetas: ["popular", "recomendado", "picante_suave"],
-      pairsWith: { drink: 16, dessert: 12 } // Drink: Sangría Casera (Original ID 11, now 16), Dessert: Sorbete de Limón al Cava (Original ID 9, now 12)
+      id: 8, // Original ID 15
+      nombre: { es: "Lasaña de Verduras", en: "Vegetable Lasagna" },
+      descripcionCorta: { es: "Capas de pasta, verduras de temporada y bechamel vegana.", en: "Layers of pasta, seasonal vegetables, and vegan béchamel." },
+      descripcionLarga: { es: "Deliciosa lasaña vegana con láminas de pasta fresca, rellena de una rica mezcla de verduras de temporada (calabacín, berenjena, pimientos, espinacas) y una cremosa bechamel a base de leche vegetal, gratinada con queso vegano.", en: "Delicious vegan lasagna with fresh pasta sheets, filled with a rich mix of seasonal vegetables (zucchini, eggplant, peppers, spinach) and a creamy plant-based milk béchamel, topped with melted vegan cheese." },
+      precio: 15.00,
+      imagen: "/assets/lasana-vegana.jpg",
+      alergenos: ["gluten", "soja"],
+      etiquetas: ["recomendado","vegano"],
+      pairsWith: { drink: 16, dessert: 13 } // Pairs with Zumo de Naranja (ID 19 - not in current re-IDed bebidas list) and Brownie Vegano (Original ID 17, now 13)
     },
     {
       id: 6, // Original ID 5
@@ -66,8 +66,19 @@ const menu = {
       precio: 22.00,
       imagen: "/assets/solomillo-al-whisky.jpg",
       alergenos: ["gluten"],
-      etiquetas: ["recomendado"],
+      etiquetas: ["popular"],
       pairsWith: { drink: 15, dessert: 10 } // Drink: Vino Tinto Rioja Crianza (Original ID 10, now 15), Dessert: Tarta de Queso (Original ID 7, now 10)
+    },
+    {
+      id: 5, // Original ID 4
+      nombre: { es: "Paella de Mariscos", en: "Seafood Paella" },
+      descripcionCorta: { es: "Arroz con azafrán, calamares, gambas...", en: "Rice with saffron, squid, prawns..." },
+      descripcionLarga: { es: "Auténtica paella de mariscos con arroz bomba, azafrán, calamares tiernos, gambas frescas, mejillones y almejas, cocinada lentamente en su caldo. Toque picante opcional.", en: "Authentic seafood paella with bomba rice, saffron, tender squid, fresh prawns, mussels, and clams, slowly cooked in its broth. Optional spicy touch." },
+      precio: 18.50,
+      imagen: "/assets/paella-marisco.jpg",
+      alergenos: ["mariscos", "crustaceos", "moluscos"],
+      etiquetas: ["picante_suave"],
+      pairsWith: { drink: 16, dessert: 12 } // Drink: Sangría Casera (Original ID 11, now 16), Dessert: Sorbete de Limón al Cava (Original ID 9, now 12)
     },
     {
       id: 7, // Original ID 6
@@ -80,17 +91,7 @@ const menu = {
       etiquetas: ["vegetariano"],
       pairsWith: { drink: 17, dessert: 11 } // Drink: Agua Mineral Natural (Original ID 12, now 17), Dessert: Crema Catalana (Original ID 8, now 11)
     },
-    {
-      id: 8, // Original ID 15
-      nombre: { es: "Lasaña de Verduras", en: "Vegetable Lasagna" },
-      descripcionCorta: { es: "Capas de pasta, verduras de temporada y bechamel vegana.", en: "Layers of pasta, seasonal vegetables, and vegan béchamel." },
-      descripcionLarga: { es: "Deliciosa lasaña vegana con láminas de pasta fresca, rellena de una rica mezcla de verduras de temporada (calabacín, berenjena, pimientos, espinacas) y una cremosa bechamel a base de leche vegetal, gratinada con queso vegano.", en: "Delicious vegan lasagna with fresh pasta sheets, filled with a rich mix of seasonal vegetables (zucchini, eggplant, peppers, spinach) and a creamy plant-based milk béchamel, topped with melted vegan cheese." },
-      precio: 15.00,
-      imagen: "/assets/lasana-vegana.jpg",
-      alergenos: ["gluten", "soja"],
-      etiquetas: ["vegano", "recomendado"],
-      pairsWith: { drink: 19, dessert: 13 } // Pairs with Zumo de Naranja (ID 19 - not in current re-IDed bebidas list) and Brownie Vegano (Original ID 17, now 13)
-    },
+
     // {
     //   id: 9, // Original ID 16
     //   nombre: { es: "Bacalao a la Vizcaína", en: "Biscayan Style Cod" },
@@ -142,7 +143,7 @@ const menu = {
       precio: 7.00,
       imagen: "/assets/brownie-con-helado.jpg",
       alergenos: ["gluten", "frutos_secos"],
-      etiquetas: ["vegano", "popular"],
+      etiquetas: ["vegano"],
     },
   ],
   bebidas: [
@@ -158,6 +159,23 @@ const menu = {
       pairsWith: { main: 6 } // Pairs with Solomillo al Whisky (Original ID 5, now ID 6)
     },
     {
+      id: 19,
+      nombre: { es: "Zumo Tropical de la Casa", en: "House Tropical Juice" },
+      descripcionCorta: {
+        es: "Zumo de frutas frescas sin alcohol.",
+        en: "Fresh fruit juice, alcohol-free."
+      },
+      descripcionLarga: {
+        es: "Refrescante mezcla de piña, mango, naranja y maracuyá, exprimida al momento y servida muy fría.",
+        en: "Refreshing blend of pineapple, mango, orange and passion fruit, freshly squeezed and served chilled."
+      },
+      precio: 4.00,
+      imagen: "/assets/zumo-tropical.jpg",
+      alergenos: [],
+      etiquetas: ["recomendado", "sin_gluten"],
+      pairsWith: { main: 8 } // Lasaña de Verduras
+    },
+    {
       id: 16, // Original ID 11
       nombre: { es: "Sangría Casera", en: "Homemade Sangria" },
       descripcionCorta: { es: "Refrescante sangría con vino tinto, frutas...", en: "Refreshing sangria with red wine, fruits..." },
@@ -167,17 +185,6 @@ const menu = {
       alergenos: ["sulfitos"],
       etiquetas: ["popular"],
       pairsWith: { main: 5 } // Pairs with Paella de Mariscos (Original ID 4, now ID 5)
-    },
-    {
-      id: 17, // Original ID 12
-      nombre: { es: "Agua Mineral Natural", en: "Natural Mineral Water" },
-      descripcionCorta: { es: "Agua mineral natural de manantial.", en: "Natural spring mineral water." },
-      descripcionLarga: { es: "Agua mineral natural de mineralización débil, proveniente de manantial protegido. Servida fría.", en: "Natural mineral water with low mineralization, from a protected spring. Served cold." },
-      precio: 2.00,
-      imagen: "/assets/agua-mineral.jpg",
-      alergenos: [],
-      etiquetas: [],
-      pairsWith: { main: 7 } // Pairs with Risotto de Setas (Original ID 6, now ID 7)
     },
     {
       id: 18, // Original ID 20
@@ -190,6 +197,18 @@ const menu = {
       etiquetas: [],
       pairsWith: { main: 6 } // Pairs well with Solomillo al Whisky (Original ID 5, now ID 6)
     },
+    {
+      id: 17, // Original ID 12
+      nombre: { es: "Agua Mineral Natural", en: "Natural Mineral Water" },
+      descripcionCorta: { es: "Agua mineral natural de manantial.", en: "Natural spring mineral water." },
+      descripcionLarga: { es: "Agua mineral natural de mineralización débil, proveniente de manantial protegido. Servida fría.", en: "Natural mineral water with low mineralization, from a protected spring. Served cold." },
+      precio: 2.00,
+      imagen: "/assets/agua-mineral.jpg",
+      alergenos: [],
+      etiquetas: [],
+      pairsWith: { main: 7 } // Pairs with Risotto de Setas (Original ID 6, now ID 7)
+    },
+
   ],
 };
 

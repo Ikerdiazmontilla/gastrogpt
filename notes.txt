@@ -1,3 +1,21 @@
+Primer mensaje mas conciso y preguntando por bebida o algo.
+
+Hacer que el chatbot te ofrezca varias opciones antes de preguntar q es lo q quieres.
+
+Hola, soy gastrogpt, y te voy a ayudar a crear tu menú ideal, empezamos con las bebidas?
+
+Boton de nuevo chat menos llamativo y mas pequeño. Al lado de sugestiones 
+
+Hacer que deslizando a la derecha vayas a la carta. Y ponerlo en el primer mensaje 
+
+Poner(ver plato) al lado del link de cada plato.
+
+Añadir Aquarius y Cocacola a bebidas
+
+Añadir markdown a firstmessage
+
+
+
 cambiar alergias para que no sea necesario seleccionar nada ahi
 
 (Si no aceptan las cookies se puede hacer un fallback a localstorage o se le puede inhabilitar el uso del chat o que salte un banner diciendo que tienen las cookies desactivadas)
