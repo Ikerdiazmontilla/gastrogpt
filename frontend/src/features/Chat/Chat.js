@@ -1,4 +1,4 @@
-// <file path="src/features/Chat/Chat.js">
+// <file path="frontend/src/features/Chat/Chat.js">
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './Chat.module.css';
@@ -23,7 +23,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const textareaRef = useRef(null);
   const [isLimitReached, setIsLimitReached] = useState(false);
   const [limitNotification, setLimitNotification] = useState('');
-
 
   const firstMessageText = currentLanguage === 'Español' ? firstMessageSpanish : firstMessageEnglish;
   const currentSuggestions = chatSuggestions[currentLanguage] || chatSuggestions['English'];
@@ -52,8 +51,8 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
           if (lastBotMsgWithNotification) {
              setLimitNotification(
                 currentLanguage === 'Español'
-                ? "Has alcanzado el límite de 10 mensajes. Por favor, inicia un nuevo chat para continuar."
-                : "You have reached the 10-message limit. Please start a new chat to continue."
+                ? "Has alcanzado el límite de 15 mensajes. Por favor, inicia un nuevo chat para continuar." 
+                : "You have reached the 15-message limit. Please start a new chat to continue." 
             );
           }
         }
@@ -90,19 +89,14 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
     const userMessage = { sender: 'user', text: trimmedInput };
     setMessages(prevMessages => [...prevMessages, userMessage]);
-    setInput(''); // Clear the input
+    setInput(''); 
     setError(null);
 
-    // Programmatically re-focus the textarea
-    // We do this after setInput to ensure the height adjustment useEffect runs on empty input first,
-    // and then focus is restored.
-    // A slight delay can sometimes help ensure the OS processes the focus correctly after UI updates.
     setTimeout(() => {
         if (textareaRef.current) {
             textareaRef.current.focus();
         }
     }, 0);
-
 
     try {
       const data = await postChatMessage(trimmedInput);
@@ -132,11 +126,8 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       }
       setError(displayError);
     }
-    // Ensure focus is also attempted if an error occurs, in case the user wants to retry/edit.
-    // If isLimitReached is true, the textarea is readOnly, so focusing might not be desired.
-    // Let's condition the focus:
     if (!isLimitReached && textareaRef.current) {
-        // The setTimeout for focus is handled above, ensuring it happens after state updates for input clearing.
+      // Focus handled by setTimeout above
     }
   };
 
@@ -146,9 +137,8 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       setInput('');
       await loadConversation();
       if (textareaRef.current) {
-          textareaRef.current.blur(); // Explicitly blur on reset to hide keyboard
+          textareaRef.current.blur(); 
       }
-      // REMOVED: setIsKeyboardActive(false); // Ensure keyboard state is reset
     } catch (err)      {
       console.error('Error resetting conversation:', err.message);
       setError(`Error resetting: ${err.message}`);
@@ -166,9 +156,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   };
 
   const isInputDisabled = (isLoading && messages.length <= 1 && !error) || isLimitReached;
-  // Determine if the reset button itself should be disabled (e.g., during initial load when there's nothing to reset)
   const isResetDisabled = (isLoading && messages.length <= 1 && !isLimitReached && !error);
-
 
   return (
     <>
@@ -204,6 +192,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
       <div 
         className={styles.inputWrapper} 
+        data-no-tab-swipe="true" // Attribute moved to the entire input wrapper
       >
         <div className={styles.inputArea}>
           <textarea
@@ -216,7 +205,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
-   
             disabled={isInputDisabled}
             readOnly={isLimitReached}
             className={styles.chatTextarea}
@@ -229,16 +217,18 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             <SendIcon className={styles.sendSvg} />
           </button>
         </div>
-        <div className={styles.suggestionsContainer}>
-          {/* Moved reset button here */}
+        <div 
+          className={styles.suggestionsContainer}
+          // data-no-tab-swipe="true" // Attribute removed from here
+        >
           <button
             onClick={handleReset}
-            disabled={isResetDisabled} // Use the new disabled state variable
-            className={styles.resetIconChip} // New style for the icon button
-            aria-label={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'} // Accessibility
-            title={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'} // Tooltip
+            disabled={isResetDisabled} 
+            className={styles.resetIconChip} 
+            aria-label={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'} 
+            title={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'} 
           >
-            🔄 {/* Reset icon */}
+            ↻
           </button>
           {currentSuggestions.map((suggestion, index) => (
             <button
@@ -251,7 +241,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             </button>
           ))}
         </div>
-        {/* Original reset button removed from here */}
       </div>
     </>
   );
