@@ -23,7 +23,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const textareaRef = useRef(null);
   const [isLimitReached, setIsLimitReached] = useState(false);
   const [limitNotification, setLimitNotification] = useState('');
-  // REMOVED: const [isKeyboardActive, setIsKeyboardActive] = useState(false);
+
 
   const firstMessageText = currentLanguage === 'Español' ? firstMessageSpanish : firstMessageEnglish;
   const currentSuggestions = chatSuggestions[currentLanguage] || chatSuggestions['English'];
@@ -166,6 +166,9 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   };
 
   const isInputDisabled = (isLoading && messages.length <= 1 && !error) || isLimitReached;
+  // Determine if the reset button itself should be disabled (e.g., during initial load when there's nothing to reset)
+  const isResetDisabled = (isLoading && messages.length <= 1 && !isLimitReached && !error);
+
 
   return (
     <>
@@ -227,6 +230,16 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
           </button>
         </div>
         <div className={styles.suggestionsContainer}>
+          {/* Moved reset button here */}
+          <button
+            onClick={handleReset}
+            disabled={isResetDisabled} // Use the new disabled state variable
+            className={styles.resetIconChip} // New style for the icon button
+            aria-label={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'} // Accessibility
+            title={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'} // Tooltip
+          >
+            🔄 {/* Reset icon */}
+          </button>
           {currentSuggestions.map((suggestion, index) => (
             <button
               key={index}
@@ -238,13 +251,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             </button>
           ))}
         </div>
-        <button
-          onClick={handleReset}
-          disabled={(isLoading && messages.length <= 1 && !isLimitReached && !error)}
-          className={styles.resetConversationButton}
-        >
-          {currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'}
-        </button>
+        {/* Original reset button removed from here */}
       </div>
     </>
   );

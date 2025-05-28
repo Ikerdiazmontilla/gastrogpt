@@ -28,13 +28,13 @@
 // Or ask me anything — I’m here to help! 🤖`;
 
 const firstMessageSpanish = `### 🇪🇸 **¡Hola! Soy *GastroGPT*, tu asistente para elegir el menú ideal 🍽️**
-**📩 Puedes preguntarme cualquier duda** sobre el menú.  
+**❓ Puedes preguntarme cualquier duda** sobre el menú.  
 📲 *Desliza a la izquierda* para ver la **carta digital**.  
 🥤 ¿Te parece que empecemos con las **bebidas**? ¿Quieres ver las **más populares**?`;
 
 
 const firstMessageEnglish =`### 🇬🇧 **Hi! I'm *GastroGPT*, your assistant to find the perfect menu 🍽️**
-**📩 You can ask me anything** about the menu.  
+**❓ You can ask me anything** about the menu.  
 📲 *Swipe left* to view the **digital menu**.  
 🥤 Shall we **start with drinks**? Want to see the **most popular ones**?`;
 

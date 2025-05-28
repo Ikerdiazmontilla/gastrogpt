@@ -1,4 +1,4 @@
-Boton de nuevo chat menos llamativo y mas pequeño. Al lado de sugestiones 
+
 
 Hacer que deslizando a la derecha vayas a la carta. Y ponerlo en el primer mensaje 
 
