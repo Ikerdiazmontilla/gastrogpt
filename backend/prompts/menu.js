@@ -149,7 +149,7 @@ const menu = {
   bebidas: [
     {
       id: 15, // Original ID 10
-      nombre: { es: "Vino Tinto Rioja Crianza", en: "Rioja Crianza Red Wine" },
+      nombre: { es: "Vino Tinto", en: "Rioja Crianza Red Wine" },
       descripcionCorta: { es: "Vino tinto D.O.Ca. Rioja, crianza...", en: "Red wine D.O.Ca. Rioja, crianza..." },
       descripcionLarga: { es: "Vino tinto de la Denominación de Origen Calificada Rioja, elaborado con uvas Tempranillo y Graciano, con una crianza de 12 meses en barrica de roble americano.", en: "Red wine from the Rioja Qualified Designation of Origin, made with Tempranillo and Graciano grapes, aged for 12 months in American oak barrels." },
       precio: 18.00,
@@ -160,7 +160,7 @@ const menu = {
     },
     {
       id: 19,
-      nombre: { es: "Zumo Tropical de la Casa", en: "House Tropical Juice" },
+      nombre: { es: "Zumo Tropical", en: "House Tropical Juice" },
       descripcionCorta: {
         es: "Zumo de frutas frescas sin alcohol.",
         en: "Fresh fruit juice, alcohol-free."
@@ -188,7 +188,7 @@ const menu = {
     },
     {
       id: 18, // Original ID 20
-      nombre: { es: "Cerveza Artesana Local", en: "Local Craft Beer" },
+      nombre: { es: "Cerveza Artesana", en: "Local Craft Beer" },
       descripcionCorta: { es: "Selección de cervezas artesanas de productores locales.", en: "Selection of craft beers from local producers." },
       descripcionLarga: { es: "Descubre nuestra selección rotativa de cervezas artesanas elaboradas por pequeños productores de la región. Pregunta a nuestro personal por las variedades disponibles (IPA, Lager, Stout, etc.).", en: "Discover our rotating selection of craft beers brewed by small local producers. Ask our staff about the available varieties (IPA, Lager, Stout, etc.)." },
       precio: 5.50,
@@ -199,7 +199,7 @@ const menu = {
     },
     {
       id: 17, // Original ID 12
-      nombre: { es: "Agua Mineral Natural", en: "Natural Mineral Water" },
+      nombre: { es: "Agua Mineral", en: "Natural Mineral Water" },
       descripcionCorta: { es: "Agua mineral natural de manantial.", en: "Natural spring mineral water." },
       descripcionLarga: { es: "Agua mineral natural de mineralización débil, proveniente de manantial protegido. Servida fría.", en: "Natural mineral water with low mineralization, from a protected spring. Served cold." },
       precio: 2.00,

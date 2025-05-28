@@ -1,15 +1,12 @@
-
-
-
 Añadir markdown rendering to firstmessage and other messages
 
 Que te sugiera directamente los platos
 
-Subir limite de mensajes
-
 cuando alguien pide algo q no existe gestionarlo
 
 Hacer enfasis en que sea mas conversacional
+
+modificar ejemplos para que representen todos los casos posibles y como debe responder el chat
 
 Poner en los ejemplos que el cliente le pregunta por un plato que no existe o que le dice que no le gusta un plato
 
