@@ -214,7 +214,7 @@ export const navbarTranslations = {
   English: {
     carta: "📖 Menu",
     chat: "💬 Chat",
-    menuRapido: "📝 Elegir"
+    menuRapido: "📝 Choose"
   }
 };
 

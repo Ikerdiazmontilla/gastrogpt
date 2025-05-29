@@ -1,5 +1,5 @@
 // <file path="gastrogpts/backend/prompts/menu.js">
-const menu = {
+const menuData = {
   entrantes: [
     {
       id: 1, // Original ID 1
@@ -31,7 +31,7 @@ const menu = {
       precio: 6.50,
       imagen: "/assets/gazpacho.jpg",
       alergenos: [],
-      etiquetas: ["vegano", "sin_gluten"],
+      etiquetas: ["popular","vegano", "sin_gluten"],
       pairsWith: { main: 7 } // Pairs with Risotto de Setas (Original ID 6, now ID 7)
     },
     {
@@ -212,4 +212,4 @@ const menu = {
   ],
 };
 
-module.exports = menu;
+module.exports = menuData;
