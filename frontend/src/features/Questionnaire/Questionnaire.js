@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import styles from './Questionnaire.module.css';
 import ReactMarkdown from 'react-markdown';
-import { questionnaireTranslations } from '../../data/translations'; // Translations
+import { questionnaireTranslations } from '../../data/translations';
 
-// API service
 import { submitQuestionnaire } from '../../services/apiService';
 
-// Markdown utilities
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
 
 const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
   const initialFormState = useMemo(() => ({
     tipoComida: [],
-    precio: [15, 30], // Initial range: [min, max]
+    precio: [15, 30],
     alergias: [],
     nivelPicante: [],
     consideraciones: ''
@@ -36,11 +34,10 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
     setError('');
 
     setForm(prevForm => {
-      let newForm = { ...prevForm }; // Copy previous form state
+      let newForm = { ...prevForm };
 
       if (name === "precioMin") {
         const newMin = parseFloat(rawValue);
-        // If new min is greater than current max, "push" max to be newMin
         if (newMin > prevForm.precio[1]) {
           newForm.precio = [newMin, newMin];
         } else {
@@ -48,7 +45,6 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
         }
       } else if (name === "precioMax") {
         const newMax = parseFloat(rawValue);
-        // If new max is less than current min, "push" min to be newMax
         if (newMax < prevForm.precio[0]) {
           newForm.precio = [newMax, newMax];
         } else {
@@ -71,7 +67,7 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
         } else {
           newForm[name] = currentValues.filter(item => item !== rawValue);
         }
-      } else { // Textarea
+      } else {
         newForm[name] = rawValue;
       }
       return newForm;
@@ -83,7 +79,6 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
     setError('');
     const { tipoComida, precio, alergias, nivelPicante } = form;
 
-    // Validation: precio is now an array [min, max] and always has values.
     if (tipoComida.length === 0 || nivelPicante.length === 0) {
       setError(T.errors.requiredFields);
       return;
@@ -92,16 +87,11 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
       setError(T.errors.requiredAlergias);
       return;
     }
-    // Optional: Add validation for price if needed, e.g., ensuring min <= max (though UI handles this)
-    // if (precio[0] > precio[1]) {
-    //   setError("Minimum price cannot exceed maximum price."); // Or a translated error
-    //   return;
-    // }
 
     setLoading(true);
     setResult('');
 
-    const payload = { ...form, language: currentLanguage }; // form.precio is already [min, max]
+    const payload = { ...form, language: currentLanguage };
 
     try {
       const data = await submitQuestionnaire(payload);
@@ -138,7 +128,6 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
     }
   };
 
-  // Calculate percentages for the fill bar of the range slider
   const minPriceSlider = 15;
   const maxPriceSlider = 30;
   const priceRange = maxPriceSlider - minPriceSlider;
@@ -163,11 +152,14 @@ const Questionnaire = ({ currentLanguage, onViewDishDetails }) => {
 
         {/* Precio - Dual Pointer Range Slider */}
         <div className={styles.formGroup}>
-          <label htmlFor="precioMin">{T.labels.precio}</label> {/* Label points to the first interactive element */}
+          <label htmlFor="precioMin">{T.labels.precio}</label>
           <div className={styles.priceRangeDisplay}>
             {T.options.precio.minLabel || 'Min'}: {form.precio[0]} € - {T.options.precio.maxLabel || 'Max'}: {form.precio[1]} €
           </div>
-          <div className={styles.priceRangeSliderComposite}>
+          <div
+            className={styles.priceRangeSliderComposite}
+            data-no-tab-swipe="true" // <-- ADDED ATTRIBUTE HERE
+          >
             <div className={styles.sliderTrack}></div>
             <div
               className={styles.sliderFill}

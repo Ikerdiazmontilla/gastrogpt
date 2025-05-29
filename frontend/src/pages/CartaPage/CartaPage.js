@@ -1,12 +1,11 @@
-// <file path="gastrogpts/src/pages/CartaPage/CartaPage.js">
 // src/pages/CartaPage/CartaPage.js
 import React, { useState, useMemo } from 'react';
 import styles from './CartaPage.module.css';
 import { menuData } from '../../data/menuData'; // Raw menu data
 import { cartaPageTranslations } from '../../data/translations'; // Translations
 import { getTranslatedDishText } from '../../utils/menuUtils'; // Utilities
-import MenuItemCard from '../../components/Dish/MenuItemCard'; // Updated path
-import DishDetailModal from '../../components/Dish/DishDetailModal'; // Updated path
+import MenuItemCard from '../../components/Dish/MenuItemCard';
+import DishDetailModal from '../../components/Dish/DishDetailModal';
 
 const CartaPage = ({ currentLanguage }) => {
   const T = cartaPageTranslations[currentLanguage] || cartaPageTranslations['Español'];
@@ -14,19 +13,17 @@ const CartaPage = ({ currentLanguage }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlato, setSelectedPlato] = useState(null);
 
-  // Memoize allPlatos to prevent recalculation on every render
   const allPlatos = useMemo(() => [
     ...(menuData.entrantes || []),
     ...(menuData.principales || []),
     ...(menuData.postres || []),
     ...(menuData.bebidas || [])
-  ], []); // menuData is stable, so dependency array is empty if menuData itself doesn't change reference
+  ], []);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // This function is used when a card is clicked AND when a paired item in the modal is clicked
   const handleSelectDishForModal = (plato) => {
     setSelectedPlato(plato);
   };
@@ -45,7 +42,7 @@ const CartaPage = ({ currentLanguage }) => {
     } else if (menuData[activeTab]) {
       platosToShow = menuData[activeTab];
     } else {
-      platosToShow = []; // Default to empty if tab key is invalid
+      platosToShow = [];
     }
 
     if (searchTerm) {
@@ -53,26 +50,20 @@ const CartaPage = ({ currentLanguage }) => {
       return platosToShow.filter(plato => {
         const nombre = getTranslatedDishText(plato.nombre, currentLanguage).toLowerCase();
         const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage).toLowerCase();
-        // Optional: search in descripcionLarga, ingredientes etc.
-        // const descripcionLarga = getTranslatedDishText(plato.descripcionLarga, currentLanguage).toLowerCase();
-        // const ingredientes = (plato.ingredientes || []).join(' ').toLowerCase();
-
         return nombre.includes(lowerSearchTerm) ||
                descripcionCorta.includes(lowerSearchTerm);
-        //        || descripcionLarga.includes(lowerSearchTerm)
-        //        || ingredientes.includes(lowerSearchTerm);
       });
     }
     return platosToShow;
   }, [activeTab, searchTerm, allPlatos, currentLanguage]);
 
-  const tabs = useMemo(() => [ // Memoize tabs array as well
+  const tabs = useMemo(() => [
     { key: 'destacados', label: T.tabDestacados },
     { key: 'entrantes', label: T.tabEntrantes },
     { key: 'principales', label: T.tabPrincipales },
     { key: 'postres', label: T.tabPostres },
     { key: 'bebidas', label: T.tabBebidas },
-  ], [T]); // Dependency on T (translations based on currentLanguage)
+  ], [T]);
 
   return (
     <div className={styles.cartaContainer}>
@@ -91,7 +82,10 @@ const CartaPage = ({ currentLanguage }) => {
         </div>
       </div>
 
-      <div className={styles.tabsList}>
+      <div
+        className={styles.tabsList}
+        data-no-tab-swipe="true" // <-- ADDED ATTRIBUTE HERE
+      >
         {tabs.map(tab => (
           <button
             key={tab.key}
@@ -110,7 +104,7 @@ const CartaPage = ({ currentLanguage }) => {
               <MenuItemCard
                 key={plato.id}
                 plato={plato}
-                onViewMore={handleSelectDishForModal} // Use the unified handler
+                onViewMore={handleSelectDishForModal}
                 currentLanguage={currentLanguage}
               />
             ))}
@@ -125,7 +119,7 @@ const CartaPage = ({ currentLanguage }) => {
           plato={selectedPlato}
           onClose={handleCloseModal}
           currentLanguage={currentLanguage}
-          onSelectPairedDish={handleSelectDishForModal} // Pass the handler here
+          onSelectPairedDish={handleSelectDishForModal}
         />
       )}
     </div>
