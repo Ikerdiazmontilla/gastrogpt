@@ -1,3 +1,4 @@
+// <file path="frontend/src/services/apiService.js">
 // src/services/apiService.js
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || ''; // Base URL for backend
@@ -24,26 +25,38 @@ const getErrorFromResponse = async (response) => {
  * @throws {Error} - If the network response is not ok.
  */
 const fetchApi = async (endpoint, options = {}) => {
+  // Prepare headers. Only set Content-Type for non-FormData requests.
+  const finalHeaders = { ...options.headers };
+  if (!(options.body instanceof FormData)) {
+    finalHeaders['Content-Type'] = 'application/json';
+  }
+  // If options.body is FormData, the browser will automatically set
+  // 'Content-Type': 'multipart/form-data; boundary=...'
+
   const response = await fetch(`${BASE_URL}${endpoint}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
     credentials: 'include', // Always include credentials for session handling
-    ...options,
+    ...options, // Spread other options like method, body
+    headers: finalHeaders, // Use the conditionally set headers
   });
 
   if (!response.ok) {
     const errorMessage = await getErrorFromResponse(response);
-    throw new Error(errorMessage);
+    const error = new Error(errorMessage);
+    // Attempt to attach full response data to the error object for more context
+    try {
+        error.response = await response.json();
+    } catch (e) {
+        // If response is not JSON or already consumed
+        error.response = { status: response.status, statusText: response.statusText };
+    }
+    throw error;
   }
-  // For 204 No Content or similar, response.json() will fail.
-  // Check if there's content to parse.
+
   const contentType = response.headers.get("content-type");
   if (contentType && contentType.indexOf("application/json") !== -1) {
     return response.json();
   }
-  return {}; // Return empty object or handle as needed for non-JSON responses
+  return {};
 };
 
 // --- Specific API functions ---
@@ -87,3 +100,22 @@ export const submitQuestionnaire = (questionnaireData) => {
     body: JSON.stringify(questionnaireData),
   });
 };
+
+/**
+ * Sends an audio blob to the backend for transcription.
+ * @param {Blob} audioBlob - The audio data to transcribe.
+ * @param {string} filename - The filename for the audio blob (e.g., 'recording.webm').
+ * @returns {Promise<object>} - The transcription result, e.g., { transcription: "text" }.
+ */
+export const transcribeAudio = (audioBlob, filename = 'audio.webm') => {
+  const formData = new FormData();
+  formData.append('audio', audioBlob, filename); // 'audio' must match the field name in multer config
+
+  // When sending FormData, Content-Type header is set automatically by the browser.
+  // Our modified fetchApi will not set 'Content-Type: application/json' for FormData.
+  return fetchApi('/api/transcribe-audio', {
+    method: 'POST',
+    body: formData,
+  });
+};
+// </file>

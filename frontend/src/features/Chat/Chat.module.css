@@ -1,4 +1,4 @@
-/* <file path="src/features/Chat/Chat.module.css"> */
+/* <file path="frontend/src/features/Chat/Chat.module.css"> */
 /* :root{ */
   /* --main-color: rgb(38, 144, 214); */
   /* --old-color:#4CAF50; */
@@ -13,26 +13,26 @@
 }
 
 
-/* This style is no longer used for the primary reset button, 
+/* This style is no longer used for the primary reset button,
    but kept in case other buttons need similar full-width styling in the future.
    If not, it can be removed. */
 .resetConversationButton {
   padding: 10px 20px;
   border: none;
-  background-color: var(--chat-reset-button-background-color); 
-  color: var(--chat-reset-button-text-color); 
+  background-color: var(--chat-reset-button-background-color);
+  color: var(--chat-reset-button-text-color);
   cursor: pointer;
   border-radius: 12px;
-  margin-top: 8px; 
+  margin-top: 8px;
 }
 .resetConversationButton:disabled {
-  background-color: var(--chat-reset-button-disabled-background-color); 
+  background-color: var(--chat-reset-button-disabled-background-color);
   cursor: not-allowed;
 }
 
 .messages {
   flex: 1;
-  padding: 0px 15px; 
+  padding: 0px 15px;
   overflow-y: auto;
   gap: 10px;
   display: flex;
@@ -57,7 +57,7 @@
 .messages ol { list-style-type: decimal; }
 
 .message.user {
-  background-color: var(--chat-message-user-background-color); 
+  background-color: var(--chat-message-user-background-color);
   align-self: flex-end;
   border-top-right-radius: 4px;
   margin-left: auto;
@@ -71,13 +71,13 @@
   right: -9px;
   width: 0;
   height: 0;
-  border-left: 10px solid var(--chat-message-user-tip-border-color); 
-  border-top: 10px solid var(--palette-transparent); 
-  border-bottom: 10px solid var(--palette-transparent); 
+  border-left: 10px solid var(--chat-message-user-tip-border-color);
+  border-top: 10px solid var(--palette-transparent);
+  border-bottom: 10px solid var(--palette-transparent);
 }
 
 .message.bot {
-  background-color: var(--chat-message-bot-background-color); 
+  background-color: var(--chat-message-bot-background-color);
   align-self: flex-start;
   border-top-left-radius: 4px;
   margin-right: auto;
@@ -91,26 +91,26 @@
   left: -10px;
   width: 0;
   height: 0;
-  border-right: 14px solid var(--chat-message-bot-tip-border-color); 
-  border-top: 10px solid var(--palette-transparent); 
-  border-bottom: 10px solid var(--palette-transparent); 
+  border-right: 14px solid var(--chat-message-bot-tip-border-color);
+  border-top: 10px solid var(--palette-transparent);
+  border-bottom: 10px solid var(--palette-transparent);
 }
 
 .message.bot.loading span {
   font-style: italic;
-  color: var(--chat-message-bot-loading-text-color); 
+  color: var(--chat-message-bot-loading-text-color);
 }
 
 .message.system {
   font-style: italic;
-  color: var(--chat-message-system-text-color); 
+  color: var(--chat-message-system-text-color);
   text-align: center;
-  background-color: var(--chat-message-system-background-color); 
+  background-color: var(--chat-message-system-background-color);
   align-self: center;
   padding: 5px;
 }
 .message.system.error {
-  color: var(--chat-message-system-error-text-color); 
+  color: var(--chat-message-system-error-text-color);
   font-weight: bold;
 }
 
@@ -120,47 +120,47 @@
   box-shadow: 0px 3px 8px var(--palette-shadow-lg);
   border-radius: 14px;
   padding: 10px;
-  background-color: var(--chat-input-wrapper-background-color); 
+  background-color: var(--chat-input-wrapper-background-color);
   position:fixed;
   bottom: 1%;
   left: 5%;
   width: 90%;
   z-index: 10;
   box-sizing: border-box;
-  transition: bottom 0.2s ease-out, left 0.2s ease-out, width 0.2s ease-out, border-radius 0.2s ease-out, box-shadow 0.2s ease-out; 
+  transition: bottom 0.2s ease-out, left 0.2s ease-out, width 0.2s ease-out, border-radius 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
 .inputWrapperKeyboardActive {
-  bottom: 0px; 
-  left: 0px;   
-  width: 100%; 
-  border-radius: 0; 
-  box-shadow: none; 
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 
 .inputArea {
   display: flex;
   width: 100%;
-  align-items: flex-end; 
-  gap: 8px; 
+  align-items: flex-end;
+  gap: 8px;
 }
 
 .chatTextarea {
-  flex-grow: 1; 
+  flex-grow: 1;
   padding: 10px;
-  border: 0.5px solid lightblue; 
+  border: 0.5px solid lightblue;
   outline: 1px solid transparent;
-  border-radius: 8px; 
+  border-radius: 8px;
   font-size: 1rem;
-  line-height: 1.4; 
-  min-height: calc(1rem * 1.4 + 20px); 
-  max-height: calc(1rem * 1.4 * 6 + 20px); 
-  overflow-y: auto; 
-  resize: none; 
-  box-sizing: border-box; 
-  background-color: var(--palette-pure-white); 
-  color: var(--palette-neutral-dark); 
+  line-height: 1.4;
+  min-height: calc(1rem * 1.4 + 20px);
+  max-height: calc(1rem * 1.4 * 6 + 20px);
+  overflow-y: auto;
+  resize: none;
+  box-sizing: border-box;
+  background-color: var(--palette-pure-white);
+  color: var(--palette-neutral-dark);
 }
 
 .chatTextarea:focus{
@@ -174,44 +174,93 @@
 .sendMessage{
   border-radius: 8px;
   padding: 10px 15px;
-  background-color: var(--chat-send-message-button-background-color); 
-  color: var(--palette-pure-white); 
+  background-color: var(--chat-send-message-button-background-color);
+  color: var(--palette-pure-white);
   border:none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: fit-content;
-  height: calc(1rem * 1.4 + 20px); 
-  align-self: flex-end; 
+  min-width: fit-content; /* Changed from fixed width to fit content */
+  height: calc(1rem * 1.4 + 20px); /* Match textarea line height + padding */
+  align-self: flex-end; /* Align with bottom of textarea if textarea grows */
 }
 .sendMessage:disabled {
-  background-color: var(--chat-send-message-button-disabled-background-color); 
+  background-color: var(--chat-send-message-button-disabled-background-color);
   cursor: not-allowed;
 }
 
 .sendSvg {
   width: 15px;
   height: 15px;
-  fill: var(--chat-send-message-button-icon-fill-color); 
+  fill: var(--chat-send-message-button-icon-fill-color);
   font-family: sans-serif;
 }
 
+/* Styles for new recording buttons */
+.micButton,
+.cancelRecordButton,
+.stopRecordButton {
+  border-radius: 8px;
+  padding: 10px; /* Make them square-ish */
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem; /* Emoji size */
+  width: calc(1rem * 1.4 + 20px); /* Match height of send button / textarea line */
+  height: calc(1rem * 1.4 + 20px);
+  align-self: flex-end;
+  background-color: var(--palette-grey-150); /* Default subtle background */
+  color: var(--palette-charcoal-medium);
+}
+
+.micButton:hover:not(:disabled),
+.cancelRecordButton:hover:not(:disabled),
+.stopRecordButton:hover:not(:disabled) {
+  background-color: var(--palette-grey-300);
+}
+
+.micButton:disabled,
+.micButtonDisabled { /* Added class for explicit disabling style */
+  background-color: var(--palette-grey-100);
+  color: var(--palette-grey-500);
+  cursor: not-allowed;
+}
+
+.cancelRecordButton {
+  background-color: var(--palette-red-tag-spicy-background); /* Light red */
+  color: var(--palette-red-tag-spicy-text);
+}
+.cancelRecordButton:hover:not(:disabled) {
+  background-color: var(--palette-red-tag-spicy-border); /* Darker red */
+}
+
+.stopRecordButton {
+  background-color: var(--palette-green-tag-recommended-background); /* Light green */
+  color: var(--palette-green-tag-recommended-text);
+}
+.stopRecordButton:hover:not(:disabled) {
+  background-color: var(--palette-green-tag-recommended-border); /* Darker green */
+}
+/* End Styles for new recording buttons */
+
 .suggestionsContainer {
-  display: flex; 
+  display: flex;
   align-items: center; /* Align items vertically in the center */
   gap: 8px;
-  overflow-x: auto; 
-  white-space: nowrap; 
-  padding-top: 8px; 
-  padding-bottom: 4px; 
-  width: 100%; 
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  width: 100%;
 
-  -ms-overflow-style: none;  
-  scrollbar-width: none;  
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .suggestionsContainer::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
 /* New style for the small, square reset button with icon */
@@ -250,25 +299,25 @@
   box-sizing: border-box; /* Ensure padding doesn't add to height */
   display: inline-flex; /* Added for vertical alignment if text is shorter */
   align-items: center; /* Added for vertical alignment */
-  border: 1px solid var(--chat-suggestion-chip-border-color); 
-  background-color: var(--chat-suggestion-chip-background-color); 
+  border: 1px solid var(--chat-suggestion-chip-border-color);
+  background-color: var(--chat-suggestion-chip-background-color);
   border-radius: 16px;
   font-size: 0.85rem;
   cursor: pointer;
-  color: var(--chat-suggestion-chip-text-color); 
+  color: var(--chat-suggestion-chip-text-color);
   transition: background-color 0.2s;
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .suggestionChip:hover {
-  background-color: var(--chat-suggestion-chip-hover-background-color); 
+  background-color: var(--chat-suggestion-chip-hover-background-color);
 }
 
 .suggestionChip:disabled {
-  background-color: var(--chat-suggestion-chip-disabled-background-color); 
-  color: var(--chat-suggestion-chip-disabled-text-color); 
+  background-color: var(--chat-suggestion-chip-disabled-background-color);
+  color: var(--chat-suggestion-chip-disabled-text-color);
   cursor: not-allowed;
-  border-color: var(--chat-suggestion-chip-disabled-border-color); 
+  border-color: var(--chat-suggestion-chip-disabled-border-color);
 }
 
 .dishDetailLink, .dishLink {
@@ -288,19 +337,19 @@
 }
 
 .dishDetailLink { /* Typically used for [Dish Name (see dish)](dish:ID) if styled differently */
-  color: var(--chat-markdown-dish-detail-link-text-color); 
+  color: var(--chat-markdown-dish-detail-link-text-color);
   text-decoration: none;
   font-weight: bold;
 }
 .dishDetailLink:hover { color: var(--chat-markdown-dish-detail-link-hover-text-color);  }
 
 .dishLink { /* This is for the dish:ID buttons generated by markdownUtils */
-  color: var(--chat-markdown-dish-link-text-color); 
+  color: var(--chat-markdown-dish-link-text-color);
   text-decoration: underline;
   /* display: inline; -- Already inherited or set in the common group above */
 }
 .dishLink:hover {
-  color: var(--chat-markdown-dish-link-hover-text-color); 
+  color: var(--chat-markdown-dish-link-hover-text-color);
   text-decoration: none;
 }
 
@@ -311,14 +360,14 @@
   text-decoration: underline;
   display: inline; /* Default for <a>, but good to ensure */
   overflow-wrap: break-word;
-  word-break: break-word; 
+  word-break: break-word;
   -webkit-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
   max-width: 100%; /* Prevent overflow */
 }
 .message.bot a:not(button):hover {
-  color: var(--chat-markdown-dish-link-hover-text-color); 
+  color: var(--chat-markdown-dish-link-hover-text-color);
   text-decoration: none;
 }
 
@@ -326,9 +375,9 @@
 .limitNotification {
   text-align: center;
   padding: 10px;
-  background-color: var(--chat-notification-limit-background-color); 
-  color: var(--chat-notification-limit-text-color); 
-  border: 1px solid var(--chat-notification-limit-border-color); 
+  background-color: var(--chat-notification-limit-background-color);
+  color: var(--chat-notification-limit-text-color);
+  border: 1px solid var(--chat-notification-limit-border-color);
   border-radius: 4px;
   margin: 10px 0;
 }

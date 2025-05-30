@@ -2,6 +2,7 @@
 const express = require('express');
 const chatRoutes = require('./chatRoutes');
 const questionnaireRoutes = require('./questionnaireRoutes');
+const audioRoutes = require('./audioRoutes'); // Import the new audio routes
 
 /**
  * @file index.js (in routes)
@@ -14,6 +15,7 @@ const router = express.Router();
 // Mount feature-specific routers under the /api prefix (or keep them at root if preferred)
 router.use('/', chatRoutes); // e.g., /api/chat, /api/conversation
 router.use('/', questionnaireRoutes); // e.g., /api/questionnaire
+router.use('/', audioRoutes); // e.g., /api/transcribe-audio
 
 // Example of a simple health check endpoint
 router.get('/health', (req, res) => {

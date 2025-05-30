@@ -32,6 +32,7 @@ const config = {
       maxTokens: parseInt(process.env.OPENAI_MAX_TOKENS, 10) || 300,   // Default value
       temperature: parseFloat(process.env.OPENAI_TEMPERATURE) || 0.7, // Default value
       // apiUrl: process.env.OPENAI_API_URL || 'https://api.openai.com/v1/chat/completions',
+      transcriptionModelName: process.env.OPENAI_TRANSCRIPTION_MODEL_NAME || 'gpt-4o-mini-transcribe', // New: Transcription model
     },
   },
 
