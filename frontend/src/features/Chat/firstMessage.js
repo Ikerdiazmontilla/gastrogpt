@@ -29,13 +29,15 @@
 
 const firstMessageSpanish = `### 🇪🇸 **¡Hola! Soy *GastroGPT*, tu asistente para elegir el menú ideal 🍽️**
 **❓ Puedes preguntarme cualquier duda** sobre el menú.  
-📲 *Desliza a la izquierda* para ver la **carta digital**.  
+📲 *Desliza a la izquierda* para ver la **carta digital**. 
+👨‍🍳  Pide al camarero cuando estés listo.
 🥤 ¿Te parece que empecemos con las **bebidas**? ¿Quieres ver las **más populares**?`;
 
 
 const firstMessageEnglish =`### 🇬🇧 **Hi! I'm *GastroGPT*, your assistant to find the perfect menu 🍽️**
 **❓ You can ask me anything** about the menu.  
-📲 *Swipe left* to view the **digital menu**.  
+📲 *Swipe left* to view the **digital menu**.
+👨‍🍳 Let the waiter know when you're ready.  
 🥤 Shall we **start with drinks**? Want to see the **most popular ones**?`;
 
 
