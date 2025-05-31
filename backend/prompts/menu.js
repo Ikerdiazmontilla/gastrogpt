@@ -2,7 +2,7 @@
 const menuData = {
   entrantes: [
     {
-      id: 1, // Original ID 1
+      id: 1,
       nombre: { es: "Croquetas de Jamón", en: "Ham Croquettes" },
       descripcionCorta: { es: "Deliciosas croquetas caseras de jamón ibérico...", en: "Delicious homemade Iberian ham croquettes..." },
       descripcionLarga: { es: "Deliciosas croquetas caseras de jamón ibérico con bechamel cremosa, servidas con un toque de perejil fresco.", en: "Delicious homemade Iberian ham croquettes with creamy béchamel, served with a touch of fresh parsley." },
@@ -10,161 +10,163 @@ const menuData = {
       imagen: "/assets/croquetas.jpg",
       alergenos: ["gluten", "lactosa"],
       etiquetas: ["recomendado"],
-      pairsWith: { main: 5 } // Pairs with Paella de Mariscos (Original ID 4, now ID 5)
+      pairsWith: { main: 5 }
     },
     {
-      id: 2, // Original ID 2
-      nombre: { es: "Ensalada César", en: "Caesar Salad" },
-      descripcionCorta: { es: "Lechuga romana, pollo a la parrilla, crutones...", en: "Romaine lettuce, grilled chicken, croutons..." },
-      descripcionLarga: { es: "Clásica ensalada César con lechuga romana fresca, pollo a la parrilla jugoso, crutones caseros, lascas de queso parmesano y nuestro aderezo César especial.", en: "Classic Caesar salad with fresh romaine lettuce, juicy grilled chicken, homemade croutons, Parmesan cheese shavings, and our special Caesar dressing." },
-      precio: 9.75,
-      imagen: "/assets/ensalada-cesar.jpg",
-      alergenos: ["gluten", "lactosa", "huevo", "pescado"],
-      etiquetas: [],
-      pairsWith: { main: 6 } // Pairs with Solomillo al Whisky (Original ID 5, now ID 6)
+      id: 2,
+      nombre: { es: "Ensalada de Espinacas con Queso de Cabra", en: "Spinach Salad with Goat Cheese" },
+      descripcionCorta: { es: "Espinacas frescas, queso de cabra, nueces caramelizadas...", en: "Fresh spinach, goat cheese, caramelized walnuts..." },
+      descripcionLarga: { es: "Ensalada gourmet con espinacas baby, medallones de queso de cabra gratinado, nueces caramelizadas, manzana verde y vinagreta de miel y mostaza.", en: "Gourmet salad with baby spinach, grilled goat cheese medallions, caramelized walnuts, green apple, and honey mustard vinaigrette." },
+      precio: 10.25,
+      imagen: "/assets/ensalada-espinacas.jpg",
+      alergenos: ["lactosa", "frutos_secos"],
+      etiquetas: [ "vegetariano"],
+      pairsWith: { main: 6 }
     },
     {
-      id: 3, // Original ID 3
+      id: 3,
       nombre: { es: "Gazpacho Andaluz", en: "Andalusian Gazpacho" },
       descripcionCorta: { es: "Sopa fría tradicional de tomate, pepino...", en: "Traditional cold soup of tomato, cucumber..." },
       descripcionLarga: { es: "Refrescante gazpacho andaluz, una sopa fría elaborada con tomates maduros, pepino, pimiento, ajo, aceite de oliva virgen extra y un toque de vinagre de Jerez.", en: "Refreshing Andalusian gazpacho, a cold soup made with ripe tomatoes, cucumber, pepper, garlic, extra virgin olive oil, and a touch of Sherry vinegar." },
       precio: 6.50,
       imagen: "/assets/gazpacho.jpg",
       alergenos: [],
-      etiquetas: ["popular","vegano", "sin_gluten"],
-      pairsWith: { main: 7 } // Pairs with Risotto de Setas (Original ID 6, now ID 7)
+      etiquetas: ["vegano", "popular", "sin_gluten",],
+      pairsWith: { main: 7 }
     },
     {
-      id: 4, // Original ID 14
-      nombre: { es: "Gambas al Ajillo", en: "Garlic Prawns" },
-      descripcionCorta: { es: "Gambas frescas salteadas en aceite de oliva con ajo y guindilla.", en: "Fresh prawns sautéed in olive oil with garlic and chili." },
-      descripcionLarga: { es: "Jugosas gambas frescas salteadas en abundante aceite de oliva virgen extra con láminas de ajo dorado y un toque de guindilla picante. Perfectas para mojar pan.", en: "Juicy fresh prawns sautéed in plenty of extra virgin olive oil with golden garlic slices and a hint of spicy chili. Perfect for dipping bread." },
-      precio: 11.50,
-      imagen: "/assets/gambas-al-ajillo.jpg",
-      alergenos: ["crustaceos"],
-      etiquetas: [],
-      pairsWith: { main: 5 } // Pairs with Paella de Mariscos (Original ID 4, now ID 5)
-    },
+      id: 4,
+      nombre: { es: "Timbal de Mango, Aguacate y Queso Fresco", en: "Mango, Avocado & Fresh Cheese Timbale" },
+      descripcionCorta: { es: "Entrante fresco con capas de mango, aguacate y queso.", en: "Fresh starter with layers of mango, avocado, and cheese." },
+      descripcionLarga: { es: "Colorido timbal de mango maduro, aguacate cremoso, y queso fresco, aliñado con lima, cilantro y un toque de aceite de oliva virgen extra. Ligero y sabroso.", en: "Colorful stack of ripe mango, creamy avocado, and fresh cheese, dressed with lime, coriander, and a touch of extra virgin olive oil. Light and flavorful." },
+      precio: 11.00,
+      imagen: "/assets/timbal-mango.jpg",
+      alergenos: ["lactosa"],
+      etiquetas: [ "vegetariano"],
+      pairsWith: { main: 5 }
+    }
   ],
   principales: [
     {
-      id: 8, // Original ID 15
+      id: 8,
       nombre: { es: "Lasaña de Verduras", en: "Vegetable Lasagna" },
       descripcionCorta: { es: "Capas de pasta, verduras de temporada y bechamel vegana.", en: "Layers of pasta, seasonal vegetables, and vegan béchamel." },
       descripcionLarga: { es: "Deliciosa lasaña vegana con láminas de pasta fresca, rellena de una rica mezcla de verduras de temporada (calabacín, berenjena, pimientos, espinacas) y una cremosa bechamel a base de leche vegetal, gratinada con queso vegano.", en: "Delicious vegan lasagna with fresh pasta sheets, filled with a rich mix of seasonal vegetables (zucchini, eggplant, peppers, spinach) and a creamy plant-based milk béchamel, topped with melted vegan cheese." },
       precio: 15.00,
       imagen: "/assets/lasana-vegana.jpg",
       alergenos: ["gluten", "soja"],
-      etiquetas: ["recomendado","vegano"],
-      pairsWith: { drink: 16, dessert: 13 } // Pairs with Zumo de Naranja (ID 19 - not in current re-IDed bebidas list) and Brownie Vegano (Original ID 17, now 13)
+      etiquetas: ["recomendado", "vegano"],
+      pairsWith: { drink: 16, dessert: 13 }
     },
     {
-      id: 6, // Original ID 5
-      nombre: { es: "Solomillo al Whisky", en: "Whiskey Sirloin Steak" },
-      descripcionCorta: { es: "Solomillo de ternera con salsa de whisky...", en: "Beef sirloin with whiskey sauce..." },
-      descripcionLarga: { es: "Tierno solomillo de ternera nacional, marcado a la plancha y terminado con una suave y aromática salsa al whisky, acompañado de patatas panaderas y pimientos de padrón.", en: "Tender national beef sirloin, grilled and finished with a smooth and aromatic whiskey sauce, accompanied by baker potatoes and Padrón peppers." },
-      precio: 22.00,
-      imagen: "/assets/solomillo-al-whisky.jpg",
-      alergenos: ["gluten"],
-      etiquetas: ["popular"],
-      pairsWith: { drink: 15, dessert: 10 } // Drink: Vino Tinto Rioja Crianza (Original ID 10, now 15), Dessert: Tarta de Queso (Original ID 7, now 10)
-    },
-    {
-      id: 5, // Original ID 4
-      nombre: { es: "Paella de Mariscos", en: "Seafood Paella" },
-      descripcionCorta: { es: "Arroz con azafrán, calamares, gambas...", en: "Rice with saffron, squid, prawns..." },
-      descripcionLarga: { es: "Auténtica paella de mariscos con arroz bomba, azafrán, calamares tiernos, gambas frescas, mejillones y almejas, cocinada lentamente en su caldo. Toque picante opcional.", en: "Authentic seafood paella with bomba rice, saffron, tender squid, fresh prawns, mussels, and clams, slowly cooked in its broth. Optional spicy touch." },
-      precio: 18.50,
-      imagen: "/assets/paella-marisco.jpg",
-      alergenos: ["mariscos", "crustaceos", "moluscos"],
-      etiquetas: ["picante_suave"],
-      pairsWith: { drink: 16, dessert: 12 } // Drink: Sangría Casera (Original ID 11, now 16), Dessert: Sorbete de Limón al Cava (Original ID 9, now 12)
-    },
-    {
-      id: 7, // Original ID 6
-      nombre: { es: "Risotto de Setas", en: "Mushroom Risotto" },
-      descripcionCorta: { es: "Arroz cremoso con variedad de setas...", en: "Creamy rice with a variety of mushrooms..." },
-      descripcionLarga: { es: "Risotto cremoso Arborio con una selección de setas silvestres de temporada (boletus, níscalos, champiñones portobello), mantecado con parmesano y un toque de trufa.", en: "Creamy Arborio risotto with a selection of seasonal wild mushrooms (boletus, chanterelles, portobello mushrooms), creamed with Parmesan and a touch of truffle." },
-      precio: 14.50,
-      imagen: "/assets/rissotto-setas.jpg",
+      id: 6,
+      nombre: { es: "Carrillera de Ternera al Vino Tinto", en: "Beef Cheeks in Red Wine" },
+      descripcionCorta: { es: "Carrillera melosa al vino tinto con puré de boniato y zanahorias glaseadas.", en: "Tender beef cheeks in red wine with sweet potato purée and glazed carrots." },
+      descripcionLarga: {
+        es: "Carrillera de ternera cocinada a baja temperatura durante horas en una reducción de vino tinto con laurel y romero. Servida sobre un cremoso puré de boniato y acompañada de zanahorias baby glaseadas en mantequilla y miel.",
+        en: "Beef cheeks slow-cooked for hours in a red wine reduction with bay leaf and rosemary. Served over creamy sweet potato purée and accompanied by butter and honey glazed baby carrots."
+      },
+      precio: 24.50,
+      imagen: "/assets/carrillera-vino-tinto.jpeg",
       alergenos: ["lactosa"],
-      etiquetas: ["vegetariano"],
-      pairsWith: { drink: 17, dessert: 11 } // Drink: Agua Mineral Natural (Original ID 12, now 17), Dessert: Crema Catalana (Original ID 8, now 11)
+      etiquetas: ["popular"],
+      pairsWith: { drink: 15, dessert: 10 }
+    }    
+    ,
+    {
+      id: 5,
+      nombre: { es: "Dorada con Salsa de Chile Dulce", en: "Sea Bream with Sweet Chili Sauce" },
+      descripcionCorta: { es: "Dorada al horno con crujiente de piel y salsa agridulce.", en: "Oven-baked sea bream with crispy skin and sweet chili glaze." },
+      descripcionLarga: { es: "Dorada entera horneada con la piel crujiente, acompañada de una salsa de chile dulce casera con toques cítricos y jengibre, sobre base de verduras salteadas al wok.", en: "Whole oven-baked sea bream with crispy skin, served with a homemade sweet chili sauce featuring citrus and ginger notes, over stir-fried vegetables." },
+      precio: 23.50,
+      imagen: "/assets/dorada.jpg",
+      alergenos: ["pescado", "soja"],
+      etiquetas: [],
+      pairsWith: { drink: 16, dessert: 12 }
     },
+    {
+      id: 7,
+      nombre: { es: "Berenjena Asada con Labneh y Granada", en: "Roasted Eggplant with Labneh and Pomegranate" },
+      descripcionCorta: { es: "Berenjena asada con crema de yogur, granada y pistacho.", en: "Roasted eggplant with yogurt cream, pomegranate and pistachio." },
+      descripcionLarga: {
+        es: "Berenjena asada lentamente hasta quedar melosa, servida sobre una base de labneh con limón, espolvoreada con pistachos tostados y granos de granada. Finalizada con aceite de oliva virgen extra y menta fresca.",
+        en: "Slow-roasted eggplant until tender, served on a bed of lemony labneh, topped with toasted pistachios and pomegranate seeds. Finished with extra virgin olive oil and fresh mint."
+      },
+      precio: 16.50,
+      imagen: "/assets/berenjena-asada.jpg",
+      alergenos: ["lactosa", "frutos_secos"],
+      etiquetas: ["vegetariano"],
+      pairsWith: { drink: 17, dessert: 11 }
+    }
   ],
   postres: [
     {
-      id: 10, // Original ID 7
+      id: 10,
       nombre: { es: "Tarta de Queso", en: "Cheesecake" },
       descripcionCorta: { es: "Tarta cremosa de queso con base de galleta...", en: "Creamy cheesecake with a cookie base..." },
       descripcionLarga: { es: "Irresistible tarta de queso horneada al estilo neoyorquino, con una base crujiente de galleta y un suave coulis de frutos rojos casero.", en: "Irresistible New York-style baked cheesecake with a crispy cookie base and a smooth homemade red berry coulis." },
       precio: 6.50,
       imagen: "/assets/tarta-queso.jpg",
       alergenos: ["gluten", "lactosa", "huevo"],
-      etiquetas: ["popular"],
+      etiquetas: ["popular"]
     },
     {
-      id: 11, // Original ID 8
+      id: 11,
       nombre: { es: "Crema Catalana", en: "Catalan Cream" },
       descripcionCorta: { es: "Postre tradicional catalán con crema suave...", en: "Traditional Catalan dessert with smooth cream..." },
       descripcionLarga: { es: "Clásica crema catalana con una textura suave y delicada, aromatizada con limón y canela, y cubierta con una fina capa de azúcar caramelizado crujiente.", en: "Classic Catalan cream with a smooth and delicate texture, flavored with lemon and cinnamon, and covered with a thin layer of crispy caramelized sugar." },
       precio: 5.75,
       imagen: "/assets/crema-catalana.jpg",
       alergenos: ["lactosa", "huevo"],
-      etiquetas: [],
+      etiquetas: []
     },
     {
-      id: 12, // Original ID 9
+      id: 12,
       nombre: { es: "Sorbete de Limón al Cava", en: "Lemon Sorbet with Cava" },
       descripcionCorta: { es: "Refrescante sorbete de limón con un toque de cava...", en: "Refreshing lemon sorbet with a touch of cava..." },
       descripcionLarga: { es: "Ligero y digestivo sorbete de limón natural, elaborado artesanalmente y terminado con un toque espumoso de cava brut nature.", en: "Light and digestive natural lemon sorbet, handcrafted and finished with a sparkling touch of brut nature cava." },
       precio: 4.50,
       imagen: "/assets/sorbete-limon.jpg",
       alergenos: [],
-      etiquetas: ["vegano", "sin_gluten"],
+      etiquetas: ["vegano", "sin_gluten"]
     },
     {
-      id: 13, // Original ID 17
+      id: 13,
       nombre: { es: "Brownie con Helado", en: "Brownie with Ice Cream" },
       descripcionCorta: { es: "Brownie de chocolate vegano acompañado de helado de vainilla vegano.", en: "Vegan chocolate brownie served with vegan vanilla ice cream." },
       descripcionLarga: { es: "Intenso brownie de chocolate negro vegano, jugoso por dentro y con una ligera costra por fuera, acompañado de una bola de helado de vainilla cremoso a base de leche vegetal.", en: "Intense vegan dark chocolate brownie, moist on the inside with a slight crust on the outside, served with a scoop of creamy plant-based vanilla ice cream." },
       precio: 7.00,
       imagen: "/assets/brownie-con-helado.jpg",
       alergenos: ["gluten", "frutos_secos"],
-      etiquetas: ["vegano"],
-    },
+      etiquetas: ["vegano"]
+    }
   ],
+  
   bebidas: [
     {
-      id: 15, // Original ID 10
-      nombre: { es: "Vino Tinto", en: "Rioja Crianza Red Wine" },
+      id: 15,
+      nombre: { es: "Vino Tinto Rioja Crianza", en: "Rioja Crianza Red Wine" },
       descripcionCorta: { es: "Vino tinto D.O.Ca. Rioja, crianza...", en: "Red wine D.O.Ca. Rioja, crianza..." },
       descripcionLarga: { es: "Vino tinto de la Denominación de Origen Calificada Rioja, elaborado con uvas Tempranillo y Graciano, con una crianza de 12 meses en barrica de roble americano.", en: "Red wine from the Rioja Qualified Designation of Origin, made with Tempranillo and Graciano grapes, aged for 12 months in American oak barrels." },
       precio: 18.00,
       imagen: "/assets/vino-tinto.jpg",
       alergenos: ["sulfitos"],
       etiquetas: ["recomendado"],
-      pairsWith: { main: 6 } // Pairs with Solomillo al Whisky (Original ID 5, now ID 6)
+      pairsWith: { main: 6 }
     },
     {
       id: 19,
-      nombre: { es: "Zumo Tropical", en: "House Tropical Juice" },
-      descripcionCorta: {
-        es: "Zumo de frutas frescas sin alcohol.",
-        en: "Fresh fruit juice, alcohol-free."
-      },
-      descripcionLarga: {
-        es: "Refrescante mezcla de piña, mango, naranja y maracuyá, exprimida al momento y servida muy fría.",
-        en: "Refreshing blend of pineapple, mango, orange and passion fruit, freshly squeezed and served chilled."
-      },
+      nombre: { es: "Zumo Tropical de la Casa", en: "House Tropical Juice" },
+      descripcionCorta: { es: "Zumo de frutas frescas sin alcohol.", en: "Fresh fruit juice, alcohol-free." },
+      descripcionLarga: { es: "Refrescante mezcla de piña, mango, naranja y maracuyá, exprimida al momento y servida muy fría.", en: "Refreshing blend of pineapple, mango, orange and passion fruit, freshly squeezed and served chilled." },
       precio: 4.00,
       imagen: "/assets/zumo-tropical.jpg",
       alergenos: [],
       etiquetas: ["recomendado", "sin_gluten"],
-      pairsWith: { main: 8 } // Lasaña de Verduras
+      pairsWith: { main: 8 }
     },
     {
-      id: 16, // Original ID 11
+      id: 16,
       nombre: { es: "Sangría Casera", en: "Homemade Sangria" },
       descripcionCorta: { es: "Refrescante sangría con vino tinto, frutas...", en: "Refreshing sangria with red wine, fruits..." },
       descripcionLarga: { es: "Nuestra sangría especial, preparada al momento con vino tinto de calidad, una selección de frutas frescas de temporada, un toque de licor y canela.", en: "Our special sangria, prepared on the spot with quality red wine, a selection of fresh seasonal fruits, a touch of liquor, and cinnamon." },
@@ -172,29 +174,29 @@ const menuData = {
       imagen: "/assets/sangria.jpg",
       alergenos: ["sulfitos"],
       etiquetas: ["popular"],
-      pairsWith: { main: 5 } // Pairs with Paella de Mariscos (Original ID 4, now ID 5)
+      pairsWith: { main: 5 }
     },
     {
-      id: 18, // Original ID 20
-      nombre: { es: "Cerveza Artesana", en: "Local Craft Beer" },
+      id: 18,
+      nombre: { es: "Cerveza Artesana Local", en: "Local Craft Beer" },
       descripcionCorta: { es: "Selección de cervezas artesanas de productores locales.", en: "Selection of craft beers from local producers." },
       descripcionLarga: { es: "Descubre nuestra selección rotativa de cervezas artesanas elaboradas por pequeños productores de la región. Pregunta a nuestro personal por las variedades disponibles (IPA, Lager, Stout, etc.).", en: "Discover our rotating selection of craft beers brewed by small local producers. Ask our staff about the available varieties (IPA, Lager, Stout, etc.)." },
       precio: 5.50,
       imagen: "/assets/cerveza-artesana.jpg",
       alergenos: ["gluten"],
       etiquetas: [],
-      pairsWith: { main: 6 } // Pairs well with Solomillo al Whisky (Original ID 5, now ID 6)
+      pairsWith: { main: 6 }
     },
     {
-      id: 17, // Original ID 12
-      nombre: { es: "Agua Mineral", en: "Natural Mineral Water" },
+      id: 17,
+      nombre: { es: "Agua Mineral Natural", en: "Natural Mineral Water" },
       descripcionCorta: { es: "Agua mineral natural de manantial.", en: "Natural spring mineral water." },
       descripcionLarga: { es: "Agua mineral natural de mineralización débil, proveniente de manantial protegido. Servida fría.", en: "Natural mineral water with low mineralization, from a protected spring. Served cold." },
       precio: 2.00,
       imagen: "/assets/agua-mineral.jpg",
       alergenos: [],
       etiquetas: [],
-      pairsWith: { main: 7 } // Pairs with Risotto de Setas (Original ID 6, now ID 7)
+      pairsWith: { main: 7 }
     },
     {nombre:"Refrescos y cafés",
       instrucciones:"De refrescos tenemos Aquarius de limón y naranja, todas las Cocacolas, Nestea y fanta, pero no hay imagenes asi que no pongas 'ver plato' ni link cuando te pregunten por ellos. No los debes de recomendar a menos que te pregunten por ellos explicitamente. En cuanto a cafés, el cliente deberá consultar al camarero."
