@@ -1,4 +1,4 @@
-// <file path="frontend/src/services/apiService.js">
+// frontend/src/services/apiService.js
 // src/services/apiService.js
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || ''; // Base URL for backend
@@ -94,12 +94,12 @@ export const resetChatConversation = () => {
  * @param {object} questionnaireData - The data from the questionnaire form.
  * @returns {Promise<object>} - The AI's recommendations.
  */
-export const submitQuestionnaire = (questionnaireData) => {
-  return fetchApi('/api/questionnaire', {
-    method: 'POST',
-    body: JSON.stringify(questionnaireData),
-  });
-};
+// export const submitQuestionnaire = (questionnaireData) => { // Commented out
+//   return fetchApi('/api/questionnaire', {
+//     method: 'POST',
+//     body: JSON.stringify(questionnaireData),
+//   });
+// };
 
 /**
  * Sends an audio blob to the backend for transcription.
@@ -118,4 +118,3 @@ export const transcribeAudio = (audioBlob, filename = 'audio.webm') => {
     body: formData,
   });
 };
-// </file>

@@ -1,13 +1,14 @@
-// <file path="frontend/src/App.js">
+// frontend/src/App.js
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import ChatPage from './pages/ChatPage';
-import QuestionnairePage from './pages/QuestionnairePage';
+// import QuestionnairePage from './pages/QuestionnairePage'; // Commented out
 import CartaPage from './pages/CartaPage/CartaPage';
 import './App.css';
 
-const tabPaths = ['/carta', '/chat', '/questionnaire'];
+// const tabPaths = ['/carta', '/chat', '/questionnaire']; // Original
+const tabPaths = ['/carta', '/chat']; // Modified: Removed /questionnaire
 const SWIPE_THRESHOLD_X = 75; 
 const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.75; 
 
@@ -137,7 +138,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Navigate to="/chat" />} />
           <Route path="/chat" element={<ChatPage currentLanguage={language} />} />
-          <Route path="/questionnaire" element={<QuestionnairePage currentLanguage={language} />} />
+          {/* <Route path="/questionnaire" element={<QuestionnairePage currentLanguage={language} />} /> */} {/* Commented out */}
           <Route path="/carta" element={<CartaPage currentLanguage={language} />} />
         </Routes>
       </div>

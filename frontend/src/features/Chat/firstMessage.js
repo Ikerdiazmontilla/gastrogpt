@@ -30,7 +30,9 @@
 const firstMessageSpanish = `### 🇪🇸 **¡Hola! Soy *GastroGPT*, tu asistente para elegir el menú ideal 🍽️**
 **❓ Puedes preguntarme cualquier duda** sobre el menú.  
 📲 *Desliza a la izquierda* para ver la **carta digital**. 
+
 👨‍🍳  Pide al camarero cuando estés listo.
+
 🥤 ¿Te parece que empecemos con las **bebidas**? ¿Quieres ver las **más populares**?`;
 
 

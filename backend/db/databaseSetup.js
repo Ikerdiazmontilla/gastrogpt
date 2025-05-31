@@ -1,5 +1,4 @@
-
-// <file path="backend/db/databaseSetup.js">
+// backend/db/databaseSetup.js
 const pool = require('./pool');
 
 /**
@@ -43,16 +42,16 @@ const initializeDatabase = async () => {
         WHERE is_active = TRUE;
     `);
 
-    // Create questionnaire_interactions table
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS questionnaire_interactions (
-        id UUID PRIMARY KEY,
-        session_id TEXT NOT NULL,
-        submission_data JSONB NOT NULL,
-        recommendation_text TEXT NOT NULL,
-        created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
+    // Create questionnaire_interactions table // Commented out section
+    // await client.query(`
+    //   CREATE TABLE IF NOT EXISTS questionnaire_interactions (
+    //     id UUID PRIMARY KEY,
+    //     session_id TEXT NOT NULL,
+    //     submission_data JSONB NOT NULL,
+    //     recommendation_text TEXT NOT NULL,
+    //     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    //   );
+    // `);
 
     // Create or replace function to set timestamp on update
     await client.query(`
@@ -92,4 +91,3 @@ const initializeDatabase = async () => {
 };
 
 module.exports = { initializeDatabase };
-// </file>

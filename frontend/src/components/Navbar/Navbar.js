@@ -1,4 +1,4 @@
-// src/components/Navbar/Navbar.js
+// frontend/src/components/Navbar/Navbar.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Navbar.module.css';
@@ -47,14 +47,14 @@ const Navbar = ({ onLanguageChange, currentLanguage }) => {
           >
             {T.chat}
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/questionnaire"
             className={({ isActive }) =>
               isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
             }
           >
             {T.menuRapido}
-          </NavLink>
+          </NavLink> */} {/* Commented out */}
         </div>
       </nav>
     </>
