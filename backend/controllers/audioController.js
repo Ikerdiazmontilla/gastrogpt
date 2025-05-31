@@ -1,16 +1,26 @@
 // <file path="backend/controllers/audioController.js">
 const OpenAI = require('openai');
 const config = require('../config/config');
-const { toFile } = require('openai/uploads'); // Import the toFile utility
+const { toFile } = require('openai/uploads');
+const { ElevenLabsClient } = require('elevenlabs'); // Correct import
 
-// Initialize OpenAI client
+// Initialize OpenAI client (existing)
 const openai = new OpenAI({
   apiKey: config.openaiApiKey,
 });
 
+// Initialize ElevenLabs client (new)
+// The SDK will automatically try to pick up ELEVENLABS_API_KEY from process.env
+// if apiKey is not provided or is undefined in the constructor.
+// Passing it explicitly from config is also fine and makes dependencies clearer.
+const elevenlabs = new ElevenLabsClient({
+  apiKey: config.elevenlabsApiKey,
+});
+
 /**
  * @file audioController.js
- * @description Controller for handling audio-related API requests, like transcription.
+ * @description Controller for handling audio-related API requests,
+ *              including OpenAI transcription and ElevenLabs ConvAI signed URLs.
  */
 
 /**
@@ -28,29 +38,27 @@ async function handleAudioTranscription(req, res) {
   }
 
   try {
-    // Use the toFile utility to create an UploadableFile from the buffer.
-    // This ensures the SDK correctly sets the filename and content type in the multipart request.
     const uploadableAudioFile = await toFile(
-      req.file.buffer,       // The audio buffer
-      req.file.originalname, // The original filename (e.g., 'audio.webm')
-      { type: req.file.mimetype } // The MIME type (e.g., 'audio/webm')
+      req.file.buffer,
+      req.file.originalname,
+      { type: req.file.mimetype }
     );
 
     console.log(`Transcribing audio file: ${req.file.originalname}, size: ${req.file.size} bytes, model: ${config.llm.openai.transcriptionModelName}, type: ${req.file.mimetype}`);
 
     const transcriptionResponse = await openai.audio.transcriptions.create({
-      file: uploadableAudioFile, // Pass the UploadableFile object
-      model: config.llm.openai.transcriptionModelName,
-      language: 'es', // Specify Spanish as the language
-      response_format: 'text', // Request plain text response
+      file: uploadableAudioFile,
+      model: config.llm.openai.transcriptionModelName, // Ensure this model is suitable for your needs, e.g., 'whisper-1'
+      language: 'es',
+      response_format: 'text',
     });
 
-    // When response_format is 'text', transcriptionResponse is the transcribed string directly.
-    // For 'json' or 'verbose_json', it would be an object (e.g., transcriptionResponse.text).
-    const transcribedText = typeof transcriptionResponse === 'string' ? transcriptionResponse : transcriptionResponse.text;
+    const transcribedText = typeof transcriptionResponse === 'string' 
+                            ? transcriptionResponse 
+                            : (transcriptionResponse && typeof transcriptionResponse.text === 'string' ? transcriptionResponse.text : null);
 
 
-    if (typeof transcribedText !== 'string') {
+    if (transcribedText === null) { // Check for null or undefined specifically
         console.error('Unexpected transcription response format. Expected text, got:', transcriptionResponse);
         throw new Error('Transcription did not return text.');
     }
@@ -59,21 +67,78 @@ async function handleAudioTranscription(req, res) {
 
   } catch (error) {
     console.error('Error transcribing audio with OpenAI:');
-    if (error.response && error.response.data) { // Axios-like error structure from OpenAI SDK
-        console.error('OpenAI API Error Data:', error.response.data);
-        errorMessage = error.response.data.error?.message || 'Failed to transcribe audio due to API error.';
-    } else if (error.message) { // Standard error
+    let errorMessage = 'An unknown error occurred during transcription.';
+    // OpenAI SDK errors might be structured differently, often with a `status` and `error.message`
+    if (error.status && error.error && error.error.message) {
+        console.error('OpenAI API Error:', error.error.message);
+        errorMessage = error.error.message;
+    } else if (error.message) {
         console.error('Error Message:', error.message);
         errorMessage = error.message;
     } else {
-        console.error('Unknown Error:', error);
-        errorMessage = 'An unknown error occurred during transcription.';
+        console.error('Unknown Error Structure:', error);
     }
-    res.status(500).json({ error: errorMessage });
+    res.status(error.status || 500).json({ error: errorMessage });
+  }
+}
+
+/**
+ * Handles GET /api/convai-signed-url
+ * Generates a signed URL for the ElevenLabs Conversational AI agent.
+ */
+async function getConvAISignedUrl(req, res) {
+  if (!config.elevenlabsApiKey) {
+    console.error('ElevenLabs API key is not configured in config.js.');
+    return res.status(500).json({ error: 'Conversational AI service API key is not configured.' });
+  }
+  if (!config.elevenlabs.agentId) {
+    console.error('ElevenLabs Agent ID is not configured in config.js.');
+    return res.status(500).json({ error: 'Conversational AI service Agent ID is not configured.' });
+  }
+
+  try {
+    console.log(`Attempting to generate signed URL for Agent ID: ${config.elevenlabs.agentId}`);
+    
+    // Using the structure from ElevenLabs' Next.js example which uses a recent SDK version.
+    // client.conversationalAi.getSignedUrl({ agent_id: ... })
+    const response = await elevenlabs.conversationalAi.getSignedUrl({
+      agent_id: config.elevenlabs.agentId, // Parameter name is agent_id
+    });
+
+    // The response object directly contains signed_url property
+    if (!response || !response.signed_url) { 
+      console.error('Failed to get signed_url from ElevenLabs. Full response:', response);
+      throw new Error('Failed to retrieve signed_url from ElevenLabs.');
+    }
+    
+    console.log('Successfully retrieved signed URL from ElevenLabs.');
+    res.json({ signedUrl: response.signed_url }); // Send back signed_url
+
+  } catch (error) {
+    console.error('Error getting signed URL for ConvAI:');
+    // Attempt to extract more detailed error message from ElevenLabs SDK error structure
+    let detail = 'An unexpected error occurred.';
+    if (error.message) {
+        detail = error.message;
+    }
+    // Some SDK errors might have a 'body' with more details
+    // Example: error.body.detail.message or error.body.detail[0].msg
+    if (error.body && error.body.detail) {
+        if (typeof error.body.detail === 'string') {
+            detail = error.body.detail;
+        } else if (Array.isArray(error.body.detail) && error.body.detail.length > 0 && error.body.detail[0].msg) {
+            detail = error.body.detail[0].msg;
+        } else if (typeof error.body.detail.message === 'string') {
+            detail = error.body.detail.message;
+        }
+    }
+    console.error('Detailed error for ConvAI signed URL:', detail);
+    res.status(500).json({ error: `Failed to get signed URL for Conversational AI: ${detail}` });
   }
 }
 
 module.exports = {
   handleAudioTranscription,
+  getConvAISignedUrl,
 };
 // </file>

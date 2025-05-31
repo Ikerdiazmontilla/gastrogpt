@@ -16,6 +16,13 @@ const config = {
   // API Keys
   openaiApiKey: process.env.OPENAI_API_KEY,
   geminiApiKey: process.env.GEMINI_API_KEY,
+  elevenlabsApiKey: process.env.ELEVENLABS_API_KEY, // Added ElevenLabs API Key
+
+  // ElevenLabs Configuration
+  elevenlabs: {
+    agentId: process.env.ELEVENLABS_AGENT_ID, // Added ElevenLabs Agent ID
+    webhookSecret: process.env.ELEVENLABS_WEBHOOK_SECRET, // Added ElevenLabs Webhook Secret
+  },
 
   // LLM Provider Configuration
   llm: {
@@ -24,15 +31,12 @@ const config = {
       modelName: process.env.GEMINI_MODEL_NAME || 'gemini-1.5-flash-latest', // Default value
       maxTokens: parseInt(process.env.GEMINI_MAX_TOKENS, 10) || 450,    // Default value
       temperature: parseFloat(process.env.GEMINI_TEMPERATURE) || 0.7, // Default value
-      // API URL could be added here if it needed to be configurable
-      // apiUrl: process.env.GEMINI_API_URL || 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent',
     },
     openai: {
       modelName: process.env.OPENAI_MODEL_NAME || 'gpt-4o-mini', // Default value
       maxTokens: parseInt(process.env.OPENAI_MAX_TOKENS, 10) || 300,   // Default value
       temperature: parseFloat(process.env.OPENAI_TEMPERATURE) || 0.7, // Default value
-      // apiUrl: process.env.OPENAI_API_URL || 'https://api.openai.com/v1/chat/completions',
-      transcriptionModelName: process.env.OPENAI_TRANSCRIPTION_MODEL_NAME || 'gpt-4o-mini-transcribe', // New: Transcription model
+      transcriptionModelName: process.env.OPENAI_TRANSCRIPTION_MODEL_NAME || 'gpt-4o-mini-transcribe',
     },
   },
 
@@ -50,7 +54,7 @@ const config = {
     'http://localhost:3000',
     'https://gastroai.net',
     process.env.CORS_LINK_1,
-  ],
+  ].filter(Boolean), // Filter out undefined values if CORS_LINK_1 is not set
 };
 
 // Validate essential configurations
@@ -58,11 +62,24 @@ if (!config.sessionSecret) {
   console.error("FATAL ERROR: SESSION_SECRET is not defined in the environment variables.");
   process.exit(1);
 }
-// Note: The warning for AI API keys is now implicitly handled by llmService if no keys are found.
 if (!config.db.host || !config.db.user || !config.db.password || !config.db.name) {
     console.error("FATAL ERROR: Database configuration is incomplete. Check DB_HOST, DB_USER, DB_PASSWORD, DB_NAME.");
     process.exit(1);
 }
+
+// Validate ElevenLabs specific configurations (optional, but good practice)
+if (!config.elevenlabsApiKey) {
+  console.warn("Warning: ELEVENLABS_API_KEY is not defined. Conversational AI features will not work.");
+}
+if (!config.elevenlabs.agentId) {
+  console.warn("Warning: ELEVENLABS_AGENT_ID is not defined. Conversational AI features will not work.");
+}
+// Webhook secret might not be immediately used for signed URL generation but will be for webhook verification.
+// A warning here is good for completeness.
+if (!config.elevenlabs.webhookSecret) {
+    console.warn("Warning: ELEVENLABS_WEBHOOK_SECRET is not defined. Webhook verification will fail.");
+}
+
 
 // Validate temperature and maxTokens to be within reasonable limits if needed
 if (config.llm.gemini.temperature < 0 || config.llm.gemini.temperature > 2) {
