@@ -91,18 +91,6 @@ const menuData = {
       etiquetas: ["vegetariano"],
       pairsWith: { drink: 17, dessert: 11 } // Drink: Agua Mineral Natural (Original ID 12, now 17), Dessert: Crema Catalana (Original ID 8, now 11)
     },
-
-    // {
-    //   id: 9, // Original ID 16
-    //   nombre: { es: "Bacalao a la Vizcaína", en: "Biscayan Style Cod" },
-    //   descripcionCorta: { es: "Lomos de bacalao en salsa vizcaína tradicional.", en: "Cod loins in traditional Biscayan sauce." },
-    //   descripcionLarga: { es: "Suculentos lomos de bacalao desalado, cocinados a fuego lento en una auténtica salsa vizcaína elaborada con pimientos choriceros, cebolla, ajo y tomate. Servido con patatas cocidas.", en: "Succulent desalted cod loins, slow-cooked in an authentic Biscayan sauce made with choricero peppers, onion, garlic, and tomato. Served with boiled potatoes." },
-    //   precio: 19.75,
-    //   imagen: "/assets/bacalao-vizcaina.jpg",
-    //   alergenos: ["pescado"],
-    //   etiquetas: [],
-    //   pairsWith: { drink: 15, dessert: 11 } // Pairs with Vino Tinto Rioja Crianza (Original ID 10, now 15) and Crema Catalana (Original ID 8, now 11)
-    // },
   ],
   postres: [
     {
@@ -208,6 +196,9 @@ const menuData = {
       etiquetas: [],
       pairsWith: { main: 7 } // Pairs with Risotto de Setas (Original ID 6, now ID 7)
     },
+    {nombre:"Refrescos y cafés",
+      instrucciones:"De refrescos tenemos Aquarius de limón y naranja, todas las Cocacolas, Nestea y fanta, pero no hay imagenes asi que no pongas 'ver plato' ni link cuando te pregunten por ellos. No los debes de recomendar a menos que te pregunten por ellos explicitamente. En cuanto a cafés, el cliente deberá consultar al camarero."
+    }
 
   ],
 };

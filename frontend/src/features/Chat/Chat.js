@@ -5,6 +5,7 @@ import styles from './Chat.module.css';
 import { ReactComponent as SendIcon } from '../../assets/up-arrow-icon.svg';
 import { firstMessageSpanish, firstMessageEnglish } from './firstMessage'; // Frontend's rich welcome message
 import { chatSuggestions } from '../../data/translations';
+import { ReactComponent as MicrophoneIcon } from '../../assets/microphone.svg';
 
 import {
   fetchConversation,
@@ -351,7 +352,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
                 disabled={isInputAreaDisabled || isTranscribing}
                 title={currentLanguage === 'Español' ? 'Grabar voz' : 'Record voice'}
               >
-                🎤
+                <MicrophoneIcon className={styles.microphoneSvg}/>
               </button>
               <button
                 className={styles.sendMessage}
