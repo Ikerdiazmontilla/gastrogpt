@@ -1,4 +1,4 @@
-// <file path="frontend/src/features/Chat/Chat.js">
+// frontend/src/features/Chat/Chat.js
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './Chat.module.css';
@@ -11,7 +11,7 @@ import {
   fetchConversation,
   postChatMessage,
   resetChatConversation,
-  transcribeAudio, // Import the new service
+  transcribeAudio,
 } from '../../services/apiService';
 
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
@@ -26,13 +26,12 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const [isLimitReached, setIsLimitReached] = useState(false);
   const [limitNotification, setLimitNotification] = useState('');
 
-  // --- Voice Recording State ---
+  // Voice Recording State
   const [isRecording, setIsRecording] = useState(false);
-  const [isTranscribing, setIsTranscribing] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false); // New state for transcription phase
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
-  const mediaStreamRef = useRef(null); // To store the stream for cleanup
-  // --- End Voice Recording State ---
+  const mediaStreamRef = useRef(null);
 
   const firstMessageText = currentLanguage === 'Español' ? firstMessageSpanish : firstMessageEnglish;
   const currentSuggestions = chatSuggestions[currentLanguage] || chatSuggestions['English'];
@@ -92,7 +91,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     }
   }, [input]);
 
-  // Cleanup function to stop media stream tracks
   const stopMediaStream = useCallback(() => {
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
@@ -103,7 +101,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
 
   const handleSend = async () => {
-    if (isLimitReached || isRecording) return; // Don't send if recording or limit reached
+    if (isLimitReached || isRecording || isTranscribing) return; // Don't send if recording, transcribing, or limit reached
     const trimmedInput = input.trim();
     if (trimmedInput === '') return;
 
@@ -155,41 +153,48 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     try {
       await resetChatConversation();
       setInput('');
-      if (isRecording && mediaRecorderRef.current) {
-        // No need to define onstop here, stopMediaStream will be called by cancelAudioRecording
+      if (isRecording && mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+        mediaRecorderRef.current.onstop = () => { // Ensure a clean onstop
+            stopMediaStream();
+            audioChunksRef.current = [];
+            console.log("Recording stopped due to reset.");
+        };
         mediaRecorderRef.current.stop();
+      } else {
+        stopMediaStream(); // Ensure microphone is released if not actively recording but stream might be open
       }
-      stopMediaStream(); // Ensure microphone is released
       setIsRecording(false);
-      setIsTranscribing(false);
+      setIsTranscribing(false); // Reset transcribing state on chat reset
       audioChunksRef.current = [];
       await loadConversation();
       if (textareaRef.current) {
-          textareaRef.current.blur();
+          textareaRef.current.blur(); // Optionally blur to prevent keyboard pop-up
       }
     } catch (err)      {
       console.error('Error resetting conversation:', err.message);
       setError(`Error resetting: ${err.message}`);
+      // Attempt to restore a basic state even if reset fails partially
       setInput('');
-      await loadConversation();
+      setIsRecording(false);
+      setIsTranscribing(false);
+      await loadConversation(); // Reload to reflect any server-side changes or clear client state
     }
   };
 
   const handleSuggestionClick = (suggestionText) => {
-    if (isLimitReached || isRecording) return;
+    if (isLimitReached || isRecording || isTranscribing) return; // Prevent input if recording, transcribing or limit reached
     setInput(suggestionText);
     if (textareaRef.current) {
         textareaRef.current.focus();
     }
   };
 
-  // --- Voice Recording Functions ---
   const startAudioRecording = async () => {
-    if (isRecording) return;
+    if (isRecording || isTranscribing) return; // Prevent starting if already recording or transcribing
     setError(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaStreamRef.current = stream; // Store the stream
+      mediaStreamRef.current = stream;
       mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
       audioChunksRef.current = [];
 
@@ -198,39 +203,42 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
           audioChunksRef.current.push(event.data);
         }
       };
-
-      // The onstop event will be dynamically assigned by the function that calls stop()
-      // (either stopAudioRecordingAndTranscribe or cancelAudioRecording)
+      // onstop will be defined by the function that calls stop()
 
       mediaRecorderRef.current.start();
       setIsRecording(true);
+      setIsTranscribing(false); // Ensure transcribing is false when starting new recording
     } catch (err) {
       console.error('Error accessing microphone:', err);
       setError(currentLanguage === 'Español' ? 'Error al acceder al micrófono. Asegúrate de dar permiso.' : 'Error accessing microphone. Please ensure permission is granted.');
-      stopMediaStream(); // Clean up if permission failed after stream was partially acquired
+      stopMediaStream();
       setIsRecording(false);
+      setIsTranscribing(false);
     }
   };
 
   const stopAudioRecordingAndTranscribe = async () => {
     if (!isRecording || !mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
+      // If not recording, or recorder isn't active, reset states and stream
       setIsRecording(false);
-      stopMediaStream(); // Ensure stream is stopped if somehow in inconsistent state
+      setIsTranscribing(false);
+      stopMediaStream();
       return;
     }
 
-    setIsTranscribing(true);
-    // Assign the onstop handler specifically for transcription
+    setIsRecording(false); // Recording phase ends
+    setIsTranscribing(true); // Transcription phase begins
+
     mediaRecorderRef.current.onstop = async () => {
-        stopMediaStream(); // Stop the tracks once recording is truly finished
+        stopMediaStream();
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         audioChunksRef.current = [];
 
         if (audioBlob.size === 0) {
             console.warn("Audio blob is empty, not sending for transcription.");
             setError(currentLanguage === "Español" ? "No se grabó audio." : "No audio recorded.");
-            setIsRecording(false);
-            setIsTranscribing(false);
+            // No change to isRecording, already false
+            setIsTranscribing(false); // Transcription phase ends (due to error/empty blob)
             return;
         }
 
@@ -245,35 +253,34 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             console.error('Error transcribing audio:', err);
             setError(err.message || (currentLanguage === 'Español' ? 'Fallo al transcribir.' : 'Failed to transcribe.'));
         } finally {
-            setIsRecording(false);
-            setIsTranscribing(false);
+            // No change to isRecording, already false
+            setIsTranscribing(false); // Transcription phase ends
             if (textareaRef.current) {
                 textareaRef.current.focus();
             }
         }
     };
-    mediaRecorderRef.current.stop(); // This triggers the onstop handler above
+    mediaRecorderRef.current.stop();
   };
 
 
   const cancelAudioRecording = () => {
-    if (!isRecording || !mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
-      setIsRecording(false);
-      stopMediaStream(); // Ensure stream is stopped
-      return;
+    if (!mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
+        setIsRecording(false);
+        setIsTranscribing(false);
+        stopMediaStream();
+        return;
     }
-    // Assign the onstop handler specifically for cancellation
     mediaRecorderRef.current.onstop = () => {
-        stopMediaStream(); // Stop the tracks
+        stopMediaStream();
         audioChunksRef.current = [];
         console.log("Recording cancelled by user.");
     };
-    mediaRecorderRef.current.stop(); // This triggers the onstop handler above
+    mediaRecorderRef.current.stop();
     setIsRecording(false);
-    setIsTranscribing(false);
+    setIsTranscribing(false); // Ensure transcribing is false if recording is cancelled
   };
 
-  // Effect for cleaning up media stream on component unmount or language change (which reloads)
   useEffect(() => {
     return () => {
       stopMediaStream();
@@ -281,13 +288,17 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         mediaRecorderRef.current.stop();
       }
     };
-  }, [stopMediaStream]); // Add stopMediaStream to dependency array
-
-  // --- End Voice Recording Functions ---
-
+  }, [stopMediaStream]);
 
   const isInputAreaDisabled = (isLoading && messages.length <= 1 && !error) || isLimitReached || isTranscribing;
   const isResetDisabled = (isLoading && messages.length <= 1 && !isLimitReached && !error) || isRecording || isTranscribing;
+  // Disable textarea and send button if recording, transcribing, or limit reached
+  const isTextareaAndSendDisabled = isLimitReached || isRecording || isTranscribing;
+  // Disable mic button if limit reached or transcribing (it has its own recording logic)
+  const isMicButtonDisabled = isLimitReached || isTranscribing;
+  // Disable suggestion chips if limit reached, recording, or transcribing
+  const areSuggestionsDisabled = isLimitReached || isRecording || isTranscribing;
+
 
   return (
     <>
@@ -298,7 +309,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
               {currentLanguage === 'Español' ? 'Cargando historial...' : 'Loading history...'}
             </div>
           )}
-          {error && (!isLimitReached || !limitNotification) && ( // Show general errors if not a limit notification case
+          {error && (!isLimitReached || !limitNotification) && (
             <div className={`${styles.message} ${styles.system} ${styles.error}`}>{error}</div>
           )}
           {messages.map((msg, index) => (
@@ -330,39 +341,39 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             ref={textareaRef}
             rows="1"
             placeholder={
-              isRecording
-                ? (currentLanguage === 'Español' ? 'Grabando...' : 'Recording...')
-                : isTranscribing
+              isTranscribing
                 ? (currentLanguage === 'Español' ? 'Transcribiendo...' : 'Transcribing...')
+                : isRecording
+                ? (currentLanguage === 'Español' ? 'Grabando...' : 'Recording...')
                 : isLimitReached
                 ? (currentLanguage === 'Español' ? 'Límite alcanzado. Reinicia.' : 'Limit reached. Reset chat.')
                 : (currentLanguage === 'Español' ? 'Escribe tu mensaje...' : 'Write your message...')
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            disabled={isInputAreaDisabled || isRecording} // Also disable textarea while recording
-            readOnly={isLimitReached || isRecording || isTranscribing}
+            disabled={isTextareaAndSendDisabled}
+            readOnly={isTextareaAndSendDisabled} // Using readOnly is often better for accessibility with disabled
             className={styles.chatTextarea}
           />
-          {!isRecording ? (
+          {isTranscribing ? (
+            // While transcribing, show disabled mic and send buttons
             <>
               <button
-                className={`${styles.micButton} ${isTranscribing ? styles.micButtonDisabled : ''}`}
-                onClick={startAudioRecording}
-                disabled={isInputAreaDisabled || isTranscribing}
-                title={currentLanguage === 'Español' ? 'Grabar voz' : 'Record voice'}
+                className={`${styles.micButton} ${styles.micButtonDisabled}`}
+                disabled
+                title={currentLanguage === 'Español' ? 'Transcribiendo audio...' : 'Transcribing audio...'}
               >
                 <MicrophoneIcon className={styles.microphoneSvg}/>
               </button>
               <button
                 className={styles.sendMessage}
-                onClick={handleSend}
-                disabled={isInputAreaDisabled || input.trim() === ''}
+                disabled
               >
                 <SendIcon className={styles.sendSvg} />
               </button>
             </>
-          ) : (
+          ) : isRecording ? (
+            // While recording, show cancel and stop buttons
             <>
               <button
                 className={styles.cancelRecordButton}
@@ -379,30 +390,51 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
                 ✔️
               </button>
             </>
+          ) : (
+            // Default state: show functional mic and send buttons
+            <>
+              <button
+                className={`${styles.micButton} ${isMicButtonDisabled ? styles.micButtonDisabled : ''}`}
+                onClick={startAudioRecording}
+                disabled={isMicButtonDisabled}
+                title={currentLanguage === 'Español' ? 'Grabar voz' : 'Record voice'}
+              >
+                <MicrophoneIcon className={styles.microphoneSvg}/>
+              </button>
+              <button
+                className={styles.sendMessage}
+                onClick={handleSend}
+                disabled={isTextareaAndSendDisabled || input.trim() === ''}
+              >
+                <SendIcon className={styles.sendSvg} />
+              </button>
+            </>
           )}
         </div>
         <div
-          className={styles.suggestionsContainer}
+          className={styles.bottomControlsContainer} // Updated class name for the wrapper
         >
           <button
             onClick={handleReset}
             disabled={isResetDisabled}
-            className={styles.resetIconChip}
+            className={styles.resetIconChipFixed} // Updated class name
             aria-label={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'}
             title={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'}
           >
             ↻
           </button>
-          {currentSuggestions.map((suggestion, index) => (
-            <button
-              key={index}
-              className={styles.suggestionChip}
-              onClick={() => handleSuggestionClick(suggestion)}
-              disabled={isInputAreaDisabled || isRecording} // Disable suggestions when recording/transcribing
-            >
-              {suggestion}
-            </button>
-          ))}
+          <div className={styles.suggestionsContainerScrollable}> {/* New scrollable container for chips */}
+            {currentSuggestions.map((suggestion, index) => (
+              <button
+                key={index}
+                className={styles.suggestionChip}
+                onClick={() => handleSuggestionClick(suggestion)}
+                disabled={areSuggestionsDisabled}
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </>
@@ -410,4 +442,3 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 };
 
 export default Chat;
-// </file>

@@ -1,4 +1,4 @@
-/* <file path="frontend/src/features/Chat/Chat.module.css"> */
+/* frontend/src/features/Chat/Chat.module.css */
 /* :root{ */
   /* --main-color: rgb(38, 144, 214); */
   /* --old-color:#4CAF50; */
@@ -225,10 +225,23 @@
 
 .micButton:disabled,
 .micButtonDisabled { /* Added class for explicit disabling style */
-  background-color: var(--palette-grey-100);
-  color: var(--palette-grey-500);
-  cursor: not-allowed;
+  background-color: var(--palette-grey-100) !important; /* Ensure disabled style overrides */
+  color: var(--palette-grey-500) !important;
+  cursor: not-allowed !important;
+  opacity: 0.7; /* Visually indicate disabled state more strongly */
 }
+
+.microphoneSvg {
+  width: 18px; /* Adjust as needed */
+  height: 18px; /* Adjust as needed */
+  fill: var(--palette-charcoal-medium); /* Default icon color */
+}
+
+.micButton:disabled .microphoneSvg,
+.micButtonDisabled .microphoneSvg {
+  fill: var(--palette-grey-500); /* Disabled icon color */
+}
+
 
 .cancelRecordButton {
   background-color: var(--palette-red-tag-spicy-background); /* Light red */
@@ -247,59 +260,68 @@
 }
 /* End Styles for new recording buttons */
 
-.suggestionsContainer {
+/* Renamed from suggestionsContainer to bottomControlsContainer */
+.bottomControlsContainer {
   display: flex;
-  align-items: center; /* Align items vertically in the center */
+  align-items: center; 
   gap: 8px;
-  overflow-x: auto;
-  white-space: nowrap;
   padding-top: 8px;
   padding-bottom: 4px;
   width: 100%;
-
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.suggestionsContainer::-webkit-scrollbar {
-  display: none;
 }
 
-/* New style for the small, square reset button with icon */
-.resetIconChip {
+/* New class for the fixed reset button */
+.resetIconChipFixed {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px; /* Square dimensions */
-  height: 36px; /* Square dimensions, same as suggestionChip height for alignment */
-  padding: 0; /* Remove padding if icon is centered by flex */
-  border: none; /* Or 1px solid var(--chat-suggestion-chip-border-color) for consistency */
-  background-color: var(--chat-reset-button-background-color); /* Same color as original reset */
-  color: var(--chat-reset-button-text-color); /* Icon color */
-  border-radius: 8px; /* Or 18px for more rounded, like chips */
-  font-size: 1.2rem; /* Adjust icon size */
+  width: 36px; 
+  height: 36px; 
+  padding: 0; 
+  border: none; 
+  background-color: var(--chat-reset-button-background-color); 
+  color: var(--chat-reset-button-text-color); 
+  border-radius: 8px; 
+  font-size: 1.2rem; 
   cursor: pointer;
   transition: background-color 0.2s;
   flex-shrink: 0; /* Prevent shrinking */
 }
 
-.resetIconChip:hover:not(:disabled) {
-  background-color: var(--palette-brand-blue-hover); /* Darken on hover, consistent with other buttons */
+.resetIconChipFixed:hover:not(:disabled) {
+  background-color: var(--palette-brand-blue-hover); 
 }
 
-.resetIconChip:disabled {
+.resetIconChipFixed:disabled {
   background-color: var(--chat-reset-button-disabled-background-color);
-  color: var(--chat-suggestion-chip-disabled-text-color); /* Adjust if needed */
+  color: var(--chat-suggestion-chip-disabled-text-color); 
   cursor: not-allowed;
   opacity: 0.7;
 }
 
+/* New class for the scrollable container of suggestion chips */
+.suggestionsContainerScrollable {
+  display: flex; 
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap; 
+  flex-grow: 1; /* Allow this to take remaining space */
+  /* Hide scrollbar styles */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.suggestionsContainerScrollable::-webkit-scrollbar {
+  display: none;
+}
+
 
 .suggestionChip {
-  padding: 6px 12px; /* Original padding */
-  height: 36px; /* Explicit height to match resetIconChip if desired */
-  box-sizing: border-box; /* Ensure padding doesn't add to height */
-  display: inline-flex; /* Added for vertical alignment if text is shorter */
-  align-items: center; /* Added for vertical alignment */
+  padding: 6px 12px; 
+  height: 36px; 
+  box-sizing: border-box; 
+  display: inline-flex; 
+  align-items: center; 
   border: 1px solid var(--chat-suggestion-chip-border-color);
   background-color: var(--chat-suggestion-chip-background-color);
   border-radius: 16px;
@@ -310,7 +332,7 @@
   flex-shrink: 0;
 }
 
-.suggestionChip:hover {
+.suggestionChip:hover:not(:disabled) { /* Updated to not apply hover when disabled */
   background-color: var(--chat-suggestion-chip-hover-background-color);
 }
 
@@ -319,6 +341,7 @@
   color: var(--chat-suggestion-chip-disabled-text-color);
   cursor: not-allowed;
   border-color: var(--chat-suggestion-chip-disabled-border-color);
+  opacity: 0.7; /* Added opacity for disabled suggestion chips */
 }
 
 .dishDetailLink, .dishLink {
