@@ -97,7 +97,18 @@ const menuData = {
       alergenos: ["lactosa", "frutos_secos"],
       etiquetas: ["vegetariano"],
       pairsWith: { drink: 17, dessert: 11 }
-    }
+    },
+    {
+      id: 14, 
+      nombre: { es: "Risotto de Setas", en: "Mushroom Risotto" },
+      descripcionCorta: { es: "Arroz cremoso con variedad de setas...", en: "Creamy rice with a variety of mushrooms..." },
+      descripcionLarga: { es: "Risotto cremoso Arborio con una selección de setas silvestres de temporada (boletus, níscalos, champiñones portobello), mantecado con parmesano y un toque de trufa.", en: "Creamy Arborio risotto with a selection of seasonal wild mushrooms (boletus, chanterelles, portobello mushrooms), creamed with Parmesan and a touch of truffle." },
+      precio: 14.50,
+      imagen: "/assets/rissotto-setas.jpg",
+      alergenos: ["lactosa"],
+      etiquetas: ["vegetariano"],
+      pairsWith: { drink: 17, dessert: 11 } 
+    },
   ],
   postres: [
     {
