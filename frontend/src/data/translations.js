@@ -221,6 +221,7 @@ export const navbarTranslations = {
 // Chat suggestions
 export const chatSuggestions = {
   Español: [
+    '¿Que bebidas me recomiendas?',
     '¿Cuáles son los platos más populares?',
     'Dame opciones vegetarianas',
     '¿Qué postres tenéis?',
@@ -228,6 +229,7 @@ export const chatSuggestions = {
 
   ],
   English: [
+    'What drinks do you suggest me?',
     'What are the most popular dishes?',
     'Give me vegetarian options',
     'What desserts do you have?',
