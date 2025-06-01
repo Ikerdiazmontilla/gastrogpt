@@ -198,7 +198,7 @@ a {
   --dish-modal-overlay-background-color: var(--palette-overlay-dark-alpha);
   --dish-modal-content-background-color: var(--palette-pure-white);
   --dish-modal-content-shadow-color: var(--palette-shadow-xl);
-  --dish-modal-close-button-text-color: var(--palette-grey-700);
+  --dish-modal-close-button-text-color: var(--palette-pure-white);
   --dish-modal-close-button-hover-text-color: var(--palette-charcoal-medium);
   --dish-modal-title-text-color: var(--palette-charcoal-medium);
   --dish-modal-price-text-color: var(--app-main-brand-color);

@@ -10,6 +10,8 @@ modificar ejemplos para que representen todos los casos posibles y como debe res
 
 Poner en los ejemplos que el cliente le pregunta por un plato que no existe o que le dice que no le gusta un plato
 
+implementar reseñas
+
 
 cambiar alergias para que no sea necesario seleccionar nada ahi
 
@@ -19,9 +21,8 @@ when you click on a dish, add ask chat about the dish functionality
 
 Remove searchbar to add filtering by healthy or by spicy, or by vegan
 
-implementar upsell y crossell del chat, ampliar menu
 
-change pairs with styling
+change pairs with styling(add ver plato to pairs with)
 
 add emojis to questionnaire
 remove some popular dishes
