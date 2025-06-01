@@ -3,7 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import { navbarTranslations } from '../../data/translations'; // Translations
-import logoImage from '../../assets/gastrogpt-logo-no-bg.png'
+import logoImage from '../../assets/gastrogpt-logo.png'
 
 const Navbar = ({ onLanguageChange, currentLanguage }) => {
   const handleLanguageSelect = (event) => {
