@@ -43,6 +43,7 @@
 .message {
   position: relative;
   max-width: 100%;
+  font-size: 1.1rem;
   padding: 15px;
   border-radius: 10px;
   word-wrap: break-word; /* Ensures long text within the message bubble itself wraps */
@@ -81,7 +82,7 @@
   align-self: flex-start;
   border-top-left-radius: 4px;
   margin-right: auto;
-  max-width: 80%;
+  max-width: 90%;
 }
 
 .message.bot::before {
