@@ -12,6 +12,8 @@ Poner en los ejemplos que el cliente le pregunta por un plato que no existe o qu
 
 implementar reseñas
 
+hacer que vuelva al chat cuando presionas flecha y estas en dishdetailmodal
+
 
 cambiar alergias para que no sea necesario seleccionar nada ahi
 
