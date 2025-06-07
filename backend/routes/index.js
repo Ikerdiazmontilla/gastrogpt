@@ -1,8 +1,9 @@
-// <file path="backend/routes/index.js">
+// backend/routes/index.js
 const express = require('express');
 const chatRoutes = require('./chatRoutes');
 const questionnaireRoutes = require('./questionnaireRoutes');
-const audioRoutes = require('./audioRoutes'); // Import the new audio routes
+const audioRoutes = require('./audioRoutes');
+const convaiRoutes = require('./convaiRoutes'); // New: Import the new routes
 
 /**
  * @file index.js (in routes)
@@ -12,10 +13,11 @@ const audioRoutes = require('./audioRoutes'); // Import the new audio routes
 
 const router = express.Router();
 
-// Mount feature-specific routers under the /api prefix (or keep them at root if preferred)
-router.use('/', chatRoutes); // e.g., /api/chat, /api/conversation
-router.use('/', questionnaireRoutes); // e.g., /api/questionnaire
-router.use('/', audioRoutes); // e.g., /api/transcribe-audio
+// Mount feature-specific routers
+router.use('/', chatRoutes);
+router.use('/', questionnaireRoutes);
+router.use('/', audioRoutes);
+router.use('/', convaiRoutes); // New: Use the new routes
 
 // Example of a simple health check endpoint
 router.get('/health', (req, res) => {
@@ -23,4 +25,3 @@ router.get('/health', (req, res) => {
 });
 
 module.exports = router;
-// </file>

@@ -381,3 +381,76 @@
   border-radius: 4px;
   margin: 10px 0;
 }
+
+
+/* Voice Call Button in the suggestions bar */
+.voiceCallButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--palette-green-tag-recommended-border);
+  background-color: var(--palette-green-tag-recommended-background);
+  color: var(--palette-green-tag-recommended-text);
+  border-radius: 18px; /* Make it circular */
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.voiceCallButton:hover:not(:disabled) {
+  background-color: var(--palette-green-tag-recommended-border);
+}
+
+.voiceCallButton:disabled {
+  background-color: var(--chat-suggestion-chip-disabled-background-color);
+  color: var(--chat-suggestion-chip-disabled-text-color);
+  border-color: var(--chat-suggestion-chip-disabled-border-color);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Container that replaces the text input during a call */
+.voiceCallActiveContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--palette-grey-150);
+  border-radius: 8px;
+  height: calc(1rem * 1.4 + 20px);
+}
+
+.voiceStatusText {
+  font-weight: 500;
+  color: var(--palette-charcoal-medium);
+}
+
+/* The red "End Call" button */
+.endCallButton {
+  padding: 8px 16px;
+  border: none;
+  background-color: var(--palette-red-tag-spicy-background);
+  color: var(--palette-red-tag-spicy-text);
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.endCallButton:hover {
+  background-color: var(--palette-red-error-border);
+}
+
+/* A small indicator shown in the message list during a call */
+.voiceStatusIndicator {
+  background-color: var(--palette-green-tag-recommended-background) !important;
+  color: var(--palette-green-tag-recommended-text) !important;
+  font-style: normal !important;
+  font-weight: 500;
+  border: 1px solid var(--palette-green-tag-recommended-border);
+}

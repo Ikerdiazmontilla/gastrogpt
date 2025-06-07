@@ -1,4 +1,4 @@
-// <file path="backend/config/config.js">
+// backend/config/config.js
 require('dotenv').config(); // Load .env file variables into process.env
 
 /**
@@ -16,13 +16,8 @@ const config = {
   // API Keys
   openaiApiKey: process.env.OPENAI_API_KEY,
   geminiApiKey: process.env.GEMINI_API_KEY,
-  elevenlabsApiKey: process.env.ELEVENLABS_API_KEY, // Added ElevenLabs API Key
-
-  // ElevenLabs Configuration
-  elevenlabs: {
-    agentId: process.env.ELEVENLABS_AGENT_ID, // Added ElevenLabs Agent ID
-    webhookSecret: process.env.ELEVENLABS_WEBHOOK_SECRET, // Added ElevenLabs Webhook Secret
-  },
+  elevenlabsApiKey: process.env.ELEVENLABS_API_KEY, // New
+  elevenlabsWebhookSecret: process.env.ELEVENLABS_WEBHOOK_SECRET, // New
 
   // LLM Provider Configuration
   llm: {
@@ -40,6 +35,9 @@ const config = {
     },
   },
 
+  // Conversational AI Agent ID
+  elevenlabsAgentId: process.env.ELEVENLABS_AGENT_ID, // New
+
   // Database Configuration
   db: {
     host: process.env.DB_HOST,
@@ -54,7 +52,7 @@ const config = {
     'http://localhost:3000',
     'https://gastroai.net',
     process.env.CORS_LINK_1,
-  ].filter(Boolean), // Filter out undefined values if CORS_LINK_1 is not set
+  ],
 };
 
 // Validate essential configurations
@@ -67,19 +65,10 @@ if (!config.db.host || !config.db.user || !config.db.password || !config.db.name
     process.exit(1);
 }
 
-// Validate ElevenLabs specific configurations (optional, but good practice)
-if (!config.elevenlabsApiKey) {
-  console.warn("Warning: ELEVENLABS_API_KEY is not defined. Conversational AI features will not work.");
+// Add validation for new keys
+if (!config.elevenlabsApiKey || !config.elevenlabsAgentId || !config.elevenlabsWebhookSecret) {
+  console.warn("Warning: ElevenLabs configuration is incomplete. Voice chat features may not work. Check ELEVENLABS_API_KEY, ELEVENLABS_AGENT_ID, and ELEVENLABS_WEBHOOK_SECRET.");
 }
-if (!config.elevenlabs.agentId) {
-  console.warn("Warning: ELEVENLABS_AGENT_ID is not defined. Conversational AI features will not work.");
-}
-// Webhook secret might not be immediately used for signed URL generation but will be for webhook verification.
-// A warning here is good for completeness.
-if (!config.elevenlabs.webhookSecret) {
-    console.warn("Warning: ELEVENLABS_WEBHOOK_SECRET is not defined. Webhook verification will fail.");
-}
-
 
 // Validate temperature and maxTokens to be within reasonable limits if needed
 if (config.llm.gemini.temperature < 0 || config.llm.gemini.temperature > 2) {
@@ -99,4 +88,3 @@ if (config.llm.openai.maxTokens <= 0) {
 
 
 module.exports = config;
-// </file>

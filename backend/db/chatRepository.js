@@ -1,4 +1,4 @@
-// <file path="backend/db/chatRepository.js">
+// backend/db/chatRepository.js
 const pool = require('./pool');
 const { v4: uuidv4 } = require('uuid');
 
@@ -28,6 +28,25 @@ async function getActiveConversation(sessionId, existingClient) {
 }
 
 /**
+ * New: Retrieves a conversation by its UUID.
+ * @param {string} conversationId - The UUID of the conversation.
+ * @param {object} [existingClient] - Optional existing DB client for transactions.
+ * @returns {Promise<object|null>} The conversation object or null if not found.
+ */
+async function getConversationById(conversationId, existingClient) {
+  const client = existingClient || await pool.connect();
+  try {
+    const result = await client.query(
+      'SELECT id, messages FROM chat_conversations WHERE id = $1 LIMIT 1',
+      [conversationId]
+    );
+    return result.rows.length > 0 ? result.rows[0] : null;
+  } finally {
+    if (!existingClient) client.release();
+  }
+}
+
+/**
  * Creates a new active chat conversation.
  * @param {string} sessionId - The session ID.
  * @param {Array<object>} messages - The initial messages for the conversation.
@@ -38,19 +57,19 @@ async function createConversation(sessionId, messages, existingClient) {
   const client = existingClient || await pool.connect();
   const conversationId = uuidv4();
   try {
-    await client.query(
-      'INSERT INTO chat_conversations (id, session_id, messages, is_active) VALUES ($1, $2, $3, TRUE)',
+    const result = await client.query(
+      'INSERT INTO chat_conversations (id, session_id, messages, is_active) VALUES ($1, $2, $3, TRUE) RETURNING id',
       [conversationId, sessionId, JSON.stringify(messages)]
     );
-    console.log(`New chat conversation ${conversationId} created for session ${sessionId}`);
-    return conversationId;
+    console.log(`New chat conversation ${result.rows[0].id} created for session ${sessionId}`);
+    return result.rows[0].id;
   } finally {
     if (!existingClient) client.release();
   }
 }
 
 /**
- * Updates an existing active chat conversation's messages.
+ * Updates an existing chat conversation's messages.
  * @param {string} conversationId - The ID of the conversation to update.
  * @param {Array<object>} messages - The new set of messages.
  * @param {object} [existingClient] - Optional existing DB client for transactions.
@@ -60,7 +79,7 @@ async function updateConversationMessages(conversationId, messages, existingClie
   const client = existingClient || await pool.connect();
   try {
     await client.query(
-      'UPDATE chat_conversations SET messages = $1, updated_at = NOW() WHERE id = $2 AND is_active = TRUE',
+      'UPDATE chat_conversations SET messages = $1, updated_at = NOW() WHERE id = $2',
       [JSON.stringify(messages), conversationId]
     );
     console.log(`Chat conversation ${conversationId} updated.`);
@@ -96,8 +115,8 @@ async function archiveActiveConversations(sessionId, existingClient) {
 
 module.exports = {
   getActiveConversation,
+  getConversationById,
   createConversation,
   updateConversationMessages,
   archiveActiveConversations,
 };
-// </file>
