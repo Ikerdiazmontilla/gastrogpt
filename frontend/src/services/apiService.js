@@ -1,8 +1,8 @@
 // frontend/src/services/apiService.js
-// src/services/apiService.js
 
-const BASE_URL = process.env.REACT_APP_BACKEND_URL || ''; // Base URL for backend
+const BASE_URL = process.env.REACT_APP_BACKEND_URL || '';
 // console.log('base url: ',BASE_URL)
+
 /**
  * Helper to process API responses and extract errors.
  * @param {Response} response - The fetch response object.
@@ -25,28 +25,23 @@ const getErrorFromResponse = async (response) => {
  * @throws {Error} - If the network response is not ok.
  */
 const fetchApi = async (endpoint, options = {}) => {
-  // Prepare headers. Only set Content-Type for non-FormData requests.
   const finalHeaders = { ...options.headers };
   if (!(options.body instanceof FormData)) {
     finalHeaders['Content-Type'] = 'application/json';
   }
-  // If options.body is FormData, the browser will automatically set
-  // 'Content-Type': 'multipart/form-data; boundary=...'
 
   const response = await fetch(`${BASE_URL}${endpoint}`, {
-    credentials: 'include', // Always include credentials for session handling
-    ...options, // Spread other options like method, body
-    headers: finalHeaders, // Use the conditionally set headers
+    credentials: 'include',
+    ...options,
+    headers: finalHeaders,
   });
 
   if (!response.ok) {
     const errorMessage = await getErrorFromResponse(response);
     const error = new Error(errorMessage);
-    // Attempt to attach full response data to the error object for more context
     try {
         error.response = await response.json();
     } catch (e) {
-        // If response is not JSON or already consumed
         error.response = { status: response.status, statusText: response.statusText };
     }
     throw error;
@@ -90,18 +85,6 @@ export const resetChatConversation = () => {
 };
 
 /**
- * Submits questionnaire data to get recommendations.
- * @param {object} questionnaireData - The data from the questionnaire form.
- * @returns {Promise<object>} - The AI's recommendations.
- */
-// export const submitQuestionnaire = (questionnaireData) => { // Commented out
-//   return fetchApi('/api/questionnaire', {
-//     method: 'POST',
-//     body: JSON.stringify(questionnaireData),
-//   });
-// };
-
-/**
  * Sends an audio blob to the backend for transcription.
  * @param {Blob} audioBlob - The audio data to transcribe.
  * @param {string} filename - The filename for the audio blob (e.g., 'recording.webm').
@@ -109,10 +92,8 @@ export const resetChatConversation = () => {
  */
 export const transcribeAudio = (audioBlob, filename = 'audio.webm') => {
   const formData = new FormData();
-  formData.append('audio', audioBlob, filename); // 'audio' must match the field name in multer config
+  formData.append('audio', audioBlob, filename);
 
-  // When sending FormData, Content-Type header is set automatically by the browser.
-  // Our modified fetchApi will not set 'Content-Type: application/json' for FormData.
   return fetchApi('/api/transcribe-audio', {
     method: 'POST',
     body: formData,

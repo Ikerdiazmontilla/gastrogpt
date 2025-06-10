@@ -42,17 +42,6 @@ const initializeDatabase = async () => {
         WHERE is_active = TRUE;
     `);
 
-    // Create questionnaire_interactions table // Commented out section
-    // await client.query(`
-    //   CREATE TABLE IF NOT EXISTS questionnaire_interactions (
-    //     id UUID PRIMARY KEY,
-    //     session_id TEXT NOT NULL,
-    //     submission_data JSONB NOT NULL,
-    //     recommendation_text TEXT NOT NULL,
-    //     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-    //   );
-    // `);
-
     // Create or replace function to set timestamp on update
     await client.query(`
       CREATE OR REPLACE FUNCTION trigger_set_timestamp()
@@ -80,10 +69,9 @@ const initializeDatabase = async () => {
       END
       $$;
     `);
-    console.log('Database initialized successfully (tables, indexes, triggers verified/created).');
+    console.log('Database initialized successfully (chat_conversations table, index, trigger verified/created).');
   } catch (err) {
     console.error('Error initializing the database:', err);
-    // Depending on the error, you might want to exit or handle it differently
     throw err; // Re-throw to be caught by the server startup logic
   } finally {
     client.release();
