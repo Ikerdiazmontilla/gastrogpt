@@ -1,33 +1,43 @@
-// frontend/src/setupProxy.js
+// frontend/src/setupProxy.js (CRA)
+// v3-ready version – CommonJS keep-working
 
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const {
+  createProxyMiddleware,     // normal v3 API
+  /* legacyCreateProxyMiddleware */  // uncomment only if you want runtime warnings
+} = require('http-proxy-middleware');
 
-module.exports = function(app) {
-  // LOG DE ARRANQUE: Si ves esto en la consola del frontend al iniciar,
-  // sabremos que Create React App ha encontrado y cargado este archivo.
-  console.log('✅ [Proxy] Fichero setupProxy.js cargado correctamente.');
+module.exports = function (app) {
+  console.log('✅ [Proxy] setupProxy.js loaded');
 
   app.use(
-    '/api', // Solo intercepta las peticiones que empiecen por /api
+    // CRA still passes requests that start with /api
+    '/api',
+
     createProxyMiddleware({
-      target: 'http://localhost:5000',
-      changeOrigin: true, // Esencial para que el backend reciba el Host correcto
-      logLevel: 'debug',   // Imprime información detallada del proxy en la consola del frontend
-      
-      onProxyReq: (proxyReq, req, res) => {
-        // LOG DE EJECUCIÓN: Cada vez que una petición es interceptada,
-        // veremos esto en la consola del frontend.
-        console.log(`✅ [Proxy] Interceptada petición: ${req.method} ${req.originalUrl}`);
-        console.log(`✅ [Proxy] Enviando con Host Header: ${req.headers.host}`);
-        
-        if (req.headers.host) {
-          proxyReq.setHeader('Host', req.headers.host);
-        }
+      // v3 **no longer** keeps '/api', so include it yourself…
+      target: 'http://localhost:5000/api',
+      changeOrigin: true,
+
+      // …or keep target as-is and restore the path explicitly
+      // target: 'http://localhost:5000',
+      // pathRewrite: (path) => `/api${path}`,
+
+      /** ---- new v3 logger ---- */
+      logger: console,
+
+      /** ---- event hooks now live inside `on` ---- */
+      on: {
+        proxyReq(proxyReq, req, res) {
+          console.log(`[Proxy] ${req.method} ${req.originalUrl}`);
+          if (req.headers.host) {
+            proxyReq.setHeader('Host', req.headers.host);
+          }
+        },
+        error(err, req, res) {
+          console.error('[Proxy] error:', err);
+        },
       },
-      onError: (err, req, res) => {
-        // LOG DE ERROR: Si el proxy falla, lo veremos aquí.
-        console.error('❌ [Proxy] Error en el proxy:', err);
-      }
-    })
+      // Any http-proxy options (ws, secure, headers, …) are still valid
+    }),
   );
 };
