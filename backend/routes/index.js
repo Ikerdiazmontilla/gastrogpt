@@ -1,7 +1,8 @@
 // backend/routes/index.js
 const express = require('express');
 const chatRoutes = require('./chatRoutes');
-const audioRoutes = require('./audioRoutes'); // Import the audio routes
+const audioRoutes = require('./audioRoutes');
+const configRoutes = require('./configRoutes'); // NUEVO
 
 /**
  * @file index.js (in routes)
@@ -12,12 +13,16 @@ const audioRoutes = require('./audioRoutes'); // Import the audio routes
 const router = express.Router();
 
 // Mount feature-specific routers
-router.use('/', chatRoutes); // e.g., /api/chat, /api/conversation
-router.use('/', audioRoutes); // e.g., /api/transcribe-audio
+router.use('/', chatRoutes);      // e.g., /api/chat, /api/conversation
+router.use('/', audioRoutes);     // e.g., /api/transcribe-audio
+router.use('/', configRoutes);    // NUEVO: e.g., /api/config
 
 // Example of a simple health check endpoint
+// Lo usamos para verificar que el tenantResolver funciona.
 router.get('/health', (req, res) => {
-  res.status(200).json({ status: 'UP', message: 'API is healthy' });
+  // req.tenant es añadido por nuestro middleware
+  const tenantName = req.tenant ? req.tenant.restaurant_name : 'No Tenant';
+  res.status(200).json({ status: 'UP', message: `API is healthy for tenant: ${tenantName}` });
 });
 
 module.exports = router;

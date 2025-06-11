@@ -1,111 +1,111 @@
-// <file path="backend/controllers/chatController.js">
+// backend/controllers/chatController.js
 const chatRepository = require('../db/chatRepository');
 const llmService = require('../services/llmService');
-const pool = require('../db/pool');
 
-const systemInstructions = require('../prompts/chatInstructions');
-const firstBotMessage = require('../prompts/firstMessage');
+// ELIMINADO: const pool = require('../db/pool');
+// ELIMINADO: const systemInstructions = require('../prompts/chatInstructions');
+// ELIMINADO: const firstBotMessage = require('../prompts/firstMessage');
 
-const USER_MESSAGE_LIMIT = 15; // Define the limit - CHANGED FROM 10 to 15
+const USER_MESSAGE_LIMIT = 15;
 
-/**
- * @file chatController.js
- * @description Controller for handling chat-related API requests.
- */
-
-// Helper function to count user messages
 function countUserMessages(messagesArray) {
   if (!Array.isArray(messagesArray)) return 0;
   return messagesArray.filter(msg => msg.role === 'user').length;
 }
 
-/**
- * Handles GET /api/conversation
- * Retrieves the current active conversation history for the session.
- */
 async function getConversationHistory(req, res) {
-  const client = await pool.connect();
+  const client = req.dbClient; // USAMOS el cliente del middleware
   try {
     const conversation = await chatRepository.getActiveConversation(req.sessionID, client);
-    let userMessagesCount = 0;
-    let limitReachedNotified = false; // Flag to see if limit was already hit in this convo
+    
+    // Obtenemos el mensaje de bienvenida dinámico
+    const configResult = await client.query("SELECT value FROM configurations WHERE key = 'welcome_message'");
+    const welcomeMessage = configResult.rows[0]?.value || 'Hola, ¿en qué puedo ayudarte?'; // Fallback
 
     if (conversation && conversation.messages && conversation.messages.length > 0) {
-      userMessagesCount = countUserMessages(conversation.messages);
-      // Check if the last message from the bot in history contains the special notification
-      // This is a bit of a heuristic; a dedicated DB flag would be more robust for persisted state.
+      // ... (la lógica interna de esta sección no cambia)
+      const userMessagesCount = countUserMessages(conversation.messages);
       const lastBotMessageInHistory = conversation.messages.slice().reverse().find(m => m.role === 'assistant');
-      if (lastBotMessageInHistory && lastBotMessageInHistory.limitReachedNotification) {
-          limitReachedNotified = true;
-      }
+      const limitReachedNotified = lastBotMessageInHistory && lastBotMessageInHistory.limitReachedNotification;
 
       const frontendMessages = conversation.messages.map(msg => ({
         sender: msg.role === 'assistant' ? 'bot' : 'user',
         text: msg.content,
-        // Pass through the notification flag if it exists
         limitReachedNotification: msg.limitReachedNotification 
       }));
 
       res.json({
         messages: frontendMessages,
-        // Send current user message count and whether limit was already reached for UI logic
         meta: {
           userMessagesCount: userMessagesCount,
-          // If the count of user messages that *led to a bot response* is >= limit,
-          // and the limit was already signaled, then the limit is effectively active.
           limitEffectivelyReached: limitReachedNotified && userMessagesCount >= USER_MESSAGE_LIMIT
         }
       });
     } else {
-      res.json({ messages: [{ sender: 'bot', text: firstBotMessage }] });
+      res.json({ messages: [{ sender: 'bot', text: welcomeMessage }] });
     }
   } catch (error) {
     console.error('Error in getConversationHistory:', error);
     res.status(500).json({ error: 'Error retrieving conversation history.' });
-  } finally {
-    client.release();
   }
+  // NO client.release();
 }
 
-
-/**
- * Handles POST /api/chat
- * Processes a new user message, gets an AI response, and updates the conversation.
- */
 async function handleChatMessage(req, res) {
   const { message } = req.body;
   if (!message || typeof message !== 'string' || message.trim() === '') {
     return res.status(400).json({ error: 'Message is required and must be text.' });
   }
   const userMessageContent = message.trim();
-  const client = await pool.connect();
+  const client = req.dbClient; // USAMOS el cliente del middleware
 
   try {
     await client.query('BEGIN');
 
+    // --- Carga dinámica de configuración ---
+    const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
+    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('llm_instructions', 'welcome_message')");
+    
+    const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
+
+    const menuData = menuResult.rows[0]?.data;
+    const configs = configResult.rows.reduce((acc, row) => ({ ...acc, [row.key]: row.value }), {});
+    
+    const systemInstructionsTemplate = configs.llm_instructions;
+    const firstBotMessage = configs.welcome_message;
+
+    if (!menuData || !systemInstructionsTemplate || !firstBotMessage) {
+        throw new Error('Configuración esencial (menú, instrucciones, bienvenida) no encontrada en la BBDD.');
+    }
+    // Inyectamos el menú en las instrucciones del sistema.
+    // El prompt de la BBDD debe tener la estructura `... ${JSON.stringify(menu, null, 2)}` al final.
+    const systemInstructions = systemInstructionsTemplate.replace(
+        '${JSON.stringify(menu, null, 2)}',
+        JSON.stringify(menuData, null, 2)
+    );
+    // --- Fin carga dinámica ---
+
     let activeConversation = await chatRepository.getActiveConversation(req.sessionID, client);
+    // ... el resto de la lógica de la función es casi idéntica, solo cambia cómo se obtienen las instrucciones y el primer mensaje.
+    
     let messagesToSaveInDB = [];
-    let currentUserMessageCount = 0; // Count of user messages BEFORE adding the current one
+    let currentUserMessageCount = 0;
 
     if (activeConversation) {
       messagesToSaveInDB = activeConversation.messages || [];
       currentUserMessageCount = countUserMessages(messagesToSaveInDB);
     }
-
-    // Check if limit was already reached and signaled for this conversation
-    // A more robust way would be a flag on the conversation record itself.
-    // For now, we re-check if the last bot message had the notification.
+    
     const limitAlreadySignaled = messagesToSaveInDB.length > 0 &&
                                messagesToSaveInDB[messagesToSaveInDB.length -1].role === 'assistant' &&
                                messagesToSaveInDB[messagesToSaveInDB.length -1].limitReachedNotification;
 
 
     if (currentUserMessageCount >= USER_MESSAGE_LIMIT && limitAlreadySignaled) {
-      // If limit was hit and signaled, and user tries to send another message
-      await client.query('ROLLBACK'); // No changes to DB
+      await client.query('ROLLBACK');
       return res.status(403).json({
-        error: `Message limit of ${USER_MESSAGE_LIMIT} reached. Please start a new chat to continue.`, // Updated message
-        limitExceeded: true // Special flag for frontend
+        error: `Message limit of ${USER_MESSAGE_LIMIT} reached. Please start a new chat to continue.`,
+        limitExceeded: true
       });
     }
 
@@ -114,14 +114,14 @@ async function handleChatMessage(req, res) {
     let conversationId;
 
     messagesToSaveInDB.push(userMessageForAI);
-    const updatedUserMessageCount = currentUserMessageCount + 1; // Count AFTER adding the current one
+    const updatedUserMessageCount = currentUserMessageCount + 1;
 
     if (activeConversation) {
       conversationId = activeConversation.id;
       messagesForAI = [
         { role: 'system', content: systemInstructions },
         { role: 'assistant', content: firstBotMessage },
-        ...(activeConversation.messages || []), // existing messages before current user message
+        ...(activeConversation.messages || []),
         userMessageForAI
       ];
     } else {
@@ -140,9 +140,7 @@ async function handleChatMessage(req, res) {
 
     if (updatedUserMessageCount === USER_MESSAGE_LIMIT) {
       limitReachedThisTurn = true;
-      // Updated notification message to use the constant
       notificationMessageForFrontend = `You have reached the ${USER_MESSAGE_LIMIT}-message limit. Please start a new chat to continue.`; 
-      // Add a marker to the assistant's message in DB for future reference
       assistantMessageForAI.limitReachedNotification = true;
     }
 
@@ -161,39 +159,33 @@ async function handleChatMessage(req, res) {
       responsePayload.limitReached = true;
       responsePayload.notification = notificationMessageForFrontend;
     }
-    responsePayload.currentUserMessageCount = updatedUserMessageCount; // Send updated count
+    responsePayload.currentUserMessageCount = updatedUserMessageCount;
 
     res.json(responsePayload);
 
   } catch (error) {
     await client.query('ROLLBACK');
     console.error('Error in handleChatMessage:', error);
-    // Distinguish API errors from our limit logic if possible
     if (error.message.includes("LLM service") || error.message.includes("API")) {
         res.status(500).json({ error: 'Error processing your message with the AI assistant.' });
     } else {
         res.status(500).json({ error: 'Error processing chat message.' });
     }
-  } finally {
-    client.release();
   }
+  // NO client.release();
 }
 
-/**
- * Handles POST /api/reset
- * Archives the current active chat conversation for the session.
- */
+
 async function resetChat(req, res) {
-  const client = await pool.connect();
+  const client = req.dbClient; // USAMOS el cliente del middleware
   try {
     await chatRepository.archiveActiveConversations(req.sessionID, client);
     res.json({ message: 'Chat conversation archived. A new one will start on the next message.' });
   } catch (error) {
     console.error('Error in resetChat:', error);
     res.status(500).json({ error: 'Error resetting chat conversation.' });
-  } finally {
-    client.release();
   }
+  // NO client.release();
 }
 
 module.exports = {
