@@ -2,25 +2,24 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './Chat.module.css';
-import { useTenant } from '../../context/TenantContext';
-import { chatSuggestions } from '../../data/translations';
 import { ReactComponent as SendIcon } from '../../assets/up-arrow-icon.svg';
+import { chatSuggestions } from '../../data/translations';
 import { ReactComponent as MicrophoneIcon } from '../../assets/microphone.svg';
-
+import { useTenant } from '../../context/TenantContext'; // NUEVO
 import {
   fetchConversation,
   postChatMessage,
   resetChatConversation,
   transcribeAudio,
 } from '../../services/apiService';
-
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
 
 const Chat = ({ currentLanguage, onViewDishDetails }) => {
-  const { tenantConfig } = useTenant();
+  const { tenantConfig } = useTenant(); // Usamos el contexto para obtener datos dinámicos
   const menu = tenantConfig?.menu;
-  const welcomeMessage = tenantConfig?.welcomeMessage || (currentLanguage === 'Español' ? 'Hola, ¿en qué te puedo ayudar?' : 'Hello, how can I help you?');
-  
+  // Usamos el mensaje de bienvenida de la API, con un fallback por si acaso
+  const welcomeMessage = tenantConfig?.welcomeMessage || (currentLanguage === 'Español' ? 'Hola, ¿cómo puedo ayudarte?' : 'Hello, how can I help?');
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -39,9 +38,10 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
   const currentSuggestions = chatSuggestions[currentLanguage] || chatSuggestions['English'];
 
+  // El renderer de Markdown ahora recibe el menú dinámico
   const CustomLink = useMemo(() =>
     createMarkdownLinkRenderer(onViewDishDetails, menu, styles),
-    [onViewDishDetails, menu]
+    [onViewDishDetails, menu,]
   );
 
   const loadConversation = useCallback(async () => {
@@ -53,9 +53,9 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     try {
       const data = await fetchConversation();
       let actualConversationHistory = [];
-      if (data.messages && data.messages.length > 0) {
+      if (data.meta && data.messages && data.messages.length > 0) {
         actualConversationHistory = data.messages;
-        if (data.meta?.limitEffectivelyReached) {
+        if (data.meta.limitEffectivelyReached) {
           setIsLimitReached(true);
           const lastBotMsgWithNotification = actualConversationHistory.slice().reverse().find(
             m => m.sender === 'bot' && m.limitReachedNotification
@@ -77,7 +77,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentLanguage, welcomeMessage]);
+  }, [currentLanguage, welcomeMessage]); // welcomeMessage es ahora una dependencia
 
   useEffect(() => {
     loadConversation();
@@ -102,7 +102,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     }
   }, []);
 
-
   const handleSend = async () => {
     if (isLimitReached || isRecording || isTranscribing) return;
     const trimmedInput = input.trim();
@@ -121,7 +120,16 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
     try {
       const data = await postChatMessage(trimmedInput);
-      setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: data.reply }]);
+      if (data.reply) {
+        setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: data.reply }]);
+      } else if (data.limitExceeded) {
+        setError(data.error || (currentLanguage === 'Español' ? "Límite de mensajes alcanzado." : "Message limit reached."));
+        setIsLimitReached(true);
+        setLimitNotification(data.error || (currentLanguage === 'Español' ? "Por favor, inicia un nuevo chat para continuar." : "Please start a new chat to continue."));
+      } else {
+        console.error('Unexpected response from backend (no reply):', data);
+        setError('Unexpected server response.');
+      }
       if (data.limitReached && data.notification) {
         setIsLimitReached(true);
         setLimitNotification(data.notification);
@@ -129,11 +137,11 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     } catch (err) {
       console.error('Error sending message:', err);
       let displayError = `Error: ${err.message || 'Failed to send message.'}`;
-      if (err.response?.data?.limitExceeded) {
+      if (err.response && err.response.data && err.response.data.limitExceeded) {
         displayError = err.response.data.error || (currentLanguage === 'Español' ? "Límite de mensajes superado. Inicia un nuevo chat." : "Message limit exceeded. Start a new chat.");
         setIsLimitReached(true);
         setLimitNotification(displayError);
-      } else if (err.response?.data?.error) {
+      } else if (err.response && err.response.data && err.response.data.error) {
         displayError = err.response.data.error;
       }
       setError(displayError);
@@ -144,10 +152,11 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     try {
       await resetChatConversation();
       setInput('');
-      if (isRecording && mediaRecorderRef.current?.state !== 'inactive') {
+      if (isRecording && mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
         mediaRecorderRef.current.onstop = () => {
             stopMediaStream();
             audioChunksRef.current = [];
+            console.log("Recording stopped due to reset.");
         };
         mediaRecorderRef.current.stop();
       } else {
@@ -160,7 +169,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       if (textareaRef.current) {
           textareaRef.current.blur();
       }
-    } catch (err)      {
+    } catch (err) {
       console.error('Error resetting conversation:', err.message);
       setError(`Error resetting: ${err.message}`);
       setInput('');
@@ -230,7 +239,11 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
         try {
             const data = await transcribeAudio(audioBlob, 'recording.webm');
-            setInput(prevInput => prevInput + (data.transcription || '') + ' ');
+            if (data.transcription) {
+                setInput(prevInput => prevInput + data.transcription + ' ');
+            } else {
+                setError(data.error || (currentLanguage === 'Español' ? 'Error en la transcripción.' : 'Transcription error.'));
+            }
         } catch (err) {
             console.error('Error transcribing audio:', err);
             setError(err.message || (currentLanguage === 'Español' ? 'Fallo al transcribir.' : 'Failed to transcribe.'));
@@ -254,25 +267,36 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     mediaRecorderRef.current.onstop = () => {
         stopMediaStream();
         audioChunksRef.current = [];
+        console.log("Recording cancelled by user.");
     };
     mediaRecorderRef.current.stop();
     setIsRecording(false);
     setIsTranscribing(false);
   };
 
+  // ==========================
+  // LA CORRECCIÓN ESTÁ AQUÍ
+  // ==========================
   useEffect(() => {
+    // Esta función de limpieza se ejecuta cuando el componente se desmonta.
     return () => {
+      // 1. Siempre intentamos parar el stream del micrófono. La función `stopMediaStream` ya comprueba si es `null`.
       stopMediaStream();
-      if (mediaRecorderRef.current?.state !== 'inactive') {
+      
+      // 2. Antes de intentar parar la grabadora, NOS ASEGURAMOS de que existe Y está grabando.
+      // Esta es la comprobación que evita el error `cannot read 'stop' of null`.
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
         mediaRecorderRef.current.stop();
+        console.log("MediaRecorder stopped on component unmount.");
       }
     };
-  }, [stopMediaStream]);
+  }, [stopMediaStream]); // `stopMediaStream` está definida con `useCallback`, por lo que es seguro incluirla.
 
+  const isInputAreaDisabled = (isLoading && messages.length <= 1 && !error) || isLimitReached || isTranscribing;
+  const isResetDisabled = (isLoading && messages.length <= 1 && !isLimitReached && !error) || isRecording || isTranscribing;
   const isTextareaAndSendDisabled = isLimitReached || isRecording || isTranscribing;
   const isMicButtonDisabled = isLimitReached || isTranscribing;
   const areSuggestionsDisabled = isLimitReached || isRecording || isTranscribing;
-  const isResetDisabled = isLoading || isRecording || isTranscribing;
 
   return (
     <>
@@ -315,10 +339,13 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             ref={textareaRef}
             rows="1"
             placeholder={
-              isTranscribing ? (currentLanguage === 'Español' ? 'Transcribiendo...' : 'Transcribing...')
-              : isRecording ? (currentLanguage === 'Español' ? 'Grabando...' : 'Recording...')
-              : isLimitReached ? (currentLanguage === 'Español' ? 'Límite alcanzado. Reinicia.' : 'Limit reached. Reset chat.')
-              : (currentLanguage === 'Español' ? 'Escribe tu mensaje...' : 'Write your message...')
+              isTranscribing
+                ? (currentLanguage === 'Español' ? 'Transcribiendo...' : 'Transcribing...')
+                : isRecording
+                ? (currentLanguage === 'Español' ? 'Grabando...' : 'Recording...')
+                : isLimitReached
+                ? (currentLanguage === 'Español' ? 'Límite alcanzado. Reinicia.' : 'Limit reached. Reset chat.')
+                : (currentLanguage === 'Español' ? 'Escribe tu mensaje...' : 'Write your message...')
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -328,17 +355,36 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
           />
           {isTranscribing ? (
             <>
-              <button className={`${styles.micButton} ${styles.micButtonDisabled}`} disabled>
+              <button
+                className={`${styles.micButton} ${styles.micButtonDisabled}`}
+                disabled
+                title={currentLanguage === 'Español' ? 'Transcribiendo audio...' : 'Transcribing audio...'}
+              >
                 <MicrophoneIcon className={styles.microphoneSvg}/>
               </button>
-              <button className={styles.sendMessage} disabled>
+              <button
+                className={styles.sendMessage}
+                disabled
+              >
                 <SendIcon className={styles.sendSvg} />
               </button>
             </>
           ) : isRecording ? (
             <>
-              <button className={styles.cancelRecordButton} onClick={cancelAudioRecording}>❌</button>
-              <button className={styles.stopRecordButton} onClick={stopAudioRecordingAndTranscribe}>✔️</button>
+              <button
+                className={styles.cancelRecordButton}
+                onClick={cancelAudioRecording}
+                title={currentLanguage === 'Español' ? 'Cancelar grabación' : 'Cancel recording'}
+              >
+                ❌
+              </button>
+              <button
+                className={styles.stopRecordButton}
+                onClick={stopAudioRecordingAndTranscribe}
+                title={currentLanguage === 'Español' ? 'Detener y transcribir' : 'Stop and transcribe'}
+              >
+                ✔️
+              </button>
             </>
           ) : (
             <>
@@ -346,6 +392,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
                 className={`${styles.micButton} ${isMicButtonDisabled ? styles.micButtonDisabled : ''}`}
                 onClick={startAudioRecording}
                 disabled={isMicButtonDisabled}
+                title={currentLanguage === 'Español' ? 'Grabar voz' : 'Record voice'}
               >
                 <MicrophoneIcon className={styles.microphoneSvg}/>
               </button>
@@ -359,7 +406,9 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             </>
           )}
         </div>
-        <div className={styles.bottomControlsContainer}>
+        <div
+          className={styles.bottomControlsContainer}
+        >
           <button
             onClick={handleReset}
             disabled={isResetDisabled}
