@@ -1,5 +1,5 @@
 // frontend/src/components/Dish/DishDetailModal.js
-import React, { useEffect } from 'react'; // Added useEffect
+import React, { useEffect } from 'react';
 import styles from './DishDetailModal.module.css';
 import { dishDetailModalTranslations } from '../../data/translations';
 import {
@@ -11,43 +11,27 @@ import {
   findDishById
 } from '../../utils/menuUtils';
 
-// A unique key for our modal's history state
 const MODAL_HISTORY_STATE_KEY = 'dishDetailModalOpen';
 
-const DishDetailModal = ({ plato, onClose, currentLanguage, onSelectPairedDish }) => {
-  // Effect to handle browser history for back button dismissal
+const DishDetailModal = ({ plato, onClose, currentLanguage, onSelectPairedDish, menu }) => {
   useEffect(() => {
-    if (plato) { // Modal is open
-      // Push a new state to history when modal opens.
-      // The current URL (window.location.href) is used so the path doesn't change.
-      // We add a unique property to this state to identify it.
+    if (plato) {
       window.history.pushState({ [MODAL_HISTORY_STATE_KEY]: true }, '', window.location.href);
 
-      // Handler for the 'popstate' event (browser back/forward button)
       const handlePopState = (event) => {
-        // If popstate occurs, it means user pressed back/forward.
-        // We want to close the modal.
-        // The onClose function will trigger the cleanup effect.
         onClose();
       };
 
       window.addEventListener('popstate', handlePopState);
 
-      // Cleanup function: runs when modal closes or component unmounts
       return () => {
         window.removeEventListener('popstate', handlePopState);
-        // If the modal was closed MANUALLY (e.g., by clicking 'X'),
-        // and our pushed history state is still the current one,
-        // we need to go back to remove it from the history stack.
         if (window.history.state && window.history.state[MODAL_HISTORY_STATE_KEY]) {
-          // This means popstate didn't cause the close (because listener is now removed).
-          // So, we trigger a history.back() to clean up our pushed state.
           window.history.back();
         }
       };
     }
-    // No 'else' needed; if 'plato' is null, the effect does nothing or cleans up from a previous open state.
-  }, [plato, onClose]); // Dependencies: effect runs if 'plato' or 'onClose' changes.
+  }, [plato, onClose]);
 
   if (!plato) return null;
 
@@ -57,7 +41,7 @@ const DishDetailModal = ({ plato, onClose, currentLanguage, onSelectPairedDish }
   const descripcionLarga = getTranslatedDishText(plato.descripcionLarga, currentLanguage);
 
   const renderPairedItem = (pairedItemId) => {
-    const pairedDish = findDishById(pairedItemId);
+    const pairedDish = menu?.allDishes ? findDishById(pairedItemId, menu.allDishes) : null;
     if (!pairedDish) return null;
 
     const pairedDishName = getTranslatedDishText(pairedDish.nombre, currentLanguage);

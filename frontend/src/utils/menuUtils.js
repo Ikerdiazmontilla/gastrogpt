@@ -1,5 +1,5 @@
 // src/utils/menuUtils.js
-import { menuData, alergenosDetails, etiquetasDetails } from '../data/menuData'; // Import raw data
+import { alergenosDetails, etiquetasDetails } from '../data/translations';
 
 /**
  * Gets translated text for a dish property (name, description).
@@ -80,22 +80,18 @@ export const getEtiquetaClass = (etiquetaKey, styles = {}) => {
   }
 };
 
-// Combine all dishes from all categories into a single array for easy searching.
-const allPlatosArray = [
-  ...menuData.entrantes,
-  ...menuData.principales,
-  ...menuData.postres,
-  ...menuData.bebidas,
-];
 
 /**
- * Finds a dish by its ID.
- * @param {string|number} id - The ID of the dish.
- * @returns {object|null} The dish object or null if not found.
+ * MODIFICADO: Encuentra un plato por su ID dentro de un array de platos proporcionado.
+ * @param {string|number} id - El ID del plato.
+ * @param {Array<object>} allDishes - El array plano de todos los platos del menú del inquilino.
+ * @returns {object|null} El objeto del plato o null si no se encuentra.
  */
-export const findDishById = (id) => {
-  if (id === undefined || id === null) return null;
+export const findDishById = (id, allDishes) => {
+  if (id === undefined || id === null || !allDishes || allDishes.length === 0) return null;
+  
   const dishId = parseInt(String(id), 10);
   if (isNaN(dishId)) return null;
-  return allPlatosArray.find(plato => plato.id === dishId) || null;
+  
+  return allDishes.find(plato => plato.id === dishId) || null;
 };

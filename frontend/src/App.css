@@ -356,3 +356,20 @@ body {
   box-shadow: 0 2px 4px var(--app-global-nav-container-shadow-color); /* Updated */
 }
  
+
+
+.fullscreen-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--palette-charcoal-medium);
+}
+
+.fullscreen-message.error {
+  color: var(--palette-red-error-text-alt);
+  padding: 20px;
+  text-align: center;
+}

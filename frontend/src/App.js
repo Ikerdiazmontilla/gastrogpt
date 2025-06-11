@@ -1,16 +1,19 @@
 // frontend/src/App.js
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { TenantProvider, useTenant } from './context/TenantContext';
 import Navbar from './components/Navbar/Navbar';
 import ChatPage from './pages/ChatPage';
 import CartaPage from './pages/CartaPage/CartaPage';
 import './App.css';
 
-const tabPaths = ['/carta', '/chat']; // Modified: Removed /questionnaire
+const tabPaths = ['/carta', '/chat'];
 const SWIPE_THRESHOLD_X = 75;
 const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.75;
 
-function AppContent() {
+// Este es el nuevo componente que gestionará la UI principal
+// Se renderizará solo cuando la configuración del inquilino esté lista.
+function MainApp() {
   const [language, setLanguage] = useState('Español');
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,6 +57,7 @@ function AppContent() {
     const handleTouchEnd = () => {
       if (disableTabSwipeRef.current) {
         disableTabSwipeRef.current = false;
+        // Reiniciar coordenadas para evitar swipes fantasma
         touchStartXRef.current = 0;
         touchStartYRef.current = 0;
         touchEndXRef.current = 0;
@@ -64,9 +68,11 @@ function AppContent() {
       const deltaX = touchEndXRef.current - touchStartXRef.current;
       const deltaY = touchEndYRef.current - touchStartYRef.current;
 
+      // Ignorar si no hubo movimiento significativo para evitar conflictos con clicks
       if (touchStartXRef.current === 0 && touchEndXRef.current === 0 && touchStartYRef.current === 0 && touchEndYRef.current === 0 && deltaX === 0 && deltaY === 0) {
         return;
       }
+
 
       if (
         Math.abs(deltaX) > SWIPE_THRESHOLD_X &&
@@ -74,6 +80,7 @@ function AppContent() {
       ) {
         const currentIndex = tabPaths.indexOf(location.pathname);
         if (currentIndex === -1) {
+          // Reiniciar coordenadas y salir si no estamos en una ruta "swipeable"
           touchStartXRef.current = 0;
           touchStartYRef.current = 0;
           touchEndXRef.current = 0;
@@ -90,7 +97,8 @@ function AppContent() {
         }
         navigate(tabPaths[nextIndex]);
       }
-
+      
+      // Reiniciar coordenadas al final de cada touchEnd
       touchStartXRef.current = 0;
       touchStartYRef.current = 0;
       touchEndXRef.current = 0;
@@ -111,6 +119,7 @@ function AppContent() {
     }
   }, [navigate, location.pathname]);
 
+
   return (
     <>
       <div className='nav-container'>
@@ -127,10 +136,28 @@ function AppContent() {
   );
 }
 
+// Este componente ahora decide qué mostrar: Carga, Error o la App principal.
+function AppContent() {
+  const { isLoading, error } = useTenant();
+
+  if (isLoading) {
+    return <div className="fullscreen-message">Cargando menú...</div>;
+  }
+
+  if (error) {
+    return <div className="fullscreen-message error">Error: {error}</div>;
+  }
+
+  return <MainApp />;
+}
+
+
 function App() {
   return (
     <Router>
-      <AppContent />
+      <TenantProvider> {/* Envolvemos toda la aplicación con el Provider */}
+        <AppContent />
+      </TenantProvider>
     </Router>
   );
 }

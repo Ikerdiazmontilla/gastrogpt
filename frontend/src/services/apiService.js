@@ -1,7 +1,9 @@
 // frontend/src/services/apiService.js
 
-const BASE_URL = process.env.REACT_APP_BACKEND_URL || '';
+// const BASE_URL = process.env.REACT_APP_BACKEND_URL || '';
 // console.log('base url: ',BASE_URL)
+const BASE_URL = '';
+
 
 /**
  * Helper to process API responses and extract errors.
@@ -19,7 +21,7 @@ const getErrorFromResponse = async (response) => {
 
 /**
  * Generic fetch wrapper
- * @param {string} endpoint - The API endpoint (e.g., '/api/chat').
+ * @param {string} endpoint - The API endpoint (e.g., '/api/config').
  * @param {object} options - Fetch options (method, headers, body, credentials).
  * @returns {Promise<any>} - The JSON response data.
  * @throws {Error} - If the network response is not ok.
@@ -30,7 +32,13 @@ const fetchApi = async (endpoint, options = {}) => {
     finalHeaders['Content-Type'] = 'application/json';
   }
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
+  // La URL final ahora será SIEMPRE relativa, ej. '/api/config'
+  const url = `${BASE_URL}${endpoint}`;
+  
+  // LOG DE DIAGNÓSTICO: Vamos a ver la URL exacta que fetch está intentando usar.
+  console.log(`[apiService] Fetching from URL: ${url}`);
+
+  const response = await fetch(url, {
     credentials: 'include',
     ...options,
     headers: finalHeaders,
@@ -55,6 +63,14 @@ const fetchApi = async (endpoint, options = {}) => {
 };
 
 // --- Specific API functions ---
+
+/**
+ * NUEVO: Obtiene la configuración completa del frontend para el inquilino actual.
+ * @returns {Promise<object>} - La configuración, incluyendo el menú y mensajes.
+ */
+export const fetchTenantConfig = () => {
+    return fetchApi('/api/config', { method: 'GET' });
+};
 
 /**
  * Fetches the current chat conversation history.

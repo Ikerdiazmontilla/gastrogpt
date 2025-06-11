@@ -1,24 +1,22 @@
 // src/pages/CartaPage/CartaPage.js
 import React, { useState, useMemo } from 'react';
 import styles from './CartaPage.module.css';
-import { menuData } from '../../data/menuData'; // Raw menu data
-import { cartaPageTranslations } from '../../data/translations'; // Translations
-import { getTranslatedDishText } from '../../utils/menuUtils'; // Utilities
+import { useTenant } from '../../context/TenantContext';
+import { cartaPageTranslations } from '../../data/translations';
+import { getTranslatedDishText } from '../../utils/menuUtils';
 import MenuItemCard from '../../components/Dish/MenuItemCard';
 import DishDetailModal from '../../components/Dish/DishDetailModal';
 
 const CartaPage = ({ currentLanguage }) => {
+  const { tenantConfig } = useTenant();
+  const menu = tenantConfig?.menu;
+
   const T = cartaPageTranslations[currentLanguage] || cartaPageTranslations['Español'];
   const [activeTab, setActiveTab] = useState('destacados');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlato, setSelectedPlato] = useState(null);
 
-  const allPlatos = useMemo(() => [
-    ...(menuData.entrantes || []),
-    ...(menuData.principales || []),
-    ...(menuData.postres || []),
-    ...(menuData.bebidas || [])
-  ], []);
+  const allPlatos = useMemo(() => menu?.allDishes || [], [menu]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -33,16 +31,16 @@ const CartaPage = ({ currentLanguage }) => {
   };
 
   const filteredPlatos = useMemo(() => {
+    if (!menu) return [];
+
     let platosToShow = [];
 
     if (activeTab === 'destacados') {
       platosToShow = allPlatos.filter(plato =>
         plato.etiquetas && (plato.etiquetas.includes('popular') || plato.etiquetas.includes('recomendado'))
       );
-    } else if (menuData[activeTab]) {
-      platosToShow = menuData[activeTab];
-    } else {
-      platosToShow = [];
+    } else if (menu[activeTab]) {
+      platosToShow = menu[activeTab];
     }
 
     if (searchTerm) {
@@ -55,7 +53,7 @@ const CartaPage = ({ currentLanguage }) => {
       });
     }
     return platosToShow;
-  }, [activeTab, searchTerm, allPlatos, currentLanguage]);
+  }, [activeTab, searchTerm, allPlatos, currentLanguage, menu]);
 
   const tabs = useMemo(() => [
     { key: 'destacados', label: T.tabDestacados },
@@ -64,6 +62,10 @@ const CartaPage = ({ currentLanguage }) => {
     { key: 'postres', label: T.tabPostres },
     { key: 'bebidas', label: T.tabBebidas },
   ], [T]);
+
+  if (!menu) {
+    return <div className={styles.cartaContainer}>Cargando datos del menú...</div>;
+  }
 
   return (
     <div className={styles.cartaContainer}>
@@ -84,7 +86,7 @@ const CartaPage = ({ currentLanguage }) => {
 
       <div
         className={styles.tabsList}
-        data-no-tab-swipe="true" // <-- ADDED ATTRIBUTE HERE
+        data-no-tab-swipe="true"
       >
         {tabs.map(tab => (
           <button
@@ -120,6 +122,7 @@ const CartaPage = ({ currentLanguage }) => {
           onClose={handleCloseModal}
           currentLanguage={currentLanguage}
           onSelectPairedDish={handleSelectDishForModal}
+          menu={menu}
         />
       )}
     </div>

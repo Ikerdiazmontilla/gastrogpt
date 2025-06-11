@@ -11,6 +11,8 @@ const pool = require('../db/pool');
  * 4. Si no lo encuentra, o si es un dominio raíz sin subdominio, devuelve un error 404.
  */
 async function tenantResolver(req, res, next) {
+
+  console.log(`[Tenant Resolver] Recibida petición. Hostname: ${req.hostname}, Host Header: ${req.headers.host}`);
   // Extraemos el hostname (ej. "tenant-demo.localhost:5000")
   const hostname = req.hostname;
   

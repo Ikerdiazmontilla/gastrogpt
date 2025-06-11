@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "express-session": "^1.18.1",
+    "http-proxy-middleware": "^3.0.5",
     "pg": "^8.15.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -17,13 +18,13 @@
     "uuid": "^11.1.0",
     "web-vitals": "^2.1.4"
   },
-"scripts": {
-  "react-start": "react-scripts start", 
-  "start": "react-scripts start",      
-  "build": "react-scripts build",
-  "test": "react-scripts test",
-  "eject": "react-scripts eject"
-},
+  "scripts": {
+    "react-start": "react-scripts start",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -42,7 +43,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
   "devDependencies": {
     "concurrently": "^9.0.1"
   }

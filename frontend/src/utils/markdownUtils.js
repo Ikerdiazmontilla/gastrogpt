@@ -1,33 +1,32 @@
 // src/utils/markdownUtils.js
 import React from 'react';
-import { findDishById } from './menuUtils'; // Use the centralized findDishById
+import { findDishById } from './menuUtils';
 
 /**
- * Creates a custom link renderer component for ReactMarkdown.
- * Handles 'dish:ID' links by creating a button that triggers onViewDishDetails.
- * Standard HTTP/HTTPS links are rendered as regular anchor tags.
- *
- * @param {function} onViewDishDetailsCallback - Callback function (dishObject) => void.
- * @param {object} componentStyles - CSS module styles for the dishLink class.
- * @returns {React.Component} A component suitable for ReactMarkdown's `components.a`.
+ * MODIFICADO: Crea un renderer de enlaces personalizado.
+ * @param {function} onViewDishDetailsCallback - Callback para mostrar el modal.
+ * @param {object} menu - El objeto de menú completo del inquilino (que contiene `allDishes`).
+ * @param {object} componentStyles - Estilos CSS del módulo.
+ * @returns {React.Component} El componente para ReactMarkdown.
  */
-export const createMarkdownLinkRenderer = (onViewDishDetailsCallback, componentStyles = {}) => {
+export const createMarkdownLinkRenderer = (onViewDishDetailsCallback, menu, componentStyles = {}) => {
   const CustomLinkComponent = (props) => {
     const { href, children, node, ...rest } = props;
 
     if (href && href.startsWith('dish:')) {
       const dishIdString = href.split(':')[1];
-      const dish = findDishById(dishIdString); // Use utility function
+      // Usamos el menú pasado como argumento para encontrar el plato.
+      const dish = menu && menu.allDishes ? findDishById(dishIdString, menu.allDishes) : null;
 
       if (dish) {
         return (
           <button
-            className={componentStyles.dishLink || ''} // Safely access dishLink
+            className={componentStyles.dishLink || ''}
             onClick={() => {
               if (onViewDishDetailsCallback) {
                 onViewDishDetailsCallback(dish);
               } else {
-                console.error("onViewDishDetailsCallback not provided to CustomLinkComponent for dish:", dishIdString);
+                console.error("onViewDishDetailsCallback no proporcionado para dish:", dishIdString);
               }
             }}
             {...rest}
@@ -36,28 +35,24 @@ export const createMarkdownLinkRenderer = (onViewDishDetailsCallback, componentS
           </button>
         );
       } else {
-        // Dish not found, render as text with a warning
-        console.warn(`MarkdownUtils: Dish with ID '${dishIdString}' not found. Markdown: [${String(children)}](${href})`);
-        return <span {...rest}>{children} (detalle no disponible)</span>; // Or just {children}
+        console.warn(`MarkdownUtils: Plato con ID '${dishIdString}' no encontrado.`);
+        return <span {...rest}>{children} (detalle no disponible)</span>;
       }
     }
 
-    // For standard external links (http, https)
+    // Para enlaces estándar (http, https)
     if (href) {
       try {
-        // Validate if it's a proper URL before rendering an <a> tag
-        // This prevents rendering invalid hrefs.
         const url = new URL(href);
         if (url.protocol === "http:" || url.protocol === "https:") {
           return <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>{children}</a>;
         }
       } catch (e) {
-        // Not a valid URL, or not http/https, render as plain text or span
-        // console.warn(`MarkdownUtils: Invalid or non-HTTP/HTTPS href: ${href}. Rendering as text.`);
+        // No es una URL válida, se renderizará como texto.
       }
     }
 
-    // Fallback for non-dish, non-standard-HTTP links, or if href is missing
+    // Fallback para cualquier otro caso.
     return <span {...rest}>{children}</span>;
   };
   return CustomLinkComponent;
@@ -65,25 +60,21 @@ export const createMarkdownLinkRenderer = (onViewDishDetailsCallback, componentS
 
 /**
  * URL transform function for ReactMarkdown.
- * Allows 'dish:' protocol. Validates and allows standard HTTP/HTTPS URLs.
- * Other URI schemes will result in the link being rendered as text by ReactMarkdown.
- *
+ * Permite el protocolo 'dish:' y los estándar HTTP/HTTPS.
  * @param {string} uri - The URI from the markdown link.
  * @returns {string|null} The transformed URI if allowed, or null to disallow.
  */
 export const markdownUrlTransform = (uri) => {
   if (uri.startsWith('dish:')) {
-    return uri; // Allow 'dish:' protocol
+    return uri; // Permitir protocolo 'dish:'
   }
   try {
     const parsedUrl = new URL(uri);
-    // Allow only http and https protocols for standard links
     if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
       return uri;
     }
   } catch (e) {
-    // Not a standard absolute URL, or invalid scheme
-    // console.warn(`MarkdownUtils: URI '${uri}' is not a valid http/https URL or dish: link. Will be rendered as text.`);
+    // No es una URL estándar o tiene un esquema no permitido.
   }
-  return null; // Disallow other URI schemes (ReactMarkdown will render as text)
+  return null; // Rechazar otros esquemas (ReactMarkdown lo renderizará como texto)
 };

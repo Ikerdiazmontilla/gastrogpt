@@ -1,13 +1,15 @@
-// <file path="gastrogpts/src/pages/ChatPage.js">
 // src/pages/ChatPage.js
 import React, { useState } from 'react';
-import Chat from '../features/Chat/Chat'; // Updated path
-import DishDetailModal from '../components/Dish/DishDetailModal'; // Updated path
+import Chat from '../features/Chat/Chat';
+import DishDetailModal from '../components/Dish/DishDetailModal';
+import { useTenant } from '../context/TenantContext';
 
 const ChatPage = ({ currentLanguage }) => {
+  const { tenantConfig } = useTenant();
+  const menu = tenantConfig?.menu;
+
   const [selectedPlatoModal, setSelectedPlatoModal] = useState(null);
 
-  // This function is used by Chat component AND by DishDetailModal for paired items
   const handleDisplayDishInModal = (plato) => {
     setSelectedPlatoModal(plato);
   };
@@ -20,14 +22,15 @@ const ChatPage = ({ currentLanguage }) => {
     <>
       <Chat
         currentLanguage={currentLanguage}
-        onViewDishDetails={handleDisplayDishInModal} // Pass the modal display function
+        onViewDishDetails={handleDisplayDishInModal}
       />
       {selectedPlatoModal && (
         <DishDetailModal
           plato={selectedPlatoModal}
           onClose={handleCloseModal}
           currentLanguage={currentLanguage}
-          onSelectPairedDish={handleDisplayDishInModal} // Pass the same function for paired items
+          onSelectPairedDish={handleDisplayDishInModal}
+          menu={menu}
         />
       )}
     </>
