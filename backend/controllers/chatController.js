@@ -2,10 +2,6 @@
 const chatRepository = require('../db/chatRepository');
 const llmService = require('../services/llmService');
 
-// ELIMINADO: const pool = require('../db/pool');
-// ELIMINADO: const systemInstructions = require('../prompts/chatInstructions');
-// ELIMINADO: const firstBotMessage = require('../prompts/firstMessage');
-
 const USER_MESSAGE_LIMIT = 15;
 
 function countUserMessages(messagesArray) {
@@ -14,16 +10,15 @@ function countUserMessages(messagesArray) {
 }
 
 async function getConversationHistory(req, res) {
-  const client = req.dbClient; // USAMOS el cliente del middleware
+  const client = req.dbClient;
   try {
     const conversation = await chatRepository.getActiveConversation(req.sessionID, client);
     
-    // Obtenemos el mensaje de bienvenida dinámico
-    const configResult = await client.query("SELECT value FROM configurations WHERE key = 'welcome_message'");
-    const welcomeMessage = configResult.rows[0]?.value || 'Hola, ¿en qué puedo ayudarte?'; // Fallback
+    // MODIFICADO: Obtenemos el mensaje de bienvenida del FRONTEND para mostrar si no hay historial.
+    const configResult = await client.query("SELECT value FROM configurations WHERE key = 'frontend_welcome_message'");
+    const welcomeMessage = configResult.rows[0]?.value || 'Hola, ¿en qué puedo ayudarte?';
 
     if (conversation && conversation.messages && conversation.messages.length > 0) {
-      // ... (la lógica interna de esta sección no cambia)
       const userMessagesCount = countUserMessages(conversation.messages);
       const lastBotMessageInHistory = conversation.messages.slice().reverse().find(m => m.role === 'assistant');
       const limitReachedNotified = lastBotMessageInHistory && lastBotMessageInHistory.limitReachedNotification;
@@ -42,13 +37,13 @@ async function getConversationHistory(req, res) {
         }
       });
     } else {
+      // El primer mensaje visible siempre será el del frontend.
       res.json({ messages: [{ sender: 'bot', text: welcomeMessage }] });
     }
   } catch (error) {
     console.error('Error in getConversationHistory:', error);
     res.status(500).json({ error: 'Error retrieving conversation history.' });
   }
-  // NO client.release();
 }
 
 async function handleChatMessage(req, res) {
@@ -57,14 +52,15 @@ async function handleChatMessage(req, res) {
     return res.status(400).json({ error: 'Message is required and must be text.' });
   }
   const userMessageContent = message.trim();
-  const client = req.dbClient; // USAMOS el cliente del middleware
+  const client = req.dbClient;
 
   try {
     await client.query('BEGIN');
 
     // --- Carga dinámica de configuración ---
     const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
-    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('llm_instructions', 'welcome_message')");
+    // MODIFICADO: Buscamos las claves para el LLM.
+    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('llm_instructions', 'llm_first_message')");
     
     const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
 
@@ -72,13 +68,13 @@ async function handleChatMessage(req, res) {
     const configs = configResult.rows.reduce((acc, row) => ({ ...acc, [row.key]: row.value }), {});
     
     const systemInstructionsTemplate = configs.llm_instructions;
-    const firstBotMessage = configs.welcome_message;
+    // MODIFICADO: Este es ahora el primer mensaje para el CONTEXTO del LLM.
+    const firstBotMessage = configs.llm_first_message; 
 
     if (!menuData || !systemInstructionsTemplate || !firstBotMessage) {
-        throw new Error('Configuración esencial (menú, instrucciones, bienvenida) no encontrada en la BBDD.');
+        throw new Error('Configuración esencial para el LLM (menú, instrucciones, primer mensaje) no encontrada en la BBDD.');
     }
-    // Inyectamos el menú en las instrucciones del sistema.
-    // El prompt de la BBDD debe tener la estructura `... ${JSON.stringify(menu, null, 2)}` al final.
+    
     const systemInstructions = systemInstructionsTemplate.replace(
         '${JSON.stringify(menu, null, 2)}',
         JSON.stringify(menuData, null, 2)
@@ -86,7 +82,6 @@ async function handleChatMessage(req, res) {
     // --- Fin carga dinámica ---
 
     let activeConversation = await chatRepository.getActiveConversation(req.sessionID, client);
-    // ... el resto de la lógica de la función es casi idéntica, solo cambia cómo se obtienen las instrucciones y el primer mensaje.
     
     let messagesToSaveInDB = [];
     let currentUserMessageCount = 0;
@@ -99,7 +94,6 @@ async function handleChatMessage(req, res) {
     const limitAlreadySignaled = messagesToSaveInDB.length > 0 &&
                                messagesToSaveInDB[messagesToSaveInDB.length -1].role === 'assistant' &&
                                messagesToSaveInDB[messagesToSaveInDB.length -1].limitReachedNotification;
-
 
     if (currentUserMessageCount >= USER_MESSAGE_LIMIT && limitAlreadySignaled) {
       await client.query('ROLLBACK');
@@ -120,14 +114,14 @@ async function handleChatMessage(req, res) {
       conversationId = activeConversation.id;
       messagesForAI = [
         { role: 'system', content: systemInstructions },
-        { role: 'assistant', content: firstBotMessage },
+        { role: 'assistant', content: firstBotMessage }, // Usa el mensaje del LLM
         ...(activeConversation.messages || []),
         userMessageForAI
       ];
     } else {
       messagesForAI = [
         { role: 'system', content: systemInstructions },
-        { role: 'assistant', content: firstBotMessage },
+        { role: 'assistant', content: firstBotMessage }, // Usa el mensaje del LLM
         userMessageForAI
       ];
     }
@@ -172,12 +166,11 @@ async function handleChatMessage(req, res) {
         res.status(500).json({ error: 'Error processing chat message.' });
     }
   }
-  // NO client.release();
 }
 
 
 async function resetChat(req, res) {
-  const client = req.dbClient; // USAMOS el cliente del middleware
+  const client = req.dbClient;
   try {
     await chatRepository.archiveActiveConversations(req.sessionID, client);
     res.json({ message: 'Chat conversation archived. A new one will start on the next message.' });
@@ -185,7 +178,6 @@ async function resetChat(req, res) {
     console.error('Error in resetChat:', error);
     res.status(500).json({ error: 'Error resetting chat conversation.' });
   }
-  // NO client.release();
 }
 
 module.exports = {
