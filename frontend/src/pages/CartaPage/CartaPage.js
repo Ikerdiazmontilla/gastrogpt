@@ -7,6 +7,8 @@ import { getTranslatedDishText } from '../../utils/menuUtils';
 import MenuItemCard from '../../components/Dish/MenuItemCard';
 import DishDetailModal from '../../components/Dish/DishDetailModal';
 
+const MODAL_HISTORY_STATE_KEY = 'dishDetailModalOpen';
+
 const CartaPage = () => {
   const { i18n, t } = useTranslation();
   const { tenantConfig } = useTenant();
@@ -17,23 +19,49 @@ const CartaPage = () => {
   const [selectedPlato, setSelectedPlato] = useState(null);
   const [visibleSection, setVisibleSection] = useState('destacados');
   
-  // Refs para las secciones del menú y para los botones de las pestañas
   const sectionRefs = useRef({});
-  const tabRefs = useRef({}); // NUEVO: Ref para los botones de las pestañas
+  const tabRefs = useRef({});
   
   const currentLanguageForApi = i18n.language;
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
+  
+  // ====================================================================
+  // LÓGICA DE HISTORIAL CENTRALIZADA AQUÍ
+  // ====================================================================
 
   const handleSelectDishForModal = (plato) => {
+    // Solo empujar estado si el modal está actualmente cerrado
+    if (!selectedPlato) {
+      window.history.pushState({ [MODAL_HISTORY_STATE_KEY]: true }, '');
+    }
     setSelectedPlato(plato);
   };
 
   const handleCloseModal = () => {
     setSelectedPlato(null);
+    // Si el estado del historial es el nuestro, retrocedemos para limpiarlo.
+    if (window.history.state && window.history.state[MODAL_HISTORY_STATE_KEY]) {
+      window.history.back();
+    }
   };
+  
+  // useEffect para manejar el evento 'popstate' (botón atrás del navegador)
+  useEffect(() => {
+    const handlePopState = (event) => {
+      // Si el modal está abierto, ciérralo.
+      if (selectedPlato) {
+        setSelectedPlato(null);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [selectedPlato]); // El efecto depende de si el modal está abierto o no
 
   const menuSections = useMemo(() => {
     if (!menu) return [];
@@ -68,7 +96,6 @@ const CartaPage = () => {
     }
   };
 
-  // Efecto para el IntersectionObserver (sin cambios)
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -96,19 +123,16 @@ const CartaPage = () => {
     };
   }, [menuSections]);
 
-  // ====================================================================
-  // NUEVO: Efecto para desplazar la pestaña activa y ponerla a la vista
-  // ====================================================================
   useEffect(() => {
     const activeTabElement = tabRefs.current[visibleSection];
     if (activeTabElement) {
       activeTabElement.scrollIntoView({
         behavior: 'smooth',
-        inline: 'center', // Centra la pestaña horizontalmente en el contenedor
-        block: 'nearest', // Mantiene la alineación vertical
+        inline: 'center',
+        block: 'nearest',
       });
     }
-  }, [visibleSection]); // Se ejecuta cada vez que la sección visible cambia
+  }, [visibleSection]);
 
   if (!menu) {
     return <div className={styles.cartaContainer}>{t('app.loading')}</div>;
@@ -135,7 +159,6 @@ const CartaPage = () => {
         {menuSections.map(section => (
           <button
             key={section.key}
-            // NUEVO: Asignar la referencia al botón de la pestaña
             ref={(el) => (tabRefs.current[section.key] = el)}
             className={`${styles.tabTrigger} ${visibleSection === section.key ? styles.activeTab : ''}`}
             onClick={() => handleTabClick(section.key)}

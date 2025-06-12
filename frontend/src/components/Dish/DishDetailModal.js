@@ -1,5 +1,5 @@
 // frontend/src/components/Dish/DishDetailModal.js
-import React, { useEffect } from 'react';
+import React from 'react'; // Eliminado useEffect
 import { useTranslation } from 'react-i18next';
 import styles from './DishDetailModal.module.css';
 import {
@@ -10,36 +10,18 @@ import {
   getTranslatedDishText,
   findDishById
 } from '../../utils/menuUtils';
-import { useTenant } from '../../context/TenantContext'; // Importar el hook
+import { useTenant } from '../../context/TenantContext';
 
-const MODAL_HISTORY_STATE_KEY = 'dishDetailModalOpen';
+// Eliminado: MODAL_HISTORY_STATE_KEY
 
 const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
-  // Obtener la configuración del inquilino para saber si se deben mostrar imágenes
   const { tenantConfig } = useTenant();
-  const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true; // Fallback a true
+  const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
-  useEffect(() => {
-    if (plato) {
-      window.history.pushState({ [MODAL_HISTORY_STATE_KEY]: true }, '', window.location.href);
-
-      const handlePopState = (event) => {
-        onClose();
-      };
-
-      window.addEventListener('popstate', handlePopState);
-
-      return () => {
-        window.removeEventListener('popstate', handlePopState);
-        if (window.history.state && window.history.state[MODAL_HISTORY_STATE_KEY]) {
-          window.history.back();
-        }
-      };
-    }
-  }, [plato, onClose]);
+  // ELIMINADO: El useEffect que manejaba window.history se ha movido a los componentes padre.
 
   if (!plato) return null;
 
@@ -68,11 +50,8 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <button className={styles.closeButton} onClick={onClose}>×</button>
         
-        {/* ================================================================ */}
-        {/* LÓGICA MODIFICADA: La imagen solo se renderiza si está activada   */}
-        {/* ================================================================ */}
         {menuHasImages && (
-          <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.modalImage} />
+          <img src={plato.imagen.startsWith('http') ? plato.imagen : process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.modalImage} />
         )}
 
         <div className={styles.modalHeader}>

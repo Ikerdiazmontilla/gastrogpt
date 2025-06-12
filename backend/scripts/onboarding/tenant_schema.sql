@@ -1,0 +1,22 @@
+CREATE TABLE __SCHEMA_NAME__.chat_conversations (
+    id UUID PRIMARY KEY,
+    session_id TEXT NOT NULL,
+    messages JSONB NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX ON __SCHEMA_NAME__.chat_conversations (session_id, is_active) WHERE is_active = TRUE;
+
+CREATE TABLE __SCHEMA_NAME__.menu (
+    id INT PRIMARY KEY DEFAULT 1,
+    data JSONB NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE __SCHEMA_NAME__.configurations (
+    key VARCHAR(100) PRIMARY KEY,
+    value TEXT NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
