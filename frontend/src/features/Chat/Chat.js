@@ -13,16 +13,19 @@ import {
   transcribeAudio,
 } from '../../services/apiService';
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
-import ChatPage from '../../pages/ChatPage';
 
-const Chat = () => {
+const Chat = ({ onViewDishDetails }) => {
   const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language; // 'es', 'en', 'fr', 'de'
+
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
   
-  const welcomeMessage = tenantConfig?.welcomeMessage || (i18n.language === 'es' ? 'Hola...' : 'Hello...');
-  
-  const suggestions = tenantConfig?.suggestionChipsText || [];
+  // =================================================================
+  // MODIFICADO: Seleccionar la traducción correcta del objeto recibido
+  // =================================================================
+  const welcomeMessage = tenantConfig?.welcomeMessage?.[currentLanguage] || tenantConfig?.welcomeMessage?.es || t('chat.placeholder');
+  const suggestions = tenantConfig?.suggestionChipsText?.[currentLanguage] || tenantConfig?.suggestionChipsText?.es || [];
   const suggestionCount = tenantConfig?.suggestionChipsCount || 4;
   
   const [messages, setMessages] = useState([]);
@@ -41,13 +44,9 @@ const Chat = () => {
   const mediaStreamRef = useRef(null);
 
   const CustomLink = useMemo(() =>
-    createMarkdownLinkRenderer(null, menu, styles), // onViewDishDetails es manejado por ChatPage
-    [menu]
+    createMarkdownLinkRenderer(onViewDishDetails, menu, styles),
+    [onViewDishDetails, menu]
   );
-  
-  // No necesitamos pasar onViewDishDetails aquí, ChatPage lo manejará
-  const chatPageComponent = <ChatPage />;
-  const onViewDishDetails = chatPageComponent.props.onViewDishDetails;
 
   const loadConversation = useCallback(async () => {
     setIsLoading(true);

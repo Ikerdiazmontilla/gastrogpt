@@ -31,11 +31,16 @@ async function getTenantConfig(req, res) {
       };
       const newKey = keyMap[row.key];
       if (newKey) {
-        if (row.key === 'suggestion_chips_text') {
+        // =================================================================
+        // MODIFICADO: Parseamos los valores que ahora son JSON.
+        // =================================================================
+        if (row.key === 'frontend_welcome_message' || row.key === 'suggestion_chips_text') {
             try {
+                // Convierte el string '{"es": "...", "en": "..."}' a un objeto JS.
                 acc[newKey] = JSON.parse(row.value);
             } catch {
-                acc[newKey] = [];
+                // Fallback si el JSON está malformado.
+                acc[newKey] = (row.key === 'frontend_welcome_message') ? {} : []; 
             }
         } else if (row.key === 'suggestion_chips_count') {
             acc[newKey] = parseInt(row.value, 10) || 4;
@@ -46,15 +51,10 @@ async function getTenantConfig(req, res) {
       return acc;
     }, {});
     
-    // ================================================================
-    // REFACTORIZACIÓN: Se construye el objeto 'theme' con la nueva
-    // estructura semántica anidada, leyendo las columnas 'theme_*'
-    // desde el objeto `tenant` proporcionado por el middleware.
-    // ================================================================
     const theme = {
       logoUrl: tenant.logo_url,
       menuHasImages: tenant.menu_has_images,
-      borderRadius: tenant.border_radius_px ? `${tenant.border_radius_px}px` : null, // Enviar null si no está definido
+      borderRadius: tenant.border_radius_px ? `${tenant.border_radius_px}px` : null,
       colors: {
         accent: tenant.theme_color_accent,
         accentText: tenant.theme_color_accent_text,
@@ -63,7 +63,7 @@ async function getTenantConfig(req, res) {
         textPrimary: tenant.theme_color_text_primary,
         textSecondary: tenant.theme_color_text_secondary,
         border: tenant.theme_color_border,
-        chat: { // Anidado para mejor organización
+        chat: {
           userBubbleBackground: tenant.theme_chat_bubble_user_bg,
           botBubbleBackground: tenant.theme_chat_bubble_bot_bg,
         }
