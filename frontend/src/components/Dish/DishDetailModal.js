@@ -10,12 +10,17 @@ import {
   getTranslatedDishText,
   findDishById
 } from '../../utils/menuUtils';
+import { useTenant } from '../../context/TenantContext'; // Importar el hook
 
 const MODAL_HISTORY_STATE_KEY = 'dishDetailModalOpen';
 
 const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
+
+  // Obtener la configuración del inquilino para saber si se deben mostrar imágenes
+  const { tenantConfig } = useTenant();
+  const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true; // Fallback a true
 
   useEffect(() => {
     if (plato) {
@@ -62,12 +67,16 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <button className={styles.closeButton} onClick={onClose}>×</button>
-        <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.modalImage} />
+        
+        {/* ================================================================ */}
+        {/* LÓGICA MODIFICADA: La imagen solo se renderiza si está activada   */}
+        {/* ================================================================ */}
+        {menuHasImages && (
+          <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.modalImage} />
+        )}
+
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>{nombre}</h2>
-          {/* ================================================================ */}
-          {/* LÓGICA MODIFICADA: Mostrar el precio solo si es un número válido y mayor que 0 */}
-          {/* ================================================================ */}
           {(plato.precio != null && plato.precio > 0) && (
             <p className={styles.modalPrice}>{plato.precio.toFixed(2)}€</p>
           )}

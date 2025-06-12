@@ -55,28 +55,43 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
       <div className={styles.cardContent}>
         <div className={styles.cardHeader}>
           <h3 className={styles.dishName}>{nombre}</h3>
-          {/* ================================================================ */}
-          {/* LÓGICA MODIFICADA: Mostrar el precio solo si es un número válido y mayor que 0 */}
-          {/* ================================================================ */}
           {(plato.precio != null && plato.precio > 0) && (
             <span className={styles.dishPrice}>{plato.precio.toFixed(2)}€</span>
           )}
         </div>
         <p className={styles.dishDescription}>{descripcionCorta}</p>
-        <div className={styles.allergenIcons}>
-          {plato.alergenos && plato.alergenos.map((alergenoKey) => (
-            <span
-              key={alergenoKey}
-              className={styles.allergenIcon}
-              title={getAlergenoIcon(alergenoKey)}
-            >
-              {getAlergenoIcon(alergenoKey)}
-            </span>
-          ))}
-        </div>
-        <button className={styles.viewMoreButton} onClick={() => onViewMore(plato)}>
-          {t('menuItemCard.viewMore')}
-        </button>
+
+        {/* ================================================================ */}
+        {/* LÓGICA MODIFICADA: La estructura cambia según si hay imágenes     */}
+        {/* ================================================================ */}
+        {menuHasImages ? (
+          <>
+            <div className={styles.allergenIcons}>
+              {plato.alergenos && plato.alergenos.map((alergenoKey) => (
+                <span key={alergenoKey} className={styles.allergenIcon} title={getAlergenoIcon(alergenoKey)}>
+                  {getAlergenoIcon(alergenoKey)}
+                </span>
+              ))}
+            </div>
+            <button className={styles.viewMoreButton} onClick={() => onViewMore(plato)}>
+              {t('menuItemCard.viewMore')}
+            </button>
+          </>
+        ) : (
+          // Contenedor 'footer' para la versión sin imágenes
+          <div className={styles.cardFooter}>
+            <div className={styles.allergenIcons}>
+              {plato.alergenos && plato.alergenos.map((alergenoKey) => (
+                <span key={alergenoKey} className={styles.allergenIcon} title={getAlergenoIcon(alergenoKey)}>
+                  {getAlergenoIcon(alergenoKey)}
+                </span>
+              ))}
+            </div>
+            <button className={styles.viewMoreLink} onClick={() => onViewMore(plato)}>
+              {t('menuItemCard.viewMore')}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
