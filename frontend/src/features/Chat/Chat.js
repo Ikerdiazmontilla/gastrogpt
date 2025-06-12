@@ -3,9 +3,8 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown';
 import styles from './Chat.module.css';
 import { ReactComponent as SendIcon } from '../../assets/up-arrow-icon.svg';
-import { chatSuggestions } from '../../data/translations';
 import { ReactComponent as MicrophoneIcon } from '../../assets/microphone.svg';
-import { useTenant } from '../../context/TenantContext'; // NUEVO
+import { useTenant } from '../../context/TenantContext';
 import {
   fetchConversation,
   postChatMessage,
@@ -15,11 +14,14 @@ import {
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
 
 const Chat = ({ currentLanguage, onViewDishDetails }) => {
-  const { tenantConfig } = useTenant(); // Usamos el contexto para obtener datos dinámicos
+  const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
-  // Usamos el mensaje de bienvenida de la API, con un fallback por si acaso
-  const welcomeMessage = tenantConfig?.welcomeMessage || (currentLanguage === 'Español' ? 'Hola, ¿cómo puedo ayudarte?' : 'Hello, how can I help?');
-
+  const welcomeMessage = tenantConfig?.welcomeMessage || (currentLanguage === 'Español' ? 'Hola...' : 'Hello...');
+  
+  // Obtenemos las configuraciones para los chips de sugerencia, con fallbacks.
+  const suggestions = tenantConfig?.suggestionChipsText || [];
+  const suggestionCount = tenantConfig?.suggestionChipsCount || 4;
+  
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -29,19 +31,15 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const [isLimitReached, setIsLimitReached] = useState(false);
   const [limitNotification, setLimitNotification] = useState('');
 
-  // Voice Recording State
   const [isRecording, setIsRecording] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const mediaStreamRef = useRef(null);
 
-  const currentSuggestions = chatSuggestions[currentLanguage] || chatSuggestions['English'];
-
-  // El renderer de Markdown ahora recibe el menú dinámico
   const CustomLink = useMemo(() =>
     createMarkdownLinkRenderer(onViewDishDetails, menu, styles),
-    [onViewDishDetails, menu,]
+    [onViewDishDetails, menu]
   );
 
   const loadConversation = useCallback(async () => {
@@ -77,7 +75,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentLanguage, welcomeMessage]); // welcomeMessage es ahora una dependencia
+  }, [currentLanguage, welcomeMessage]);
 
   useEffect(() => {
     loadConversation();
@@ -98,7 +96,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
       mediaStreamRef.current = null;
-      console.log("Microphone stream stopped.");
     }
   }, []);
 
@@ -127,7 +124,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         setIsLimitReached(true);
         setLimitNotification(data.error || (currentLanguage === 'Español' ? "Por favor, inicia un nuevo chat para continuar." : "Please start a new chat to continue."));
       } else {
-        console.error('Unexpected response from backend (no reply):', data);
         setError('Unexpected server response.');
       }
       if (data.limitReached && data.notification) {
@@ -138,7 +134,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       console.error('Error sending message:', err);
       let displayError = `Error: ${err.message || 'Failed to send message.'}`;
       if (err.response && err.response.data && err.response.data.limitExceeded) {
-        displayError = err.response.data.error || (currentLanguage === 'Español' ? "Límite de mensajes superado. Inicia un nuevo chat." : "Message limit exceeded. Start a new chat.");
+        displayError = err.response.data.error || (currentLanguage === 'Español' ? "Límite superado." : "Message limit exceeded.");
         setIsLimitReached(true);
         setLimitNotification(displayError);
       } else if (err.response && err.response.data && err.response.data.error) {
@@ -156,7 +152,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         mediaRecorderRef.current.onstop = () => {
             stopMediaStream();
             audioChunksRef.current = [];
-            console.log("Recording stopped due to reset.");
         };
         mediaRecorderRef.current.stop();
       } else {
@@ -170,11 +165,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
           textareaRef.current.blur();
       }
     } catch (err) {
-      console.error('Error resetting conversation:', err.message);
       setError(`Error resetting: ${err.message}`);
-      setInput('');
-      setIsRecording(false);
-      setIsTranscribing(false);
       await loadConversation();
     }
   };
@@ -206,18 +197,13 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       setIsRecording(true);
       setIsTranscribing(false);
     } catch (err) {
-      console.error('Error accessing microphone:', err);
-      setError(currentLanguage === 'Español' ? 'Error al acceder al micrófono. Asegúrate de dar permiso.' : 'Error accessing microphone. Please ensure permission is granted.');
+      setError(currentLanguage === 'Español' ? 'Error al acceder al micrófono.' : 'Error accessing microphone.');
       stopMediaStream();
-      setIsRecording(false);
-      setIsTranscribing(false);
     }
   };
 
   const stopAudioRecordingAndTranscribe = async () => {
     if (!isRecording || !mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
-      setIsRecording(false);
-      setIsTranscribing(false);
       stopMediaStream();
       return;
     }
@@ -231,7 +217,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         audioChunksRef.current = [];
 
         if (audioBlob.size === 0) {
-            console.warn("Audio blob is empty, not sending for transcription.");
             setError(currentLanguage === "Español" ? "No se grabó audio." : "No audio recorded.");
             setIsTranscribing(false);
             return;
@@ -245,7 +230,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
                 setError(data.error || (currentLanguage === 'Español' ? 'Error en la transcripción.' : 'Transcription error.'));
             }
         } catch (err) {
-            console.error('Error transcribing audio:', err);
             setError(err.message || (currentLanguage === 'Español' ? 'Fallo al transcribir.' : 'Failed to transcribe.'));
         } finally {
             setIsTranscribing(false);
@@ -259,40 +243,27 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
 
   const cancelAudioRecording = () => {
     if (!mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
-        setIsRecording(false);
-        setIsTranscribing(false);
         stopMediaStream();
         return;
     }
     mediaRecorderRef.current.onstop = () => {
         stopMediaStream();
         audioChunksRef.current = [];
-        console.log("Recording cancelled by user.");
     };
     mediaRecorderRef.current.stop();
     setIsRecording(false);
     setIsTranscribing(false);
   };
 
-  // ==========================
-  // LA CORRECCIÓN ESTÁ AQUÍ
-  // ==========================
   useEffect(() => {
-    // Esta función de limpieza se ejecuta cuando el componente se desmonta.
     return () => {
-      // 1. Siempre intentamos parar el stream del micrófono. La función `stopMediaStream` ya comprueba si es `null`.
       stopMediaStream();
-      
-      // 2. Antes de intentar parar la grabadora, NOS ASEGURAMOS de que existe Y está grabando.
-      // Esta es la comprobación que evita el error `cannot read 'stop' of null`.
       if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
         mediaRecorderRef.current.stop();
-        console.log("MediaRecorder stopped on component unmount.");
       }
     };
-  }, [stopMediaStream]); // `stopMediaStream` está definida con `useCallback`, por lo que es seguro incluirla.
+  }, [stopMediaStream]);
 
-  const isInputAreaDisabled = (isLoading && messages.length <= 1 && !error) || isLimitReached || isTranscribing;
   const isResetDisabled = (isLoading && messages.length <= 1 && !isLimitReached && !error) || isRecording || isTranscribing;
   const isTextareaAndSendDisabled = isLimitReached || isRecording || isTranscribing;
   const isMicButtonDisabled = isLimitReached || isTranscribing;
@@ -339,13 +310,10 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             ref={textareaRef}
             rows="1"
             placeholder={
-              isTranscribing
-                ? (currentLanguage === 'Español' ? 'Transcribiendo...' : 'Transcribing...')
-                : isRecording
-                ? (currentLanguage === 'Español' ? 'Grabando...' : 'Recording...')
-                : isLimitReached
-                ? (currentLanguage === 'Español' ? 'Límite alcanzado. Reinicia.' : 'Limit reached. Reset chat.')
-                : (currentLanguage === 'Español' ? 'Escribe tu mensaje...' : 'Write your message...')
+              isTranscribing ? 'Transcribiendo...' :
+              isRecording ? 'Grabando...' :
+              isLimitReached ? 'Límite alcanzado. Reinicia.' :
+              'Escribe tu mensaje...'
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -355,71 +323,26 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
           />
           {isTranscribing ? (
             <>
-              <button
-                className={`${styles.micButton} ${styles.micButtonDisabled}`}
-                disabled
-                title={currentLanguage === 'Español' ? 'Transcribiendo audio...' : 'Transcribing audio...'}
-              >
-                <MicrophoneIcon className={styles.microphoneSvg}/>
-              </button>
-              <button
-                className={styles.sendMessage}
-                disabled
-              >
-                <SendIcon className={styles.sendSvg} />
-              </button>
+              <button className={`${styles.micButton} ${styles.micButtonDisabled}`} disabled> <MicrophoneIcon className={styles.microphoneSvg}/> </button>
+              <button className={styles.sendMessage} disabled> <SendIcon className={styles.sendSvg} /> </button>
             </>
           ) : isRecording ? (
             <>
-              <button
-                className={styles.cancelRecordButton}
-                onClick={cancelAudioRecording}
-                title={currentLanguage === 'Español' ? 'Cancelar grabación' : 'Cancel recording'}
-              >
-                ❌
-              </button>
-              <button
-                className={styles.stopRecordButton}
-                onClick={stopAudioRecordingAndTranscribe}
-                title={currentLanguage === 'Español' ? 'Detener y transcribir' : 'Stop and transcribe'}
-              >
-                ✔️
-              </button>
+              <button className={styles.cancelRecordButton} onClick={cancelAudioRecording}> ❌ </button>
+              <button className={styles.stopRecordButton} onClick={stopAudioRecordingAndTranscribe}> ✔️ </button>
             </>
           ) : (
             <>
-              <button
-                className={`${styles.micButton} ${isMicButtonDisabled ? styles.micButtonDisabled : ''}`}
-                onClick={startAudioRecording}
-                disabled={isMicButtonDisabled}
-                title={currentLanguage === 'Español' ? 'Grabar voz' : 'Record voice'}
-              >
-                <MicrophoneIcon className={styles.microphoneSvg}/>
-              </button>
-              <button
-                className={styles.sendMessage}
-                onClick={handleSend}
-                disabled={isTextareaAndSendDisabled || input.trim() === ''}
-              >
-                <SendIcon className={styles.sendSvg} />
-              </button>
+              <button className={`${styles.micButton} ${isMicButtonDisabled ? styles.micButtonDisabled : ''}`} onClick={startAudioRecording} disabled={isMicButtonDisabled}> <MicrophoneIcon className={styles.microphoneSvg}/> </button>
+              <button className={styles.sendMessage} onClick={handleSend} disabled={isTextareaAndSendDisabled || input.trim() === ''}> <SendIcon className={styles.sendSvg} /> </button>
             </>
           )}
         </div>
-        <div
-          className={styles.bottomControlsContainer}
-        >
-          <button
-            onClick={handleReset}
-            disabled={isResetDisabled}
-            className={styles.resetIconChipFixed}
-            aria-label={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'}
-            title={currentLanguage === 'Español' ? 'Nuevo chat' : 'New chat'}
-          >
-            ↻
-          </button>
+        <div className={styles.bottomControlsContainer}>
+          <button onClick={handleReset} disabled={isResetDisabled} className={styles.resetIconChipFixed}> ↻ </button>
           <div className={styles.suggestionsContainerScrollable}>
-            {currentSuggestions.map((suggestion, index) => (
+            {/* Renderizamos los chips dinámicamente */}
+            {suggestions.slice(0, suggestionCount).map((suggestion, index) => (
               <button
                 key={index}
                 className={styles.suggestionChip}

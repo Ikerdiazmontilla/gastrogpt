@@ -2,10 +2,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Navbar.module.css';
-import { navbarTranslations } from '../../data/translations'; // Translations
-import logoImage from '../../assets/gastrogpt-logo.png';
+import { navbarTranslations } from '../../data/translations';
+import { useTenant } from '../../context/TenantContext'; 
 
 const Navbar = ({ onLanguageChange, currentLanguage }) => {
+  const { tenantConfig } = useTenant(); // Usamos el hook
+  const logoUrl = tenantConfig?.theme?.logoUrl; // Obtenemos la URL del logo del tema
+
+
   const handleLanguageSelect = (event) => {
     const selectedValue = event.target.value;
     onLanguageChange(selectedValue);
@@ -19,7 +23,8 @@ const Navbar = ({ onLanguageChange, currentLanguage }) => {
         <div className={styles.firstGroup}>
           <h2>
             <NavLink to="/chat" style={{ color: 'white' }}>
-              <img src={logoImage} alt="GastroGPT Logo" className={styles.logoImage} />
+              {/* Se usa el logo dinámico. Si no existe, se muestra uno por defecto. */}
+              <img src={logoUrl || '/logos/default-logo.png'} alt="Restaurant Logo" className={styles.logoImage} />
             </NavLink>
           </h2>
           <select

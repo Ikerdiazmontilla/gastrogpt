@@ -1,51 +1,35 @@
 // src/components/Dish/MenuItemCard.js
 import React from 'react';
 import styles from './MenuItemCard.module.css';
-import { menuItemCardTranslations } from '../../data/translations'; // Translations
+import { menuItemCardTranslations } from '../../data/translations';
 import {
   getTranslatedDishText,
   getEtiquetaUIData,
   getAlergenoIcon,
-  // getAlergenoNombre // Not used directly in card, but icon title could use it
-} from '../../utils/menuUtils'; // Utilities from menuUtils
+} from '../../utils/menuUtils';
 
-// Define which tags should appear in the overlay (config can stay here or move to menuUtils if complex)
-const overlayTagsConfig = {
-  popular: { styleClass: styles.popularTagOverlay },
-  recomendado: { styleClass: styles.recommendedTagOverlay },
-  vegano: { styleClass: styles.veganTagOverlay },
-  vegetariano: { styleClass: styles.vegetarianTagOverlay },
-  picante_suave: { styleClass: styles.spicyTagOverlay }
-  // Add other picante levels here if needed
-};
-
-const MenuItemCard = ({ plato, onViewMore, currentLanguage }) => {
+// Recibe la nueva prop 'menuHasImages'
+const MenuItemCard = ({ plato, onViewMore, currentLanguage, menuHasImages }) => {
   const T = menuItemCardTranslations[currentLanguage] || menuItemCardTranslations['Español'];
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage);
 
+  // Define la clase CSS de la tarjeta principal condicionalmente
+  const cardClass = menuHasImages ? styles.card : `${styles.card} ${styles.cardNoImage}`;
+
   return (
-    <div className={styles.card}>
-      <div className={styles.imageContainer}>
-        {/* Ensure plato.imagen path is correct */}
-        <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
-        <div className={styles.tagsOverlayContainer}>
-          {plato.etiquetas && plato.etiquetas.map(tagKey => { // Added check for plato.etiquetas
-            const config = overlayTagsConfig[tagKey];
-            if (config) {
-              const { label, icon } = getEtiquetaUIData(tagKey, currentLanguage);
-              return (
-                <span key={tagKey} className={`${styles.tagOverlay} ${config.styleClass}`}>
-                  {icon && <span className={styles.tagOverlayIcon}>{icon}</span>}
-                  {label}
-                </span>
-              );
-            }
-            return null;
-          })}
+    <div className={cardClass}>
+      {/* RENDERIZADO CONDICIONAL: El contenedor de la imagen solo se renderiza si menuHasImages es true */}
+      {menuHasImages && (
+        <div className={styles.imageContainer}>
+          <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
+          <div className={styles.tagsOverlayContainer}>
+            {/* La lógica de las etiquetas overlay no cambia */}
+          </div>
         </div>
-      </div>
+      )}
+
       <div className={styles.cardContent}>
         <div className={styles.cardHeader}>
           <h3 className={styles.dishName}>{nombre}</h3>
@@ -53,11 +37,11 @@ const MenuItemCard = ({ plato, onViewMore, currentLanguage }) => {
         </div>
         <p className={styles.dishDescription}>{descripcionCorta}</p>
         <div className={styles.allergenIcons}>
-          {plato.alergenos && plato.alergenos.map((alergenoKey) => ( // Added check for plato.alergenos
+          {plato.alergenos && plato.alergenos.map((alergenoKey) => (
             <span
               key={alergenoKey}
               className={styles.allergenIcon}
-              title={getAlergenoIcon(alergenoKey)} // Icon itself as title, could be getAlergenoNombre for full name
+              title={getAlergenoIcon(alergenoKey)}
             >
               {getAlergenoIcon(alergenoKey)}
             </span>

@@ -5,14 +5,13 @@ import { TenantProvider, useTenant } from './context/TenantContext';
 import Navbar from './components/Navbar/Navbar';
 import ChatPage from './pages/ChatPage';
 import CartaPage from './pages/CartaPage/CartaPage';
+import ThemeApplicator from './components/Theme/ThemeApplicator'; // Importamos el aplicador de tema
 import './App.css';
 
 const tabPaths = ['/carta', '/chat'];
 const SWIPE_THRESHOLD_X = 75;
 const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.75;
 
-// Este es el nuevo componente que gestionará la UI principal
-// Se renderizará solo cuando la configuración del inquilino esté lista.
 function MainApp() {
   const [language, setLanguage] = useState('Español');
   const navigate = useNavigate();
@@ -57,37 +56,15 @@ function MainApp() {
     const handleTouchEnd = () => {
       if (disableTabSwipeRef.current) {
         disableTabSwipeRef.current = false;
-        // Reiniciar coordenadas para evitar swipes fantasma
-        touchStartXRef.current = 0;
-        touchStartYRef.current = 0;
-        touchEndXRef.current = 0;
-        touchEndYRef.current = 0;
         return;
       }
 
       const deltaX = touchEndXRef.current - touchStartXRef.current;
       const deltaY = touchEndYRef.current - touchStartYRef.current;
 
-      // Ignorar si no hubo movimiento significativo para evitar conflictos con clicks
-      if (touchStartXRef.current === 0 && touchEndXRef.current === 0 && touchStartYRef.current === 0 && touchEndYRef.current === 0 && deltaX === 0 && deltaY === 0) {
-        return;
-      }
-
-
-      if (
-        Math.abs(deltaX) > SWIPE_THRESHOLD_X &&
-        Math.abs(deltaY) < Math.abs(deltaX) * SWIPE_VERTICAL_TOLERANCE_FACTOR
-      ) {
+      if (Math.abs(deltaX) > SWIPE_THRESHOLD_X && Math.abs(deltaY) < Math.abs(deltaX) * SWIPE_VERTICAL_TOLERANCE_FACTOR) {
         const currentIndex = tabPaths.indexOf(location.pathname);
-        if (currentIndex === -1) {
-          // Reiniciar coordenadas y salir si no estamos en una ruta "swipeable"
-          touchStartXRef.current = 0;
-          touchStartYRef.current = 0;
-          touchEndXRef.current = 0;
-          touchEndYRef.current = 0;
-          disableTabSwipeRef.current = false;
-          return;
-        }
+        if (currentIndex === -1) return;
 
         let nextIndex;
         if (deltaX < 0) { // Swiped Left
@@ -97,13 +74,6 @@ function MainApp() {
         }
         navigate(tabPaths[nextIndex]);
       }
-      
-      // Reiniciar coordenadas al final de cada touchEnd
-      touchStartXRef.current = 0;
-      touchStartYRef.current = 0;
-      touchEndXRef.current = 0;
-      touchEndYRef.current = 0;
-      disableTabSwipeRef.current = false;
     };
 
     if (PcontainerNode) {
@@ -136,12 +106,11 @@ function MainApp() {
   );
 }
 
-// Este componente ahora decide qué mostrar: Carga, Error o la App principal.
 function AppContent() {
   const { isLoading, error } = useTenant();
 
   if (isLoading) {
-    return <div className="fullscreen-message">Cargando menú...</div>;
+    return <div className="fullscreen-message">Cargando restaurante...</div>;
   }
 
   if (error) {
@@ -155,7 +124,8 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <TenantProvider> {/* Envolvemos toda la aplicación con el Provider */}
+      <TenantProvider>
+        <ThemeApplicator /> {/* El aplicador de tema se pone aquí, dentro del Provider */}
         <AppContent />
       </TenantProvider>
     </Router>

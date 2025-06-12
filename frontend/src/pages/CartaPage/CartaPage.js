@@ -3,21 +3,21 @@ import React, { useState, useMemo } from 'react';
 import styles from './CartaPage.module.css';
 import { useTenant } from '../../context/TenantContext';
 import { cartaPageTranslations } from '../../data/translations';
-import { getTranslatedDishText, findDishById } from '../../utils/menuUtils'; // findDishById se importa aquí por si se usa en el futuro.
+import { getTranslatedDishText } from '../../utils/menuUtils';
 import MenuItemCard from '../../components/Dish/MenuItemCard';
 import DishDetailModal from '../../components/Dish/DishDetailModal';
 
 const CartaPage = ({ currentLanguage }) => {
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
+  // Obtenemos el flag del tema. Usamos `?? true` como fallback seguro si no está definido.
+  const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
   const T = cartaPageTranslations[currentLanguage] || cartaPageTranslations['Español'];
   const [activeTab, setActiveTab] = useState('destacados');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlato, setSelectedPlato] = useState(null);
 
-  // El array 'allPlatos' ahora viene pre-calculado desde el contexto.
-  // Filtramos aquí para asegurarnos de que solo trabajamos con items válidos.
   const allPlatos = useMemo(() => menu?.allDishes?.filter(item => item.id != null) || [], [menu]);
 
   const handleSearchChange = (event) => {
@@ -38,16 +38,10 @@ const CartaPage = ({ currentLanguage }) => {
     let platosToShow = [];
 
     if (activeTab === 'destacados') {
-      // La lista 'allPlatos' ya está pre-filtrada, así que es seguro usarla.
       platosToShow = allPlatos.filter(plato =>
         plato.etiquetas && (plato.etiquetas.includes('popular') || plato.etiquetas.includes('recomendado'))
       );
     } else if (menu[activeTab]) {
-      // ==========================
-      // LA CORRECCIÓN CLAVE ESTÁ AQUÍ
-      // ==========================
-      // Nos aseguramos de filtrar cualquier item que no tenga un ID
-      // antes de intentar renderizarlo. Esto excluye el objeto "Refrescos y cafés".
       platosToShow = menu[activeTab].filter(item => item.id != null);
     }
 
@@ -116,6 +110,7 @@ const CartaPage = ({ currentLanguage }) => {
                 plato={plato}
                 onViewMore={handleSelectDishForModal}
                 currentLanguage={currentLanguage}
+                menuHasImages={menuHasImages} // Pasamos el flag a la tarjeta
               />
             ))}
           </div>

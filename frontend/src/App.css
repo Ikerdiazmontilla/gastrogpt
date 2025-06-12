@@ -324,6 +324,15 @@ a {
 
 }
 
+:root {
+  /* Estas variables serán sobrescritas dinámicamente por ThemeApplicator.js */
+  --primary-color: #0071E3;
+  --background-color: #FAFAFC;
+  --text-default-color: #333333;
+  --card-background-color: #FFFFFF;
+  --border-radius-global: 8px;
+}
+
 body {
   background-color: var(--app-background-color);
   /* font-family: Roboto, 'Times New Roman', Times, serif; */

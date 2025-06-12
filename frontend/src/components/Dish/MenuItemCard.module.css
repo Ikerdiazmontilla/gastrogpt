@@ -142,3 +142,9 @@
 .viewMoreButton:hover {
   background-color: var(--menu-item-card-view-more-button-hover-background-color); /* Updated */
 }
+
+.cardNoImage {
+  /* Cuando no hay imagen, no necesitamos una altura fija para el contenedor de imagen. */
+  /* Todo el espacio se dedica al contenido. */
+  border: 1px solid #eee; /* Un borde sutil puede quedar bien */
+}

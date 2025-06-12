@@ -1,4 +1,17 @@
-Añadir markdown rendering to firstmessage and other messages
+theming:
+background navbar = background input = background menuitem = background dishdetailmodal
+background tabs
+tab color
+nav color = input text color = dishdetailmodal color = menuitem color
+carta text color
+
+button background = tabactive background = input outline = cartatabactive color. = price color
+button color = tabactive color
+message bot background
+message bot color
+message user background
+message user color
+link color: likely equals buttonbackground
 
 Que te sugiera directamente los platos
 
