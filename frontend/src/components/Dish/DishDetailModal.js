@@ -1,7 +1,7 @@
 // frontend/src/components/Dish/DishDetailModal.js
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './DishDetailModal.module.css';
-import { dishDetailModalTranslations } from '../../data/translations';
 import {
   getAlergenoIcon,
   getAlergenoNombre,
@@ -13,7 +13,10 @@ import {
 
 const MODAL_HISTORY_STATE_KEY = 'dishDetailModalOpen';
 
-const DishDetailModal = ({ plato, onClose, currentLanguage, onSelectPairedDish, menu }) => {
+const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
   useEffect(() => {
     if (plato) {
       window.history.pushState({ [MODAL_HISTORY_STATE_KEY]: true }, '', window.location.href);
@@ -34,8 +37,6 @@ const DishDetailModal = ({ plato, onClose, currentLanguage, onSelectPairedDish, 
   }, [plato, onClose]);
 
   if (!plato) return null;
-
-  const T = dishDetailModalTranslations[currentLanguage] || dishDetailModalTranslations['Español'];
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionLarga = getTranslatedDishText(plato.descripcionLarga, currentLanguage);
@@ -70,7 +71,7 @@ const DishDetailModal = ({ plato, onClose, currentLanguage, onSelectPairedDish, 
 
         {plato.alergenos && plato.alergenos.length > 0 && (
           <div className={styles.section}>
-            <h4 className={styles.sectionTitle}>{T.allergens}</h4>
+            <h4 className={styles.sectionTitle}>{t('dishDetailModal.allergens')}</h4>
             <div className={styles.tagsContainer}>
               {plato.alergenos.map((alergenoKey) => (
                 <span key={alergenoKey} className={styles.detailTagPill}>
@@ -83,7 +84,7 @@ const DishDetailModal = ({ plato, onClose, currentLanguage, onSelectPairedDish, 
 
         {plato.etiquetas && plato.etiquetas.length > 0 && (
           <div className={styles.section}>
-            <h4 className={styles.sectionTitle}>{T.tags}</h4>
+            <h4 className={styles.sectionTitle}>{t('dishDetailModal.tags')}</h4>
             <div className={styles.tagsContainer}>
               {plato.etiquetas.map((etiquetaKey) => {
                 const { label, icon } = getEtiquetaUIData(etiquetaKey, currentLanguage);
@@ -102,7 +103,7 @@ const DishDetailModal = ({ plato, onClose, currentLanguage, onSelectPairedDish, 
 
         {plato.pairsWith && (Object.keys(plato.pairsWith).length > 0) && (
           <div className={styles.section}>
-            <h4 className={styles.sectionTitle}>{T.pairsWellWith}</h4>
+            <h4 className={styles.sectionTitle}>{t('dishDetailModal.pairsWellWith')}</h4>
             <div className={styles.pairedItemsContainer}>
               {plato.pairsWith.main && renderPairedItem(plato.pairsWith.main)}
               {plato.pairsWith.drink && renderPairedItem(plato.pairsWith.drink)}

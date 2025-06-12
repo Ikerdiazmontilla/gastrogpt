@@ -1,6 +1,7 @@
 // frontend/src/features/Chat/Chat.js
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useTranslation } from 'react-i18next';
 import styles from './Chat.module.css';
 import { ReactComponent as SendIcon } from '../../assets/up-arrow-icon.svg';
 import { ReactComponent as MicrophoneIcon } from '../../assets/microphone.svg';
@@ -12,13 +13,15 @@ import {
   transcribeAudio,
 } from '../../services/apiService';
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
+import ChatPage from '../../pages/ChatPage';
 
-const Chat = ({ currentLanguage, onViewDishDetails }) => {
+const Chat = () => {
+  const { t, i18n } = useTranslation();
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
-  const welcomeMessage = tenantConfig?.welcomeMessage || (currentLanguage === 'Español' ? 'Hola...' : 'Hello...');
   
-  // Obtenemos las configuraciones para los chips de sugerencia, con fallbacks.
+  const welcomeMessage = tenantConfig?.welcomeMessage || (i18n.language === 'es' ? 'Hola...' : 'Hello...');
+  
   const suggestions = tenantConfig?.suggestionChipsText || [];
   const suggestionCount = tenantConfig?.suggestionChipsCount || 4;
   
@@ -38,9 +41,13 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const mediaStreamRef = useRef(null);
 
   const CustomLink = useMemo(() =>
-    createMarkdownLinkRenderer(onViewDishDetails, menu, styles),
-    [onViewDishDetails, menu]
+    createMarkdownLinkRenderer(null, menu, styles), // onViewDishDetails es manejado por ChatPage
+    [menu]
   );
+  
+  // No necesitamos pasar onViewDishDetails aquí, ChatPage lo manejará
+  const chatPageComponent = <ChatPage />;
+  const onViewDishDetails = chatPageComponent.props.onViewDishDetails;
 
   const loadConversation = useCallback(async () => {
     setIsLoading(true);
@@ -59,11 +66,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             m => m.sender === 'bot' && m.limitReachedNotification
           );
           if (lastBotMsgWithNotification) {
-             setLimitNotification(
-                currentLanguage === 'Español'
-                ? "Has alcanzado el límite de 15 mensajes. Por favor, inicia un nuevo chat para continuar."
-                : "You have reached the 15-message limit. Please start a new chat to continue."
-            );
+             setLimitNotification(t('chat.limitReachedCta'));
           }
         }
       }
@@ -75,7 +78,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentLanguage, welcomeMessage]);
+  }, [t, welcomeMessage]);
 
   useEffect(() => {
     loadConversation();
@@ -120,9 +123,9 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       if (data.reply) {
         setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: data.reply }]);
       } else if (data.limitExceeded) {
-        setError(data.error || (currentLanguage === 'Español' ? "Límite de mensajes alcanzado." : "Message limit reached."));
+        setError(data.error || t('chat.limitReached'));
         setIsLimitReached(true);
-        setLimitNotification(data.error || (currentLanguage === 'Español' ? "Por favor, inicia un nuevo chat para continuar." : "Please start a new chat to continue."));
+        setLimitNotification(data.error || t('chat.limitReachedCta'));
       } else {
         setError('Unexpected server response.');
       }
@@ -134,7 +137,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       console.error('Error sending message:', err);
       let displayError = `Error: ${err.message || 'Failed to send message.'}`;
       if (err.response && err.response.data && err.response.data.limitExceeded) {
-        displayError = err.response.data.error || (currentLanguage === 'Español' ? "Límite superado." : "Message limit exceeded.");
+        displayError = err.response.data.error || t('chat.limitReached');
         setIsLimitReached(true);
         setLimitNotification(displayError);
       } else if (err.response && err.response.data && err.response.data.error) {
@@ -197,7 +200,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
       setIsRecording(true);
       setIsTranscribing(false);
     } catch (err) {
-      setError(currentLanguage === 'Español' ? 'Error al acceder al micrófono.' : 'Error accessing microphone.');
+      setError(t('chat.errorAccessingMic'));
       stopMediaStream();
     }
   };
@@ -217,7 +220,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         audioChunksRef.current = [];
 
         if (audioBlob.size === 0) {
-            setError(currentLanguage === "Español" ? "No se grabó audio." : "No audio recorded.");
+            setError(t('chat.errorNoAudio'));
             setIsTranscribing(false);
             return;
         }
@@ -227,10 +230,10 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
             if (data.transcription) {
                 setInput(prevInput => prevInput + data.transcription + ' ');
             } else {
-                setError(data.error || (currentLanguage === 'Español' ? 'Error en la transcripción.' : 'Transcription error.'));
+                setError(data.error || t('chat.errorTranscription'));
             }
         } catch (err) {
-            setError(err.message || (currentLanguage === 'Español' ? 'Fallo al transcribir.' : 'Failed to transcribe.'));
+            setError(err.message || 'Failed to transcribe.');
         } finally {
             setIsTranscribing(false);
             if (textareaRef.current) {
@@ -268,6 +271,13 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
   const isTextareaAndSendDisabled = isLimitReached || isRecording || isTranscribing;
   const isMicButtonDisabled = isLimitReached || isTranscribing;
   const areSuggestionsDisabled = isLimitReached || isRecording || isTranscribing;
+  
+  const getPlaceholderText = () => {
+    if (isTranscribing) return t('chat.placeholderTranscribing');
+    if (isRecording) return t('chat.placeholderRecording');
+    if (isLimitReached) return t('chat.placeholderLimit');
+    return t('chat.placeholder');
+  };
 
   return (
     <>
@@ -275,7 +285,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         <div className={styles.messages}>
           {isLoading && messages.length <= 1 && !error && (
             <div className={`${styles.message} ${styles.system}`}>
-              {currentLanguage === 'Español' ? 'Cargando historial...' : 'Loading history...'}
+              {t('chat.loadingHistory')}
             </div>
           )}
           {error && (!isLimitReached || !limitNotification) && (
@@ -309,12 +319,7 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
           <textarea
             ref={textareaRef}
             rows="1"
-            placeholder={
-              isTranscribing ? 'Transcribiendo...' :
-              isRecording ? 'Grabando...' :
-              isLimitReached ? 'Límite alcanzado. Reinicia.' :
-              'Escribe tu mensaje...'
-            }
+            placeholder={getPlaceholderText()}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isTextareaAndSendDisabled}
@@ -341,7 +346,6 @@ const Chat = ({ currentLanguage, onViewDishDetails }) => {
         <div className={styles.bottomControlsContainer}>
           <button onClick={handleReset} disabled={isResetDisabled} className={styles.resetIconChipFixed}> ↻ </button>
           <div className={styles.suggestionsContainerScrollable}>
-            {/* Renderizamos los chips dinámicamente */}
             {suggestions.slice(0, suggestionCount).map((suggestion, index) => (
               <button
                 key={index}

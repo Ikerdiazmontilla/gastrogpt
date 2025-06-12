@@ -1,21 +1,26 @@
 // frontend/src/components/Navbar/Navbar.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styles from './Navbar.module.css';
-import { navbarTranslations } from '../../data/translations';
-import { useTenant } from '../../context/TenantContext'; 
+import { useTenant } from '../../context/TenantContext';
 
-const Navbar = ({ onLanguageChange, currentLanguage }) => {
-  const { tenantConfig } = useTenant(); // Usamos el hook
-  const logoUrl = tenantConfig?.theme?.logoUrl; // Obtenemos la URL del logo del tema
+const supportedLanguages = [
+  { code: 'es', name: 'Español' },
+  { code: 'en', name: 'English' },
+  { code: 'fr', name: 'Français' },
+  { code: 'de', name: 'Deutsch' },
+];
 
+const Navbar = () => {
+  const { t, i18n } = useTranslation();
+  const { tenantConfig } = useTenant();
+  const logoUrl = tenantConfig?.theme?.logoUrl;
 
   const handleLanguageSelect = (event) => {
-    const selectedValue = event.target.value;
-    onLanguageChange(selectedValue);
+    const selectedLanguageCode = event.target.value;
+    i18n.changeLanguage(selectedLanguageCode);
   };
-
-  const T = navbarTranslations[currentLanguage] || navbarTranslations['Español'];
 
   return (
     <>
@@ -23,17 +28,19 @@ const Navbar = ({ onLanguageChange, currentLanguage }) => {
         <div className={styles.firstGroup}>
           <h2>
             <NavLink to="/chat" style={{ color: 'white' }}>
-              {/* Se usa el logo dinámico. Si no existe, se muestra uno por defecto. */}
               <img src={logoUrl || '/logos/default-logo.png'} alt="Restaurant Logo" className={styles.logoImage} />
             </NavLink>
           </h2>
           <select
             className={styles.selectLanguage}
-            value={currentLanguage}
+            value={i18n.language}
             onChange={handleLanguageSelect}
           >
-            <option value={'Español'}>🇪🇸Español</option>
-            <option value={'English'}>🇬🇧English</option>
+            {supportedLanguages.map(lang => (
+              <option key={lang.code} value={lang.code}>
+                {t(`navbar.languages.${lang.code}`)}
+              </option>
+            ))}
           </select>
         </div>
         <div className={styles.secondNavGroup}>
@@ -43,7 +50,7 @@ const Navbar = ({ onLanguageChange, currentLanguage }) => {
               isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
             }
           >
-            {T.carta}
+            {t('navbar.menu')}
           </NavLink>
           <NavLink
             to="/chat"
@@ -51,7 +58,7 @@ const Navbar = ({ onLanguageChange, currentLanguage }) => {
               isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
             }
           >
-            {T.chat}
+            {t('navbar.chat')}
           </NavLink>
         </div>
       </nav>

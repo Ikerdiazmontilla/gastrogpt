@@ -1,31 +1,28 @@
 // src/components/Dish/MenuItemCard.js
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './MenuItemCard.module.css';
-import { menuItemCardTranslations } from '../../data/translations';
 import {
   getTranslatedDishText,
-  getEtiquetaUIData, // Esta función ya se importaba, ahora la usaremos para las overlays.
+  getEtiquetaUIData,
   getAlergenoIcon,
 } from '../../utils/menuUtils';
 
-// Recibe la nueva prop 'menuHasImages'
-const MenuItemCard = ({ plato, onViewMore, currentLanguage, menuHasImages }) => {
-  const T = menuItemCardTranslations[currentLanguage] || menuItemCardTranslations['Español'];
+const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage);
 
-  // Define la clase CSS de la tarjeta principal condicionalmente
   const cardClass = menuHasImages ? styles.card : `${styles.card} ${styles.cardNoImage}`;
-  
-  // Función auxiliar para obtener la clase CSS correcta para la etiqueta overlay
+
   const getTagOverlayClass = (etiquetaKey) => {
     switch (etiquetaKey) {
       case 'popular':
         return styles.popularTagOverlay;
       case 'recomendado':
         return styles.recommendedTagOverlay;
-      // Añadir más casos si se necesitaran otras etiquetas overlay en el futuro
       default:
         return '';
     }
@@ -36,12 +33,8 @@ const MenuItemCard = ({ plato, onViewMore, currentLanguage, menuHasImages }) => 
       {menuHasImages && (
         <div className={styles.imageContainer}>
           <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
-          {/* ==================================================================== */}
-          {/* LÓGICA AÑADIDA: Renderizar etiquetas 'popular' y 'recomendado'      */}
-          {/* ==================================================================== */}
           <div className={styles.tagsOverlayContainer}>
             {plato.etiquetas && plato.etiquetas.map((etiquetaKey) => {
-              // Renderizar solo si la etiqueta es 'popular' o 'recomendado'
               if (etiquetaKey === 'popular' || etiquetaKey === 'recomendado') {
                 const { label, icon } = getEtiquetaUIData(etiquetaKey, currentLanguage);
                 const tagClass = getTagOverlayClass(etiquetaKey);
@@ -53,7 +46,7 @@ const MenuItemCard = ({ plato, onViewMore, currentLanguage, menuHasImages }) => 
                   </div>
                 );
               }
-              return null; // No renderizar otras etiquetas en el overlay
+              return null;
             })}
           </div>
         </div>
@@ -70,14 +63,14 @@ const MenuItemCard = ({ plato, onViewMore, currentLanguage, menuHasImages }) => 
             <span
               key={alergenoKey}
               className={styles.allergenIcon}
-              title={getAlergenoIcon(alergenoKey)} // El tooltip es útil para accesibilidad
+              title={getAlergenoIcon(alergenoKey)}
             >
               {getAlergenoIcon(alergenoKey)}
             </span>
           ))}
         </div>
         <button className={styles.viewMoreButton} onClick={() => onViewMore(plato)}>
-          {T.viewMore}
+          {t('menuItemCard.viewMore')}
         </button>
       </div>
     </div>

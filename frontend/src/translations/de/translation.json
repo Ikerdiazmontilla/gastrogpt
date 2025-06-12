@@ -1,0 +1,47 @@
+{
+  "app": {
+    "loading": "Restaurant wird geladen...",
+    "error": "Fehler: {{error}}"
+  },
+  "navbar": {
+    "menu": "📖 Speisekarte",
+    "chat": "💬 Chat",
+    "languages": {
+      "es": "🇪🇸 Spanisch",
+      "en": "🇬🇧 Englisch",
+      "fr": "🇫🇷 Französisch",
+      "de": "🇩🇪 Deutsch"
+    }
+  },
+  "cartaPage": {
+    "pageTitle": "Unsere Speisekarte",
+    "pageDescription": "Entdecken Sie unsere Auswahl an Gerichten, die mit den besten Zutaten zubereitet werden",
+    "searchPlaceholder": "Gerichte, Zutaten suchen...",
+    "tabDestacados": "⭐ Empfohlen",
+    "tabEntrantes": "🥗 Vorspeisen",
+    "tabPrincipales": "🍲 Hauptgerichte",
+    "tabPostres": "🍰 Desserts",
+    "tabBebidas": "🍹 Getränke",
+    "noResults": "In dieser Kategorie wurden keine Gerichte gefunden, die Ihrer Suche entsprechen."
+  },
+  "menuItemCard": {
+    "viewMore": "Mehr sehen"
+  },
+  "dishDetailModal": {
+    "allergens": "Allergene:",
+    "tags": "Etiketten:",
+    "pairsWellWith": "Passt gut zu:"
+  },
+  "chat": {
+    "loadingHistory": "Verlauf wird geladen...",
+    "limitReached": "Nachrichtenlimit erreicht.",
+    "limitReachedCta": "Bitte starten Sie einen neuen Chat, um fortzufahren.",
+    "placeholder": "Schreiben Sie Ihre Nachricht...",
+    "placeholderRecording": "Aufnahme...",
+    "placeholderTranscribing": "Transkribieren...",
+    "placeholderLimit": "Limit erreicht. Zurücksetzen.",
+    "errorAccessingMic": "Fehler beim Zugriff auf das Mikrofon.",
+    "errorNoAudio": "Kein Audio aufgenommen.",
+    "errorTranscription": "Transkriptionsfehler."
+  }
+}

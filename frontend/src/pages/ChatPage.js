@@ -1,10 +1,11 @@
 // src/pages/ChatPage.js
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Chat from '../features/Chat/Chat';
 import DishDetailModal from '../components/Dish/DishDetailModal';
 import { useTenant } from '../context/TenantContext';
 
-const ChatPage = ({ currentLanguage }) => {
+const ChatPage = () => {
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
 
@@ -20,15 +21,12 @@ const ChatPage = ({ currentLanguage }) => {
 
   return (
     <>
-      <Chat
-        currentLanguage={currentLanguage}
-        onViewDishDetails={handleDisplayDishInModal}
-      />
+      {/* El componente Chat ahora es autónomo y no necesita props de idioma */}
+      <Chat onViewDishDetails={handleDisplayDishInModal} />
       {selectedPlatoModal && (
         <DishDetailModal
           plato={selectedPlatoModal}
           onClose={handleCloseModal}
-          currentLanguage={currentLanguage}
           onSelectPairedDish={handleDisplayDishInModal}
           menu={menu}
         />

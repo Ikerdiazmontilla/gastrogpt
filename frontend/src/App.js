@@ -1,11 +1,12 @@
 // frontend/src/App.js
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { TenantProvider, useTenant } from './context/TenantContext';
 import Navbar from './components/Navbar/Navbar';
 import ChatPage from './pages/ChatPage';
 import CartaPage from './pages/CartaPage/CartaPage';
-import ThemeApplicator from './components/Theme/ThemeApplicator'; // Importamos el aplicador de tema
+import ThemeApplicator from './components/Theme/ThemeApplicator';
 import './App.css';
 
 const tabPaths = ['/carta', '/chat'];
@@ -13,7 +14,7 @@ const SWIPE_THRESHOLD_X = 75;
 const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.75;
 
 function MainApp() {
-  const [language, setLanguage] = useState('Español');
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const containerRef = useRef(null);
@@ -23,10 +24,6 @@ function MainApp() {
   const touchEndXRef = useRef(0);
   const touchEndYRef = useRef(0);
   const disableTabSwipeRef = useRef(false);
-
-  const handleLanguageChange = (newLanguage) => {
-    setLanguage(newLanguage);
-  };
 
   useEffect(() => {
     const PcontainerNode = containerRef.current;
@@ -93,13 +90,13 @@ function MainApp() {
   return (
     <>
       <div className='nav-container'>
-        <Navbar onLanguageChange={handleLanguageChange} currentLanguage={language} />
+        <Navbar />
       </div>
       <div className="container" ref={containerRef}>
         <Routes>
           <Route path="/" element={<Navigate to="/chat" />} />
-          <Route path="/chat" element={<ChatPage currentLanguage={language} />} />
-          <Route path="/carta" element={<CartaPage currentLanguage={language} />} />
+          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/carta" element={<CartaPage />} />
         </Routes>
       </div>
     </>
@@ -108,13 +105,14 @@ function MainApp() {
 
 function AppContent() {
   const { isLoading, error } = useTenant();
+  const { t } = useTranslation();
 
   if (isLoading) {
-    return <div className="fullscreen-message">Cargando restaurante...</div>;
+    return <div className="fullscreen-message">{t('app.loading')}</div>;
   }
 
   if (error) {
-    return <div className="fullscreen-message error">Error: {error}</div>;
+    return <div className="fullscreen-message error">{t('app.error', { error: error })}</div>;
   }
 
   return <MainApp />;
@@ -125,7 +123,7 @@ function App() {
   return (
     <Router>
       <TenantProvider>
-        <ThemeApplicator /> {/* El aplicador de tema se pone aquí, dentro del Provider */}
+        <ThemeApplicator />
         <AppContent />
       </TenantProvider>
     </Router>

@@ -1,0 +1,47 @@
+{
+  "app": {
+    "loading": "Cargando restaurante...",
+    "error": "Error: {{error}}"
+  },
+  "navbar": {
+    "menu": "📖 Carta",
+    "chat": "💬 Chat",
+    "languages": {
+      "es": "🇪🇸 Español",
+      "en": "🇬🇧 Inglés",
+      "fr": "🇫🇷 Francés",
+      "de": "🇩🇪 Alemán"
+    }
+  },
+  "cartaPage": {
+    "pageTitle": "Nuestra Carta",
+    "pageDescription": "Descubre nuestra selección de platos preparados con los mejores ingredientes",
+    "searchPlaceholder": "Buscar platos, ingredientes...",
+    "tabDestacados": "⭐ Destacados",
+    "tabEntrantes": "🥗 Entrantes",
+    "tabPrincipales": "🍲 Platos Principales",
+    "tabPostres": "🍰 Postres",
+    "tabBebidas": "🍷 Bebidas",
+    "noResults": "No se encontraron platos que coincidan con tu búsqueda en esta categoría."
+  },
+  "menuItemCard": {
+    "viewMore": "Ver más"
+  },
+  "dishDetailModal": {
+    "allergens": "Alérgenos:",
+    "tags": "Etiquetas:",
+    "pairsWellWith": "Combina bien con:"
+  },
+  "chat": {
+    "loadingHistory": "Cargando historial...",
+    "limitReached": "Límite de mensajes alcanzado.",
+    "limitReachedCta": "Por favor, inicia un nuevo chat para continuar.",
+    "placeholder": "Escribe tu mensaje...",
+    "placeholderRecording": "Grabando...",
+    "placeholderTranscribing": "Transcribiendo...",
+    "placeholderLimit": "Límite alcanzado. Reinicia.",
+    "errorAccessingMic": "Error al acceder al micrófono.",
+    "errorNoAudio": "No se grabó audio.",
+    "errorTranscription": "Error en la transcripción."
+  }
+}

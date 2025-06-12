@@ -1,0 +1,47 @@
+{
+  "app": {
+    "loading": "Loading restaurant...",
+    "error": "Error: {{error}}"
+  },
+  "navbar": {
+    "menu": "📖 Menu",
+    "chat": "💬 Chat",
+    "languages": {
+      "es": "🇪🇸 Spanish",
+      "en": "🇬🇧 English",
+      "fr": "🇫🇷 French",
+      "de": "🇩🇪 German"
+    }
+  },
+  "cartaPage": {
+    "pageTitle": "Our Menu",
+    "pageDescription": "Discover our selection of dishes prepared with the finest ingredients",
+    "searchPlaceholder": "Search dishes, ingredients...",
+    "tabDestacados": "⭐ Featured",
+    "tabEntrantes": "🥗 Appetizers",
+    "tabPrincipales": "🍲 Main Courses",
+    "tabPostres": "🍰 Desserts",
+    "tabBebidas": "🍹 Drinks",
+    "noResults": "No dishes found matching your search in this category."
+  },
+  "menuItemCard": {
+    "viewMore": "View More"
+  },
+  "dishDetailModal": {
+    "allergens": "Allergens:",
+    "tags": "Tags:",
+    "pairsWellWith": "Pairs well with:"
+  },
+  "chat": {
+    "loadingHistory": "Loading history...",
+    "limitReached": "Message limit reached.",
+    "limitReachedCta": "Please start a new chat to continue.",
+    "placeholder": "Type your message...",
+    "placeholderRecording": "Recording...",
+    "placeholderTranscribing": "Transcribing...",
+    "placeholderLimit": "Limit reached. Reset.",
+    "errorAccessingMic": "Error accessing microphone.",
+    "errorNoAudio": "No audio recorded.",
+    "errorTranscription": "Transcription error."
+  }
+}
