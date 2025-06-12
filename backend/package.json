@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "add-tenant": "node scripts/onboarding/add-tenant.js"
+    "add-tenant": "node scripts/onboarding/add-tenant.js",
+    "delete-tenant": "node scripts/management/delete-tenant.js"
   },
   "keywords": [],
   "author": "Iker Díaz",

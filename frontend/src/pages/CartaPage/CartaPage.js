@@ -17,7 +17,7 @@ const CartaPage = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlato, setSelectedPlato] = useState(null);
-  const [visibleSection, setVisibleSection] = useState('destacados');
+  const [visibleSection, setVisibleSection] = useState('');
   
   const sectionRefs = useRef({});
   const tabRefs = useRef({});
@@ -28,12 +28,7 @@ const CartaPage = () => {
     setSearchTerm(event.target.value);
   };
   
-  // ====================================================================
-  // LÓGICA DE HISTORIAL CENTRALIZADA AQUÍ
-  // ====================================================================
-
   const handleSelectDishForModal = (plato) => {
-    // Solo empujar estado si el modal está actualmente cerrado
     if (!selectedPlato) {
       window.history.pushState({ [MODAL_HISTORY_STATE_KEY]: true }, '');
     }
@@ -42,32 +37,30 @@ const CartaPage = () => {
 
   const handleCloseModal = () => {
     setSelectedPlato(null);
-    // Si el estado del historial es el nuestro, retrocedemos para limpiarlo.
     if (window.history.state && window.history.state[MODAL_HISTORY_STATE_KEY]) {
       window.history.back();
     }
   };
   
-  // useEffect para manejar el evento 'popstate' (botón atrás del navegador)
   useEffect(() => {
     const handlePopState = (event) => {
-      // Si el modal está abierto, ciérralo.
       if (selectedPlato) {
         setSelectedPlato(null);
       }
     };
-
     window.addEventListener('popstate', handlePopState);
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [selectedPlato]); // El efecto depende de si el modal está abierto o no
+  }, [selectedPlato]);
 
+  // ====================================================================
+  // LÓGICA CORREGIDA: Ordenación explícita por 'orderId'
+  // ====================================================================
   const menuSections = useMemo(() => {
     if (!menu) return [];
-    
-    const allDishes = menu.allDishes || [];
 
+    const allDishes = menu.allDishes || [];
     const filteredDishes = searchTerm
       ? allDishes.filter(plato => {
           const lowerSearchTerm = searchTerm.toLowerCase();
@@ -77,18 +70,60 @@ const CartaPage = () => {
         })
       : allDishes;
 
-    const sections = [
-      { key: 'destacados', title: t('cartaPage.tabDestacados'), dishes: filteredDishes.filter(p => p.etiquetas?.includes('popular') || p.etiquetas?.includes('recomendado')) },
-      { key: 'entrantes', title: t('cartaPage.tabEntrantes'), dishes: (menu.entrantes || []).filter(d => filteredDishes.some(fd => fd.id === d.id)) },
-      { key: 'principales', title: t('cartaPage.tabPrincipales'), dishes: (menu.principales || []).filter(d => filteredDishes.some(fd => fd.id === d.id)) },
-      { key: 'postres', title: t('cartaPage.tabPostres'), dishes: (menu.postres || []).filter(d => filteredDishes.some(fd => fd.id === d.id)) },
-      { key: 'bebidas', title: t('cartaPage.tabBebidas'), dishes: (menu.bebidas || []).filter(d => filteredDishes.some(fd => fd.id === d.id)) },
-    ];
+    const sections = [];
+    
+    // 1. Sección de "Destacados" siempre primero
+    const destacadosDishes = filteredDishes.filter(p => p.etiquetas?.includes('popular') || p.etiquetas?.includes('recomendado'));
+    if (destacadosDishes.length > 0) {
+      sections.push({
+        key: 'destacados',
+        orderId: 1, // Le asignamos el primer orden
+        title: t('cartaPage.tabDestacados'),
+        dishes: destacadosDishes,
+      });
+    }
 
-    return sections.filter(section => section.dishes.length > 0);
+    // 2. Procesar las categorías del menú
+    const menuCategories = Object.entries(menu)
+      .filter(([key]) => key !== 'allDishes')
+      .map(([key, value]) => ({ key, ...value }));
 
+    // Ordenar las categorías principales por su orderId
+    menuCategories.sort((a, b) => (a.orderId || 99) - (b.orderId || 99));
+
+    menuCategories.forEach(category => {
+      if (category.subCategories) { // Si tiene subcategorías
+        const subCategories = Object.entries(category.subCategories)
+          .map(([key, value]) => ({ key, ...value }));
+        
+        // Ordenar subcategorías por su orderId
+        subCategories.sort((a, b) => (a.orderId || 99) - (b.orderId || 99));
+
+        subCategories.forEach(subCat => {
+          const dishes = (subCat.dishes || []).filter(d => filteredDishes.some(fd => fd.id === d.id));
+          if (dishes.length > 0) {
+            sections.push({
+              key: subCat.key,
+              title: getTranslatedDishText(subCat.title, currentLanguageForApi),
+              dishes,
+            });
+          }
+        });
+      } else if (category.dishes) { // Si es una categoría simple
+        const dishes = category.dishes.filter(d => filteredDishes.some(fd => fd.id === d.id));
+        if (dishes.length > 0) {
+           sections.push({
+             key: category.key,
+             title: getTranslatedDishText(category.title, currentLanguageForApi),
+             dishes
+           });
+        }
+      }
+    });
+
+    return sections;
   }, [menu, searchTerm, t, currentLanguageForApi]);
-
+  
   const handleTabClick = (key) => {
     const sectionElement = sectionRefs.current[key];
     if (sectionElement) {
@@ -97,6 +132,10 @@ const CartaPage = () => {
   };
 
   useEffect(() => {
+    if (menuSections.length > 0 && !visibleSection) {
+      setVisibleSection(menuSections[0].key);
+    }
+  
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -105,23 +144,20 @@ const CartaPage = () => {
           }
         });
       },
-      {
-        rootMargin: '-50% 0px -50% 0px',
-        threshold: 0
-      }
+      { rootMargin: '-40% 0px -60% 0px', threshold: 0 }
     );
-
+  
     const currentRefs = sectionRefs.current;
     Object.values(currentRefs).forEach((ref) => {
       if (ref) observer.observe(ref);
     });
-
+  
     return () => {
       Object.values(currentRefs).forEach((ref) => {
         if (ref) observer.unobserve(ref);
       });
     };
-  }, [menuSections]);
+  }, [menuSections, visibleSection]);
 
   useEffect(() => {
     const activeTabElement = tabRefs.current[visibleSection];
@@ -133,6 +169,7 @@ const CartaPage = () => {
       });
     }
   }, [visibleSection]);
+
 
   if (!menu) {
     return <div className={styles.cartaContainer}>{t('app.loading')}</div>;

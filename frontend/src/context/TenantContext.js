@@ -1,38 +1,52 @@
 // frontend/src/context/TenantContext.js
-
 import React, { createContext, useState, useEffect, useContext, useMemo } from 'react';
 import { fetchTenantConfig } from '../services/apiService';
 
-// 1. Crear el Context
 const TenantContext = createContext(null);
 
+// ====================================================================
+// NUEVA FUNCIÓN RECURSIVA para aplanar el menú
+// ====================================================================
 /**
- * El Provider es un componente que envolverá nuestra aplicación.
- * Se encarga de:
- * - Llamar a la API para obtener la configuración del inquilino.
- * - Manejar los estados de carga (isLoading) y error.
- * - Proveer los datos (tenantConfig), isLoading y error a todos sus componentes hijos.
+ * Recorre recursivamente un nodo del menú y extrae todos los platos.
+ * @param {object|array} menuNode - El nodo actual del menú a procesar.
+ * @returns {array} Un array plano de todos los platos encontrados.
  */
+const flattenAllDishes = (menuNode) => {
+  let dishes = [];
+  if (Array.isArray(menuNode)) {
+    // Si el nodo es un array (categoría simple), lo añadimos directamente.
+    dishes = dishes.concat(menuNode);
+  } else if (typeof menuNode === 'object' && menuNode !== null) {
+    // Si es un objeto, puede tener subcategorías o ser un objeto de sección.
+    if (Array.isArray(menuNode.dishes)) {
+      // Es un objeto de sección como { title: ..., dishes: [...] }
+      dishes = dishes.concat(menuNode.dishes);
+    } else {
+      // Es un contenedor de subcategorías, iteramos sobre sus claves.
+      for (const key in menuNode) {
+        dishes = dishes.concat(flattenAllDishes(menuNode[key]));
+      }
+    }
+  }
+  return dishes;
+};
+
+
 export const TenantProvider = ({ children }) => {
   const [tenantConfig, setTenantConfig] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Función autoejecutable para poder usar async/await dentro de useEffect.
     const loadConfig = async () => {
       try {
         const config = await fetchTenantConfig();
         
-        // Pre-procesamos el menú para facilitar búsquedas futuras.
-        // Creamos un array plano con todos los platos.
         if (config.menu) {
-          config.menu.allDishes = [
-            ...(config.menu.entrantes || []),
-            ...(config.menu.principales || []),
-            ...(config.menu.postres || []),
-            ...(config.menu.bebidas || [])
-          ];
+          // Usamos la nueva función para crear la lista plana de platos.
+          // Esto funciona con cualquier nivel de anidación.
+          config.menu.allDishes = flattenAllDishes(config.menu);
         }
 
         setTenantConfig(config);
@@ -45,9 +59,8 @@ export const TenantProvider = ({ children }) => {
     };
 
     loadConfig();
-  }, []); // El array vacío [] asegura que esto se ejecute solo una vez, al montar el componente.
+  }, []);
 
-  // Usamos useMemo para evitar que el objeto 'value' se cree en cada render, optimizando el rendimiento.
   const value = useMemo(() => ({
     tenantConfig,
     isLoading,
@@ -61,11 +74,6 @@ export const TenantProvider = ({ children }) => {
   );
 };
 
-/**
- * Hook personalizado para consumir el TenantContext de forma sencilla.
- * En lugar de usar useContext(TenantContext) en cada componente,
- * simplemente usaremos const { tenantConfig } = useTenant();
- */
 export const useTenant = () => {
   const context = useContext(TenantContext);
   if (context === undefined) {
