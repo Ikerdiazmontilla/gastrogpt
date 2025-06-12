@@ -2,8 +2,6 @@
 .cartaContainer {
   padding: 15px;
   background-color: var(--color-page-background);
-  border-radius: 0;
-  box-shadow: none;
   width: 100%;
   min-height: 100vh;
 }
@@ -54,17 +52,25 @@
   color: var(--color-text-secondary);
 }
 
+/* ==================================================================== */
+/* MODIFICADO: Estilos para la barra de pestañas pegajosa (sticky)      */
+/* ==================================================================== */
 .tabsList {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-page-background); /* Fondo para que no se transparente el contenido al hacer scroll */
+  padding: 8px 0;
   display: flex;
   gap: 8px;
-  margin-bottom: 20px;
+  margin: 0 -15px 20px -15px; /* Compensa el padding del contenedor para que ocupe todo el ancho */
+  padding-left: 15px;
+  padding-right: 15px;
   border-bottom: 1px solid var(--color-border);
-  padding-bottom: 0;
   overflow-x: auto;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 }
-
 .tabsList::-webkit-scrollbar {
   display: none;
 }
@@ -98,8 +104,26 @@
   font-weight: 600;
 }
 
-.tabContent {
-  padding-top: 15px;
+/* ==================================================================== */
+/* NUEVO: Estilos para las nuevas secciones del menú                    */
+/* ==================================================================== */
+.menuContent {
+  /* Contenedor principal del menú desplazable */
+}
+
+.menuSection {
+  padding-top: 1rem;
+  margin-bottom: 2rem;
+  scroll-margin-top: 70px; /* IMPORTANTE: Evita que el título de la sección quede oculto bajo la barra de pestañas al hacer scroll */
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .dishesGrid {
