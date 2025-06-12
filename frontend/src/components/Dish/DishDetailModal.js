@@ -65,7 +65,12 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
         <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.modalImage} />
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>{nombre}</h2>
-          <p className={styles.modalPrice}>{plato.precio.toFixed(2)}€</p>
+          {/* ================================================================ */}
+          {/* LÓGICA MODIFICADA: Mostrar el precio solo si es un número válido y mayor que 0 */}
+          {/* ================================================================ */}
+          {(plato.precio != null && plato.precio > 0) && (
+            <p className={styles.modalPrice}>{plato.precio.toFixed(2)}€</p>
+          )}
         </div>
         <p className={styles.modalDescription}>{descripcionLarga}</p>
 

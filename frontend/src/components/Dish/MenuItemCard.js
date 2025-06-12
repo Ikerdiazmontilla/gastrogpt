@@ -55,7 +55,12 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
       <div className={styles.cardContent}>
         <div className={styles.cardHeader}>
           <h3 className={styles.dishName}>{nombre}</h3>
-          <span className={styles.dishPrice}>{plato.precio.toFixed(2)}€</span>
+          {/* ================================================================ */}
+          {/* LÓGICA MODIFICADA: Mostrar el precio solo si es un número válido y mayor que 0 */}
+          {/* ================================================================ */}
+          {(plato.precio != null && plato.precio > 0) && (
+            <span className={styles.dishPrice}>{plato.precio.toFixed(2)}€</span>
+          )}
         </div>
         <p className={styles.dishDescription}>{descripcionCorta}</p>
         <div className={styles.allergenIcons}>
