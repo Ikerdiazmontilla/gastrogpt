@@ -1,34 +1,10 @@
 /* frontend/src/features/Chat/Chat.module.css */
-/* :root{ */
-  /* --main-color: rgb(38, 144, 214); */
-  /* --old-color:#4CAF50; */
-/* } */
-/* src/components/Chat/Chat.module.css */
-/* src/components/Chat/Chat.module.css */
 .chatContainer {
   display: flex;
   flex-direction: column;
   padding: 2vh 2vw;
   box-sizing: border-box;
 }
-
-
-/* This style is no longer used for the primary reset button,
-   but kept in case other buttons need similar full-width styling in the future.
-   If not, it can be removed. */
-/* .resetConversationButton {
-  padding: 10px 20px;
-  border: none;
-  background-color: var(--chat-reset-button-background-color);
-  color: var(--chat-reset-button-text-color);
-  cursor: pointer;
-  border-radius: 12px;
-  margin-top: 8px;
-}
-.resetConversationButton:disabled {
-  background-color: var(--chat-reset-button-disabled-background-color);
-  cursor: not-allowed;
-} */
 
 .messages {
   flex: 1;
@@ -46,52 +22,41 @@
   font-size: 1.1rem;
   padding: 15px;
   border-radius: 10px;
-  word-wrap: break-word; /* Ensures long text within the message bubble itself wraps */
-  line-height: 1.5; /* Added base line-height for message content */
+  word-wrap: break-word;
+  line-height: 1.5;
+  color: var(--color-text-primary); /* Texto principal para burbujas */
 }
 
-/* Styling for Markdown elements within bot messages */
 .message.bot strong, 
 .message.bot b {
-  font-weight: 430; /* Softer bold (semibold) */
+  font-weight: 430;
 }
 
-.message.bot em, 
-.message.bot i {
-  font-style: italic;
-}
-
-.message.bot p:last-of-type { /* Common to remove bottom margin from last p in a block */
+.message.bot p:last-of-type {
     margin-bottom: 0;
 }
 
-/* List styles - adjust padding and margins for subtlety */
 .messages ul, .messages ol {
-  /* padding-left: 2px; */
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 .messages ul { list-style-type: disc; }
 .messages ol { list-style-type: decimal; }
 .messages li {
-  margin-bottom: 0.15em; /* Minimal space between list items */
+  margin-bottom: 0.15em;
 }
 
-
 .message.bot blockquote {
-  border-left: 3px solid var(--palette-grey-300, #ccc); /* Subtle border */
+  border-left: 3px solid #ccc;
   padding-left: 0.8em;
   margin-left: 0;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-  color: var(--palette-grey-800, #666); /* Slightly muted text */
-  /* font-style: italic; Removed for less strong styling */
+  color: #666;
 }
-/* End of Markdown specific styles */
-
 
 .message.user {
-  background-color: var(--chat-message-user-background-color);
+  background-color: var(--chat-bubble-user-background);
   align-self: flex-end;
   border-top-right-radius: 4px;
   margin-left: auto;
@@ -105,13 +70,13 @@
   right: -9px;
   width: 0;
   height: 0;
-  border-left: 10px solid var(--chat-message-user-tip-border-color);
-  border-top: 10px solid var(--palette-transparent);
-  border-bottom: 10px solid var(--palette-transparent);
+  border-left: 10px solid var(--chat-bubble-user-background);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
 }
 
 .message.bot {
-  background-color: var(--chat-message-bot-background-color);
+  background-color: var(--chat-bubble-bot-background);
   align-self: flex-start;
   border-top-left-radius: 4px;
   margin-right: auto;
@@ -125,36 +90,36 @@
   left: -10px;
   width: 0;
   height: 0;
-  border-right: 14px solid var(--chat-message-bot-tip-border-color);
-  border-top: 10px solid var(--palette-transparent);
-  border-bottom: 10px solid var(--palette-transparent);
+  border-right: 14px solid var(--chat-bubble-bot-background);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
 }
 
 .message.bot.loading span {
   font-style: italic;
-  color: var(--chat-message-bot-loading-text-color);
+  color: #555555;
 }
 
 .message.system {
   font-style: italic;
-  color: var(--chat-message-system-text-color);
+  color: #666666;
   text-align: center;
-  background-color: var(--chat-message-system-background-color);
+  background-color: transparent;
   align-self: center;
   padding: 5px;
 }
 .message.system.error {
-  color: var(--chat-message-system-error-text-color);
+  color: red;
   font-weight: bold;
 }
 
 .inputWrapper{
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 3px 8px var(--palette-shadow-lg);
+  box-shadow: 0px 3px 8px var(--shadow-lg);
   border-radius: 14px;
   padding: 10px;
-  background-color: var(--chat-input-wrapper-background-color);
+  background-color: var(--color-surface-background);
   position:fixed;
   bottom: 1%;
   left: 5%;
@@ -163,15 +128,6 @@
   box-sizing: border-box;
   transition: bottom 0.2s ease-out, left 0.2s ease-out, width 0.2s ease-out, border-radius 0.2s ease-out, box-shadow 0.2s ease-out;
 }
-
-.inputWrapperKeyboardActive {
-  bottom: 0px;
-  left: 0px;
-  width: 100%;
-  border-radius: 0;
-  box-shadow: none;
-}
-
 
 .inputArea {
   display: flex;
@@ -183,7 +139,7 @@
 .chatTextarea {
   flex-grow: 1;
   padding: 10px;
-  border: 0.5px solid lightblue;
+  border: 0.5px solid lightblue; /* Borde original */
   outline: 1px solid transparent;
   border-radius: 8px;
   font-size: 1rem;
@@ -193,107 +149,103 @@
   overflow-y: auto;
   resize: none;
   box-sizing: border-box;
-  background-color: var(--palette-pure-white);
-  color: var(--palette-neutral-dark);
+  background-color: #FFFFFF;
+  color: var(--color-text-primary);
 }
 
 .chatTextarea:focus{
-  outline: 1px solid var(--palette-brand-blue);
+  outline: 1px solid var(--color-accent);
 }
 
 .chatTextarea::-webkit-scrollbar {
-  display: none;             /* Chrome, Safari, Edge */
+  display: none;
 }
 
 .sendMessage{
   border-radius: 8px;
   padding: 10px 15px;
-  background-color: var(--chat-send-message-button-background-color);
-  color: var(--palette-pure-white);
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
   border:none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: fit-content; /* Changed from fixed width to fit content */
-  height: calc(1rem * 1.4 + 20px); /* Match textarea line height + padding */
-  align-self: flex-end; /* Align with bottom of textarea if textarea grows */
+  min-width: fit-content;
+  height: calc(1rem * 1.4 + 20px);
+  align-self: flex-end;
 }
 .sendMessage:disabled {
-  background-color: var(--chat-send-message-button-disabled-background-color);
+  background-color: #cccccc;
   cursor: not-allowed;
 }
 
 .sendSvg {
   width: 15px;
   height: 15px;
-  fill: var(--chat-send-message-button-icon-fill-color);
+  fill: var(--color-accent-text);
   font-family: sans-serif;
 }
 
-/* Styles for new recording buttons */
 .micButton,
 .cancelRecordButton,
 .stopRecordButton {
   border-radius: 8px;
-  padding: 10px; /* Make them square-ish */
+  padding: 10px;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem; /* Emoji size */
-  width: calc(1rem * 1.4 + 20px); /* Match height of send button / textarea line */
+  font-size: 1.2rem;
+  width: calc(1rem * 1.4 + 20px);
   height: calc(1rem * 1.4 + 20px);
   align-self: flex-end;
-  background-color: var(--palette-grey-150); /* Default subtle background */
-  color: var(--palette-charcoal-medium);
+  background-color: #f0f0f0;
+  color: #333333;
 }
 
 .micButton:hover:not(:disabled),
 .cancelRecordButton:hover:not(:disabled),
 .stopRecordButton:hover:not(:disabled) {
-  background-color: var(--palette-grey-300);
+  background-color: #e0e0e0;
 }
 
 .micButton:disabled,
-.micButtonDisabled { /* Added class for explicit disabling style */
-  background-color: var(--palette-grey-100) !important; /* Ensure disabled style overrides */
-  color: var(--palette-grey-500) !important;
+.micButtonDisabled {
+  background-color: #f5f5f5 !important;
+  color: #aaaaaa !important;
   cursor: not-allowed !important;
-  opacity: 0.7; /* Visually indicate disabled state more strongly */
+  opacity: 0.7;
 }
 
 .microphoneSvg {
-  width: 18px; /* Adjust as needed */
-  height: 18px; /* Adjust as needed */
-  fill: var(--palette-charcoal-medium); /* Default icon color */
+  width: 18px;
+  height: 18px;
+  fill: #333333;
 }
 
 .micButton:disabled .microphoneSvg,
 .micButtonDisabled .microphoneSvg {
-  fill: var(--palette-grey-500); /* Disabled icon color */
+  fill: #aaaaaa;
 }
-
 
 .cancelRecordButton {
-  background-color: var(--palette-red-tag-spicy-background); /* Light red */
-  color: var(--palette-red-tag-spicy-text);
+  background-color: #ffebee;
+  color: #c62828;
 }
 .cancelRecordButton:hover:not(:disabled) {
-  background-color: var(--palette-red-tag-spicy-border); /* Darker red */
+  background-color: #ffcdd2;
 }
 
 .stopRecordButton {
-  background-color: var(--palette-green-tag-recommended-background); /* Light green */
-  color: var(--palette-green-tag-recommended-text);
+  background-color: #f6ffed;
+  color: #237804;
 }
 .stopRecordButton:hover:not(:disabled) {
-  background-color: var(--palette-green-tag-recommended-border); /* Darker green */
+  background-color: #b7eb8f;
 }
-/* End Styles for new recording buttons */
 
-/* Renamed from suggestionsContainer to bottomControlsContainer */
 .bottomControlsContainer {
   display: flex;
   align-items: center; 
@@ -303,7 +255,6 @@
   width: 100%;
 }
 
-/* New class for the fixed reset button */
 .resetIconChipFixed {
   display: flex;
   align-items: center;
@@ -312,35 +263,33 @@
   height: 36px; 
   padding: 0; 
   border: none; 
-  background-color: var(--chat-reset-button-background-color); 
-  color: var(--chat-reset-button-text-color); 
+  background-color: var(--color-accent); 
+  color: var(--color-accent-text); 
   border-radius: 8px; 
   font-size: 1.3rem; 
   cursor: pointer;
   transition: background-color 0.2s;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
 }
 
 .resetIconChipFixed:hover:not(:disabled) {
-  background-color: var(--palette-brand-blue-hover); 
+  background-color: #0056b3; 
 }
 
 .resetIconChipFixed:disabled {
-  background-color: var(--chat-reset-button-disabled-background-color);
-  color: var(--chat-suggestion-chip-disabled-text-color); 
+  background-color: #cccccc;
+  color: #666666; 
   cursor: not-allowed;
   opacity: 0.7;
 }
 
-/* New class for the scrollable container of suggestion chips */
 .suggestionsContainerScrollable {
   display: flex; 
   align-items: center;
   gap: 8px;
   overflow-x: auto;
   white-space: nowrap; 
-  flex-grow: 1; /* Allow this to take remaining space */
-  /* Hide scrollbar styles */
+  flex-grow: 1;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -348,94 +297,69 @@
   display: none;
 }
 
-
 .suggestionChip {
   padding: 6px 12px; 
   height: 36px; 
   box-sizing: border-box; 
   display: inline-flex; 
   align-items: center; 
-  border: 1px solid var(--chat-suggestion-chip-border-color);
-  background-color: var(--chat-suggestion-chip-background-color);
+  border: 1px solid #cccccc;
+  background-color: #f0f0f0;
   border-radius: 16px;
   font-size: 0.85rem;
   cursor: pointer;
-  color: var(--chat-suggestion-chip-text-color);
+  color: var(--color-text-secondary);
   transition: background-color 0.2s;
   flex-shrink: 0;
 }
 
-.suggestionChip:hover:not(:disabled) { /* Updated to not apply hover when disabled */
-  background-color: var(--chat-suggestion-chip-hover-background-color);
+.suggestionChip:hover:not(:disabled) {
+  background-color: #e0e0e0;
 }
 
 .suggestionChip:disabled {
-  background-color: var(--chat-suggestion-chip-disabled-background-color);
-  color: var(--chat-suggestion-chip-disabled-text-color);
+  background-color: #f5f5f5;
+  color: #aaaaaa;
   cursor: not-allowed;
-  border-color: var(--chat-suggestion-chip-disabled-border-color);
-  opacity: 0.7; /* Added opacity for disabled suggestion chips */
+  border-color: #ddd;
+  opacity: 0.7;
 }
 
-.dishDetailLink, .dishLink {
+.dishLink {
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
   font: inherit;
-  /* Properties to help break long link text */
-  overflow-wrap: break-word;
-  word-break: break-word; /* Softer break, try 'break-all' if this isn't enough */
-  -webkit-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
-  max-width: 100%; /* Don't exceed container width */
-  display: inline; /* Ensure they behave as inline elements */
-}
-
-.dishDetailLink { /* Typically used for [Dish Name (see dish)](dish:ID) if styled differently */
-  color: var(--chat-markdown-dish-detail-link-text-color);
-  text-decoration: none;
-  font-weight: 600; /* Matched bold style */
-}
-/* .dishDetailLink:hover { color: var(--chat-markdown-dish-detail-link-hover-text-color);  } */
-
-.dishLink { /* This is for the dish:ID buttons generated by markdownUtils */
-  color: var(--chat-markdown-dish-link-text-color);
-  text-decoration: underline;
-  font-weight: 400;
-  /* display: inline; -- Already inherited or set in the common group above */
-}
-.dishLink:hover {
-  color: var(--chat-markdown-dish-link-hover-text-color);
-  text-decoration: none;
-}
-
-/* General styling for standard <a> links (http/https) within bot messages */
-/* This targets <a> tags that are direct children of the markdown output (often <p>) inside a .message.bot */
-.message.bot a:not(button) { /* Target 'a' tags that are not our dishLink buttons */
-  color: var(--chat-markdown-dish-link-text-color); /* Or a distinct color for external links */
-  text-decoration: underline;
-  display: inline; /* Default for <a>, but good to ensure */
   overflow-wrap: break-word;
   word-break: break-word;
-  -webkit-hyphens: auto;
-  -ms-hyphens: auto;
   hyphens: auto;
-  max-width: 100%; /* Prevent overflow */
+  max-width: 100%;
+  display: inline;
+  color: var(--color-accent);
+  text-decoration: underline;
+  font-weight: 400;
 }
-.message.bot a:not(button):hover {
-  color: var(--chat-markdown-dish-link-hover-text-color);
+.dishLink:hover {
+  color: #0056b3;
   text-decoration: none;
 }
 
+.message.bot a:not(button) {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+.message.bot a:not(button):hover {
+  color: #0056b3;
+  text-decoration: none;
+}
 
 .limitNotification {
   text-align: center;
   padding: 10px;
-  background-color: var(--chat-notification-limit-background-color);
-  color: var(--chat-notification-limit-text-color);
-  border: 1px solid var(--chat-notification-limit-border-color);
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
   border-radius: 4px;
   margin: 10px 0;
 }

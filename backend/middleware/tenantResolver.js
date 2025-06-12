@@ -15,15 +15,16 @@ async function tenantResolver(req, res, next) {
 
   try {
     // ================================================================
-    // CORRECCIÓN CLAVE: La sentencia SELECT ahora incluye TODAS las
-    // columnas de theming y configuración de la tabla tenants.
+    // REFACTORIZACIÓN: La consulta ahora selecciona las nuevas columnas
+    // de tema semánticas (theme_color_*) en lugar de las antiguas.
     // ================================================================
     const query = `
       SELECT
         id, subdomain, schema_name, restaurant_name, is_active,
         logo_url, menu_has_images, border_radius_px,
-        color_primary, color_secondary, color_background,
-        color_text_default, color_card_background
+        theme_color_accent, theme_color_accent_text, theme_color_page_bg,
+        theme_color_surface_bg, theme_color_text_primary, theme_color_text_secondary,
+        theme_color_border, theme_chat_bubble_user_bg, theme_chat_bubble_bot_bg
       FROM public.tenants
       WHERE subdomain = $1
     `;

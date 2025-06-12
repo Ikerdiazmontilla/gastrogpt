@@ -9,7 +9,6 @@ async function getTenantConfig(req, res) {
   const client = req.dbClient;
   const tenant = req.tenant; 
 
-
   try {
     // Hacemos las consultas en paralelo para más eficiencia.
     const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
@@ -32,17 +31,14 @@ async function getTenantConfig(req, res) {
       };
       const newKey = keyMap[row.key];
       if (newKey) {
-        // Parseamos los valores que son numéricos o JSON para no enviarlos como string.
         if (row.key === 'suggestion_chips_text') {
             try {
-                // Convierte el string '["texto1", "texto2"]' a un array de verdad.
                 acc[newKey] = JSON.parse(row.value);
             } catch {
-                acc[newKey] = []; // Fallback a un array vacío si el JSON está malformado.
+                acc[newKey] = [];
             }
         } else if (row.key === 'suggestion_chips_count') {
-            // Convierte el string '4' a un número.
-            acc[newKey] = parseInt(row.value, 10) || 4; // Fallback a 4 si no es un número.
+            acc[newKey] = parseInt(row.value, 10) || 4;
         } else {
             acc[newKey] = row.value;
         }
@@ -50,16 +46,27 @@ async function getTenantConfig(req, res) {
       return acc;
     }, {});
     
-    // Ensamblamos el objeto 'theme' a partir de las columnas de la tabla 'tenants'.
+    // ================================================================
+    // REFACTORIZACIÓN: Se construye el objeto 'theme' con la nueva
+    // estructura semántica anidada, leyendo las columnas 'theme_*'
+    // desde el objeto `tenant` proporcionado por el middleware.
+    // ================================================================
     const theme = {
-      logoUrl: tenant.logo_url, // CORRECCIÓN AQUÍ: Esta línea faltaba.
+      logoUrl: tenant.logo_url,
       menuHasImages: tenant.menu_has_images,
-      borderRadius: `${tenant.border_radius_px || 8}px`,
+      borderRadius: tenant.border_radius_px ? `${tenant.border_radius_px}px` : null, // Enviar null si no está definido
       colors: {
-        primary: tenant.color_primary || '#0071E3',
-        background: tenant.color_background || '#FAFAFC',
-        textDefault: tenant.color_text_default || '#333333',
-        cardBackground: tenant.color_card_background || '#FFFFFF'
+        accent: tenant.theme_color_accent,
+        accentText: tenant.theme_color_accent_text,
+        pageBackground: tenant.theme_color_page_bg,
+        surfaceBackground: tenant.theme_color_surface_bg,
+        textPrimary: tenant.theme_color_text_primary,
+        textSecondary: tenant.theme_color_text_secondary,
+        border: tenant.theme_color_border,
+        chat: { // Anidado para mejor organización
+          userBubbleBackground: tenant.theme_chat_bubble_user_bg,
+          botBubbleBackground: tenant.theme_chat_bubble_bot_bg,
+        }
       }
     };
 

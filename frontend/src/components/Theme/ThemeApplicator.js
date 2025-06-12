@@ -1,5 +1,4 @@
 // frontend/src/components/Theme/ThemeApplicator.js
-
 import { useEffect } from 'react';
 import { useTenant } from '../../context/TenantContext';
 
@@ -12,18 +11,35 @@ const ThemeApplicator = () => {
   const theme = tenantConfig?.theme;
 
   useEffect(() => {
+    // Si no hay tema, no hacemos nada. Los valores por defecto de App.css se usarán.
+    if (!theme) return;
+
     // Seleccionamos el elemento raíz del DOM (la etiqueta <html>).
     const root = document.documentElement;
 
-    // Aplicamos los valores recibidos desde la API.
-    // Si algún valor no está definido en la BBDD para el inquilino,
-    // se usa un valor por defecto (fallback) para evitar que la UI se rompa.
-    root.style.setProperty('--border-radius-global', theme?.borderRadius || '8px');
-    root.style.setProperty('--primary-color', theme?.colors?.primary || '#0071E3');
-    root.style.setProperty('--background-color', theme?.colors?.background || '#FAFAFC');
-    root.style.setProperty('--text-default-color', theme?.colors?.textDefault || '#333333');
-    root.style.setProperty('--card-background-color', theme?.colors?.cardBackground || '#FFFFFF');
-    
+    // Mapeo directo de la nueva estructura de theme a las variables CSS.
+    // Se comprueba la existencia de cada valor antes de aplicarlo.
+    const colors = theme.colors;
+    if (colors) {
+        if (colors.accent) root.style.setProperty('--color-accent', colors.accent);
+        if (colors.accentText) root.style.setProperty('--color-accent-text', colors.accentText);
+        if (colors.pageBackground) root.style.setProperty('--color-page-background', colors.pageBackground);
+        if (colors.surfaceBackground) root.style.setProperty('--color-surface-background', colors.surfaceBackground);
+        if (colors.textPrimary) root.style.setProperty('--color-text-primary', colors.textPrimary);
+        if (colors.textSecondary) root.style.setProperty('--color-text-secondary', colors.textSecondary);
+        if (colors.border) root.style.setProperty('--color-border', colors.border);
+        
+        // Colores del chat anidados
+        if (colors.chat) {
+            if (colors.chat.userBubbleBackground) root.style.setProperty('--chat-bubble-user-background', colors.chat.userBubbleBackground);
+            if (colors.chat.botBubbleBackground) root.style.setProperty('--chat-bubble-bot-background', colors.chat.botBubbleBackground);
+        }
+    }
+
+    if (theme.borderRadius) {
+      root.style.setProperty('--border-radius', theme.borderRadius);
+    }
+
   }, [theme]); // Se vuelve a ejecutar si el objeto 'theme' cambia.
 
   // Este componente no renderiza nada en la pantalla.

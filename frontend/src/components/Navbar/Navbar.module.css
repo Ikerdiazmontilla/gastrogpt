@@ -1,18 +1,12 @@
 /* src/components/Navbar/Navbar.module.css */
-/* :root{
-  --main-color: rgb(43, 147, 216);
-  --old-color:#4CAF50;
-} */
-
-
-/* src/components/Navbar/Navbar.module.css */
 .navbar {
   display: flex;
   flex-direction: column;
+  background-color: var(--color-surface-background);
 }
 
-.navbar h2 a { /* This targets 'a' within 'h2' within '.navbar' - it's fine */
-  color: var(--navbar-logo-link-text-color); /* Updated */
+.navbar h2 a {
+  color: var(--color-text-primary);
 }
 
 .navbar h2{
@@ -24,77 +18,55 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  /* background-color: var(--navbar-color); */
-  /* background-color: var(--main-color); */
-  /* border-radius: 0px 0px 10px 10px; */
   align-items: center;
   padding: 10px 20px;
-  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
 }
 
 .selectLanguage{
   padding: 8px 12px;
-  border: none; /* Updated */
+  border: none;
   border-radius: 4px;
-  background-color: transparent ;
+  background-color: transparent;
+  color: var(--color-text-primary);
 }
 .selectLanguage:focus{
-  outline: 1px solid var(--navbar-language-select-focus-outline-color);
+  outline: 1px solid var(--color-border);
 }
 
 .secondNavGroup{
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   width: 100%;
-  /* padding: 10px 5px; */
-  /* border-radius: 10px; */
   align-self: center;
   border-radius: 10px;
-
 }
 
-.navLink { /* Was nav-link */
-  /* color: white; */
+.navLink {
   font-weight: 500;
   font-size: 1rem;
   text-decoration: none;
   padding: 10px 5px;
-  color: var(--navbar-link-text-color); /* Updated, for the initial 'black' */
-  /* border: 2px solid var(--main-color); */
-  /* background-color: rgb(241, 239, 239); */
-  background-color: var(--navbar-link-background-color); /* Updated */
+  color: var(--color-text-secondary); /* Texto secundario para tabs inactivas */
+  background-color: rgb(241, 239, 239); /* Mantenemos el fondo original para tabs inactivas */
   flex: 1;
   text-align: center;
   transition: background-color 0.3s ease-in;
-  /* margin: 0 2px; Add small margin between links */
 }
 
 .navLinkActive {
-  /* background-color: rgb(175, 171, 171); */
-  background-color: var(--navbar-link-active-background-color); /* Updated */
-  color: var(--navbar-link-text-color-active);
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
   border-radius: 6px;
 }
-/* .navLink:hover {
-  text-decoration: underline;
-} */
 
 .svg{
   width: 25px;
   height: 25px;
-  fill: var(--navbar-svg-icon-fill-color); /* Updated */
-  color: var(--navbar-svg-icon-text-color); /* Updated */
+  fill: var(--color-text-primary);
+  color: var(--color-text-primary);
   display: inline;
   align-self: center;
 }
-
-/* .svg.questionnaire{
-  width: 30px;
-  height: 30px;
-  position: relative;
-  top: 2px;
-} */
 
 .logoImage{
   max-height: 30px;

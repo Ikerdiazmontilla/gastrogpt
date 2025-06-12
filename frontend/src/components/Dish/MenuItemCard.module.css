@@ -1,15 +1,13 @@
 /* src/components/Dish/MenuItemCard.module.css */
-/* src/components/MenuItemCard/MenuItemCard.module.css */
 .card {
-  background-color: var(--menu-item-card-background-color); /* Updated */
-  border-radius: 8px;
-  box-shadow: 0 2px 5px var(--menu-item-card-shadow-color); /* Updated */
+  background-color: var(--color-surface-background);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 5px var(--shadow-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   width: 100%;
 }
-
 
 .imageContainer {
   position: relative;
@@ -23,49 +21,49 @@
   object-fit: cover;
 }
 
-.tagsOverlayContainer { /* Renamed from tagsOverlay */
+.tagsOverlayContainer {
   position: absolute;
   top: 8px;
   left: 8px;
   display: flex;
-  flex-direction: column; /* Stack tags vertically */
-  gap: 5px; /* Space between tags */
+  flex-direction: column;
+  gap: 5px;
 }
 
-.tagOverlay { /* Base style for all overlay tags */
+.tagOverlay {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--menu-item-card-overlay-tag-text-color); /* Updated */
-  display: inline-flex; /* Align icon and text */
+  color: #FFFFFF;
+  display: inline-flex;
   align-items: center;
 }
 
 .tagOverlayIcon {
-  margin-right: 4px; /* Space between icon and text */
-  font-size: 0.85rem; /* Slightly larger icon if needed */
+  margin-right: 4px;
+  font-size: 0.85rem;
 }
 
-/* Specific styles for overlay tags */
+/* Colores de etiquetas overlay fijos */
 .popularTagOverlay {
-  background-color: var(--menu-item-card-overlay-tag-popular-background-color); /* Updated */
+  background-color: #007bff;
 }
 
 .recommendedTagOverlay {
-  background-color: var(--menu-item-card-overlay-tag-recommended-background-color); /* Updated */
+  background-color: #28a745;
 }
 
 .veganTagOverlay {
-  background-color: var(--menu-item-card-overlay-tag-vegan-background-color); /* Updated */
+  background-color: #1e8a4f;
 }
 
 .vegetarianTagOverlay {
-  background-color: var(--menu-item-card-overlay-tag-vegetarian-background-color); /* Updated */
+  background-color: #f0ad4e;
 }
 
 .spicyTagOverlay {
-  background-color: var(--menu-item-card-overlay-tag-spicy-background-color); /* Updated */
+  background-color: #d9534f;
 }
 
 .cardContent {
@@ -85,7 +83,7 @@
 .dishName {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--menu-item-card-dish-name-text-color); /* Updated */
+  color: var(--color-text-primary);
   margin: 0;
   flex: 1;
   margin-right: 6px;
@@ -94,13 +92,13 @@
 .dishPrice {
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--menu-item-card-dish-price-text-color); /* Updated */
+  color: var(--color-accent);
   white-space: nowrap;
 }
 
 .dishDescription {
   font-size: 0.8rem;
-  color: var(--menu-item-card-dish-description-text-color); /* Updated */
+  color: var(--color-text-secondary);
   margin-bottom: 10px;
   flex-grow: 1;
   line-height: 1.4;
@@ -117,7 +115,7 @@
   font-size: 1rem;
   padding: 2px;
   border-radius: 3px;
-  background-color: var(--menu-item-card-allergen-icon-background-color); /* Updated */
+  background-color: #f0f0f0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -126,8 +124,8 @@
 }
 
 .viewMoreButton {
-  background-color: var(--menu-item-card-view-more-button-background-color); /* Updated */
-  color: var(--menu-item-card-view-more-button-text-color); /* Updated */
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
   border: none;
   padding: 10px 12px;
   border-radius: 4px;
@@ -140,11 +138,9 @@
 }
 
 .viewMoreButton:hover {
-  background-color: var(--menu-item-card-view-more-button-hover-background-color); /* Updated */
+  background-color: #0056b3;
 }
 
 .cardNoImage {
-  /* Cuando no hay imagen, no necesitamos una altura fija para el contenedor de imagen. */
-  /* Todo el espacio se dedica al contenido. */
-  border: 1px solid #eee; /* Un borde sutil puede quedar bien */
+  border: 1px solid #eee;
 }

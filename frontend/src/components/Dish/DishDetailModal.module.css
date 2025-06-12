@@ -1,13 +1,11 @@
 /* src/components/Dish/DishDetailModal.module.css */
-/* <file path="gastrogpts/src/components/Dish/DishDetailModal.module.css"> */
-/* src/components/DishDetailModal/DishDetailModal.module.css */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--dish-modal-overlay-background-color); /* Updated */
+  background-color: rgba(0, 0, 0, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,12 +13,11 @@
   padding: 15px;
 }
 
-
 .modalContent {
-  background-color: var(--dish-modal-content-background-color); /* Updated */
+  background-color: var(--color-surface-background);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px var(--dish-modal-content-shadow-color); /* Updated */
+  border-radius: var(--border-radius);
+  box-shadow: 0 5px 15px var(--shadow-lg);
   position: relative;
   width: 100%;
   max-width: 500px;
@@ -37,7 +34,7 @@
   border: none;
   font-size: 1.4rem;
   font-weight: 500;
-  color: var(--dish-modal-close-button-text-color);
+  color: #FFFFFF;
   cursor: pointer;
   line-height: 1;
   padding: 3px;
@@ -65,19 +62,19 @@
 .modalTitle {
   font-size: 1.6rem;
   font-weight: 700;
-  color: var(--dish-modal-title-text-color); /* Updated */
+  color: var(--color-text-primary);
   margin-bottom: 5px;
 }
 
 .modalPrice {
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--dish-modal-price-text-color); /* Updated */
+  color: var(--color-accent);
 }
 
 .modalDescription {
   font-size: 0.9rem;
-  color: var(--dish-modal-description-text-color); /* Updated */
+  color: var(--color-text-secondary);
   line-height: 1.5;
   margin-bottom: 15px;
 }
@@ -89,9 +86,9 @@
 .sectionTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--dish-modal-section-title-text-color); /* Updated */
+  color: var(--color-text-primary);
   margin-bottom: 8px;
-  border-bottom: 1px solid var(--dish-modal-section-title-border-color); /* Updated */
+  border-bottom: 1px solid var(--color-border);
   padding-bottom: 4px;
 }
 
@@ -101,65 +98,64 @@
   gap: 6px;
 }
 
-.detailTagPill { /* Renamed from detailTag */
+.detailTagPill {
   padding: 5px 10px;
-  border-radius: 15px; /* Pill shape */
+  border-radius: 15px;
   font-size: 0.8rem;
   font-weight: 500;
-  background-color: var(--detail-tag-pill-background-color); /* Updated */
-  color: var(--detail-tag-pill-text-color); /* Updated */
-  border: 1px solid var(--detail-tag-pill-border-color); /* Updated */
+  background-color: #e9ecef;
+  color: #495057;
+  border: 1px solid #dee2e6;
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
 .detailTagIcon {
-  font-size: 0.9em; /* Slightly smaller than text */
+  font-size: 0.9em;
 }
 
-/* Pill Tag specific styles from getEtiquetaClass */
+/* Colores de etiquetas en píldora fijos */
 .tagPopularPill {
-  background-color: var(--detail-tag-pill-popular-background-color); /* Updated */
-  border-color: var(--detail-tag-pill-popular-border-color); /* Updated */
-  color: var(--detail-tag-pill-popular-text-color); /* Updated */
+  background-color: #e6f7ff;
+  border-color: #91d5ff;
+  color: #0050b3;
 }
 .tagRecomendadoPill {
-  background-color: var(--detail-tag-pill-recommended-background-color); /* Updated */
-  border-color: var(--detail-tag-pill-recommended-border-color); /* Updated */
-  color: var(--detail-tag-pill-recommended-text-color); /* Updated */
+  background-color: #f6ffed;
+  border-color: #b7eb8f;
+  color: #237804;
 }
 .tagVeganoPill {
-  background-color: var(--detail-tag-pill-vegan-background-color); /* Updated */
-  border-color: var(--detail-tag-pill-vegan-border-color); /* Updated */
-  color: var(--detail-tag-pill-vegan-text-color); /* Updated */
+  background-color: #f0fff0;
+  border-color: #a7d7a7;
+  color: #1e8a4f;
 }
 .tagVegetarianoPill {
-  background-color: var(--detail-tag-pill-vegetarian-background-color); /* Updated */
-  border-color: var(--detail-tag-pill-vegetarian-border-color); /* Updated */
-  color: var(--detail-tag-pill-vegetarian-text-color); /* Updated */
+  background-color: #fff8e1;
+  border-color: #ffecb3;
+  color: #f57c00;
 }
 .tagSinGlutenPill {
-  background-color: var(--detail-tag-pill-gluten-free-background-color); /* Updated */
-  border-color: var(--detail-tag-pill-gluten-free-border-color); /* Updated */
-  color: var(--detail-tag-pill-gluten-free-text-color); /* Updated */
+  background-color: #fffbe6;
+  border-color: #ffe58f;
+  color: #ad6800;
 }
-.tagPicanteSuavePill { /* Style for the new spicy pill tag */
-  background-color: var(--detail-tag-pill-spicy-mild-background-color); /* Updated */
-  border-color: var(--detail-tag-pill-spicy-mild-border-color); /* Updated */
-  color: var(--detail-tag-pill-spicy-mild-text-color); /* Updated */
+.tagPicanteSuavePill {
+  background-color: #ffebee;
+  border-color: #ffcdd2;
+  color: #c62828;
 }
 .tagDefaultPill {
-  background-color: var(--detail-tag-pill-default-background-color); /* Updated */
-  border-color: var(--detail-tag-pill-default-border-color); /* Updated */
-  color: var(--detail-tag-pill-default-text-color); /* Updated */
+  background-color: #f5f5f5;
+  border-color: #d9d9d9;
+  color: #595959;
 }
 
-/* Styles for "Pairs Well With" section */
 .pairedItemsContainer {
   display: flex;
-  flex-direction: column; /* Stack paired items vertically */
-  gap: 8px; /* Space between paired items */
+  flex-direction: column;
+  gap: 8px;
 }
 
 .pairedItem {
@@ -170,7 +166,7 @@
 
 .pairedItemLabel {
   font-weight: 500;
-  color: var(--dish-modal-paired-item-label-text-color); /* Updated */
+  color: #555555;
   margin-right: 5px;
 }
 
@@ -178,15 +174,15 @@
   background: none;
   border: none;
   padding: 0;
-  color: var(--dish-modal-paired-item-link-text-color); /* Updated */
+  color: var(--color-accent);
   text-decoration: underline;
   cursor: pointer;
-  font-size: 0.9rem; /* Ensure font size matches surrounding text or is slightly larger */
-  font-weight: 600; /* Make it stand out */
-  text-align: left; /* Align text to the left */
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
 }
 
 .pairedItemLink:hover {
-  color: var(--dish-modal-paired-item-link-hover-text-color); /* Updated */
+  color: #0056b3;
   text-decoration: none;
 }
