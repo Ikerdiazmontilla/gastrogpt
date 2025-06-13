@@ -9,7 +9,7 @@
 
 module.exports = {
   // --- Información Básica del Inquilino ---
-  subdomain: 'la_taurina',
+  subdomain: 'la-taurina',
   restaurantName: 'La Taurina',
 
   // --- Configuración de Theming y Estilo ---
@@ -346,9 +346,9 @@ Los datos completos de cada plato están disponibles en
       "orderId": 3,
       "title": { "es": "Postres", "en": "Desserts" },
       "dishes": [
-        { "id": 40, "nombre": { "es": "Tarta de queso casera" }, "descripcionCorta": { "es": "Cremosa y horneada al estilo tradicional." }, "descripcionLarga": { "es": "Tarta de queso con base crujiente y textura suave, ideal para amantes del queso." }, "precio": null, "alergenos": ["huevo", "leche", "gluten"], "etiquetas": ["popular"] },
-        { "id": 41, "nombre": { "es": "Flan" }, "descripcionCorta": { "es": "Un clásico suave y lleno de sabor." }, "descripcionLarga": { "es": "Flan de huevo casero con textura sedosa y caramelo dorado." }, "precio": null, "alergenos": ["huevo", "leche"], "etiquetas": ["nuevo"] },
-        { "id": 42, "nombre": { "es": "Helados artesanales" }, "descripcionCorta": { "es": "Sabores clásicos para todos los gustos." }, "descripcionLarga": { "es": "Helados artesanales de vainilla, chocolate o fresa." }, "precio": null, "alergenos": ["leche", "huevo", "gluten", "frutos secos"], "etiquetas": ["popular"] },
+        { "id": 40, "nombre": { "es": "Tarta de queso casera" }, "descripcionCorta": { "es": "Cremosa y horneada al estilo tradicional." }, "descripcionLarga": { "es": "Tarta de queso con base crujiente y textura suave, ideal para amantes del queso." }, "precio": null, "alergenos": ["huevo", "lácteos", "gluten"], "etiquetas": ["popular"] },
+        { "id": 41, "nombre": { "es": "Flan" }, "descripcionCorta": { "es": "Un clásico suave y lleno de sabor." }, "descripcionLarga": { "es": "Flan de huevo casero con textura sedosa y caramelo dorado." }, "precio": null, "alergenos": ["huevo", "lácteos"], "etiquetas": ["nuevo"] },
+        { "id": 42, "nombre": { "es": "Helados artesanales" }, "descripcionCorta": { "es": "Sabores clásicos para todos los gustos." }, "descripcionLarga": { "es": "Helados artesanales de vainilla, chocolate o fresa." }, "precio": null, "alergenos": ["lácteos", "huevo", "gluten", "frutos secos"], "etiquetas": ["popular"] },
         { "id": 43, "nombre": { "es": "Fruta de temporada" }, "descripcionCorta": { "es": "Fresca, ligera y natural." }, "descripcionLarga": { "es": "Selección de fruta fresca servida lista para disfrutar." }, "precio": null, "alergenos": [], "etiquetas": [] }
       ]
     }

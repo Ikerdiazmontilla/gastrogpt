@@ -57,7 +57,7 @@
 /* ==================================================================== */
 .tabsList {
   position: sticky;
-  top: 0;
+  /* El valor 'top' ahora es gestionado por JavaScript para ser dinámico */
   z-index: 10;
   background-color: var(--color-page-background); /* Fondo para que no se transparente el contenido al hacer scroll */
   padding: 8px 0;
@@ -114,7 +114,7 @@
 .menuSection {
   padding-top: 1rem;
   margin-bottom: 2rem;
-  scroll-margin-top: 70px; /* IMPORTANTE: Evita que el título de la sección quede oculto bajo la barra de pestañas al hacer scroll */
+  /* El valor 'scroll-margin-top' ahora se gestiona por JavaScript */
 }
 
 .sectionTitle {
