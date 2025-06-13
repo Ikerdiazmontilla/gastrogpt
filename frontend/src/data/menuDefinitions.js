@@ -16,7 +16,8 @@ export const alergenosDetails = {
   mostaza: { icon: "🌭", nombre: "Mostaza", nombre_en: "Mustard" },
   sésamo: { icon: "🌱", nombre: "Sésamo", nombre_en: "Sesame" },
   apio: { icon: "🌿", nombre: "Apio", nombre_en: "Celery" },
-  default: { icon: "⚠️", nombre: "Otro", nombre_en: "Other" },
+  // CORRECCIÓN: Se usa el emoji 'ℹ️' como icono por defecto.
+  default: { icon: "ℹ️", nombre: "Otro", nombre_en: "Other" },
 };
 
 // Definiciones para etiquetas/tags
