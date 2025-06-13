@@ -72,6 +72,13 @@
   color: var(--color-accent);
 }
 
+/* NUEVO: Estilo para el texto "por persona" en el modal */
+.perPersonText {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
 .modalDescription {
   font-size: 0.9rem;
   color: var(--color-text-secondary);

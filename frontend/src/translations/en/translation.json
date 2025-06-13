@@ -25,12 +25,14 @@
     "noResults": "No dishes found matching your search in this category."
   },
   "menuItemCard": {
-    "viewMore": "View More"
+    "viewMore": "View More",
+    "perPersonShort": "/ p.p."
   },
   "dishDetailModal": {
     "allergens": "Allergens:",
     "tags": "Tags:",
-    "pairsWellWith": "Pairs well with:"
+    "pairsWellWith": "Pairs well with:",
+    "perPersonLong": "per person"
   },
   "chat": {
     "loadingHistory": "Loading history...",

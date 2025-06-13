@@ -25,12 +25,14 @@
     "noResults": "No se encontraron platos que coincidan con tu búsqueda en esta categoría."
   },
   "menuItemCard": {
-    "viewMore": "Ver más"
+    "viewMore": "Ver más",
+    "perPersonShort": "/ p.p."
   },
   "dishDetailModal": {
     "allergens": "Alérgenos:",
     "tags": "Etiquetas:",
-    "pairsWellWith": "Combina bien con:"
+    "pairsWellWith": "Combina bien con:",
+    "perPersonLong": "por persona"
   },
   "chat": {
     "loadingHistory": "Cargando historial...",

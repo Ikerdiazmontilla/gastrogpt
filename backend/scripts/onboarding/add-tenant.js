@@ -23,7 +23,10 @@ const tenantConfig = require(configPath);
 // --- El resto del script es igual, pero ahora usa el config importado ---
 
 (async () => {
-  const schemaName = `tenant_${tenantConfig.subdomain}`;
+  // MODIFICACIÓN: Convertir subdominio con guiones a un nombre de schema válido con guiones bajos.
+  const schemaFriendlySubdomain = tenantConfig.subdomain.replace(/-/g, '_');
+  const schemaName = `tenant_${schemaFriendlySubdomain}`;
+  
   const client = await pool.connect();
 
   try {
@@ -42,10 +45,21 @@ const tenantConfig = require(configPath);
     `;
     const theme = tenantConfig.theme;
     const tenantValues = [
-      tenantConfig.subdomain, schemaName, tenantConfig.restaurantName, theme.logoUrl, theme.menuHasImages, theme.borderRadiusPx,
-      theme.colors.accent, theme.colors.accentText, theme.colors.pageBackground, theme.colors.surfaceBackground,
-      theme.colors.textPrimary, theme.colors.textSecondary, theme.colors.border,
-      theme.colors.chat.userBubbleBackground, theme.colors.chat.botBubbleBackground
+      tenantConfig.subdomain, // El subdominio original (ej: "la-taurina")
+      schemaName,             // El nombre del schema convertido (ej: "tenant_la_taurina")
+      tenantConfig.restaurantName, 
+      theme.logoUrl, 
+      theme.menuHasImages, 
+      theme.borderRadiusPx,
+      theme.colors.accent, 
+      theme.colors.accentText, 
+      theme.colors.pageBackground, 
+      theme.colors.surfaceBackground,
+      theme.colors.textPrimary, 
+      theme.colors.textSecondary, 
+      theme.colors.border,
+      theme.colors.chat.userBubbleBackground, 
+      theme.colors.chat.botBubbleBackground
     ];
     await client.query(insertTenantQuery, tenantValues);
     console.log(`✅ PASO 1/4: Inquilino '${tenantConfig.restaurantName}' registrado en public.tenants.`);

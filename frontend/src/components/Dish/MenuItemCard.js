@@ -56,14 +56,18 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
         <div className={styles.cardHeader}>
           <h3 className={styles.dishName}>{nombre}</h3>
           {(plato.precio != null && plato.precio > 0) && (
-            <span className={styles.dishPrice}>{plato.precio.toFixed(2)}€</span>
+            <span className={styles.dishPrice}>
+              {plato.precio.toFixed(2)}€
+              {plato.precio_por_persona && (
+                <span className={styles.perPersonIndicator}>
+                  {' '}{t('menuItemCard.perPersonShort')}
+                </span>
+              )}
+            </span>
           )}
         </div>
         <p className={styles.dishDescription}>{descripcionCorta}</p>
 
-        {/* ================================================================ */}
-        {/* LÓGICA MODIFICADA: La estructura cambia según si hay imágenes     */}
-        {/* ================================================================ */}
         {menuHasImages ? (
           <>
             <div className={styles.allergenIcons}>
@@ -78,7 +82,6 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
             </button>
           </>
         ) : (
-          // Contenedor 'footer' para la versión sin imágenes
           <div className={styles.cardFooter}>
             <div className={styles.allergenIcons}>
               {plato.alergenos && plato.alergenos.map((alergenoKey) => (

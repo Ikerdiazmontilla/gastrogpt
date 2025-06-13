@@ -1,5 +1,5 @@
 // frontend/src/components/Dish/DishDetailModal.js
-import React from 'react'; // Eliminado useEffect
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './DishDetailModal.module.css';
 import {
@@ -12,16 +12,12 @@ import {
 } from '../../utils/menuUtils';
 import { useTenant } from '../../context/TenantContext';
 
-// Eliminado: MODAL_HISTORY_STATE_KEY
-
 const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   const { tenantConfig } = useTenant();
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
-
-  // ELIMINADO: El useEffect que manejaba window.history se ha movido a los componentes padre.
 
   if (!plato) return null;
 
@@ -57,7 +53,14 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>{nombre}</h2>
           {(plato.precio != null && plato.precio > 0) && (
-            <p className={styles.modalPrice}>{plato.precio.toFixed(2)}€</p>
+            <p className={styles.modalPrice}>
+              {plato.precio.toFixed(2)}€
+              {plato.precio_por_persona && (
+                <span className={styles.perPersonText}>
+                  {' '}{t('dishDetailModal.perPersonLong')}
+                </span>
+              )}
+            </p>
           )}
         </div>
         <p className={styles.modalDescription}>{descripcionLarga}</p>

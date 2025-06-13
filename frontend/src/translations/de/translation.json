@@ -25,12 +25,14 @@
     "noResults": "In dieser Kategorie wurden keine Gerichte gefunden, die Ihrer Suche entsprechen."
   },
   "menuItemCard": {
-    "viewMore": "Mehr sehen"
+    "viewMore": "Mehr sehen",
+    "perPersonShort": "/ p.P."
   },
   "dishDetailModal": {
     "allergens": "Allergene:",
     "tags": "Etiketten:",
-    "pairsWellWith": "Passt gut zu:"
+    "pairsWellWith": "Passt gut zu:",
+    "perPersonLong": "pro Person"
   },
   "chat": {
     "loadingHistory": "Verlauf wird geladen...",

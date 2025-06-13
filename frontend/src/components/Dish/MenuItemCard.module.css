@@ -83,6 +83,13 @@
   white-space: nowrap;
 }
 
+/* NUEVO: Estilo para el indicador "p.p." */
+.perPersonIndicator {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
 .dishDescription {
   font-size: 0.8rem;
   color: var(--color-text-secondary);
