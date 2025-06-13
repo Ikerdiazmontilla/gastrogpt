@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const pool = require('../../db/pool'); // Ruta actualizada para salir de /onboarding
 
+//npm run add-tenant --prefix backend -- nuevo-restaurante.config.js
+
 // --- PASO 1: Obtener el nombre del archivo de configuración desde la terminal ---
 const configFile = process.argv[2];
 if (!configFile) {

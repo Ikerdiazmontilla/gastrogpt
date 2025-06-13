@@ -1,6 +1,8 @@
 const readline = require('readline');
 const pool = require('../../db/pool');
 
+// npm run delete-tenant --prefix backend -- <subdominio>
+
 // Interfaz para leer la entrada del usuario desde la consola
 const rl = readline.createInterface({
   input: process.stdin,

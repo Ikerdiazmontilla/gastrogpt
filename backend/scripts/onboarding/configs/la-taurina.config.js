@@ -14,7 +14,7 @@ module.exports = {
 
   // --- Configuración de Theming y Estilo ---
   theme: {
-    logoUrl: '/assets/logos/la-taurina.png', // Deberás crear y subir este logo a frontend/public/logos/
+    logoUrl: '/assets/logos/la_taurina.png', // Deberás crear y subir este logo a frontend/public/logos/
     menuHasImages: false, // CLAVE: No se mostrarán imágenes en el menú.
     borderRadiusPx: 4,    // Un borde más definido, menos redondeado, para un estilo más tradicional.
     colors: {
@@ -36,18 +36,46 @@ module.exports = {
   // --- Configuración del Chatbot y la UI ---
   chatConfig: {
     welcomeMessage: {
-      es: "### 🇪🇸 **Bienvenido al Asador La Taurina.**\nDonde la tradición y la brasa se encuentran. ¿Listo para una experiencia auténtica?",
-      en: "### 🇬🇧 **Welcome to Asador La Taurina.**\nWhere tradition meets the grill. Ready for an authentic experience?",
-      fr: "### 🇫🇷 **Bienvenue à l'Asador La Taurina.**\nOù la tradition rencontre le gril. Prêt pour une expérience authentique?",
-      de: "### 🇩🇪 **Willkommen im Asador La Taurina.**\nWo Tradition auf den Grill trifft. Bereit für ein authentisches Erlebnis?",
+      "es": "¡Hola! Bienvenido a La Taurina. Habla conmigo para decidir lo que quieres para comer. ¿Te parece si empezamos por las bebidas?",
+      "en": "Hello! Welcome to La Taurina. Chat with me to decide what you want to eat. Shall we start with the drinks?",
+      "fr": "Bonjour ! Bienvenue à La Taurina. Discutez avec moi pour décider ce que vous voulez manger. On commence par les boissons ?",
+      "de": "Hallo! Willkommen bei La Taurina. Chatten Sie mit mir, um zu entscheiden, was Sie essen möchten. Sollen wir mit den Getränken beginnen?"
     },
     suggestionChips: {
-      es: ["Nuestras carnes", "Vinos de la Ribera", "Entrantes para compartir", "El plato del día"],
-      en: ["Our meats", "Ribera wines", "Starters to share", "Dish of the day"],
-      fr: ["Nos viandes", "Vins de Ribera", "Entrées à partager", "Plat du jour"],
-      de: ["Unsere Fleischgerichte", "Ribera-Weine", "Vorspeisen zum Teilen", "Tagesgericht"],
+      es: [
+        "¿Qué tipos de paella tenéis?",
+        "¿Qué entrante gusta más?",
+        "¿Tenéis opciones vegetarianas o veganas?",
+        "¿Puedo ver la carta completa?",
+        "¿Qué postres me recomiendas?",
+        "¿Qué me recomiendas si es mi primera vez?"
+      ],
+      en: [
+        "What types of paella do you have?",
+        "Which starter is most popular?",
+        "Do you have vegetarian or vegan options?",
+        "Can I see the full menu?",
+        "What desserts do you recommend?",
+        "What do you recommend if it's my first time?"
+      ],
+      fr: [
+        "Quels types de paella avez-vous ?",
+        "Quelle entrée est la plus appréciée ?",
+        "Avez-vous des options végétariennes ou véganes ?",
+        "Puis-je voir le menu complet ?",
+        "Quels desserts me recommandez-vous ?",
+        "Que me recommandez-vous si c'est ma première fois ?"
+      ],
+      de: [
+        "Welche Arten von Paella haben Sie?",
+        "Welche Vorspeise ist am beliebtesten?",
+        "Haben Sie vegetarische oder vegane Optionen?",
+        "Kann ich die vollständige Speisekarte sehen?",
+        "Welche Desserts empfehlen Sie mir?",
+        "Was empfehlen Sie mir, wenn ich zum ersten Mal hier bin?"
+      ]
     },
-    suggestionChipsCount: 4,
+    suggestionChipsCount: 6
   },
 
   // --- Configuración del Modelo de Lenguaje (LLM) ---
