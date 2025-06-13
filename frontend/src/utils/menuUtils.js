@@ -1,18 +1,25 @@
 // src/utils/menuUtils.js
-import { alergenosDetails, etiquetasDetails } from '../data/translations';
+// CORRECCIÓN: Se importa desde el nuevo archivo de definiciones, no desde los JSON de traducción.
+import { alergenosDetails, etiquetasDetails } from '../data/menuDefinitions.js';
 
 /**
  * Gets translated text for a dish property (name, description).
- * @param {object|string} dishProperty - The property object (e.g., { es: "Hola", en: "Hello" }) or a string.
- * @param {string} lang - The current language ('Español' or 'English').
+ * REFACTORIZADO: Ahora usa inglés como fallback para cualquier idioma que no sea español.
+ * @param {object|string} dishProperty - The property object (e.g., { es: "Hola", en: "Hello" }).
+ * @param {string} lang - The current language code ('es', 'en', 'fr', 'de').
  * @returns {string} The translated text.
  */
 export const getTranslatedDishText = (dishProperty, lang) => {
   if (typeof dishProperty === 'object' && dishProperty !== null) {
-    const langKey = lang === 'English' ? 'en' : 'es';
-    return dishProperty[langKey] || dishProperty['es']; // Fallback to Spanish
+    if (lang === 'es') {
+      // Si el idioma es español, usar 'es'. Si no existe, usar 'en' como fallback.
+      return dishProperty.es || dishProperty.en || '';
+    } else {
+      // Para cualquier otro idioma (en, fr, de), usar 'en'. Si no existe, usar 'es' como fallback.
+      return dishProperty.en || dishProperty.es || '';
+    }
   }
-  return String(dishProperty); // Ensure it's a string if not an object
+  return String(dishProperty || ''); // Fallback para datos malformados o nulos
 };
 
 /**
@@ -26,42 +33,49 @@ export const getAlergenoIcon = (alergenoKey) => {
 
 /**
  * Gets the translated name for a given alergeno key.
+ * REFACTORIZADO: Sigue la misma lógica de fallback que getTranslatedDishText.
  * @param {string} alergenoKey - The key of the alergeno.
- * @param {string} lang - The current language ('Español' or 'English').
+ * @param {string} lang - The current language code.
  * @returns {string} The translated name.
  */
-export const getAlergenoNombre = (alergenoKey, lang = 'Español') => {
+export const getAlergenoNombre = (alergenoKey, lang = 'es') => {
   const details = alergenosDetails[alergenoKey] || alergenosDetails.default;
-  const langKey = lang === 'English' ? 'nombre_en' : 'nombre';
-  return details[langKey] || details.nombre; // Fallback to Spanish name
+  if (lang === 'es') {
+    return details.nombre || details.nombre_en || '';
+  }
+  return details.nombre_en || details.nombre || '';
 };
 
 /**
  * Gets UI data (label, icon) for a given etiqueta key.
+ * REFACTORIZADO: Sigue la misma lógica de fallback.
  * @param {string} etiquetaKey - The key of the etiqueta.
- * @param {string} lang - The current language ('Español' or 'English').
+ * @param {string} lang - The current language code.
  * @returns {object} An object with { label, icon }.
  */
-export const getEtiquetaUIData = (etiquetaKey, lang = 'Español') => {
+export const getEtiquetaUIData = (etiquetaKey, lang = 'es') => {
   const detail = etiquetasDetails[etiquetaKey];
   if (!detail) return { label: etiquetaKey, icon: null };
 
-  const langKey = lang === 'English' ? 'label_en' : 'label';
+  let label;
+  if (lang === 'es') {
+    label = detail.label || detail.label_en || etiquetaKey;
+  } else {
+    label = detail.label_en || detail.label || etiquetaKey;
+  }
+  
   return {
-    label: detail[langKey] || detail.label,
+    label: label,
     icon: detail.icon || null
   };
 };
 
+
 /**
  * Gets the CSS class name for an etiqueta, for styling pills.
- * @param {string} etiquetaKey - The key of the etiqueta.
- * @param {object} styles - The CSS module styles object (passed from the component).
- * @returns {string} The CSS class name.
+ * (Sin cambios en esta función)
  */
 export const getEtiquetaClass = (etiquetaKey, styles = {}) => {
-  // This function is primarily for the pill-style tags in the modal.
-  // It requires the component's 'styles' object to correctly map to CSS module class names.
   switch (etiquetaKey) {
     case "popular":
       return styles.tagPopularPill || '';
@@ -82,10 +96,8 @@ export const getEtiquetaClass = (etiquetaKey, styles = {}) => {
 
 
 /**
- * MODIFICADO: Encuentra un plato por su ID dentro de un array de platos proporcionado.
- * @param {string|number} id - El ID del plato.
- * @param {Array<object>} allDishes - El array plano de todos los platos del menú del inquilino.
- * @returns {object|null} El objeto del plato o null si no se encuentra.
+ * Finds a dish by its ID within a provided array of dishes.
+ * (Sin cambios en esta función)
  */
 export const findDishById = (id, allDishes) => {
   if (id === undefined || id === null || !allDishes || allDishes.length === 0) return null;

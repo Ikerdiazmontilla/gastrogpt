@@ -37,7 +37,7 @@ module.exports = {
   chatConfig: {
     welcomeMessage: {
       "es": "¡Hola! Bienvenido a La Taurina. Habla conmigo para decidir lo que quieres para comer. ¿Te parece si empezamos por las bebidas?",
-      "en": "Hello! Welcome to La Taurina. Chat with me to decide what you want to eat. Shall we start with the drinks?",
+      "en": "Hi! Welcome to La Taurina. Chat with me to decide what you want to eat. Shall we start with the drinks?",
       "fr": "Bonjour ! Bienvenue à La Taurina. Discutez avec moi pour décider ce que vous voulez manger. On commence par les boissons ?",
       "de": "Hallo! Willkommen bei La Taurina. Chatten Sie mit mir, um zu entscheiden, was Sie essen möchten. Sollen wir mit den Getränken beginnen?"
     },
@@ -249,7 +249,7 @@ Los datos completos de cada plato están disponibles en
   // --- Menú Completo del Restaurante (sin propiedad 'imagen') ---
   menu: {
     "bebidas": {
-      "orderId": 1,
+      "orderId": 4,
       "title": { "es": "Bebidas", "en": "Drinks" },
       "dishes": [
         { "id": 44, "nombre": { "es": "Cerveza Mahou o San Miguel" }, "descripcionCorta": { "es": "Cerveza española, refrescante y con cuerpo suave." }, "precio": null, "alergenos": [], "etiquetas": [] },
@@ -268,7 +268,7 @@ Los datos completos de cada plato están disponibles en
       ]
     },
     "entrantes": {
-      "orderId": 2,
+      "orderId": 1,
       "title": { "es": "Entrantes", "en": "Appetizers" },
       "dishes": [
         { "id": 1, "nombre": { "es": "Sopa castellana con picadillo de jamón y huevo hilado" }, "descripcionCorta": { "es": "Un clásico reconfortante para empezar con sabor auténtico." }, "descripcionLarga": { "es": "Caldo tradicional de ajo y pimentón, con virutas de jamón serrano y delicadas hebras de huevo cocido." }, "precio": 11.50, "alergenos": ["huevo", "sulfitos"], "etiquetas": ["económico"] },
@@ -293,7 +293,7 @@ Los datos completos de cada plato están disponibles en
       ]
     },
     "platos_principales": {
-      "orderId": 3,
+      "orderId": 2,
       "title": { "es": "Platos Principales", "en": "Main Courses" },
       "subCategories": {
         "guisos": {
@@ -343,7 +343,7 @@ Los datos completos de cada plato están disponibles en
       }
     },
     "postres": {
-      "orderId": 4,
+      "orderId": 3,
       "title": { "es": "Postres", "en": "Desserts" },
       "dishes": [
         { "id": 40, "nombre": { "es": "Tarta de queso casera" }, "descripcionCorta": { "es": "Cremosa y horneada al estilo tradicional." }, "descripcionLarga": { "es": "Tarta de queso con base crujiente y textura suave, ideal para amantes del queso." }, "precio": null, "alergenos": ["huevo", "leche", "gluten"], "etiquetas": ["popular"] },
