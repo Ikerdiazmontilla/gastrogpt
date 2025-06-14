@@ -121,7 +121,7 @@ body {
   position: sticky;
   top: 0px;
   background-color: var(--color-surface-background);
-  z-index: 9;
+  z-index: 11; /* Elevado para estar sobre las pestañas */
   box-shadow: 0 2px 4px var(--shadow-md);
 }
  
@@ -139,4 +139,19 @@ body {
   color: red;
   padding: 20px;
   text-align: center;
+}
+
+/* NUEVO: Estilo para la capa de selección de idioma */
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; /* Debe estar por encima de todo */
+  padding: 15px;
 }
