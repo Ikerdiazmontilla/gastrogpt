@@ -59,7 +59,6 @@ async function handleChatMessage(req, res) {
 
     // --- Carga dinámica de configuración ---
     const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
-    // MODIFICADO: Buscamos las claves para el LLM.
     const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('llm_instructions', 'llm_first_message')");
     
     const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
@@ -68,15 +67,19 @@ async function handleChatMessage(req, res) {
     const configs = configResult.rows.reduce((acc, row) => ({ ...acc, [row.key]: row.value }), {});
     
     const systemInstructionsTemplate = configs.llm_instructions;
-    // MODIFICADO: Este es ahora el primer mensaje para el CONTEXTO del LLM.
     const firstBotMessage = configs.llm_first_message; 
 
     if (!menuData || !systemInstructionsTemplate || !firstBotMessage) {
         throw new Error('Configuración esencial para el LLM (menú, instrucciones, primer mensaje) no encontrada en la BBDD.');
     }
     
+    // ===================================================================
+    // MODIFICADO: Se reemplaza el marcador de posición confuso por uno claro.
+    // Ahora busca "__MENU_JSON_PLACEHOLDER__" en la plantilla y lo reemplaza
+    // con el JSON del menú.
+    // ===================================================================
     const systemInstructions = systemInstructionsTemplate.replace(
-        '${JSON.stringify(menu, null, 2)}',
+        '__MENU_JSON_PLACEHOLDER__',
         JSON.stringify(menuData, null, 2)
     );
     // --- Fin carga dinámica ---
