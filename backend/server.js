@@ -23,7 +23,7 @@ const corsOptions = {
 
     const allowedPatterns = [
       /^http:\/\/localhost:\d+$/,     // Regex: localhost con cualquier puerto
-      /^http:\/\/demo\.localhost:\d+$/, // Regex: demo.localhost con cualquier puerto
+      /^http:\/\/.*\.localhost:\d+$/, // Regex: demo.localhost con cualquier puerto
       'https://gastroai.net',
       /https:\/\/.*\.gastroai\.net$/,           // String: Tu dominio estático exacto
     ];
