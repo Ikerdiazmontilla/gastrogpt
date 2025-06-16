@@ -36,7 +36,9 @@ module.exports = {
   // --- Configuración del Chatbot y la UI ---
   chatConfig: {
     welcomeMessage: {
-      "es": "¡Hola! Bienvenido a La Taurina. Habla conmigo para decidir lo que quieres para comer. ¿Te parece si empezamos por las bebidas?¿Que te apetece para beber?",
+      "es": `¡Hola! Bienvenido a La Taurina. Habla conmigo para decidir lo que quieres para comer. 
+      ¿Te parece si empezamos por las bebidas?
+      ¿Que te apetece para beber?`,
       "en": "Hi! Welcome to La Taurina. Talk to me to decide what you'd like to eat. Shall we start with drinks? What would you like to drink?",
       "fr": "Bonjour ! Bienvenue à La Taurina. Parle avec moi pour choisir ce que tu veux manger. On commence par les boissons ? Qu’est-ce que tu as envie de boire ?",
       "de": "Hallo! Willkommen bei La Taurina. Sprich mit mir, um zu entscheiden, was du essen möchtest. Sollen wir mit den Getränken anfangen? Worauf hast du Lust zu trinken?"

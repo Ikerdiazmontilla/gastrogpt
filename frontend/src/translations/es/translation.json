@@ -1,6 +1,6 @@
 {
   "app": {
-    "loading": "Cargando restaurante...",
+    "loading": "Cargando menú...",
     "error": "Error: {{error}}"
   },
   "navbar": {
