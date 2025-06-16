@@ -212,7 +212,8 @@ module.exports = {
                 ],
                 "etiquetas": [
                     "recomendado"
-                ]
+                ],
+                "pairsWith": { "appetizer": 1 }
             },
             {
                 "id": 19,
@@ -234,7 +235,8 @@ module.exports = {
                 "etiquetas": [
                     "recomendado",
                     "sin_gluten"
-                ]
+                ],
+                "pairsWith": { "appetizer": 4 }
             },
             {
                 "id": 16,
@@ -257,7 +259,8 @@ module.exports = {
                 ],
                 "etiquetas": [
                     "popular"
-                ]
+                ],
+                "pairsWith": { "appetizer": 3 }
             },
             {
                 "id": 18,
@@ -278,7 +281,8 @@ module.exports = {
                 "alergenos": [
                     "gluten"
                 ],
-                "etiquetas": []
+                "etiquetas": [],
+                "pairsWith": { "appetizer": 1 }
             },
             {
                 "id": 17,
@@ -297,7 +301,8 @@ module.exports = {
                 },
                 "precio": 2,
                 "alergenos": [],
-                "etiquetas": []
+                "etiquetas": [],
+                "pairsWith": { "appetizer": 2 }
             }
         ]
     },
@@ -330,7 +335,8 @@ module.exports = {
                 ],
                 "etiquetas": [
                     "recomendado"
-                ]
+                ],
+                "pairsWith": { "main": 6 }
             },
             {
                 "id": 2,
@@ -354,7 +360,8 @@ module.exports = {
                 ],
                 "etiquetas": [
                     "vegetariano"
-                ]
+                ],
+                "pairsWith": { "main": 7 }
             },
             {
                 "id": 3,
@@ -377,7 +384,8 @@ module.exports = {
                     "vegano",
                     "popular",
                     "sin_gluten"
-                ]
+                ],
+                "pairsWith": { "main": 5 }
             },
             {
                 "id": 4,
@@ -400,7 +408,8 @@ module.exports = {
                 ],
                 "etiquetas": [
                     "vegetariano"
-                ]
+                ],
+                "pairsWith": { "main": 14 }
             }
         ]
     },
@@ -434,7 +443,8 @@ module.exports = {
                 "etiquetas": [
                     "recomendado",
                     "vegano"
-                ]
+                ],
+                "pairsWith": { "appetizer": 3, "dessert": 13 }
             },
             {
                 "id": 6,
@@ -457,7 +467,8 @@ module.exports = {
                 ],
                 "etiquetas": [
                     "popular"
-                ]
+                ],
+                "pairsWith": { "appetizer": 1, "dessert": 12 }
             },
             {
                 "id": 5,
@@ -479,7 +490,8 @@ module.exports = {
                     "pescado",
                     "soja"
                 ],
-                "etiquetas": []
+                "etiquetas": [],
+                "pairsWith": { "appetizer": 4, "dessert": 11 }
             },
             {
                 "id": 7,
@@ -503,7 +515,8 @@ module.exports = {
                 ],
                 "etiquetas": [
                     "vegetariano"
-                ]
+                ],
+                "pairsWith": { "appetizer": 2, "dessert": 10 }
             },
             {
                 "id": 14,
@@ -526,7 +539,8 @@ module.exports = {
                 ],
                 "etiquetas": [
                     "vegetariano"
-                ]
+                ],
+                "pairsWith": { "appetizer": 2, "dessert": 10 }
             }
         ]
     },

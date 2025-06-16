@@ -228,249 +228,253 @@ __MENU_JSON_PLACEHOLDER__
   // --- Menú Completo del Restaurante (sin propiedad 'imagen') ---
   menu: {
     "bebidas": {
-    "orderId": 4,
-    "title": {
-      "es": "Bebidas",
-      "en": "Drinks"
+      "orderId": 4,
+      "title": {
+        "es": "Bebidas",
+        "en": "Drinks"
+      },
+      "dishes": [
+        {
+          "id": 44,
+          "nombre": {
+            "es": "Cerveza Mahou o San Miguel",
+            "en": "Mahou or San Miguel beer"
+          },
+          "descripcionCorta": {
+            "es": "Cerveza española, refrescante y con cuerpo suave.",
+            "en": "Spanish beer, refreshing with a smooth body."
+          },
+          "descripcionLarga": {
+            "es": "Cerveza española, refrescante y con cuerpo suave.",
+            "en": "Spanish beer, refreshing with a smooth body."
+          },
+          "precio": null,
+          "pairsWith": { "appetizer": 10 },
+          "alergenos": [],
+          "etiquetas": []
+        },
+        {
+          "id": 45,
+          "nombre": {
+            "es": "Cerveza sin alcohol",
+            "en": "Non-alcoholic beer"
+          },
+          "descripcionCorta": {
+            "es": "Todo el sabor, sin alcohol.",
+            "en": "All the flavour, zero alcohol."
+          },
+          "descripcionLarga": {
+            "es": "Todo el sabor, sin alcohol.",
+            "en": "All the flavour, zero alcohol."
+          },
+          "precio": null,
+          "alergenos": [],
+          "etiquetas": []
+        },
+        {
+          "id": 46,
+          "nombre": {
+            "es": "Vino tinto",
+            "en": "Red wine"
+          },
+          "descripcionCorta": {
+            "es": "Con cuerpo y aromas intensos. Rioja, Ribera del Duero...",
+            "en": "Full-bodied with intense aromas. Rioja, Ribera del Duero..."
+          },
+          "descripcionLarga": {
+            "es": "Con cuerpo y aromas intensos. Rioja, Ribera del Duero...",
+            "en": "Full-bodied with intense aromas. Rioja, Ribera del Duero..."
+          },
+          "precio": null,
+          "pairsWith": { "appetizer": 15 },
+          "alergenos": ["sulfitos"],
+          "etiquetas": []
+        },
+        {
+          "id": 47,
+          "nombre": {
+            "es": "Vino blanco",
+            "en": "White wine"
+          },
+          "descripcionCorta": {
+            "es": "Ligero, afrutado y fresco. Verdejo, Albariño, Rueda...",
+            "en": "Light, fruity and fresh. Verdejo, Albariño, Rueda..."
+          },
+          "descripcionLarga": {
+            "es": "Ligero, afrutado y fresco. Verdejo, Albariño, Rueda...",
+            "en": "Light, fruity and fresh. Verdejo, Albariño, Rueda..."
+          },
+          "precio": null,
+          "pairsWith": { "appetizer": 9 },
+          "alergenos": ["sulfitos"],
+          "etiquetas": []
+        },
+        {
+          "id": 48,
+          "nombre": {
+            "es": "Fanta de naranja / limón",
+            "en": "Orange / lemon Fanta"
+          },
+          "descripcionCorta": {
+            "es": "Refrescos cítricos dulces y burbujeantes.",
+            "en": "Sweet, bubbly citrus soft drinks."
+          },
+          "descripcionLarga": {
+            "es": "Refrescos cítricos dulces y burbujeantes.",
+            "en": "Sweet, bubbly citrus soft drinks."
+          },
+          "precio": null,
+          "alergenos": [],
+          "etiquetas": []
+        },
+        {
+          "id": 49,
+          "nombre": {
+            "es": "Coca-Cola",
+            "en": "Coca-Cola"
+          },
+          "descripcionCorta": {
+            "es": "El clásico refresco de cola.",
+            "en": "The classic cola soft drink."
+          },
+          "descripcionLarga": {
+            "es": "El clásico refresco de cola.",
+            "en": "The classic cola soft drink."
+          },
+          "precio": null,
+          "alergenos": [],
+          "etiquetas": []
+        },
+        {
+          "id": 50,
+          "nombre": {
+            "es": "Aquarius de limón / naranja",
+            "en": "Lemon / orange Aquarius"
+          },
+          "descripcionCorta": {
+            "es": "Ideal para hidratarse y recuperar energías.",
+            "en": "Ideal to hydrate and recover energy."
+          },
+          "descripcionLarga": {
+            "es": "Ideal para hidratarse y recuperar energías.",
+            "en": "Ideal to hydrate and recover energy."
+          },
+          "precio": null,
+          "alergenos": [],
+          "etiquetas": []
+        },
+        {
+          "id": 51,
+          "nombre": {
+            "es": "Tónica",
+            "en": "Tonic water"
+          },
+          "descripcionCorta": {
+            "es": "Refresco amargo y burbujeante.",
+            "en": "Bitter, bubbly soft drink."
+          },
+          "descripcionLarga": {
+            "es": "Refresco amargo y burbujeante.",
+            "en": "Bitter, bubbly soft drink."
+          },
+          "precio": null,
+          "alergenos": [],
+          "etiquetas": []
+        },
+        {
+          "id": 52,
+          "nombre": {
+            "es": "Agua",
+            "en": "Water"
+          },
+          "descripcionCorta": {
+            "es": "La bebida más esencial y saludable.",
+            "en": "The most essential and healthy drink."
+          },
+          "descripcionLarga": {
+            "es": "La bebida más esencial y saludable.",
+            "en": "The most essential and healthy drink."
+          },
+          "precio": null,
+          "alergenos": [],
+          "etiquetas": []
+        },
+        {
+          "id": 53,
+          "nombre": {
+            "es": "Agua con gas",
+            "en": "Sparkling water"
+          },
+          "descripcionCorta": {
+            "es": "Agua burbujeante para un extra de frescor.",
+            "en": "Bubbly water for extra freshness."
+          },
+          "descripcionLarga": {
+            "es": "Agua burbujeante para un extra de frescor.",
+            "en": "Bubbly water for extra freshness."
+          },
+          "precio": null,
+          "alergenos": [],
+          "etiquetas": []
+        },
+        {
+          "id": 54,
+          "nombre": {
+            "es": "Café (varios tipos)",
+            "en": "Coffee (various types)"
+          },
+          "descripcionCorta": {
+            "es": "Aromático, intenso y estimulante.",
+            "en": "Aromatic, intense and stimulating."
+          },
+          "descripcionLarga": {
+            "es": "Aromático, intenso y estimulante.",
+            "en": "Aromatic, intense and stimulating."
+          },
+          "precio": null,
+          "alergenos": [],
+          "etiquetas": []
+        },
+        {
+          "id": 55,
+          "nombre": {
+            "es": "Sangría",
+            "en": "Sangria"
+          },
+          "descripcionCorta": {
+            "es": "Bebida típica con vino y frutas, refrescante y festiva.",
+            "en": "Typical wine-and-fruit drink, refreshing and festive."
+          },
+          "descripcionLarga": {
+            "es": "Bebida típica con vino y frutas, refrescante y festiva.",
+            "en": "Typical wine-and-fruit drink, refreshing and festive."
+          },
+          "precio": null,
+          "pairsWith": { "appetizer": 12 },
+          "alergenos": ["sulfitos"],
+          "etiquetas": []
+        },
+        {
+          "id": 56,
+          "nombre": {
+            "es": "Tinto de verano",
+            "en": "Tinto de verano (red-wine spritzer)"
+          },
+          "descripcionCorta": {
+            "es": "Vino tinto con gaseosa o limón, ligero y refrescante.",
+            "en": "Red wine with soda or lemon, light and refreshing."
+          },
+          "descripcionLarga": {
+            "es": "Vino tinto con gaseosa o limón, ligero y refrescante.",
+            "en": "Red wine with soda or lemon, light and refreshing."
+          },
+          "precio": null,
+          "pairsWith": { "appetizer": 8 },
+          "alergenos": ["sulfitos"],
+          "etiquetas": []
+        }
+      ]
     },
-    "dishes": [
-      {
-        "id": 44,
-        "nombre": {
-          "es": "Cerveza Mahou o San Miguel",
-          "en": "Mahou or San Miguel beer"
-        },
-        "descripcionCorta": {
-          "es": "Cerveza española, refrescante y con cuerpo suave.",
-          "en": "Spanish beer, refreshing with a smooth body."
-        },
-        "descripcionLarga": {
-          "es": "Cerveza española, refrescante y con cuerpo suave.",
-          "en": "Spanish beer, refreshing with a smooth body."
-        },
-        "precio": null,
-        "alergenos": [],
-        "etiquetas": []
-      },
-      {
-        "id": 45,
-        "nombre": {
-          "es": "Cerveza sin alcohol",
-          "en": "Non-alcoholic beer"
-        },
-        "descripcionCorta": {
-          "es": "Todo el sabor, sin alcohol.",
-          "en": "All the flavour, zero alcohol."
-        },
-        "descripcionLarga": {
-          "es": "Todo el sabor, sin alcohol.",
-          "en": "All the flavour, zero alcohol."
-        },
-        "precio": null,
-        "alergenos": [],
-        "etiquetas": []
-      },
-      {
-        "id": 46,
-        "nombre": {
-          "es": "Vino tinto",
-          "en": "Red wine"
-        },
-        "descripcionCorta": {
-          "es": "Con cuerpo y aromas intensos. Rioja, Ribera del Duero...",
-          "en": "Full-bodied with intense aromas. Rioja, Ribera del Duero..."
-        },
-        "descripcionLarga": {
-          "es": "Con cuerpo y aromas intensos. Rioja, Ribera del Duero...",
-          "en": "Full-bodied with intense aromas. Rioja, Ribera del Duero..."
-        },
-        "precio": null,
-        "alergenos": ["sulfitos"],
-        "etiquetas": []
-      },
-      {
-        "id": 47,
-        "nombre": {
-          "es": "Vino blanco",
-          "en": "White wine"
-        },
-        "descripcionCorta": {
-          "es": "Ligero, afrutado y fresco. Verdejo, Albariño, Rueda...",
-          "en": "Light, fruity and fresh. Verdejo, Albariño, Rueda..."
-        },
-        "descripcionLarga": {
-          "es": "Ligero, afrutado y fresco. Verdejo, Albariño, Rueda...",
-          "en": "Light, fruity and fresh. Verdejo, Albariño, Rueda..."
-        },
-        "precio": null,
-        "alergenos": ["sulfitos"],
-        "etiquetas": []
-      },
-      {
-        "id": 48,
-        "nombre": {
-          "es": "Fanta de naranja / limón",
-          "en": "Orange / lemon Fanta"
-        },
-        "descripcionCorta": {
-          "es": "Refrescos cítricos dulces y burbujeantes.",
-          "en": "Sweet, bubbly citrus soft drinks."
-        },
-        "descripcionLarga": {
-          "es": "Refrescos cítricos dulces y burbujeantes.",
-          "en": "Sweet, bubbly citrus soft drinks."
-        },
-        "precio": null,
-        "alergenos": [],
-        "etiquetas": []
-      },
-      {
-        "id": 49,
-        "nombre": {
-          "es": "Coca-Cola",
-          "en": "Coca-Cola"
-        },
-        "descripcionCorta": {
-          "es": "El clásico refresco de cola.",
-          "en": "The classic cola soft drink."
-        },
-        "descripcionLarga": {
-          "es": "El clásico refresco de cola.",
-          "en": "The classic cola soft drink."
-        },
-        "precio": null,
-        "alergenos": [],
-        "etiquetas": []
-      },
-      {
-        "id": 50,
-        "nombre": {
-          "es": "Aquarius de limón / naranja",
-          "en": "Lemon / orange Aquarius"
-        },
-        "descripcionCorta": {
-          "es": "Ideal para hidratarse y recuperar energías.",
-          "en": "Ideal to hydrate and recover energy."
-        },
-        "descripcionLarga": {
-          "es": "Ideal para hidratarse y recuperar energías.",
-          "en": "Ideal to hydrate and recover energy."
-        },
-        "precio": null,
-        "alergenos": [],
-        "etiquetas": []
-      },
-      {
-        "id": 51,
-        "nombre": {
-          "es": "Tónica",
-          "en": "Tonic water"
-        },
-        "descripcionCorta": {
-          "es": "Refresco amargo y burbujeante.",
-          "en": "Bitter, bubbly soft drink."
-        },
-        "descripcionLarga": {
-          "es": "Refresco amargo y burbujeante.",
-          "en": "Bitter, bubbly soft drink."
-        },
-        "precio": null,
-        "alergenos": [],
-        "etiquetas": []
-      },
-      {
-        "id": 52,
-        "nombre": {
-          "es": "Agua",
-          "en": "Water"
-        },
-        "descripcionCorta": {
-          "es": "La bebida más esencial y saludable.",
-          "en": "The most essential and healthy drink."
-        },
-        "descripcionLarga": {
-          "es": "La bebida más esencial y saludable.",
-          "en": "The most essential and healthy drink."
-        },
-        "precio": null,
-        "alergenos": [],
-        "etiquetas": []
-      },
-      {
-        "id": 53,
-        "nombre": {
-          "es": "Agua con gas",
-          "en": "Sparkling water"
-        },
-        "descripcionCorta": {
-          "es": "Agua burbujeante para un extra de frescor.",
-          "en": "Bubbly water for extra freshness."
-        },
-        "descripcionLarga": {
-          "es": "Agua burbujeante para un extra de frescor.",
-          "en": "Bubbly water for extra freshness."
-        },
-        "precio": null,
-        "alergenos": [],
-        "etiquetas": []
-      },
-      {
-        "id": 54,
-        "nombre": {
-          "es": "Café (varios tipos)",
-          "en": "Coffee (various types)"
-        },
-        "descripcionCorta": {
-          "es": "Aromático, intenso y estimulante.",
-          "en": "Aromatic, intense and stimulating."
-        },
-        "descripcionLarga": {
-          "es": "Aromático, intenso y estimulante.",
-          "en": "Aromatic, intense and stimulating."
-        },
-        "precio": null,
-        "alergenos": [],
-        "etiquetas": []
-      },
-      {
-        "id": 55,
-        "nombre": {
-          "es": "Sangría",
-          "en": "Sangria"
-        },
-        "descripcionCorta": {
-          "es": "Bebida típica con vino y frutas, refrescante y festiva.",
-          "en": "Typical wine-and-fruit drink, refreshing and festive."
-        },
-        "descripcionLarga": {
-          "es": "Bebida típica con vino y frutas, refrescante y festiva.",
-          "en": "Typical wine-and-fruit drink, refreshing and festive."
-        },
-        "precio": null,
-        "alergenos": ["sulfitos"],
-        "etiquetas": []
-      },
-      {
-        "id": 56,
-        "nombre": {
-          "es": "Tinto de verano",
-          "en": "Tinto de verano (red-wine spritzer)"
-        },
-        "descripcionCorta": {
-          "es": "Vino tinto con gaseosa o limón, ligero y refrescante.",
-          "en": "Red wine with soda or lemon, light and refreshing."
-        },
-        "descripcionLarga": {
-          "es": "Vino tinto con gaseosa o limón, ligero y refrescante.",
-          "en": "Red wine with soda or lemon, light and refreshing."
-        },
-        "precio": null,
-        "alergenos": ["sulfitos"],
-        "etiquetas": []
-      }
-    ]
-  },
-  
     "entrantes": {
       "orderId": 1,
       "title": { "es": "Entrantes", "en": "Appetizers" },
@@ -489,7 +493,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Caldo tradicional de ajo y pimentón, con virutas de jamón serrano y delicadas hebras de huevo cocido.",
             "en": "Traditional garlic-paprika broth topped with serrano ham shavings and delicate strands of cooked egg."
           },
-          "precio": 11.50,
+          "precio": 11.5,
+          "pairsWith": { "main": 37 },
           "alergenos": ["huevo", "sulfitos"],
           "etiquetas": ["económico"]
         },
@@ -507,7 +512,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Bechamel suave elaborada con jamón ibérico o bacalao desalado, empanadas artesanalmente y fritas al momento.",
             "en": "Silky béchamel with Iberian ham or desalted cod, hand-breaded and fried to order."
           },
-          "precio": 12.60,
+          "precio": 12.6,
+          "pairsWith": { "main": 24 },
           "alergenos": ["gluten", "lácteos", "huevo", "pescado"],
           "etiquetas": ["popular"]
         },
@@ -525,7 +531,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Patata, zanahoria y mayonesa cremosa coronadas con bonito marinado en escabeche elaborado en casa.",
             "en": "Potato, carrot and creamy mayonnaise crowned with bonito marinated in our own escabeche."
           },
-          "precio": 13.00,
+          "precio": 13.0,
+          "pairsWith": { "main": 35 },
           "alergenos": ["huevo", "pescado", "sulfitos"],
           "etiquetas": ["popular"]
         },
@@ -543,7 +550,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Rellenas de estofado de rabo de toro cocinado a fuego lento, con una textura sedosa y crujiente por fuera.",
             "en": "Filled with slow-braised oxtail stew, silky inside and crispy outside."
           },
-          "precio": 15.00,
+          "precio": 15.0,
+          "pairsWith": { "main": 27 },
           "alergenos": ["gluten", "lácteos", "huevo"],
           "etiquetas": ["popular"]
         },
@@ -561,7 +569,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Tortilla ligera con bacalao desmigado, cebolla pochada y un toque vasco inconfundible.",
             "en": "Light omelette with flaked cod, sautéed onion and an unmistakable Basque touch."
           },
-          "precio": 16.00,
+          "precio": 16.0,
+          "pairsWith": { "main": 33 },
           "alergenos": ["huevo", "pescado"],
           "etiquetas": ["sin gluten"]
         },
@@ -579,7 +588,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Verduras frescas, asadas al grill con aceite de oliva virgen extra.",
             "en": "Fresh vegetables, grilled and dressed with extra-virgin olive oil."
           },
-          "precio": 16.00,
+          "precio": 16.0,
+          "pairsWith": { "main": 20 },
           "alergenos": [],
           "etiquetas": ["vegetariano"]
         },
@@ -597,7 +607,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Corazones de alcachofa cocinados lentamente en aceite de oliva y marcados a la plancha, acompañados de sofrito de jamón serrano.",
             "en": "Artichoke hearts slow-cooked in olive oil then seared, served with serrano ham sofrito."
           },
-          "precio": 16.40,
+          "precio": 16.4,
+          "pairsWith": { "main": 36 },
           "alergenos": [],
           "etiquetas": ["gourmet"]
         },
@@ -615,7 +626,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Tacos de bacalao rebozados y fritos, servidos con una suave salsa de alioli aromatizada con cebollino fresco.",
             "en": "Battered cod cubes fried and served with a smooth chive-infused aioli."
           },
-          "precio": 16.50,
+          "precio": 16.5,
+          "pairsWith": { "main": 25 },
           "alergenos": ["pescado", "huevo", "ajo", "sulfitos"],
           "etiquetas": ["ideal para compartir"]
         },
@@ -633,7 +645,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Zamburiñas frescas marcadas a la plancha con majado de ajo, perejil y un toque de limón.",
             "en": "Fresh queen scallops seared on the griddle with a mash of garlic, parsley and a hint of lemon."
           },
-          "precio": 16.50,
+          "precio": 16.5,
+          "pairsWith": { "main": 26 },
           "alergenos": ["moluscos", "ajo", "sulfitos"],
           "etiquetas": ["temporada"]
         },
@@ -651,7 +664,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Fritura tradicional andaluza con calamares tiernos y rebozado fino, acompañados de limón fresco.",
             "en": "Traditional Andalusian fry with tender squid and a fine batter, served with fresh lemon."
           },
-          "precio": 16.80,
+          "precio": 16.8,
+          "pairsWith": { "main": 23 },
           "alergenos": ["moluscos", "gluten"],
           "etiquetas": ["popular"]
         },
@@ -669,7 +683,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Sepia fresca a la plancha, servida con alioli suave y cremosa.",
             "en": "Fresh cuttlefish on the griddle, served with smooth creamy aioli."
           },
-          "precio": 17.20,
+          "precio": 17.2,
+          "pairsWith": { "main": 22 },
           "alergenos": ["moluscos", "huevo", "ajo"],
           "etiquetas": ["ideal para compartir"]
         },
@@ -687,7 +702,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Huevos camperos rotos sobre patatas rústicas fritas, cubiertos con jamón ibérico.",
             "en": "Pasture eggs broken over rustic fried potatoes, topped with Iberian ham."
           },
-          "precio": 17.50,
+          "precio": 17.5,
+          "pairsWith": { "main": 39 },
           "alergenos": ["huevo"],
           "etiquetas": ["ideal para compartir"]
         },
@@ -705,7 +721,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Una ensalada equilibrada con lechugas, tomates y otros ingredientes frescos del día, perfecta como entrante ligero o acompañamiento.",
             "en": "A balanced salad with lettuces, tomatoes and other daily fresh ingredients, perfect as a light starter or side."
           },
-          "precio": 12.90,
+          "precio": 12.9,
+          "pairsWith": { "main": 21 },
           "alergenos": [],
           "etiquetas": ["vegetariano"]
         },
@@ -723,7 +740,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Ensalada de pollo a la plancha, beicon crujiente, croutons y lascas de parmesano, aliñada con salsa César casera.",
             "en": "Salad of grilled chicken, crispy bacon, croutons and parmesan shavings, dressed with house Caesar sauce."
           },
-          "precio": 17.00,
+          "precio": 17.0,
+          "pairsWith": { "main": 34 },
           "alergenos": ["gluten", "huevo", "lácteos", "mostaza"],
           "etiquetas": ["ideal para compartir"]
         },
@@ -741,7 +759,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Carpaccio de tomate coronado con burrata de Puglia y tomates secos al pomodoro.",
             "en": "Tomato carpaccio topped with Puglia burrata and sun-dried tomatoes in pomodoro."
           },
-          "precio": 17.50,
+          "precio": 17.5,
+          "pairsWith": { "main": 29 },
           "alergenos": ["lácteos"],
           "etiquetas": ["gourmet"]
         },
@@ -759,7 +778,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Rodajas de tomate maduro con bonito en escabeche elaborado en casa y cebolla dulce.",
             "en": "Slices of ripe tomato with house-made escabeche bonito and sweet onion."
           },
-          "precio": 18.00,
+          "precio": 18.0,
+          "pairsWith": { "main": 38 },
           "alergenos": ["pescado", "sulfitos"],
           "etiquetas": ["sin gluten"]
         },
@@ -777,7 +797,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Gambas salteadas en aceite de oliva con láminas de ajo y guindilla, servidas en cazuela caliente.",
             "en": "Prawns sautéed in olive oil with garlic slices and chilli, served in a hot clay dish."
           },
-          "precio": 22.00,
+          "precio": 22.0,
+          "pairsWith": { "main": 37 },
           "alergenos": ["crustáceos", "ajo"],
           "etiquetas": ["picante"]
         },
@@ -795,7 +816,8 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Chipirones frescos, con cebolla, acompañados de un crujiente fino y dorado.",
             "en": "Fresh baby squid with onion, served with a fine golden crisp topping."
           },
-          "precio": 23.50,
+          "precio": 23.5,
+          "pairsWith": { "main": 32 },
           "alergenos": ["moluscos", "gluten"],
           "etiquetas": ["temporada"]
         },
@@ -813,13 +835,13 @@ __MENU_JSON_PLACEHOLDER__
             "es": "Finas lonchas de jamón de bellota 100% ibérico, servidas con pan crujiente y tomate rallado al estilo catalán.",
             "en": "Thin slices of 100% acorn-fed Ibérico ham served with crusty bread and grated tomato Catalan style."
           },
-          "precio": 32.00,
+          "precio": 32.0,
+          "pairsWith": { "main": 30 },
           "alergenos": ["gluten", "sulfitos"],
           "etiquetas": ["gourmet"]
         }
       ]
     },
-  
     "platos_principales": {
       "orderId": 2,
       "title": { "es": "Platos Principales", "en": "Main Courses" },
@@ -839,8 +861,9 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Arroz con verduras frescas de temporada, cocinado con sofrito valenciano.",
                 "en": "Rice with seasonal fresh vegetables cooked with Valencian sofrito."
               },
-              "precio": 22.90,
+              "precio": 22.9,
               "precio_por_persona": true,
+              "pairsWith": { "appetizer": 6, "dessert": 43 },
               "alergenos": [],
               "etiquetas": ["vegetariano"]
             },
@@ -855,8 +878,9 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Arroz con trozos de pollo tierno y verduras frescas, cocinado a fuego lento.",
                 "en": "Rice with tender chicken pieces and fresh vegetables, slowly cooked."
               },
-              "precio": 23.90,
+              "precio": 23.9,
               "precio_por_persona": true,
+              "pairsWith": { "appetizer": 16, "dessert": 41 },
               "alergenos": [],
               "etiquetas": ["ideal para compartir"]
             },
@@ -874,8 +898,9 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Paella servida sin cáscaras ni conchas para disfrutar cómodamente.",
                 "en": "Paella served without shells so you can enjoy comfortably."
               },
-              "precio": 24.50,
+              "precio": 24.5,
               "precio_por_persona": true,
+              "pairsWith": { "appetizer": 11, "dessert": 40 },
               "alergenos": [],
               "etiquetas": ["gourmet"]
             },
@@ -893,8 +918,9 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Paella tradicional de marisco con fondo de mariscos.",
                 "en": "Traditional seafood paella with rich shellfish stock."
               },
-              "precio": 24.90,
+              "precio": 24.9,
               "precio_por_persona": true,
+              "pairsWith": { "appetizer": 10, "dessert": 42 },
               "alergenos": ["marisco", "moluscos", "pescado"],
               "etiquetas": ["popular"]
             },
@@ -912,8 +938,9 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Mezcla perfecta de ingredientes de tierra y mar.",
                 "en": "Perfect mix of land and sea ingredients."
               },
-              "precio": 24.90,
+              "precio": 24.9,
               "precio_por_persona": true,
+              "pairsWith": { "appetizer": 2, "dessert": 41 },
               "alergenos": ["marisco", "moluscos", "pescado"],
               "etiquetas": ["sin gluten"]
             },
@@ -928,8 +955,9 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Acompañado de alioli al gusto.",
                 "en": "Served with aioli to taste."
               },
-              "precio": 24.90,
+              "precio": 24.9,
               "precio_por_persona": true,
+              "pairsWith": { "appetizer": 8, "dessert": 43 },
               "alergenos": ["moluscos", "pescado"],
               "etiquetas": ["temporada"]
             },
@@ -947,8 +975,9 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Caldo profundo y sabroso con mariscos variados.",
                 "en": "Deep, tasty broth with assorted seafood."
               },
-              "precio": 27.90,
+              "precio": 27.9,
               "precio_por_persona": true,
+              "pairsWith": { "appetizer": 9, "dessert": 42 },
               "alergenos": ["marisco", "moluscos", "pescado"],
               "etiquetas": ["gourmet"]
             },
@@ -963,14 +992,14 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Rabo de toro estofado que se deshace en la boca.",
                 "en": "Stewed oxtail that melts in your mouth."
               },
-              "precio": 29.90,
+              "precio": 29.9,
               "precio_por_persona": true,
+              "pairsWith": { "appetizer": 4, "dessert": 43 },
               "alergenos": ["sulfitos"],
               "etiquetas": ["especialidad de la casa"]
             }
           ]
         },
-  
         "guisos": {
           "orderId": 2,
           "title": { "es": "Guisos Tradicionales", "en": "Traditional Stews" },
@@ -989,7 +1018,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Callos cocinados lentamente en salsa especiada.",
                 "en": "Tripe slowly cooked in spiced sauce."
               },
-              "precio": 18.00,
+              "precio": 18.0,
+              "pairsWith": { "appetizer": 1, "dessert": 43 },
               "alergenos": ["sulfitos"],
               "etiquetas": ["gourmet"]
             },
@@ -1007,7 +1037,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Pollo dorado al ajillo con patata crujiente.",
                 "en": "Golden garlic chicken with crispy potato."
               },
-              "precio": 22.50,
+              "precio": 22.5,
+              "pairsWith": { "appetizer": 18, "dessert": 41 },
               "alergenos": [],
               "etiquetas": ["ideal para compartir"]
             },
@@ -1025,7 +1056,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Estofado a fuego lento en vino tinto.",
                 "en": "Slow-braised in red wine."
               },
-              "precio": 24.50,
+              "precio": 24.5,
+              "pairsWith": { "appetizer": 15, "dessert": 40 },
               "alergenos": ["apio", "sulfitos"],
               "etiquetas": ["temporada"]
             },
@@ -1043,13 +1075,13 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Guiso intenso para amantes de sabores potentes.",
                 "en": "Intense stew for lovers of strong flavours."
               },
-              "precio": 29.50,
+              "precio": 29.5,
+              "pairsWith": { "appetizer": 7, "dessert": 43 },
               "alergenos": ["apio", "sulfitos"],
               "etiquetas": ["especialidad de la casa"]
             }
           ]
         },
-  
         "carnes": {
           "orderId": 3,
           "title": { "es": "Carnes a la Brasa y Guisadas", "en": "Grilled & Stewed Meats" },
@@ -1068,7 +1100,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Carne de vaca vieja con cheddar, rúcula fresca y salsa casera de miel y mostaza en pan artesano.",
                 "en": "Aged beef with cheddar, fresh rocket and house honey-mustard sauce in an artisan bun."
               },
-              "precio": 15.50,
+              "precio": 15.5,
+              "pairsWith": { "appetizer": 17, "dessert": 42 },
               "alergenos": ["gluten", "lácteos", "mostaza", "sésamo", "huevo"],
               "etiquetas": ["nuevo"]
             },
@@ -1086,7 +1119,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Filete de pollo empanado con patatas fritas y salsa barbacoa dulce y ahumada.",
                 "en": "Breaded chicken fillet with fries and sweet smoky BBQ sauce."
               },
-              "precio": 16.50,
+              "precio": 16.5,
+              "pairsWith": { "appetizer": 3, "dessert": 40 },
               "alergenos": ["gluten", "huevo", "sulfitos"],
               "etiquetas": ["ideal para compartir"]
             },
@@ -1104,7 +1138,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Pierna de pato confitada, servida con coulis de frutos rojos y compota de manzana.",
                 "en": "Confit duck leg served with red-berry coulis and apple compote."
               },
-              "precio": 23.00,
+              "precio": 23.0,
+              "pairsWith": { "appetizer": 7, "dessert": 41 },
               "alergenos": [],
               "etiquetas": ["gourmet"]
             },
@@ -1122,7 +1157,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Corte de vaca madurada a la parrilla realzado con escamas de sal Maldon.",
                 "en": "Dry-aged beef cut grilled and finished with Maldon flakes."
               },
-              "precio": 29.90,
+              "precio": 29.9,
+              "pairsWith": { "appetizer": 1, "dessert": 43 },
               "alergenos": [],
               "etiquetas": ["popular"]
             },
@@ -1140,7 +1176,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Costillas ibéricas asadas lentamente bañadas en salsa barbacoa.",
                 "en": "Iberian ribs slowly roasted and basted in BBQ sauce."
               },
-              "precio": 29.90,
+              "precio": 29.9,
+              "pairsWith": { "appetizer": 19, "dessert": 42 },
               "alergenos": ["sulfitos"],
               "etiquetas": ["popular"]
             },
@@ -1158,13 +1195,13 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Cachopo crujiente relleno de jamón serrano y queso Vidíago.",
                 "en": "Crispy cachopo filled with serrano ham and Vidíago cheese."
               },
-              "precio": 32.50,
+              "precio": 32.5,
+              "pairsWith": { "appetizer": 12, "dessert": 43 },
               "alergenos": ["gluten", "lácteos", "huevo"],
               "etiquetas": ["popular"]
             }
           ]
         },
-  
         "pescados": {
           "orderId": 4,
           "title": { "es": "Pescados", "en": "Fish" },
@@ -1183,7 +1220,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Bacalao confitado sobre verduras a la parrilla con toques mediterráneos.",
                 "en": "Confit cod over grilled vegetables with Mediterranean touches."
               },
-              "precio": 23.90,
+              "precio": 23.9,
+              "pairsWith": { "appetizer": 14, "dessert": 40 },
               "alergenos": ["pescado"],
               "etiquetas": ["sin gluten"]
             },
@@ -1201,7 +1239,8 @@ __MENU_JSON_PLACEHOLDER__
                 "es": "Bacalao guisado con salsa casera de tomate, ajo y cebolla.",
                 "en": "Cod stewed in homemade tomato, garlic and onion sauce."
               },
-              "precio": 23.90,
+              "precio": 23.9,
+              "pairsWith": { "appetizer": 5, "dessert": 41 },
               "alergenos": ["pescado", "sulfitos"],
               "etiquetas": ["sin gluten"]
             }
@@ -1209,7 +1248,6 @@ __MENU_JSON_PLACEHOLDER__
         }
       }
     },
-  
     "postres": {
       "orderId": 3,
       "title": { "es": "Postres", "en": "Desserts" },
@@ -1277,7 +1315,6 @@ __MENU_JSON_PLACEHOLDER__
       ]
     }
   }
-  
   
   ,
 };
