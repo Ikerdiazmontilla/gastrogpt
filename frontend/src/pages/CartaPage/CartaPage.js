@@ -21,7 +21,7 @@ const CartaPage = () => {
   
   const sectionRefs = useRef({});
   const tabRefs = useRef({});
-  const tabsListRef = useRef(null); // Ref para la lista de pestañas
+  const tabsListRef = useRef(null);
 
   const currentLanguageForApi = i18n.language;
 
@@ -69,16 +69,51 @@ const CartaPage = () => {
       : allDishes;
 
     const sections = [];
+
+    // =======================================================================
+    // INICIO DE LA MODIFICACIÓN: Lógica de ordenación para Destacados
+    // =======================================================================
+
+    // 1. Crear un mapa para saber el orderId de la categoría de cada plato.
+    const dishCategoryOrderMap = new Map();
+    Object.values(menu).forEach(category => {
+      if (typeof category === 'object' && category !== null) {
+        const categoryOrderId = category.orderId || 999;
+        // Manejar categorías simples y con subcategorías
+        if (category.dishes) {
+          category.dishes.forEach(dish => dishCategoryOrderMap.set(dish.id, categoryOrderId));
+        }
+        if (category.subCategories) {
+          Object.values(category.subCategories).forEach(subCat => {
+            if (subCat.dishes) {
+              subCat.dishes.forEach(dish => dishCategoryOrderMap.set(dish.id, categoryOrderId));
+            }
+          });
+        }
+      }
+    });
     
+    // 2. Filtrar los platos destacados como antes.
     const destacadosDishes = filteredDishes.filter(p => p.etiquetas?.includes('popular') || p.etiquetas?.includes('recomendado'));
+
+    // 3. Ordenar la lista de platos destacados usando el mapa.
+    destacadosDishes.sort((a, b) => {
+      const orderA = dishCategoryOrderMap.get(a.id) || 999;
+      const orderB = dishCategoryOrderMap.get(b.id) || 999;
+      return orderA - orderB;
+    });
+
     if (destacadosDishes.length > 0) {
       sections.push({
         key: 'destacados',
-        orderId: 1, 
+        orderId: 0, // Damos a Destacados el orderId más bajo para que siempre sea la primera pestaña.
         title: t('cartaPage.tabDestacados'),
         dishes: destacadosDishes,
       });
     }
+    // =======================================================================
+    // FIN DE LA MODIFICACIÓN
+    // =======================================================================
 
     const menuCategories = Object.entries(menu)
       .filter(([key]) => key !== 'allDishes')
@@ -114,8 +149,42 @@ const CartaPage = () => {
         }
       }
     });
+    
+    // Ordenar las secciones finales (excepto 'destacados' que ya está al principio)
+    const finalSections = [
+      ...sections.filter(s => s.key === 'destacados'),
+      ...sections.filter(s => s.key !== 'destacados').sort((a, b) => {
+        // Para ordenar las secciones, necesitamos encontrar su orderId original.
+        const categoryA = menu[a.key] || Object.values(menu).flatMap(c => c.subCategories ? Object.values(c.subCategories) : []).find(sc => sc.key === a.key);
+        const categoryB = menu[b.key] || Object.values(menu).flatMap(c => c.subCategories ? Object.values(c.subCategories) : []).find(sc => sc.key === b.key);
+        return (categoryA?.orderId || 99) - (categoryB?.orderId || 99);
+      })
+    ];
 
-    return sections;
+
+    // La lógica de ordenación final es más compleja ahora, vamos a simplificarla
+    // basándonos en el `orderId` que ya asignamos.
+    const sortedSections = sections.slice().sort((a, b) => {
+        // 'destacados' ya tiene orderId: 0. Los demás heredan el de su categoría.
+        // Necesitamos asignar un orderId a cada sección para poder ordenar.
+        const getOrder = (section) => {
+            if (section.orderId !== undefined) return section.orderId;
+            // Si la sección no es 'destacados', buscar su orderId en la estructura original del menú.
+            for (const cat of Object.values(menu)) {
+                if (cat.key === section.key) return cat.orderId || 999; // Categoría principal
+                if (cat.subCategories) {
+                    for (const subCat of Object.values(cat.subCategories)) {
+                        if (subCat.key === section.key) return cat.orderId || 999; // Usar el order de la categoría padre
+                    }
+                }
+            }
+            return 999;
+        };
+        return getOrder(a) - getOrder(b);
+    });
+
+    return sortedSections;
+
   }, [menu, searchTerm, t, currentLanguageForApi]);
   
   const handleTabClick = (key) => {
@@ -125,24 +194,19 @@ const CartaPage = () => {
     }
   };
 
-  // --- INICIO DE LA LÓGICA MODIFICADA ---
-  // Este useEffect gestiona la posición 'sticky' de la barra de pestañas y los márgenes de scroll.
   useEffect(() => {
     const navContainer = document.querySelector('.nav-container');
     const tabsListElement = tabsListRef.current;
 
     if (!navContainer || !tabsListElement) return;
 
-    // Función para actualizar las posiciones y márgenes
     const updateLayout = () => {
       const navHeight = navContainer.offsetHeight;
       const tabsHeight = tabsListElement.offsetHeight;
-      const totalStickyHeight = navHeight + tabsHeight + 10; // Añadimos un pequeño margen extra
+      const totalStickyHeight = navHeight + tabsHeight + 10; 
 
-      // 1. Establece la posición 'top' de la barra de pestañas para que se pegue debajo del navbar
       tabsListElement.style.top = `${navHeight}px`;
 
-      // 2. Actualiza el 'scroll-margin-top' para todas las secciones del menú
       const sectionElements = Object.values(sectionRefs.current);
       sectionElements.forEach(section => {
         if (section) {
@@ -151,21 +215,17 @@ const CartaPage = () => {
       });
     };
 
-    // Usamos ResizeObserver para reaccionar a cambios de tamaño del navbar o de las pestañas
     const resizeObserver = new ResizeObserver(updateLayout);
     resizeObserver.observe(navContainer);
     resizeObserver.observe(tabsListElement);
 
-    // Hacemos una llamada inicial después de un breve instante para asegurar que todo esté renderizado
     const initialUpdateTimeout = setTimeout(updateLayout, 100);
 
-    // Función de limpieza para detener los observadores cuando el componente se desmonte
     return () => {
       clearTimeout(initialUpdateTimeout);
       resizeObserver.disconnect();
     };
-  }, [menuSections]); // Se vuelve a ejecutar si las secciones del menú cambian
-  // --- FIN DE LA LÓGICA MODIFICADA ---
+  }, [menuSections]);
 
 
   useEffect(() => {
@@ -229,7 +289,6 @@ const CartaPage = () => {
         </div>
       </div>
 
-      {/* Se añade el 'ref' al div de la lista de pestañas */}
       <div ref={tabsListRef} className={styles.tabsList} data-no-tab-swipe="true">
         {menuSections.map(section => (
           <button
