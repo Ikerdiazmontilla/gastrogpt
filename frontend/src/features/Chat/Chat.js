@@ -13,17 +13,15 @@ import {
   transcribeAudio,
 } from '../../services/apiService';
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
+import Feedback from './Feedback';
 
 const Chat = ({ onViewDishDetails }) => {
   const { t, i18n } = useTranslation();
-  const currentLanguage = i18n.language; // 'es', 'en', 'fr', 'de'
+  const currentLanguage = i18n.language;
 
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
   
-  // =================================================================
-  // MODIFICADO: Seleccionar la traducción correcta del objeto recibido
-  // =================================================================
   const welcomeMessage = tenantConfig?.welcomeMessage?.[currentLanguage] || tenantConfig?.welcomeMessage?.es || t('chat.placeholder');
   const suggestions = tenantConfig?.suggestionChipsText?.[currentLanguage] || tenantConfig?.suggestionChipsText?.es || [];
   const suggestionCount = tenantConfig?.suggestionChipsCount || 4;
@@ -43,6 +41,13 @@ const Chat = ({ onViewDishDetails }) => {
   const audioChunksRef = useRef([]);
   const mediaStreamRef = useRef(null);
 
+  const [showFeedbackUI, setShowFeedbackUI] = useState(false);
+  const [activeConversationId, setActiveConversationId] = useState(null);
+  
+  // --- NUEVO ESTADO PARA EVITAR REPETICIONES ---
+  const [feedbackAlreadyShown, setFeedbackAlreadyShown] = useState(false);
+
+
   const CustomLink = useMemo(() =>
     createMarkdownLinkRenderer(onViewDishDetails, menu, styles),
     [onViewDishDetails, menu]
@@ -53,6 +58,8 @@ const Chat = ({ onViewDishDetails }) => {
     setError(null);
     setIsLimitReached(false);
     setLimitNotification('');
+    setShowFeedbackUI(false);
+    setFeedbackAlreadyShown(false); // Reiniciar al cargar nueva conversación
     const richWelcomeMessageObject = { sender: 'bot', text: welcomeMessage };
     try {
       const data = await fetchConversation();
@@ -85,7 +92,7 @@ const Chat = ({ onViewDishDetails }) => {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, limitNotification]);
+  }, [messages, limitNotification, showFeedbackUI]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -106,6 +113,7 @@ const Chat = ({ onViewDishDetails }) => {
     const trimmedInput = input.trim();
     if (trimmedInput === '') return;
 
+    setShowFeedbackUI(false);
     const userMessage = { sender: 'user', text: trimmedInput };
     setMessages(prevMessages => [...prevMessages, userMessage]);
     setInput('');
@@ -119,9 +127,19 @@ const Chat = ({ onViewDishDetails }) => {
 
     try {
       const data = await postChatMessage(trimmedInput);
+      
+      setActiveConversationId(data.conversationId);
       if (data.reply) {
         setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: data.reply }]);
-      } else if (data.limitExceeded) {
+        
+        // --- LÓGICA DE CONTROL DE FEEDBACK MEJORADA ---
+        if (data.isFinalMessage && !feedbackAlreadyShown) {
+            setShowFeedbackUI(true);
+            setFeedbackAlreadyShown(true); // Marcar como mostrado para esta sesión
+        }
+      } 
+      
+      else if (data.limitExceeded) {
         setError(data.error || t('chat.limitReached'));
         setIsLimitReached(true);
         setLimitNotification(data.error || t('chat.limitReachedCta'));
@@ -179,7 +197,8 @@ const Chat = ({ onViewDishDetails }) => {
         textareaRef.current.focus();
     }
   };
-
+  
+  // ... (resto de funciones de audio sin cambios)
   const startAudioRecording = async () => {
     if (isRecording || isTranscribing) return;
     setError(null);
@@ -305,6 +324,12 @@ const Chat = ({ onViewDishDetails }) => {
             <div className={`${styles.message} ${styles.system} ${styles.limitNotification}`}>
               {limitNotification}
             </div>
+          )}
+          {showFeedbackUI && (
+            <Feedback
+              conversationId={activeConversationId}
+              onFeedbackSent={() => setShowFeedbackUI(false)}
+            />
           )}
           <div ref={messagesEndRef} />
         </div>

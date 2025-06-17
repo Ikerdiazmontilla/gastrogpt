@@ -2,7 +2,8 @@
 const express = require('express');
 const chatRoutes = require('./chatRoutes');
 const audioRoutes = require('./audioRoutes');
-const configRoutes = require('./configRoutes'); // NUEVO
+const configRoutes = require('./configRoutes');
+const feedbackRoutes = require('./feedbackRoutes'); // NUEVO
 
 /**
  * @file index.js (in routes)
@@ -15,7 +16,8 @@ const router = express.Router();
 // Mount feature-specific routers
 router.use('/', chatRoutes);      // e.g., /api/chat, /api/conversation
 router.use('/', audioRoutes);     // e.g., /api/transcribe-audio
-router.use('/', configRoutes);    // NUEVO: e.g., /api/config
+router.use('/', configRoutes);    // e.g., /api/config
+router.use('/', feedbackRoutes);  // NUEVO: e.g., /api/feedback
 
 // Example of a simple health check endpoint
 // Lo usamos para verificar que el tenantResolver funciona.

@@ -1,15 +1,7 @@
 // frontend/src/services/apiService.js
 
-// const BASE_URL = process.env.REACT_APP_BACKEND_URL || '';
-// console.log('base url: ',BASE_URL)
 const BASE_URL = '';
 
-
-/**
- * Helper to process API responses and extract errors.
- * @param {Response} response - The fetch response object.
- * @returns {Promise<string>} - The error message.
- */
 const getErrorFromResponse = async (response) => {
   try {
     const errorData = await response.json();
@@ -19,23 +11,13 @@ const getErrorFromResponse = async (response) => {
   }
 };
 
-/**
- * Generic fetch wrapper
- * @param {string} endpoint - The API endpoint (e.g., '/api/config').
- * @param {object} options - Fetch options (method, headers, body, credentials).
- * @returns {Promise<any>} - The JSON response data.
- * @throws {Error} - If the network response is not ok.
- */
 const fetchApi = async (endpoint, options = {}) => {
   const finalHeaders = { ...options.headers };
   if (!(options.body instanceof FormData)) {
     finalHeaders['Content-Type'] = 'application/json';
   }
 
-  // La URL final ahora será SIEMPRE relativa, ej. '/api/config'
   const url = `${BASE_URL}${endpoint}`;
-  
-  // LOG DE DIAGNÓSTICO: Vamos a ver la URL exacta que fetch está intentando usar.
   console.log(`[apiService] Fetching from URL: ${url}`);
 
   const response = await fetch(url, {
@@ -64,27 +46,14 @@ const fetchApi = async (endpoint, options = {}) => {
 
 // --- Specific API functions ---
 
-/**
- * NUEVO: Obtiene la configuración completa del frontend para el inquilino actual.
- * @returns {Promise<object>} - La configuración, incluyendo el menú y mensajes.
- */
 export const fetchTenantConfig = () => {
     return fetchApi('/api/config', { method: 'GET' });
 };
 
-/**
- * Fetches the current chat conversation history.
- * @returns {Promise<object>} - The conversation data.
- */
 export const fetchConversation = () => {
   return fetchApi('/api/conversation', { method: 'GET' });
 };
 
-/**
- * Sends a chat message to the backend.
- * @param {string} messageText - The text of the user's message.
- * @returns {Promise<object>} - The backend's reply.
- */
 export const postChatMessage = (messageText) => {
   return fetchApi('/api/chat', {
     method: 'POST',
@@ -92,20 +61,22 @@ export const postChatMessage = (messageText) => {
   });
 };
 
-/**
- * Resets the current chat conversation on the backend.
- * @returns {Promise<object>} - Confirmation message.
- */
 export const resetChatConversation = () => {
   return fetchApi('/api/reset', { method: 'POST' });
 };
 
 /**
- * Sends an audio blob to the backend for transcription.
- * @param {Blob} audioBlob - The audio data to transcribe.
- * @param {string} filename - The filename for the audio blob (e.g., 'recording.webm').
- * @returns {Promise<object>} - The transcription result, e.g., { transcription: "text" }.
+ * NUEVO: Envía el feedback del usuario al backend.
+ * @param {object} feedbackData - Contiene { conversationId, rating, comment }.
+ * @returns {Promise<object>} - El resultado de la operación.
  */
+export const sendFeedback = (feedbackData) => {
+  return fetchApi('/api/feedback', {
+    method: 'POST',
+    body: JSON.stringify(feedbackData),
+  });
+};
+
 export const transcribeAudio = (audioBlob, filename = 'audio.webm') => {
   const formData = new FormData();
   formData.append('audio', audioBlob, filename);
