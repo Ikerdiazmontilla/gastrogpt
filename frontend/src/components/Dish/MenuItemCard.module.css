@@ -83,7 +83,6 @@
   white-space: nowrap;
 }
 
-/* NUEVO: Estilo para el indicador "p.p." */
 .perPersonIndicator {
   font-size: 0.8rem;
   font-weight: 500;
@@ -141,7 +140,7 @@
 }
 
 /* ================================================================ */
-/* NUEVOS ESTILOS para el footer de la tarjeta sin imagen           */
+/* NEW STYLES for the footer of the card without an image           */
 /* ================================================================ */
 .cardFooter {
   display: flex;
@@ -151,7 +150,7 @@
   padding-top: 4px;                 /* Pequeño espacio sobre el footer */
 }
 
-/* Cuando los alérgenos están en el footer, no necesitan margen inferior */
+/* When allergens are in the footer, they don't need a bottom margin */
 .cardFooter .allergenIcons {
   margin-bottom: 0;
 }

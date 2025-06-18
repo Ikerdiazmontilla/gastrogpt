@@ -193,7 +193,7 @@ module.exports = {
         "dishes": [
             {
                 "id": 15,
-                "imagen": "/assets/vino-tinto.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/vino-tinto_uvnywx.jpg",
                 "nombre": {
                     "en": "Rioja Crianza Red Wine",
                     "es": "Vino Tinto Rioja Crianza"
@@ -217,7 +217,7 @@ module.exports = {
             },
             {
                 "id": 19,
-                "imagen": "/assets/zumo-tropical.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/zumo-tropical_kp3r0b.avif",
                 "nombre": {
                     "en": "House Tropical Juice",
                     "es": "Zumo Tropical de la Casa"
@@ -240,7 +240,7 @@ module.exports = {
             },
             {
                 "id": 16,
-                "imagen": "/assets/sangria.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/sangria_d1gezc.jpg",
                 "nombre": {
                     "en": "Homemade Sangria",
                     "es": "Sangría Casera"
@@ -264,7 +264,7 @@ module.exports = {
             },
             {
                 "id": 18,
-                "imagen": "/assets/cerveza-artesana.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/cerveza-artesana_vfpdxu.jpg    ",
                 "nombre": {
                     "en": "Local Craft Beer",
                     "es": "Cerveza Artesana Local"
@@ -286,7 +286,7 @@ module.exports = {
             },
             {
                 "id": 17,
-                "imagen": "/assets/agua-mineral.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196816/agua-mineral_ggnbkd.jpg",
                 "nombre": {
                     "en": "Natural Mineral Water",
                     "es": "Agua Mineral Natural"
@@ -315,7 +315,7 @@ module.exports = {
         "dishes": [
             {
                 "id": 1,
-                "imagen": "/assets/croquetas.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/croquetas_sh7q7a.jpg",
                 "nombre": {
                     "en": "Ham Croquettes",
                     "es": "Croquetas de Jamón"
@@ -340,7 +340,7 @@ module.exports = {
             },
             {
                 "id": 2,
-                "imagen": "/assets/ensalada-espinacas.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196817/ensalada-espinacas_gsbrrv.jpg",
                 "nombre": {
                     "en": "Spinach Salad with Goat Cheese",
                     "es": "Ensalada de Espinacas con Queso de Cabra"
@@ -365,7 +365,7 @@ module.exports = {
             },
             {
                 "id": 3,
-                "imagen": "/assets/gazpacho.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/gazpacho_ysft1l.jpg",
                 "nombre": {
                     "en": "Andalusian Gazpacho",
                     "es": "Gazpacho Andaluz"
@@ -389,7 +389,7 @@ module.exports = {
             },
             {
                 "id": 4,
-                "imagen": "/assets/timbal-mango.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/timbal-mango_v7eipm.jpg",
                 "nombre": {
                     "en": "Mango, Avocado & Fresh Cheese Timbale",
                     "es": "Timbal de Mango, Aguacate y Queso Fresco"
@@ -422,7 +422,7 @@ module.exports = {
         "dishes": [
             {
                 "id": 8,
-                "imagen": "/assets/lasana-vegana.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196779/lasana-vegana_ehrfui.jpg",
                 "nombre": {
                     "en": "Vegetable Lasagna",
                     "es": "Lasaña de Verduras"
@@ -448,7 +448,7 @@ module.exports = {
             },
             {
                 "id": 6,
-                "imagen": "/assets/carrillera-vino-tinto.jpeg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/carrillera-vino-tinto_yznkbb.jpg",
                 "nombre": {
                     "en": "Beef Cheeks in Red Wine",
                     "es": "Carrillera de Ternera al Vino Tinto"
@@ -472,7 +472,7 @@ module.exports = {
             },
             {
                 "id": 5,
-                "imagen": "/assets/dorada.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/dorada_jynxow.jpg",
                 "nombre": {
                     "en": "Sea Bream with Sweet Chili Sauce",
                     "es": "Dorada con Salsa de Chile Dulce"
@@ -495,7 +495,7 @@ module.exports = {
             },
             {
                 "id": 7,
-                "imagen": "/assets/berenjena-asada.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196785/berenjena-asada_lxtbp9.jpg",
                 "nombre": {
                     "en": "Roasted Eggplant with Labneh and Pomegranate",
                     "es": "Berenjena Asada con Labneh y Granada"
@@ -520,7 +520,7 @@ module.exports = {
             },
             {
                 "id": 14,
-                "imagen": "/assets/rissotto-setas.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/rissotto-setas_oog1bu.jpg",
                 "nombre": {
                     "en": "Mushroom Risotto",
                     "es": "Risotto de Setas"
@@ -553,7 +553,7 @@ module.exports = {
         "dishes": [
             {
                 "id": 10,
-                "imagen": "/assets/tarta-queso.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/tarta-queso_tsrl8v.jpg",
                 "nombre": {
                     "en": "Cheesecake",
                     "es": "Tarta de Queso"
@@ -578,7 +578,7 @@ module.exports = {
             },
             {
                 "id": 11,
-                "imagen": "/assets/crema-catalana.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196816/crema-catalana_zct65e.jpg",
                 "nombre": {
                     "en": "Catalan Cream",
                     "es": "Crema Catalana"
@@ -600,7 +600,7 @@ module.exports = {
             },
             {
                 "id": 12,
-                "imagen": "/assets/sorbete-limon.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/sorbete-limon_xgkxnt.jpg",
                 "nombre": {
                     "en": "Lemon Sorbet with Cava",
                     "es": "Sorbete de Limón al Cava"
@@ -622,7 +622,7 @@ module.exports = {
             },
             {
                 "id": 13,
-                "imagen": "/assets/brownie-con-helado.jpg",
+                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196779/brownie-con-helado_qjx6pe.jpg",
                 "nombre": {
                     "en": "Brownie with Ice Cream",
                     "es": "Brownie con Helado"

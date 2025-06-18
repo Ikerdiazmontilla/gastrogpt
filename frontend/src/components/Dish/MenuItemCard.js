@@ -15,7 +15,11 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage);
 
-  const cardClass = menuHasImages ? styles.card : `${styles.card} ${styles.cardNoImage}`;
+  // Check both the global flag and the specific dish property to decide if an image should be shown.
+  const shouldShowImage = menuHasImages && plato.imagen;
+
+  // Apply a different class if no image will be shown.
+  const cardClass = shouldShowImage ? styles.card : `${styles.card} ${styles.cardNoImage}`;
 
   const getTagOverlayClass = (etiquetaKey) => {
     switch (etiquetaKey) {
@@ -30,7 +34,8 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
 
   return (
     <div className={cardClass}>
-      {menuHasImages && (
+      {/* Conditionally render the image container. It only appears if shouldShowImage is true. */}
+      {shouldShowImage && (
         <div className={styles.imageContainer}>
           <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
           <div className={styles.tagsOverlayContainer}>
@@ -68,7 +73,9 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
         </div>
         <p className={styles.dishDescription}>{descripcionCorta}</p>
 
-        {menuHasImages ? (
+        {/* Use the same condition to switch between two different layouts for the bottom part of the card. */}
+        {shouldShowImage ? (
+          // Layout for cards WITH an image.
           <>
             <div className={styles.allergenIcons}>
               {plato.alergenos && plato.alergenos.map((alergenoKey) => (
@@ -82,6 +89,7 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
             </button>
           </>
         ) : (
+          // Layout for cards WITHOUT an image, using the new footer style.
           <div className={styles.cardFooter}>
             <div className={styles.allergenIcons}>
               {plato.alergenos && plato.alergenos.map((alergenoKey) => (

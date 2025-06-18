@@ -16,6 +16,7 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
+  // Get the global menu image setting from the tenant context.
   const { tenantConfig } = useTenant();
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
@@ -46,7 +47,8 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <button className={styles.closeButton} onClick={onClose}>×</button>
         
-        {menuHasImages && (
+        {/* The image is now only rendered if the global setting is on AND the dish has an image path. */}
+        {menuHasImages && plato.imagen && (
           <img src={plato.imagen.startsWith('http') ? plato.imagen : process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.modalImage} />
         )}
 
