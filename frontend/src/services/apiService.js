@@ -65,15 +65,22 @@ export const resetChatConversation = () => {
   return fetchApi('/api/reset', { method: 'POST' });
 };
 
-/**
- * NUEVO: Envía el feedback del usuario al backend.
- * @param {object} feedbackData - Contiene { conversationId, rating, comment }.
- * @returns {Promise<object>} - El resultado de la operación.
- */
 export const sendFeedback = (feedbackData) => {
   return fetchApi('/api/feedback', {
     method: 'POST',
     body: JSON.stringify(feedbackData),
+  });
+};
+
+/**
+ * NEW: Tracks a click on the Google Review link.
+ * @param {string} conversationId - The ID of the conversation.
+ * @returns {Promise<object>} - The result of the operation.
+ */
+export const trackGoogleReviewClick = (conversationId) => {
+  return fetchApi('/api/feedback/track-click', {
+    method: 'POST',
+    body: JSON.stringify({ conversationId }),
   });
 };
 

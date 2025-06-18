@@ -34,6 +34,47 @@ async function handleFeedbackSubmission(req, res) {
   }
 }
 
+
+/**
+ * New function to handle tracking when a user clicks the Google Review link.
+ */
+async function handleGoogleReviewClick(req, res) {
+  const { conversationId } = req.body;
+
+  if (!conversationId) {
+    return res.status(400).json({ error: 'Falta conversationId.' });
+  }
+
+  try {
+    // This query updates the existing feedback entry to record the click timestamp.
+    // It only affects rows where a click hasn't been recorded yet.
+    const query = `
+      UPDATE public.feedback
+      SET google_review_link_clicked_at = CURRENT_TIMESTAMP
+      WHERE conversation_id = $1 AND google_review_link_clicked_at IS NULL
+    `;
+    const values = [conversationId];
+
+    const result = await pool.query(query, values);
+
+    if (result.rowCount > 0) {
+      console.log(`Click en enlace de Google Review registrado para la conversación: ${conversationId}`);
+    } else {
+      // This can happen if the feedback entry doesn't exist or was already updated. It's not a critical error.
+      console.warn(`Se intentó registrar un click para una conversación no encontrada o ya registrada: ${conversationId}`);
+    }
+    
+    // Always return a success status to not block the user's redirection on the frontend.
+    res.status(200).json({ message: 'Click registrado.' });
+
+  } catch (error) {
+    console.error('Error al registrar el click en el enlace de Google Review:', error);
+    // Even if tracking fails, we respond with success so the user is still redirected.
+    res.status(200).json({ error: 'Error interno, pero el usuario no será bloqueado.' });
+  }
+}
+
 module.exports = {
   handleFeedbackSubmission,
+  handleGoogleReviewClick, // Export the new function
 };

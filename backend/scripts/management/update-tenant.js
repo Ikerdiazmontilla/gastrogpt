@@ -61,6 +61,7 @@ const pool = require('../../db/pool');
     console.log(`  -> Inquilino encontrado. Schema: '${schemaName}'. Procediendo a actualizar.`);
 
     // --- PASO 3: Actualizar la tabla 'public.tenants' con los datos del tema ---
+    // The UPDATE query now includes the 'google_reviews_url' field.
     const updateTenantQuery = `
       UPDATE public.tenants SET
         restaurant_name = $2,
@@ -75,10 +76,12 @@ const pool = require('../../db/pool');
         theme_color_text_secondary = $11,
         theme_color_border = $12,
         theme_chat_bubble_user_bg = $13,
-        theme_chat_bubble_bot_bg = $14
+        theme_chat_bubble_bot_bg = $14,
+        google_reviews_url = $15
       WHERE subdomain = $1;
     `;
     const theme = tenantConfig.theme;
+    // The values array is updated with the new URL.
     const tenantValues = [
       tenantConfig.subdomain,
       tenantConfig.restaurantName, 
@@ -93,7 +96,8 @@ const pool = require('../../db/pool');
       theme.colors.textSecondary, 
       theme.colors.border,
       theme.colors.chat.userBubbleBackground, 
-      theme.colors.chat.botBubbleBackground
+      theme.colors.chat.botBubbleBackground,
+      tenantConfig.google_reviews_url // This is the new value
     ];
     await client.query(updateTenantQuery, tenantValues);
     console.log(`✅ PASO 1/3: Tabla 'public.tenants' actualizada para '${tenantConfig.restaurantName}'.`);

@@ -13,12 +13,12 @@
 }
 
 .feedbackContainer.submitted {
-  background-color: #e8f5e9; /* Un verde muy claro */
+  background-color: #e8f5e9; /* A very light green */
   border-color: #c8e6c9;
 }
 
 .feedbackContainer.submitted p {
-    color: #2e7d32; /* Verde oscuro para el texto */
+    color: #2e7d32; /* Dark green text */
     font-weight: 500;
 }
 
@@ -39,7 +39,7 @@
 .star {
   font-size: 2.2rem;
   cursor: pointer;
-  color: #ffc107; /* Color amarillo para las estrellas */
+  color: #ffc107; /* Yellow for stars */
   transition: transform 0.1s ease-in-out;
 }
 
@@ -71,7 +71,9 @@
   box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.2);
 }
 
-.submitButton {
+/* Share styles between the submit and google review buttons */
+.submitButton,
+.googleReviewButton {
   background-color: var(--color-accent, #0071E3);
   color: var(--color-accent-text, #fff);
   border: none;
@@ -80,9 +82,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+  text-decoration: none; /* For the 'a' tag to look like a button */
+  display: inline-block; /* For the 'a' tag */
+  margin-top: 8px; /* Spacing for the review button */
 }
 
-.submitButton:hover:not(:disabled) {
+.submitButton:hover:not(:disabled),
+.googleReviewButton:hover:not(:disabled) {
   background-color: #0056b3;
 }
 

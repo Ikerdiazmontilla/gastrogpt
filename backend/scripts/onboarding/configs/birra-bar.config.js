@@ -1,5 +1,5 @@
 // ===================================================================
-// ==      CONFIGURACIÓN PARA EL RESTAURANTE: La Cuchara de Oro     ==
+// ==      CONFIGURACIÓN PARA EL RESTAURANTE: La Birra Bar     ==
 // ===================================================================
 //
 // Este archivo sirve como registro permanente de la configuración
@@ -8,14 +8,15 @@
 // ===================================================================
 
 module.exports = {
-  // --- Información Básica del Inquilino ---
-  subdomain: 'demo',
-  restaurantName: 'GastroAI',
+
+  subdomain: 'birra-bar',
+  restaurantName: 'La Birra Bar',
   google_reviews_url: 'https://search.google.com/local/writereview?placeid=ChIJLyoKp_IpQg0RlXwh2_MT8hg', 
+
 
   // --- Configuración de Theming y Estilo ---
   theme: {
-    logoUrl: '/assets/logos/gastroai-logo.png',
+    logoUrl: '/assets/logos/birra-bar',
     menuHasImages: true,
     borderRadiusPx: 8,
     colors: {

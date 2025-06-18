@@ -11,6 +11,7 @@ module.exports = {
   // --- Información Básica del Inquilino ---
   subdomain: 'la-taurina',
   restaurantName: 'La Taurina',
+  google_reviews_url: 'https://search.google.com/local/writereview?placeid=ChIJ_4N_6oAoQg0RIVdXPMq5UKA',
 
   // --- Configuración de Theming y Estilo ---
   theme: {

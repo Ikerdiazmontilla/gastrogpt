@@ -35,18 +35,20 @@ const tenantConfig = require(configPath);
     await client.query('BEGIN');
     console.log('✅ Transacción iniciada.');
 
+    // The INSERT query now includes the 'google_reviews_url' column.
     const insertTenantQuery = `
       INSERT INTO public.tenants (
         subdomain, schema_name, restaurant_name, logo_url, menu_has_images, border_radius_px,
         theme_color_accent, theme_color_accent_text, theme_color_page_bg, theme_color_surface_bg,
         theme_color_text_primary, theme_color_text_secondary, theme_color_border,
-        theme_chat_bubble_user_bg, theme_chat_bubble_bot_bg
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);
+        theme_chat_bubble_user_bg, theme_chat_bubble_bot_bg, google_reviews_url
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
     `;
     const theme = tenantConfig.theme;
+    // The values array now includes the new URL. It will be 'undefined' if not in the config, which is handled as NULL by the DB.
     const tenantValues = [
-      tenantConfig.subdomain, // El subdominio original (ej: "la-taurina")
-      schemaName,             // El nombre del schema convertido (ej: "tenant_la_taurina")
+      tenantConfig.subdomain, 
+      schemaName,             
       tenantConfig.restaurantName, 
       theme.logoUrl, 
       theme.menuHasImages, 
@@ -59,7 +61,8 @@ const tenantConfig = require(configPath);
       theme.colors.textSecondary, 
       theme.colors.border,
       theme.colors.chat.userBubbleBackground, 
-      theme.colors.chat.botBubbleBackground
+      theme.colors.chat.botBubbleBackground,
+      tenantConfig.google_reviews_url // This is the new value
     ];
     await client.query(insertTenantQuery, tenantValues);
     console.log(`✅ PASO 1/4: Inquilino '${tenantConfig.restaurantName}' registrado en public.tenants.`);

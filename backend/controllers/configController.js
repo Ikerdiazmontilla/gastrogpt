@@ -31,9 +31,6 @@ async function getTenantConfig(req, res) {
       };
       const newKey = keyMap[row.key];
       if (newKey) {
-        // =================================================================
-        // MODIFICADO: Parseamos los valores que ahora son JSON.
-        // =================================================================
         if (row.key === 'frontend_welcome_message' || row.key === 'suggestion_chips_text') {
             try {
                 // Convierte el string '{"es": "...", "en": "..."}' a un objeto JS.
@@ -74,6 +71,7 @@ async function getTenantConfig(req, res) {
     const frontendConfig = {
       menu,
       theme,
+      googleReviewsUrl: tenant.google_reviews_url, // Added the URL to the config payload
       ...configurations
     };
 
