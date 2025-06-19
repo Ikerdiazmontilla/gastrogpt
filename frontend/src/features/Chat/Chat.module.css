@@ -187,9 +187,7 @@
   font-family: sans-serif;
 }
 
-.micButton,
-.cancelRecordButton,
-.stopRecordButton {
+.micButton {
   border-radius: 8px;
   padding: 10px;
   border: none;
@@ -205,9 +203,7 @@
   color: #333333;
 }
 
-.micButton:hover:not(:disabled),
-.cancelRecordButton:hover:not(:disabled),
-.stopRecordButton:hover:not(:disabled) {
+.micButton:hover:not(:disabled) {
   background-color: #e0e0e0;
 }
 
@@ -230,21 +226,51 @@
   fill: #aaaaaa;
 }
 
-.cancelRecordButton {
-  background-color: #ffebee;
-  color: #c62828;
-}
-.cancelRecordButton:hover:not(:disabled) {
-  background-color: #ffcdd2;
+/* --- NUEVOS ESTILOS PARA LA BARRA DE GRABACIÓN --- */
+.recordingStatusContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: calc(1rem * 1.4 + 22px); /* Iguala la altura mínima del textarea */
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-surface-background);
 }
 
-.stopRecordButton {
-  background-color: #f6ffed;
-  color: #237804;
+.statusText {
+  font-weight: bold;
+  color: var(--color-text-secondary);
+  flex-grow: 1;
+  text-align: center;
+  font-size: 0.9rem;
+  animation: pulse 1.5s infinite ease-in-out;
 }
-.stopRecordButton:hover:not(:disabled) {
-  background-color: #b7eb8f;
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
 }
+
+.recordingControlButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  padding: 5px;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.recordingControlButton:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+/* --- FIN DE NUEVOS ESTILOS --- */
+
 
 .bottomControlsContainer {
   display: flex;

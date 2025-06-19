@@ -291,7 +291,7 @@ module.exports = {
             "descripcionLarga": {
               "en": "Refreshing blend of pineapple, mango, orange and passion fruit, freshly squeezed and served chilled.",
               "es": "Refrescante mezcla de piña, mango, naranja y maracuyá, exprimida al momento y servida muy fría.",
-              "de": "Erfrischende Mischung aus Ananas, Mango, Orange und Maracuja, frisch gepresst und gut gekühlt serviert.",
+              "de": "Erfrischende Mischung aus Ananas, Mango, Orange y Maracuja, frisch gepresst und gut gekühlt serviert.",
               "fr": "Mélange rafraîchissant d'ananas, de mangue, d'orange et de fruit de la passion, fraîchement pressé et servi très froid."
             },
             "precio": 4,
@@ -344,7 +344,7 @@ module.exports = {
               "en": "Discover our rotating selection of craft beers brewed by small local producers. Ask our staff about the available varieties (IPA, Lager, Stout, etc.).",
               "es": "Descubre nuestra selección rotativa de cervezas artesanas elaboradas por pequeños productores de la región. Pregunta a nuestro personal por las variedades disponibles (IPA, Lager, Stout, etc.).",
               "de": "Entdecken Sie unsere wechselnde Auswahl an Craft-Bieren, gebraut von kleinen lokalen Produzenten. Fragen Sie unser Personal nach den verfügbaren Sorten (IPA, Lager, Stout, etc.).",
-              "fr": "Découvrez notre sélection tournante de bières artisanales brassées par de petits producteurs locaux. Demandez à notre personnel les variétés disponibles (IPA, Lager, Stout, etc.)."
+              "fr": "Découvrez notre sélection tournante de bières artisanales brassées par de petits producteurs locaux. Demandez à notre personal les variétés disponibles (IPA, Lager, Stout, etc.)."
             },
             "precio": 5.5,
             "alergenos": ["gluten"],
@@ -408,7 +408,7 @@ module.exports = {
             "id": 23,
             "nombre": { "es": "Agua con Gas", "en": "Sparkling Water", "fr": "Eau Gazeuse", "de": "Sprudelwasser" },
             "descripcionCorta": { "es": "Agua mineral con gas.", "en": "Carbonated mineral water.", "fr": "Eau minérale gazeuse.", "de": "Kohlensäurehaltiges Mineralwasser." },
-            "descripcionLarga": { "es": "Agua mineral natural carbonatada, perfecta para refrescarse o acompañar la comida.", "en": "Natural carbonated mineral water, perfect for refreshing or accompanying a meal.", "fr": "Eau minérale naturelle gazéifiée, parfaite pour se rafraîchir ou accompagner un repas.", "de": "Natürliches kohlensäurehaltiges Mineralwasser, perfekt zur Erfrischung oder als Begleitung zum Essen." },
+            "descripcionLarga": { "es": "Agua mineral natural carbonatada, perfecta para refrescarse o acompañar la comida.", "en": "Natural carbonated mineral water, perfect for refreshing or accompanying a meal.", "fr": "Eau minérale naturelle gazéifiée, perfecta para se rafraîchir ou accompagner un repas.", "de": "Natürliches kohlensäurehaltiges Mineralwasser, perfekt zur Erfrischung oder als Begleitung zum Essen." },
             "precio": 2.2,
             "alergenos": [],
             "etiquetas": []
@@ -426,7 +426,7 @@ module.exports = {
             "id": 25,
             "nombre": { "es": "Vino Blanco de la Casa (Copa)", "en": "House White Wine (Glass)", "fr": "Vin Blanc Maison (Verre)", "de": "Hausweißwein (Glas)" },
             "descripcionCorta": { "es": "Copa de vino blanco fresco y afrutado.", "en": "Glass of fresh and fruity white wine.", "fr": "Verre de vin blanc frais et fruité.", "de": "Glas frischer und fruchtiger Weißwein." },
-            "descripcionLarga": { "es": "Una copa de nuestro vino blanco de la casa, fresco y afrutado, ideal para pescados y ensaladas.", "en": "A glass of our fresh and fruity house white wine, ideal for fish and salads.", "fr": "Un verre de notre vin blanc maison, frais et fruité, idéal pour les poissons et les salades.", "de": "Ein Glas unseres frischen und fruchtigen Hausweißweins, ideal zu Fisch und Salaten." },
+            "descripcionLarga": { "es": "Una copa de nuestro vino blanco de la casa, fresco y afrutado, ideal para pescados y ensaladas.", "en": "A glass of our fresh and fruity house white wine, ideal for fish and salads.", "fr": "Un verre de notre vin blanc maison, frais et fruité, ideal para les poissons et les salades.", "de": "Ein Glas unseres frischen und fruchtigen Hausweißweins, ideal zu Fisch und Salaten." },
             "precio": 3.5,
             "alergenos": ["sulfitos"],
             "etiquetas": []
@@ -439,6 +439,42 @@ module.exports = {
             "precio": 3.5,
             "alergenos": ["sulfitos"],
             "etiquetas": []
+          },
+          {
+            "id": 27,
+            "nombre": { "es": "Caña", "en": "Draft Beer", "fr": "Bière Pression", "de": "Bier vom Fass" },
+            "descripcionCorta": { "es": "Cerveza fresca de barril.", "en": "Fresh draught beer.", "fr": "Bière fraîche à la pression.", "de": "Frisches Fassbier." },
+            "descripcionLarga": { "es": "Una caña de nuestra cerveza Lager, servida bien fría directamente del barril para un sabor y frescura óptimos.", "en": "A glass of our Lager beer, served perfectly chilled directly from the tap for optimal flavor and freshness.", "fr": "Un verre de notre bière Lager, servie parfaitement fraîche directement du fût pour une saveur et une fraîcheur optimales.", "de": "Ein Glas unseres Lagerbiers, perfekt gekühlt direkt vom Fass für optimalen Geschmack und Frische." },
+            "precio": 3.0,
+            "alergenos": ["gluten"],
+            "etiquetas": []
+          },
+          {
+            "id": 28,
+            "nombre": { "es": "Tercio", "en": "Bottle of Beer", "fr": "Bouteille de Bière", "de": "Flaschenbier" },
+            "descripcionCorta": { "es": "Botella de cerveza de 33cl.", "en": "33cl bottle of beer.", "fr": "Bouteille de bière de 33cl.", "de": "0,33l Flaschenbier." },
+            "descripcionLarga": { "es": "Botella de cerveza Lager de 33cl, ideal para disfrutar de una cerveza fría y refrescante.", "en": "33cl bottle of Lager beer, perfect for enjoying a cold and refreshing beer.", "fr": "Bouteille de bière Lager de 33cl, idéale pour savourer une bière froide et rafraîchissante.", "de": "0,33l Flasche Lagerbier, ideal, um ein kaltes und erfrischendes Bier zu genießen." },
+            "precio": 3.5,
+            "alergenos": ["gluten"],
+            "etiquetas": []
+          },
+          {
+            "id": 29,
+            "nombre": { "es": "Mojito", "en": "Mojito", "fr": "Mojito", "de": "Mojito" },
+            "descripcionCorta": { "es": "Clásico cóctel cubano con ron, lima, menta y soda.", "en": "Classic Cuban cocktail with rum, lime, mint, and soda.", "fr": "Cocktail cubain classique au rhum, citron vert, menthe et soda.", "de": "Klassischer kubanischer Cocktail mit Rum, Limette, Minze und Soda." },
+            "descripcionLarga": { "es": "Refrescante mojito preparado con ron blanco, hojas de menta fresca, zumo de lima natural, azúcar y un toque de soda. ¡El cóctel perfecto para cualquier momento!", "en": "Refreshing mojito prepared with white rum, fresh mint leaves, natural lime juice, sugar, and a splash of soda. The perfect cocktail for any occasion!", "fr": "Mojito rafraîchissant préparé avec du rhum blanc, des feuilles de menthe fraîche, du jus de citron vert naturel, du sucre et une touche de soda. Le cocktail parfait pour toute occasion !", "de": "Erfrischender Mojito, zubereitet mit weißem Rum, frischen Minzblättern, natürlichem Limettensaft, Zucker und einem Spritzer Soda. Der perfekte Cocktail für jede Gelegenheit!" },
+            "precio": 9.0,
+            "alergenos": [],
+            "etiquetas": ["alcohol"]
+          },
+          {
+            "id": 30,
+            "nombre": { "es": "Margarita", "en": "Margarita", "fr": "Margarita", "de": "Margarita" },
+            "descripcionCorta": { "es": "Cóctel mexicano con tequila, triple sec y lima.", "en": "Mexican cocktail with tequila, triple sec, and lime.", "fr": "Cocktail mexicain à la tequila, triple sec et citron vert.", "de": "Mexikanischer Cocktail mit Tequila, Triple Sec und Limette." },
+            "descripcionLarga": { "es": "Una clásica Margarita, elaborada con tequila de calidad, Cointreau y zumo de lima recién exprimido, servida con un borde de sal. Perfecta para un toque cítrico y vibrante.", "en": "A classic Margarita, made with quality tequila, Cointreau, and freshly squeezed lime juice, served with a salt rim. Perfect for a vibrant, citrusy kick.", "fr": "Une Margarita classique, préparée avec de la tequila de qualité, du Cointreau et du jus de citron vert fraîchement pressé, servie avec un bord salé. Parfaite pour une touche d'agrumes et vibrante.", "de": "Ein klassischer Margarita, zubereitet mit hochwertigem Tequila, Cointreau und frisch gepresstem Limettensaft, serviert mit einem Salzkranz. Perfekt für einen lebhaften, zitrusartigen Kick." },
+            "precio": 9.5,
+            "alergenos": [],
+            "etiquetas": ["alcohol"]
           }
         ]
       },
