@@ -22,7 +22,6 @@ const Chat = ({ onViewDishDetails }) => {
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
   
-  // Se elimina la constante 'welcomeMessage'
   const suggestions = tenantConfig?.suggestionChipsText?.[i18n.language] || tenantConfig?.suggestionChipsText?.es || [];
   const suggestionCount = tenantConfig?.suggestionChipsCount || 4;
   const initialDrinkPromptConfig = tenantConfig?.initialDrinkPrompt;
@@ -52,19 +51,11 @@ const Chat = ({ onViewDishDetails }) => {
     [onViewDishDetails, menu]
   );
 
-  const handleSendMessage = useCallback(async (messageText) => {
-    const trimmedInput = messageText.trim();
-    if (trimmedInput === '' || isBotTyping) return;
-
-    setShowFeedbackUI(false);
-    const userMessage = { sender: 'user', text: trimmedInput };
-    setMessages(prev => [...prev.filter(m => m.type !== 'initial_flow'), userMessage]); // Limpia el flujo si aún está visible
-    setInput('');
-    setError(null);
+  // Función refactorizada para enviar el mensaje a la API y manejar la respuesta
+  const triggerBotResponse = useCallback(async (messageText) => {
     setIsBotTyping(true);
-
     try {
-      const data = await postChatMessage(trimmedInput);
+      const data = await postChatMessage(messageText);
       setActiveConversationId(data.conversationId);
       if (data.reply) {
         setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
@@ -94,16 +85,40 @@ const Chat = ({ onViewDishDetails }) => {
     } finally {
       setIsBotTyping(false);
     }
-  }, [isBotTyping, t, feedbackAlreadyShown]);
+  }, [t, feedbackAlreadyShown]);
   
-  const handleInitialFlowSelection = useCallback((messageText) => {
-    handleSendMessage(messageText);
-  }, [handleSendMessage]);
+  // Maneja un mensaje normal del input de texto
+  const handleSendMessage = useCallback(async () => {
+    const trimmedInput = input.trim();
+    if (trimmedInput === '' || isBotTyping) return;
+    
+    setInput('');
+    const userMessage = { sender: 'user', text: trimmedInput };
+    setMessages(prev => [...prev.filter(m => m.type !== 'initial_flow'), userMessage]);
+    
+    await triggerBotResponse(trimmedInput);
+  }, [input, isBotTyping, triggerBotResponse]);
+  
+  // Maneja la selección desde el flujo inicial
+  const handleInitialFlowSelection = useCallback((messageText, originalConfig) => {
+    const questionText = originalConfig.question[i18n.language] || originalConfig.question.en || originalConfig.question.es;
+    const staticBotMessage = { sender: 'bot', text: questionText };
+    const userMessage = { sender: 'user', text: messageText };
+
+    // Reemplaza el prompt interactivo por la pregunta estática y añade el mensaje del usuario
+    setMessages(prev => [
+      ...prev.filter(m => m.type !== 'initial_flow'),
+      staticBotMessage,
+      userMessage
+    ]);
+    
+    triggerBotResponse(messageText);
+  }, [i18n.language, triggerBotResponse]);
 
   const loadConversation = useCallback(async () => {
     setIsLoading(true);
     setError(null);
-    setMessages([]); // Limpiar mensajes antes de cargar
+    setMessages([]);
     setIsLimitReached(false);
     setLimitNotification('');
     setShowFeedbackUI(false);
@@ -129,14 +144,8 @@ const Chat = ({ onViewDishDetails }) => {
     }
   }, [t, initialDrinkPromptConfig]);
 
-  useEffect(() => {
-    loadConversation();
-  }, [loadConversation]);
-  
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isBotTyping]);
-
+  useEffect(() => { loadConversation(); }, [loadConversation]);
+  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, isBotTyping]);
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -144,8 +153,6 @@ const Chat = ({ onViewDishDetails }) => {
     }
   }, [input]);
 
-  const handleSendClick = () => handleSendMessage(input);
-  
   const stopMediaStream = useCallback(() => {
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
@@ -154,13 +161,9 @@ const Chat = ({ onViewDishDetails }) => {
   }, []);
 
   const handleReset = async () => {
-    try {
-      if (isRecording) cancelAudioRecording();
-      await resetChatConversation();
-      await loadConversation();
-    } catch (err) {
-      setError(`Error resetting: ${err.message}`);
-    }
+    if (isRecording) cancelAudioRecording();
+    await resetChatConversation();
+    await loadConversation();
   };
 
   const handleSuggestionClick = (suggestionText) => {
@@ -168,6 +171,7 @@ const Chat = ({ onViewDishDetails }) => {
     if (textareaRef.current) textareaRef.current.focus();
   };
   
+ 
   const startAudioRecording = async () => {
     if (isRecording || isTranscribing || isBotTyping) return;
     setError(null);
@@ -246,7 +250,7 @@ const Chat = ({ onViewDishDetails }) => {
 
           {messages.map((msg, index) => {
             if (msg.type === 'initial_flow') {
-              return <InitialFlow key={`initial-flow-${index}`} config={msg.config} onSelection={handleInitialFlowSelection} />;
+              return <InitialFlow key={`initial-flow-${index}`} config={msg.config} onSelection={(text) => handleInitialFlowSelection(text, msg.config)} />;
             }
             return (
               <div key={index} className={`${styles.message} ${styles[msg.sender]}`}>
@@ -292,7 +296,7 @@ const Chat = ({ onViewDishDetails }) => {
           ) : (
             <>
               <button className={`${styles.micButton} ${isMicButtonDisabled ? styles.micButtonDisabled : ''}`} onClick={startAudioRecording} disabled={isMicButtonDisabled}> <MicrophoneIcon className={styles.microphoneSvg}/> </button>
-              <button className={styles.sendMessage} onClick={handleSendClick} disabled={isTextareaAndSendDisabled || input.trim() === ''}> <SendIcon className={styles.sendSvg} /> </button>
+              <button className={styles.sendMessage} onClick={handleSendMessage} disabled={isTextareaAndSendDisabled || input.trim() === ''}> <SendIcon className={styles.sendSvg} /> </button>
             </>
           )}
         </div>

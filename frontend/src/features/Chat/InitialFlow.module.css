@@ -1,19 +1,18 @@
 /* frontend/src/features/Chat/InitialFlow.module.css */
 
-/* Este archivo ahora da estilo al contenido DENTRO de la burbuja de chat */
-
 .message {
   position: relative;
   max-width: 90%;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 20px;
+  border-radius: 12px;
   word-wrap: break-word;
-  line-height: 1.5;
   align-self: flex-start;
   border-top-left-radius: 4px;
   margin-right: auto;
   color: var(--color-text-primary);
-  background-color: var(--chat-bubble-bot-background);
+  background-color: var(--color-surface-background);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .message::before {
@@ -23,97 +22,110 @@
   left: -10px;
   width: 0;
   height: 0;
-  border-right: 14px solid var(--chat-bubble-bot-background);
+  border-right: 14px solid var(--color-border);
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
 }
 
-
 .bot {
-  background-color: var(--chat-bubble-bot-background);
+  background-color: var(--color-surface-background);
 }
 
 .flowContentWrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra el contenido horizontalmente */
+  position: relative; /* Para posicionar el botón de atrás de forma absoluta */
+  width: 100%;
 }
 
 .flowTitle {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: var(--color-text-primary);
   text-align: center;
-  width: 100%;
-  margin-bottom: 5px;
+  flex-grow: 1; /* El título ocupa el espacio restante */
 }
 
-.flowOptions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
+.flowOptionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
 }
 
 .flowButton {
-  padding: 12px 18px;
-  border-radius: 20px;
-  border: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background-color: var(--color-page-background);
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  flex-grow: 1;
-  flex-basis: 45%;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  min-height: 90px;
+}
+
+.flowButtonIcon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.flowButtonText {
+  font-size: 0.9rem;
+  font-weight: 500;
   text-align: center;
 }
 
-.flowButton:hover {
-  transform: translateY(-2px);
-  opacity: 0.95;
-}
+.color1, .color1 .flowButtonText { color: #4A90E2; }
+.color1 { border-color: #4A90E2; }
+.color1:hover { background-color: #eaf2fb; }
 
-/* Paleta de colores predefinida */
-.color1 { background-color: #007bff; }
-.color2 { background-color: #28a745; }
-.color3 { background-color: #dc3545; }
-.color4 { background-color: #ffc107; color: #212529;}
-.color5 { background-color: #17a2b8; }
+.color2, .color2 .flowButtonText { color: #50C878; }
+.color2 { border-color: #50C878; }
+.color2:hover { background-color: #eef9f2; }
 
+.color3, .color3 .flowButtonText { color: #8E44AD; }
+.color3 { border-color: #8E44AD; }
+.color3:hover { background-color: #f4eef7; }
 
-.subViewHeader {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 10px;
-}
+.color4, .color4 .flowButtonText { color: #F39C12; }
+.color4 { border-color: #F39C12; }
+.color4:hover { background-color: #fef5e7; }
+
+.color5, .color5 .flowButtonText { color: #7F8C8D; }
+.color5 { border-color: #7F8C8D; }
+.color5:hover { background-color: #f2f4f4; }
 
 .backButton {
-  background: transparent;
+  position: absolute; /* Posición absoluta relativa al headerContainer */
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-page-background);
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
-  padding: 6px 12px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%; /* Botón redondo */
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 1.2rem;
   font-weight: 500;
-  white-space: nowrap;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
 }
 
 .backButton:hover {
-  background-color: #f8f9fa;
-}
-
-.subViewHeader .flowTitle {
-  flex-grow: 1;
-  text-align: center;
-}
-
-@media (max-width: 480px) {
-  .flowButton {
-    flex-basis: 100%;
-  }
+  background-color: #e9ecef;
 }
