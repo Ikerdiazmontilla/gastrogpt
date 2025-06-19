@@ -7,8 +7,8 @@ import { fetchConversation, postChatMessage, resetChatConversation } from '../..
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
 import Feedback from './Feedback';
 import InitialFlow from './InitialFlow';
-import { useAudioRecorder } from './hooks/useAudioRecorder'; // Importa el nuevo hook
-import ChatInput from './components/ChatInput'; // Importa el nuevo componente
+import { useAudioRecorder } from './hooks/useAudioRecorder'; // Import the new hook
+import ChatInput from './components/ChatInput'; // Import the new component
 
 const Chat = ({ onViewDishDetails }) => {
   const { t, i18n } = useTranslation();
@@ -48,8 +48,8 @@ const Chat = ({ onViewDishDetails }) => {
 
 
   const CustomLink = useMemo(() =>
-    createMarkdownLinkRenderer(onViewDishDetails, menu, styles),
-    [onViewDishDetails, menu]
+    createMarkdownLinkRenderer(onViewDishDetails),
+    [onViewDishDetails]
   );
 
   // Función para enviar el mensaje a la API y manejar la respuesta

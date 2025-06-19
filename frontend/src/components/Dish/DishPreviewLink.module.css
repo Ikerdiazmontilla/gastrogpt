@@ -1,0 +1,61 @@
+/* frontend/src/components/Dish/DishPreviewLink.module.css */
+
+.buttonWrapper {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin: 8px 0; /* Add some vertical spacing between stacked cards */
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  background-color: white;
+  border: 1px solid var(--color-border, #e0e0e0);
+  border-radius: var(--border-radius, 8px);
+  padding: 8px;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.buttonWrapper:hover .card {
+  background-color: #f8f9fa; /* Subtle hover effect */
+}
+
+.dishImage {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.dishTitle {
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  flex-grow: 1;
+  /* Truncation for long titles */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.textOnlyLayout {
+  justify-content: center;
+}
+
+.textOnlyLayout .dishTitle {
+  text-align: center;
+  white-space: normal; /* Allow text to wrap in text-only mode if needed */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+}
