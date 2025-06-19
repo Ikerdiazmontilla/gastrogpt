@@ -49,6 +49,46 @@ module.exports = {
     },
     suggestionChipsCount: 5,
   },
+  initial_drink_prompt: {
+    enabled: true, // Ponlo en 'false' para desactivar esta función en un restaurante específico
+    question: {
+      es: "¿Qué te gustaría para beber?",
+      en: "What would you like to drink?",
+      fr: "Que souhaitez-vous boire?",
+      de: "Was möchten Sie trinken?"
+    },
+    options: [
+      {
+        label: { es: "Refrescos", en: "Soft Drinks", fr: "Boissons gazeuses", de: "Erfrischungsgetränke" },
+        type: 'category',
+        sub_options: [
+          { label: { es: "Coca-Cola", en: "Coca-Cola", fr: "Coca-Cola", de: "Coca-Cola" }, type: 'send_message', message_text: "Coca-Cola" },
+          { label: { es: "Fanta Naranja", en: "Fanta Orange", fr: "Fanta Orange", de: "Fanta Orange" }, type: 'send_message', message_text: "Fanta Naranja" },
+          { label: { es: "Sprite", en: "Sprite", fr: "Sprite", de: "Sprite" }, type: 'send_message', message_text: "Sprite" },
+          { label: { es: "Agua con Gas", en: "Sparkling Water", fr: "Eau Gazeuse", de: "Sprudelwasser" }, type: 'send_message', message_text: "Agua con Gas" }
+        ]
+      },
+      {
+        label: { es: "Vinos", en: "Wines", fr: "Vins", de: "Weine" },
+        type: 'category',
+        sub_options: [
+          { label: { es: "Vino Tinto", en: "Red Wine", fr: "Vin Rouge", de: "Rotwein" }, type: 'send_message', message_text: "Vino Tinto" },
+          { label: { es: "Vino Blanco", en: "White Wine", fr: "Vin Blanc", de: "Weißwein" }, type: 'send_message', message_text: "Vino Blanco" },
+          { label: { es: "Vino Rosado", en: "Rosé Wine", fr: "Vin Rosé", de: "Roséwein" }, type: 'send_message', message_text: "Vino Rosado" }
+        ]
+      },
+      {
+        label: { es: "Agua", en: "Water", fr: "Eau", de: "Wasser" },
+        type: 'send_message',
+        message_text: "Agua"
+      },
+      {
+        label: { es: "Sangría", en: "Sangria", fr: "Sangria", de: "Sangria" },
+        type: 'send_message',
+        message_text: "Sangría"
+      }
+    ]
+  },
 
   // --- Configuración del Modelo de Lenguaje (LLM) ---
   llm: {

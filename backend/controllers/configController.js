@@ -1,18 +1,12 @@
 // backend/controllers/configController.js
-
-/**
- * Controlador para obtener la configuración específica de un inquilino.
- * Esta configuración es la que necesita el frontend para renderizarse dinámicamente.
- */
 async function getTenantConfig(req, res) {
-  // El middleware dbConnection ya nos proporciona un cliente y tenantResolver el inquilino.
   const client = req.dbClient;
   const tenant = req.tenant; 
 
   try {
-    // Hacemos las consultas en paralelo para más eficiencia.
+    // Se añade 'initial_drink_prompt' a la consulta de configuraciones
     const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
-    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('frontend_welcome_message', 'suggestion_chips_text', 'suggestion_chips_count')");
+    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('frontend_welcome_message', 'suggestion_chips_text', 'suggestion_chips_count', 'initial_drink_prompt')");
     
     const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
 
@@ -27,17 +21,17 @@ async function getTenantConfig(req, res) {
       const keyMap = {
         frontend_welcome_message: 'welcomeMessage',
         suggestion_chips_text: 'suggestionChipsText',
-        suggestion_chips_count: 'suggestionChipsCount'
+        suggestion_chips_count: 'suggestionChipsCount',
+        initial_drink_prompt: 'initialDrinkPrompt' // Nueva clave mapeada
       };
       const newKey = keyMap[row.key];
       if (newKey) {
-        if (row.key === 'frontend_welcome_message' || row.key === 'suggestion_chips_text') {
+        // Para todas las configuraciones que son objetos JSON
+        if (['frontend_welcome_message', 'suggestion_chips_text', 'initial_drink_prompt'].includes(row.key)) {
             try {
-                // Convierte el string '{"es": "...", "en": "..."}' a un objeto JS.
                 acc[newKey] = JSON.parse(row.value);
             } catch {
-                // Fallback si el JSON está malformado.
-                acc[newKey] = (row.key === 'frontend_welcome_message') ? {} : []; 
+                acc[newKey] = (row.key === 'frontend_welcome_message') ? {} : (row.key === 'initial_drink_prompt' ? null : []); 
             }
         } else if (row.key === 'suggestion_chips_count') {
             acc[newKey] = parseInt(row.value, 10) || 4;
@@ -71,7 +65,7 @@ async function getTenantConfig(req, res) {
     const frontendConfig = {
       menu,
       theme,
-      googleReviewsUrl: tenant.google_reviews_url, // Added the URL to the config payload
+      googleReviewsUrl: tenant.google_reviews_url,
       ...configurations
     };
 
@@ -85,4 +79,4 @@ async function getTenantConfig(req, res) {
 
 module.exports = {
   getTenantConfig,
-};
+}; 

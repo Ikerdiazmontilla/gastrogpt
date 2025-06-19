@@ -1,10 +1,8 @@
+// backend/scripts/onboarding/add-tenant.js
 const fs = require('fs');
 const path = require('path');
-const pool = require('../../db/pool'); // Ruta actualizada para salir de /onboarding
+const pool = require('../../db/pool');
 
-//npm run add-tenant --prefix backend -- nuevo-restaurante.config.js
-
-// --- PASO 1: Obtener el nombre del archivo de configuración desde la terminal ---
 const configFile = process.argv[2];
 if (!configFile) {
   console.error('❌ ERROR: Debes proporcionar el nombre del archivo de configuración.');
@@ -20,10 +18,7 @@ if (!fs.existsSync(configPath)) {
 
 const tenantConfig = require(configPath);
 
-// --- El resto del script es igual, pero ahora usa el config importado ---
-
 (async () => {
-  // MODIFICACIÓN: Convertir subdominio con guiones a un nombre de schema válido con guiones bajos.
   const schemaFriendlySubdomain = tenantConfig.subdomain.replace(/-/g, '_');
   const schemaName = `tenant_${schemaFriendlySubdomain}`;
   
@@ -35,7 +30,6 @@ const tenantConfig = require(configPath);
     await client.query('BEGIN');
     console.log('✅ Transacción iniciada.');
 
-    // The INSERT query now includes the 'google_reviews_url' column.
     const insertTenantQuery = `
       INSERT INTO public.tenants (
         subdomain, schema_name, restaurant_name, logo_url, menu_has_images, border_radius_px,
@@ -45,24 +39,12 @@ const tenantConfig = require(configPath);
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
     `;
     const theme = tenantConfig.theme;
-    // The values array now includes the new URL. It will be 'undefined' if not in the config, which is handled as NULL by the DB.
     const tenantValues = [
-      tenantConfig.subdomain, 
-      schemaName,             
-      tenantConfig.restaurantName, 
-      theme.logoUrl, 
-      theme.menuHasImages, 
-      theme.borderRadiusPx,
-      theme.colors.accent, 
-      theme.colors.accentText, 
-      theme.colors.pageBackground, 
-      theme.colors.surfaceBackground,
-      theme.colors.textPrimary, 
-      theme.colors.textSecondary, 
-      theme.colors.border,
-      theme.colors.chat.userBubbleBackground, 
-      theme.colors.chat.botBubbleBackground,
-      tenantConfig.google_reviews_url // This is the new value
+      tenantConfig.subdomain, schemaName, tenantConfig.restaurantName, theme.logoUrl, 
+      theme.menuHasImages, theme.borderRadiusPx, theme.colors.accent, theme.colors.accentText, 
+      theme.colors.pageBackground, theme.colors.surfaceBackground, theme.colors.textPrimary, 
+      theme.colors.textSecondary, theme.colors.border, theme.colors.chat.userBubbleBackground, 
+      theme.colors.chat.botBubbleBackground, tenantConfig.google_reviews_url
     ];
     await client.query(insertTenantQuery, tenantValues);
     console.log(`✅ PASO 1/4: Inquilino '${tenantConfig.restaurantName}' registrado en public.tenants.`);
@@ -87,6 +69,11 @@ const tenantConfig = require(configPath);
     await client.query(insertConfigQuery, ['frontend_welcome_message', JSON.stringify(tenantConfig.chatConfig.welcomeMessage)]);
     await client.query(insertConfigQuery, ['suggestion_chips_text', JSON.stringify(tenantConfig.chatConfig.suggestionChips)]);
     await client.query(insertConfigQuery, ['suggestion_chips_count', tenantConfig.chatConfig.suggestionChipsCount.toString()]);
+    // Añadida la inserción para la nueva configuración
+    if (tenantConfig.initial_drink_prompt) {
+        await client.query(insertConfigQuery, ['initial_drink_prompt', JSON.stringify(tenantConfig.initial_drink_prompt)]);
+    }
+
     console.log(`✅ PASO 4/4: Datos de configuración y menú insertados.`);
 
     await client.query('COMMIT');

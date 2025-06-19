@@ -363,3 +363,36 @@
   border-radius: 4px;
   margin: 10px 0;
 }
+
+.typingIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 20px !important; /* Ajuste de padding para que se vea bien */
+}
+
+.typingIndicator .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #90949c; /* Color de los puntos */
+  margin: 0 3px;
+  animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+
+.typingIndicator .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typingIndicator .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1.0);
+  }
+}

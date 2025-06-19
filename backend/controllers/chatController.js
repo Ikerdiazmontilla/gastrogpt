@@ -11,23 +11,18 @@ function countUserMessages(messagesArray) {
   return messagesArray.filter(msg => msg.role === 'user').length;
 }
 
+// Esta función es la única que necesita cambios en este archivo.
 async function getConversationHistory(req, res) {
   const client = req.dbClient;
   try {
     const conversation = await chatRepository.getActiveConversation(req.sessionID, client);
-    
-    // Determine user language from header, default to 'es'
-    const userLang = req.get('Accept-Language') || 'es';
-    
-    const configResult = await client.query("SELECT value FROM configurations WHERE key = 'frontend_welcome_message'");
-    const welcomeMessages = JSON.parse(configResult.rows[0]?.value || '{}');
-    const welcomeMessage = welcomeMessages[userLang] || welcomeMessages.es || 'Hola, ¿en qué puedo ayudarte?';
 
     if (conversation && conversation.messages && conversation.messages.length > 0) {
       const userMessagesCount = countUserMessages(conversation.messages);
       const lastBotMessageInHistory = conversation.messages.slice().reverse().find(m => m.role === 'assistant');
       const limitReachedNotified = lastBotMessageInHistory && lastBotMessageInHistory.limitReachedNotification;
 
+      // Mapea los mensajes de la BBDD al formato que espera el frontend
       const frontendMessages = conversation.messages.map(msg => ({
         sender: msg.role === 'assistant' ? 'bot' : 'user',
         text: msg.content,
@@ -42,13 +37,16 @@ async function getConversationHistory(req, res) {
         }
       });
     } else {
-      res.json({ messages: [{ sender: 'bot', text: welcomeMessage }] });
+      // SI NO HAY HISTORIAL, SE ENVÍA UN ARRAY DE MENSAJES VACÍO.
+      // Ya no se construye ni se envía un 'welcomeMessage' desde aquí.
+      res.json({ messages: [] });
     }
   } catch (error) {
     console.error('Error in getConversationHistory:', error);
     res.status(500).json({ error: 'Error retrieving conversation history.' });
   }
 }
+
 
 async function handleChatMessage(req, res) {
   const { message } = req.body;
@@ -58,7 +56,6 @@ async function handleChatMessage(req, res) {
   const userMessageContent = message.trim();
   const client = req.dbClient;
   
-  // Get the user's language from the header, defaulting to Spanish.
   const userLang = req.get('Accept-Language') || 'es';
 
   try {
@@ -79,7 +76,6 @@ async function handleChatMessage(req, res) {
         throw new Error('Configuración esencial para el LLM (menú, instrucciones, primer mensaje) no encontrada en la BBDD.');
     }
 
-    // Use the transformer to get a clean, single-language menu for the LLM.
     const singleLanguageMenu = transformMenuForLanguage(fullMenuData, userLang);
     
     const systemInstructions = systemInstructionsTemplate.replace(

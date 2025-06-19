@@ -14,18 +14,19 @@ import {
 } from '../../services/apiService';
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
 import Feedback from './Feedback';
+import InitialFlow from './InitialFlow';
 
 const Chat = ({ onViewDishDetails }) => {
   const { t, i18n } = useTranslation();
-  const currentLanguage = i18n.language;
-
+  
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
   
-  const welcomeMessage = tenantConfig?.welcomeMessage?.[currentLanguage] || tenantConfig?.welcomeMessage?.es || t('chat.placeholder');
-  const suggestions = tenantConfig?.suggestionChipsText?.[currentLanguage] || tenantConfig?.suggestionChipsText?.es || [];
+  // Se elimina la constante 'welcomeMessage'
+  const suggestions = tenantConfig?.suggestionChipsText?.[i18n.language] || tenantConfig?.suggestionChipsText?.es || [];
   const suggestionCount = tenantConfig?.suggestionChipsCount || 4;
-  
+  const initialDrinkPromptConfig = tenantConfig?.initialDrinkPrompt;
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -43,56 +44,98 @@ const Chat = ({ onViewDishDetails }) => {
 
   const [showFeedbackUI, setShowFeedbackUI] = useState(false);
   const [activeConversationId, setActiveConversationId] = useState(null);
-  
-  // --- NUEVO ESTADO PARA EVITAR REPETICIONES ---
   const [feedbackAlreadyShown, setFeedbackAlreadyShown] = useState(false);
-
+  const [isBotTyping, setIsBotTyping] = useState(false);
 
   const CustomLink = useMemo(() =>
     createMarkdownLinkRenderer(onViewDishDetails, menu, styles),
     [onViewDishDetails, menu]
   );
 
+  const handleSendMessage = useCallback(async (messageText) => {
+    const trimmedInput = messageText.trim();
+    if (trimmedInput === '' || isBotTyping) return;
+
+    setShowFeedbackUI(false);
+    const userMessage = { sender: 'user', text: trimmedInput };
+    setMessages(prev => [...prev.filter(m => m.type !== 'initial_flow'), userMessage]); // Limpia el flujo si aún está visible
+    setInput('');
+    setError(null);
+    setIsBotTyping(true);
+
+    try {
+      const data = await postChatMessage(trimmedInput);
+      setActiveConversationId(data.conversationId);
+      if (data.reply) {
+        setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
+        if (data.isFinalMessage && !feedbackAlreadyShown) {
+          setShowFeedbackUI(true);
+          setFeedbackAlreadyShown(true);
+        }
+      } else if (data.limitExceeded) {
+        setError(data.error || t('chat.limitReached'));
+        setIsLimitReached(true);
+        setLimitNotification(data.error || t('chat.limitReachedCta'));
+      }
+      if (data.limitReached && data.notification) {
+        setIsLimitReached(true);
+        setLimitNotification(data.notification);
+      }
+    } catch (err) {
+      let displayError = `Error: ${err.message || 'Failed to send message.'}`;
+      if (err.response?.data?.limitExceeded) {
+        displayError = err.response.data.error || t('chat.limitReached');
+        setIsLimitReached(true);
+        setLimitNotification(displayError);
+      } else if (err.response?.data?.error) {
+        displayError = err.response.data.error;
+      }
+      setError(displayError);
+    } finally {
+      setIsBotTyping(false);
+    }
+  }, [isBotTyping, t, feedbackAlreadyShown]);
+  
+  const handleInitialFlowSelection = useCallback((messageText) => {
+    handleSendMessage(messageText);
+  }, [handleSendMessage]);
+
   const loadConversation = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+    setMessages([]); // Limpiar mensajes antes de cargar
     setIsLimitReached(false);
     setLimitNotification('');
     setShowFeedbackUI(false);
-    setFeedbackAlreadyShown(false); // Reiniciar al cargar nueva conversación
-    const richWelcomeMessageObject = { sender: 'bot', text: welcomeMessage };
+    setFeedbackAlreadyShown(false);
+    
     try {
       const data = await fetchConversation();
-      let actualConversationHistory = [];
-      if (data.meta && data.messages && data.messages.length > 0) {
-        actualConversationHistory = data.messages;
-        if (data.meta.limitEffectivelyReached) {
+      const conversationHistory = data.messages || [];
+
+      if (conversationHistory.length === 0 && initialDrinkPromptConfig?.enabled) {
+        setMessages([{ type: 'initial_flow', sender: 'bot', config: initialDrinkPromptConfig }]);
+      } else {
+        setMessages(conversationHistory);
+        if (data.meta?.limitEffectivelyReached) {
           setIsLimitReached(true);
-          const lastBotMsgWithNotification = actualConversationHistory.slice().reverse().find(
-            m => m.sender === 'bot' && m.limitReachedNotification
-          );
-          if (lastBotMsgWithNotification) {
-             setLimitNotification(t('chat.limitReachedCta'));
-          }
+          setLimitNotification(t('chat.limitReachedCta'));
         }
       }
-      setMessages([richWelcomeMessageObject, ...actualConversationHistory]);
     } catch (err) {
-      console.error('Error loading conversation:', err.message);
       setError(`Failed to load history: ${err.message}. Please try again later.`);
-      setMessages([richWelcomeMessageObject]);
     } finally {
       setIsLoading(false);
     }
-  }, [t, welcomeMessage]);
+  }, [t, initialDrinkPromptConfig]);
 
   useEffect(() => {
     loadConversation();
   }, [loadConversation]);
-
+  
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, limitNotification, showFeedbackUI]);
+  }, [messages, isBotTyping]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -101,6 +144,8 @@ const Chat = ({ onViewDishDetails }) => {
     }
   }, [input]);
 
+  const handleSendClick = () => handleSendMessage(input);
+  
   const stopMediaStream = useCallback(() => {
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
@@ -108,165 +153,67 @@ const Chat = ({ onViewDishDetails }) => {
     }
   }, []);
 
-  const handleSend = async () => {
-    if (isLimitReached || isRecording || isTranscribing) return;
-    const trimmedInput = input.trim();
-    if (trimmedInput === '') return;
-
-    setShowFeedbackUI(false);
-    const userMessage = { sender: 'user', text: trimmedInput };
-    setMessages(prevMessages => [...prevMessages, userMessage]);
-    setInput('');
-    setError(null);
-
-    setTimeout(() => {
-        if (textareaRef.current) {
-            textareaRef.current.focus();
-        }
-    }, 0);
-
-    try {
-      const data = await postChatMessage(trimmedInput);
-      
-      setActiveConversationId(data.conversationId);
-      if (data.reply) {
-        setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: data.reply }]);
-        
-        // --- LÓGICA DE CONTROL DE FEEDBACK MEJORADA ---
-        if (data.isFinalMessage && !feedbackAlreadyShown) {
-            setShowFeedbackUI(true);
-            setFeedbackAlreadyShown(true); // Marcar como mostrado para esta sesión
-        }
-      } 
-      
-      else if (data.limitExceeded) {
-        setError(data.error || t('chat.limitReached'));
-        setIsLimitReached(true);
-        setLimitNotification(data.error || t('chat.limitReachedCta'));
-      } else {
-        setError('Unexpected server response.');
-      }
-      if (data.limitReached && data.notification) {
-        setIsLimitReached(true);
-        setLimitNotification(data.notification);
-      }
-    } catch (err) {
-      console.error('Error sending message:', err);
-      let displayError = `Error: ${err.message || 'Failed to send message.'}`;
-      if (err.response && err.response.data && err.response.data.limitExceeded) {
-        displayError = err.response.data.error || t('chat.limitReached');
-        setIsLimitReached(true);
-        setLimitNotification(displayError);
-      } else if (err.response && err.response.data && err.response.data.error) {
-        displayError = err.response.data.error;
-      }
-      setError(displayError);
-    }
-  };
-
   const handleReset = async () => {
     try {
+      if (isRecording) cancelAudioRecording();
       await resetChatConversation();
-      setInput('');
-      if (isRecording && mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-        mediaRecorderRef.current.onstop = () => {
-            stopMediaStream();
-            audioChunksRef.current = [];
-        };
-        mediaRecorderRef.current.stop();
-      } else {
-        stopMediaStream();
-      }
-      setIsRecording(false);
-      setIsTranscribing(false);
-      audioChunksRef.current = [];
       await loadConversation();
-      if (textareaRef.current) {
-          textareaRef.current.blur();
-      }
     } catch (err) {
       setError(`Error resetting: ${err.message}`);
-      await loadConversation();
     }
   };
 
   const handleSuggestionClick = (suggestionText) => {
-    if (isLimitReached || isRecording || isTranscribing) return;
     setInput(suggestionText);
-    if (textareaRef.current) {
-        textareaRef.current.focus();
-    }
+    if (textareaRef.current) textareaRef.current.focus();
   };
   
-  // ... (resto de funciones de audio sin cambios)
   const startAudioRecording = async () => {
-    if (isRecording || isTranscribing) return;
+    if (isRecording || isTranscribing || isBotTyping) return;
     setError(null);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaStreamRef.current = stream;
-      mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-      audioChunksRef.current = [];
-
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
-      setIsTranscribing(false);
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaStreamRef.current = stream;
+        mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+        audioChunksRef.current = [];
+        mediaRecorderRef.current.ondataavailable = (event) => {
+            if (event.data.size > 0) audioChunksRef.current.push(event.data);
+        };
+        mediaRecorderRef.current.start();
+        setIsRecording(true);
     } catch (err) {
-      setError(t('chat.errorAccessingMic'));
-      stopMediaStream();
+        setError(t('chat.errorAccessingMic'));
+        stopMediaStream();
     }
   };
 
   const stopAudioRecordingAndTranscribe = async () => {
-    if (!isRecording || !mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
-      stopMediaStream();
-      return;
-    }
-
+    if (!isRecording || !mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') return;
     setIsRecording(false);
     setIsTranscribing(true);
-
     mediaRecorderRef.current.onstop = async () => {
         stopMediaStream();
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         audioChunksRef.current = [];
-
         if (audioBlob.size === 0) {
             setError(t('chat.errorNoAudio'));
             setIsTranscribing(false);
             return;
         }
-
         try {
             const data = await transcribeAudio(audioBlob, 'recording.webm');
-            if (data.transcription) {
-                setInput(prevInput => prevInput + data.transcription + ' ');
-            } else {
-                setError(data.error || t('chat.errorTranscription'));
-            }
+            if (data.transcription) setInput(prev => prev + data.transcription + ' ');
         } catch (err) {
             setError(err.message || 'Failed to transcribe.');
         } finally {
             setIsTranscribing(false);
-            if (textareaRef.current) {
-                textareaRef.current.focus();
-            }
         }
     };
     mediaRecorderRef.current.stop();
   };
 
   const cancelAudioRecording = () => {
-    if (!mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
-        stopMediaStream();
-        return;
-    }
+    if (!mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') return;
     mediaRecorderRef.current.onstop = () => {
         stopMediaStream();
         audioChunksRef.current = [];
@@ -276,69 +223,56 @@ const Chat = ({ onViewDishDetails }) => {
     setIsTranscribing(false);
   };
 
-  useEffect(() => {
-    return () => {
-      stopMediaStream();
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
-        mediaRecorderRef.current.stop();
-      }
-    };
-  }, [stopMediaStream]);
-
-  const isResetDisabled = (isLoading && messages.length <= 1 && !isLimitReached && !error) || isRecording || isTranscribing;
-  const isTextareaAndSendDisabled = isLimitReached || isRecording || isTranscribing;
-  const isMicButtonDisabled = isLimitReached || isTranscribing;
-  const areSuggestionsDisabled = isLimitReached || isRecording || isTranscribing;
-  
   const getPlaceholderText = () => {
     if (isTranscribing) return t('chat.placeholderTranscribing');
     if (isRecording) return t('chat.placeholderRecording');
     if (isLimitReached) return t('chat.placeholderLimit');
     return t('chat.placeholder');
   };
+  
+  const isResetDisabled = isLoading || isRecording || isTranscribing || isBotTyping;
+  const isTextareaAndSendDisabled = isLimitReached || isRecording || isTranscribing || isBotTyping;
+  const isMicButtonDisabled = isLimitReached || isTranscribing || isBotTyping;
+  const areSuggestionsDisabled = isLimitReached || isRecording || isTranscribing || isBotTyping;
 
   return (
     <>
       <div className={styles.chatContainer}>
         <div className={styles.messages}>
-          {isLoading && messages.length <= 1 && !error && (
-            <div className={`${styles.message} ${styles.system}`}>
-              {t('chat.loadingHistory')}
-            </div>
+          {isLoading && messages.length === 0 && !error && (
+            <div className={`${styles.message} ${styles.system}`}>{t('chat.loadingHistory')}</div>
           )}
-          {error && (!isLimitReached || !limitNotification) && (
-            <div className={`${styles.message} ${styles.system} ${styles.error}`}>{error}</div>
-          )}
-          {messages.map((msg, index) => (
+          {error && <div className={`${styles.message} ${styles.system} ${styles.error}`}>{error}</div>}
+
+          {messages.map((msg, index) => {
+            if (msg.type === 'initial_flow') {
+              return <InitialFlow key={`initial-flow-${index}`} config={msg.config} onSelection={handleInitialFlowSelection} />;
+            }
+            return (
               <div key={index} className={`${styles.message} ${styles[msg.sender]}`}>
                 {msg.sender === 'bot' ? (
-                  <ReactMarkdown components={{ a: CustomLink }} urlTransform={markdownUrlTransform}>
-                    {msg.text}
-                  </ReactMarkdown>
+                  <ReactMarkdown components={{ a: CustomLink }} urlTransform={markdownUrlTransform}>{msg.text}</ReactMarkdown>
                 ) : (
                   <span>{msg.text}</span>
                 )}
               </div>
-            ))}
-          {isLimitReached && limitNotification && (
-            <div className={`${styles.message} ${styles.system} ${styles.limitNotification}`}>
-              {limitNotification}
+            );
+          })}
+
+          {isBotTyping && (
+            <div className={`${styles.message} ${styles.bot} ${styles.typingIndicator}`}>
+              <div className={styles.dot}></div><div className={styles.dot}></div><div className={styles.dot}></div>
             </div>
           )}
-          {showFeedbackUI && (
-            <Feedback
-              conversationId={activeConversationId}
-              onFeedbackSent={() => setShowFeedbackUI(false)}
-            />
+          {isLimitReached && limitNotification && (
+            <div className={`${styles.message} ${styles.system} ${styles.limitNotification}`}>{limitNotification}</div>
           )}
+          {showFeedbackUI && <Feedback conversationId={activeConversationId} onFeedbackSent={() => setShowFeedbackUI(false)} />}
           <div ref={messagesEndRef} />
         </div>
       </div>
 
-      <div
-        className={styles.inputWrapper}
-        data-no-tab-swipe="true"
-      >
+      <div className={styles.inputWrapper} data-no-tab-swipe="true">
         <div className={styles.inputArea}>
           <textarea
             ref={textareaRef}
@@ -350,20 +284,15 @@ const Chat = ({ onViewDishDetails }) => {
             readOnly={isTextareaAndSendDisabled}
             className={styles.chatTextarea}
           />
-          {isTranscribing ? (
-            <>
-              <button className={`${styles.micButton} ${styles.micButtonDisabled}`} disabled> <MicrophoneIcon className={styles.microphoneSvg}/> </button>
-              <button className={styles.sendMessage} disabled> <SendIcon className={styles.sendSvg} /> </button>
-            </>
-          ) : isRecording ? (
-            <>
+          {isRecording ? (
+             <>
               <button className={styles.cancelRecordButton} onClick={cancelAudioRecording}> ❌ </button>
               <button className={styles.stopRecordButton} onClick={stopAudioRecordingAndTranscribe}> ✔️ </button>
             </>
           ) : (
             <>
               <button className={`${styles.micButton} ${isMicButtonDisabled ? styles.micButtonDisabled : ''}`} onClick={startAudioRecording} disabled={isMicButtonDisabled}> <MicrophoneIcon className={styles.microphoneSvg}/> </button>
-              <button className={styles.sendMessage} onClick={handleSend} disabled={isTextareaAndSendDisabled || input.trim() === ''}> <SendIcon className={styles.sendSvg} /> </button>
+              <button className={styles.sendMessage} onClick={handleSendClick} disabled={isTextareaAndSendDisabled || input.trim() === ''}> <SendIcon className={styles.sendSvg} /> </button>
             </>
           )}
         </div>
@@ -371,14 +300,7 @@ const Chat = ({ onViewDishDetails }) => {
           <button onClick={handleReset} disabled={isResetDisabled} className={styles.resetIconChipFixed}> ↻ </button>
           <div className={styles.suggestionsContainerScrollable}>
             {suggestions.slice(0, suggestionCount).map((suggestion, index) => (
-              <button
-                key={index}
-                className={styles.suggestionChip}
-                onClick={() => handleSuggestionClick(suggestion)}
-                disabled={areSuggestionsDisabled}
-              >
-                {suggestion}
-              </button>
+              <button key={index} className={styles.suggestionChip} onClick={() => handleSuggestionClick(suggestion)} disabled={areSuggestionsDisabled}>{suggestion}</button>
             ))}
           </div>
         </div>
