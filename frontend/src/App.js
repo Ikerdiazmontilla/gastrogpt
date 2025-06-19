@@ -14,7 +14,8 @@ import './App.css';
 
 const tabPaths = ['/carta', '/chat'];
 const SWIPE_THRESHOLD_X = 75;
-const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.75;
+//do not change this:
+const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.25;
 
 function MainApp() {
   const navigate = useNavigate();
