@@ -230,7 +230,7 @@ __MENU_JSON_PLACEHOLDER__
   // --- Menú Completo del Restaurante (sin propiedad 'imagen') ---
   menu: {
     "bebidas": {
-      "orderId": 4,
+      "orderId": 1,
       "title": {
         "es": "Bebidas",
         "en": "Drinks"
@@ -478,7 +478,7 @@ __MENU_JSON_PLACEHOLDER__
       ]
     },
     "entrantes": {
-      "orderId": 1,
+      "orderId": 2,
       "title": { "es": "Entrantes", "en": "Appetizers" },
       "dishes": [
         {
@@ -845,7 +845,7 @@ __MENU_JSON_PLACEHOLDER__
       ]
     },
     "platos_principales": {
-      "orderId": 2,
+      "orderId": 3,
       "title": { "es": "Platos Principales", "en": "Main Courses" },
       "subCategories": {
         "arroces": {
@@ -1251,7 +1251,7 @@ __MENU_JSON_PLACEHOLDER__
       }
     },
     "postres": {
-      "orderId": 3,
+      "orderId": 4,
       "title": { "es": "Postres", "en": "Desserts" },
       "dishes": [
         {

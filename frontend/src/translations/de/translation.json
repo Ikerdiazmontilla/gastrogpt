@@ -5,7 +5,7 @@
   },
   "navbar": {
     "menu": "📖 Speisekarte",
-    "chat": "💬 Chat",
+    "chat": "🤖 Virtueller Assistent",
     "languages": {
       "es": "🇪🇸 Spanisch",
       "en": "🇬🇧 Englisch",
@@ -15,9 +15,8 @@
   },
   "cartaPage": {
     "pageTitle": "Unsere Speisekarte",
-    "pageDescription": "Entdecken Sie unsere Auswahl an Gerichten, die mit den besten Zutaten zubereitet werden",
+    "orderInstruction": "Wenn Sie Ihre Bestellung aufgeben möchten, benachrichtigen Sie bitte den Kellner.",
     "searchPlaceholder": "Gerichte, Zutaten suchen...",
-    "tabDestacados": "⭐ Empfohlen",
     "tabEntrantes": "🥗 Vorspeisen",
     "tabPrincipales": "🍲 Hauptgerichte",
     "tabPostres": "🍰 Desserts",

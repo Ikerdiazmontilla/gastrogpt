@@ -5,7 +5,7 @@
   },
   "navbar": {
     "menu": "📖 Menu",
-    "chat": "💬 Chat",
+    "chat": "🤖 Virtual Assistant",
     "languages": {
       "es": "🇪🇸 Spanish",
       "en": "🇬🇧 English",
@@ -15,9 +15,8 @@
   },
   "cartaPage": {
     "pageTitle": "Our Menu",
-    "pageDescription": "Discover our selection of dishes prepared with the finest ingredients",
+    "orderInstruction": "When you are ready to order, please notify your waiter.",
     "searchPlaceholder": "Search dishes, ingredients...",
-    "tabDestacados": "⭐ Featured",
     "tabEntrantes": "🥗 Appetizers",
     "tabPrincipales": "🍲 Main Courses",
     "tabPostres": "🍰 Desserts",

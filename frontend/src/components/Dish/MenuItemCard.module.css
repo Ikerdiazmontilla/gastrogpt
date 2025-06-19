@@ -7,7 +7,36 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  transition: background-color 0.3s, border-color 0.3s;
+  border-left: 5px solid var(--color-border);
 }
+
+/* Use global CSS variables to set card colors */
+.card-bebidas {
+  background-color: var(--gastro-cat-color-bg-bebidas);
+  border-left-color: var(--gastro-cat-color-bebidas);
+}
+.card-entrantes {
+  background-color: var(--gastro-cat-color-bg-entrantes);
+  border-left-color: var(--gastro-cat-color-entrantes);
+}
+.card-platos_principales {
+  background-color: var(--gastro-cat-color-bg-platos_principales);
+  border-left-color: var(--gastro-cat-color-platos_principales);
+}
+.card-postres {
+  background-color: var(--gastro-cat-color-bg-postres);
+  border-left-color: var(--gastro-cat-color-postres);
+}
+.card-recomendaciones {
+    background-color: var(--gastro-cat-color-bg-recomendaciones);
+    border-left-color: var(--gastro-cat-color-recomendaciones);
+}
+.card-default {
+  background-color: var(--gastro-cat-color-bg-default);
+  border-left-color: var(--gastro-cat-color-default);
+}
+
 
 .imageContainer {
   position: relative;
@@ -139,18 +168,14 @@
   box-shadow: none;
 }
 
-/* ================================================================ */
-/* NEW STYLES for the footer of the card without an image           */
-/* ================================================================ */
 .cardFooter {
   display: flex;
-  justify-content: space-between; /* Empuja los alérgenos a la izq. y el botón a la der. */
-  align-items: center;            /* Alinea verticalmente los iconos y el texto del botón */
-  margin-top: auto;                 /* Empuja todo el footer al fondo de la tarjeta */
-  padding-top: 4px;                 /* Pequeño espacio sobre el footer */
+  justify-content: space-between; 
+  align-items: center;           
+  margin-top: auto;                 
+  padding-top: 4px;                 
 }
 
-/* When allergens are in the footer, they don't need a bottom margin */
 .cardFooter .allergenIcons {
   margin-bottom: 0;
 }
@@ -165,8 +190,8 @@
   font-weight: 600;
   text-align: right;
   transition: opacity 0.2s;
-  flex-shrink: 0; /* Evita que el botón se encoja */
-  margin-left: 8px; /* Espacio entre los alérgenos y el botón */
+  flex-shrink: 0; 
+  margin-left: 8px; 
 }
 
 .viewMoreLink:hover {

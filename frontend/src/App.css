@@ -78,13 +78,8 @@ a {
   text-decoration: none;
 }
 
-/* ==================================================================== */
-/* REFACTORIZACIÓN: NUEVA ARQUITECTURA DE THEME                          */
-/* Se definen las nuevas variables semánticas. Los valores por defecto */
-/* garantizan que el estilo visual no cambie.                         */
-/* ==================================================================== */
 :root {
-  /* Variables de Color Semánticas */
+  /* Theme-specific variables (customizable per tenant) */
   --color-accent: #0071E3;
   --color-accent-text: #FFFFFF;
   --color-page-background: #FAFAFC;
@@ -92,16 +87,31 @@ a {
   --color-text-primary: #333333;
   --color-text-secondary: #6c757d;
   --color-border: #dee2e6;
-  
-  /* Variables Específicas del Chat */
   --chat-bubble-user-background: #b3e3ff;
   --chat-bubble-bot-background: #eeebde;
-
-  /* Variables de Geometría y Sombra */
   --border-radius: 8px;
   --shadow-sm: rgba(0, 0, 0, 0.05);
   --shadow-md: rgba(0, 0, 0, 0.1);
   --shadow-lg: rgba(0, 0, 0, 0.24);
+
+  /* NEW: Fixed category colors (not customizable) */
+  --gastro-cat-color-bebidas: #0d82d4;
+  --gastro-cat-color-bg-bebidas: #e7f5ff;
+  
+  --gastro-cat-color-entrantes: #2f9e44;
+  --gastro-cat-color-bg-entrantes: #e6fcf5;
+
+  --gastro-cat-color-platos_principales: #f76707;
+  --gastro-cat-color-bg-platos_principales: #fff4e6;
+
+  --gastro-cat-color-postres: #cb5de8;
+  --gastro-cat-color-bg-postres: #f8f0fc;
+
+  --gastro-cat-color-recomendaciones: #e59900;
+  --gastro-cat-color-bg-recomendaciones: #fff9db;
+  
+  --gastro-cat-color-default: #868e96;
+  --gastro-cat-color-bg-default: #f1f3f5;
 }
 
 body {
@@ -141,7 +151,6 @@ body {
   text-align: center;
 }
 
-/* NUEVO: Estilo para la capa de selección de idioma */
 .fullscreen-overlay {
   position: fixed;
   top: 0;
@@ -152,6 +161,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2000; /* Debe estar por encima de todo */
+  z-index: 2000;
   padding: 15px;
 }

@@ -186,7 +186,7 @@ module.exports = {
   // --- Menú Completo del Restaurante ---
   menu: {
     "bebidas": {
-        "orderId": 4,
+        "orderId": 1,
         "title": {
             "es": "Bebidas",
             "en": "Drinks"
@@ -308,7 +308,7 @@ module.exports = {
         ]
     },
     "entrantes": {
-        "orderId": 1,
+        "orderId": 2,
         "title": {
             "es": "Entrantes",
             "en": "Appetizers"
@@ -415,7 +415,7 @@ module.exports = {
         ]
     },
     "platos_principales": {
-        "orderId": 2,
+        "orderId": 3,
         "title": {
             "es": "Platos Principales",
             "en": "Main Courses"
@@ -546,7 +546,7 @@ module.exports = {
         ]
     },
     "postres": {
-        "orderId": 3,
+        "orderId": 4,
         "title": {
             "es": "Postres",
             "en": "Desserts"

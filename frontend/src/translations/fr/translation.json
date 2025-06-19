@@ -5,7 +5,7 @@
   },
   "navbar": {
     "menu": "📖 Menu",
-    "chat": "💬 Chat",
+    "chat": "🤖 Assistant Virtuel",
     "languages": {
       "es": "🇪🇸 Espagnol",
       "en": "🇬🇧 Anglais",
@@ -15,9 +15,8 @@
   },
   "cartaPage": {
     "pageTitle": "Notre Menu",
-    "pageDescription": "Découvrez notre sélection de plats préparés avec les meilleurs ingrédients",
+    "orderInstruction": "Lorsque vous êtes prêt à commander, veuillez en informer le serveur.",
     "searchPlaceholder": "Rechercher des plats, des ingrédients...",
-    "tabDestacados": "⭐ À la une",
     "tabEntrantes": "🥗 Entrées",
     "tabPrincipales": "🍲 Plats Principaux",
     "tabPostres": "🍰 Desserts",

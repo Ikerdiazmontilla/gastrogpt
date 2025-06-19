@@ -8,18 +8,28 @@ import {
   getAlergenoIcon,
 } from '../../utils/menuUtils';
 
-const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
+const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey }) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage);
 
-  // Check both the global flag and the specific dish property to decide if an image should be shown.
   const shouldShowImage = menuHasImages && plato.imagen;
 
-  // Apply a different class if no image will be shown.
-  const cardClass = shouldShowImage ? styles.card : `${styles.card} ${styles.cardNoImage}`;
+  // Build the list of CSS classes for the card.
+  // Starts with the base 'card' class.
+  const cardClasses = [styles.card];
+  if (!shouldShowImage) {
+    cardClasses.push(styles.cardNoImage);
+  }
+  // Add the category-specific color class.
+  // It looks for a style like 'card-bebidas', 'card-entrantes', etc.
+  if (categoryKey && styles[`card-${categoryKey}`]) {
+    cardClasses.push(styles[`card-${categoryKey}`]);
+  } else {
+    cardClasses.push(styles['card-default']);
+  }
 
   const getTagOverlayClass = (etiquetaKey) => {
     switch (etiquetaKey) {
@@ -33,8 +43,7 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
   };
 
   return (
-    <div className={cardClass}>
-      {/* Conditionally render the image container. It only appears if shouldShowImage is true. */}
+    <div className={cardClasses.join(' ')}>
       {shouldShowImage && (
         <div className={styles.imageContainer}>
           <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
@@ -73,9 +82,7 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
         </div>
         <p className={styles.dishDescription}>{descripcionCorta}</p>
 
-        {/* Use the same condition to switch between two different layouts for the bottom part of the card. */}
         {shouldShowImage ? (
-          // Layout for cards WITH an image.
           <>
             <div className={styles.allergenIcons}>
               {plato.alergenos && plato.alergenos.map((alergenoKey) => (
@@ -89,7 +96,6 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
             </button>
           </>
         ) : (
-          // Layout for cards WITHOUT an image, using the new footer style.
           <div className={styles.cardFooter}>
             <div className={styles.allergenIcons}>
               {plato.alergenos && plato.alergenos.map((alergenoKey) => (

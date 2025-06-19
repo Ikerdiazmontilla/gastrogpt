@@ -52,18 +52,14 @@
   color: var(--color-text-secondary);
 }
 
-/* ==================================================================== */
-/* MODIFICADO: Estilos para la barra de pestañas pegajosa (sticky)      */
-/* ==================================================================== */
 .tabsList {
   position: sticky;
-  /* El valor 'top' ahora es gestionado por JavaScript para ser dinámico */
   z-index: 10;
-  background-color: var(--color-page-background); /* Fondo para que no se transparente el contenido al hacer scroll */
+  background-color: var(--color-page-background);
   padding: 8px 0;
   display: flex;
   gap: 8px;
-  margin: 0 -15px 20px -15px; /* Compensa el padding del contenedor para que ocupe todo el ancho */
+  margin: 0 -15px 20px -15px;
   padding-left: 15px;
   padding-right: 15px;
   border-bottom: 1px solid var(--color-border);
@@ -99,32 +95,84 @@
 }
 
 .activeTab {
-  color: var(--color-accent);
-  border-bottom-color: var(--color-accent);
   font-weight: 600;
 }
 
-/* ==================================================================== */
-/* NUEVO: Estilos para las nuevas secciones del menú                    */
-/* ==================================================================== */
+.tab-bebidas.activeTab { 
+  border-bottom-color: var(--gastro-cat-color-bebidas);
+  color: var(--gastro-cat-color-bebidas);
+}
+.tab-entrantes.activeTab { 
+  border-bottom-color: var(--gastro-cat-color-entrantes);
+  color: var(--gastro-cat-color-entrantes);
+}
+.tab-platos_principales.activeTab { 
+  border-bottom-color: var(--gastro-cat-color-platos_principales);
+  color: var(--gastro-cat-color-platos_principales);
+}
+.tab-postres.activeTab { 
+  border-bottom-color: var(--gastro-cat-color-postres);
+  color: var(--gastro-cat-color-postres);
+}
+.tab-default.activeTab {
+  border-bottom-color: var(--gastro-cat-color-default);
+  color: var(--gastro-cat-color-default);
+}
+
+
 .menuContent {
-  /* Contenedor principal del menú desplazable */
+  /* Main scrollable menu container */
 }
 
 .menuSection {
   padding-top: 1rem;
   margin-bottom: 2rem;
-  /* El valor 'scroll-margin-top' ahora se gestiona por JavaScript */
 }
+
+.menuSection + .menuSection {
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+/* CHANGED: Switched to a stronger solid border using the main, more saturated category color. */
+.section-bebidas { border-top: 3px solid var(--gastro-cat-color-bebidas); }
+.section-entrantes { border-top: 3px solid var(--gastro-cat-color-entrantes); }
+.section-platos_principales { border-top: 3px solid var(--gastro-cat-color-platos_principales); }
+.section-postres { border-top: 3px solid var(--gastro-cat-color-postres); }
+.section-default { border-top: 3px solid var(--gastro-cat-color-default); }
+
 
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-text-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
 }
+
+.categoryMarker {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.categoryInstruction {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+
+.marker-bebidas { background-color: var(--gastro-cat-color-bebidas); }
+.marker-entrantes { background-color: var(--gastro-cat-color-entrantes); }
+.marker-platos_principales { background-color: var(--gastro-cat-color-platos_principales); }
+.marker-postres { background-color: var(--gastro-cat-color-postres); }
+.marker-default { background-color: var(--gastro-cat-color-default); }
+
 
 .dishesGrid {
   display: grid;

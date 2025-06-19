@@ -5,7 +5,7 @@
   },
   "navbar": {
     "menu": "📖 Carta",
-    "chat": "💬 Chat",
+    "chat": "🤖 Asistente virtual",
     "languages": {
       "es": "🇪🇸 Español",
       "en": "🇬🇧 Inglés",
@@ -15,9 +15,8 @@
   },
   "cartaPage": {
     "pageTitle": "Nuestra Carta",
-    "pageDescription": "Descubre nuestra selección de platos preparados con los mejores ingredientes",
+    "orderInstruction": "Cuando termine su pedido, avise al camarero.",
     "searchPlaceholder": "Buscar platos, ingredientes...",
-    "tabDestacados": "⭐ Destacados",
     "tabEntrantes": "🥗 Entrantes",
     "tabPrincipales": "🍲 Platos Principales",
     "tabPostres": "🍰 Postres",
