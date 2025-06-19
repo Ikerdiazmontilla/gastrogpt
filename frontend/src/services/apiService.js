@@ -1,4 +1,5 @@
 // frontend/src/services/apiService.js
+import i18n from '../i18n'; // Import the i18n instance
 
 const BASE_URL = '';
 
@@ -12,13 +13,18 @@ const getErrorFromResponse = async (response) => {
 };
 
 const fetchApi = async (endpoint, options = {}) => {
-  const finalHeaders = { ...options.headers };
+  // Add the user's current language to every API request header.
+  const finalHeaders = { 
+    'Accept-Language': i18n.language,
+    ...options.headers 
+  };
+  
   if (!(options.body instanceof FormData)) {
     finalHeaders['Content-Type'] = 'application/json';
   }
 
   const url = `${BASE_URL}${endpoint}`;
-  console.log(`[apiService] Fetching from URL: ${url}`);
+  console.log(`[apiService] Fetching from URL: ${url} with language: ${i18n.language}`);
 
   const response = await fetch(url, {
     credentials: 'include',
@@ -72,11 +78,6 @@ export const sendFeedback = (feedbackData) => {
   });
 };
 
-/**
- * NEW: Tracks a click on the Google Review link.
- * @param {string} conversationId - The ID of the conversation.
- * @returns {Promise<object>} - The result of the operation.
- */
 export const trackGoogleReviewClick = (conversationId) => {
   return fetchApi('/api/feedback/track-click', {
     method: 'POST',

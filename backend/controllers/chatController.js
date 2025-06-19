@@ -1,7 +1,8 @@
 // backend/controllers/chatController.js
 const chatRepository = require('../db/chatRepository');
 const llmService = require('../services/llmService');
-const pool = require('../db/pool'); // Importamos el pool para acceder a la tabla public.feedback
+const pool = require('../db/pool');
+const { transformMenuForLanguage } = require('../utils/menuTransformer'); // Import the new utility
 
 const USER_MESSAGE_LIMIT = 15;
 
@@ -11,13 +12,16 @@ function countUserMessages(messagesArray) {
 }
 
 async function getConversationHistory(req, res) {
-  // ... (sin cambios en esta función)
   const client = req.dbClient;
   try {
     const conversation = await chatRepository.getActiveConversation(req.sessionID, client);
     
+    // Determine user language from header, default to 'es'
+    const userLang = req.get('Accept-Language') || 'es';
+    
     const configResult = await client.query("SELECT value FROM configurations WHERE key = 'frontend_welcome_message'");
-    const welcomeMessage = configResult.rows[0]?.value || 'Hola, ¿en qué puedo ayudarte?';
+    const welcomeMessages = JSON.parse(configResult.rows[0]?.value || '{}');
+    const welcomeMessage = welcomeMessages[userLang] || welcomeMessages.es || 'Hola, ¿en qué puedo ayudarte?';
 
     if (conversation && conversation.messages && conversation.messages.length > 0) {
       const userMessagesCount = countUserMessages(conversation.messages);
@@ -53,31 +57,35 @@ async function handleChatMessage(req, res) {
   }
   const userMessageContent = message.trim();
   const client = req.dbClient;
+  
+  // Get the user's language from the header, defaulting to Spanish.
+  const userLang = req.get('Accept-Language') || 'es';
 
   try {
     await client.query('BEGIN');
 
-    // --- Carga dinámica de configuración (sin cambios) ---
     const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
     const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('llm_instructions', 'llm_first_message')");
     
     const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
 
-    const menuData = menuResult.rows[0]?.data;
+    const fullMenuData = menuResult.rows[0]?.data;
     const configs = configResult.rows.reduce((acc, row) => ({ ...acc, [row.key]: row.value }), {});
     
     const systemInstructionsTemplate = configs.llm_instructions;
     const firstBotMessage = configs.llm_first_message; 
 
-    if (!menuData || !systemInstructionsTemplate || !firstBotMessage) {
+    if (!fullMenuData || !systemInstructionsTemplate || !firstBotMessage) {
         throw new Error('Configuración esencial para el LLM (menú, instrucciones, primer mensaje) no encontrada en la BBDD.');
     }
+
+    // Use the transformer to get a clean, single-language menu for the LLM.
+    const singleLanguageMenu = transformMenuForLanguage(fullMenuData, userLang);
     
     const systemInstructions = systemInstructionsTemplate.replace(
         '__MENU_JSON_PLACEHOLDER__',
-        JSON.stringify(menuData, null, 2)
+        JSON.stringify(singleLanguageMenu, null, 2)
     );
-    // --- Fin carga dinámica ---
 
     let activeConversation = await chatRepository.getActiveConversation(req.sessionID, client);
     
@@ -90,8 +98,8 @@ async function handleChatMessage(req, res) {
     }
     
     const limitAlreadySignaled = messagesToSaveInDB.length > 0 &&
-                               messagesToSaveInDB[messagesToSaveInDB.length -1].role === 'assistant' &&
-                               messagesToSaveInDB[messagesToSaveInDB.length -1].limitReachedNotification;
+                               messagesToSaveInDB[messagesToSaveInDB.length - 1].role === 'assistant' &&
+                               messagesToSaveInDB[messagesToSaveInDB.length - 1].limitReachedNotification;
 
     if (currentUserMessageCount >= USER_MESSAGE_LIMIT && limitAlreadySignaled) {
       await client.query('ROLLBACK');
@@ -144,29 +152,21 @@ async function handleChatMessage(req, res) {
       conversationId = await chatRepository.createConversation(req.sessionID, messagesToSaveInDB, client);
     }
     
-    // =========================================================================
-    // MODIFICACIÓN: Lógica para evitar pedir feedback repetidamente
-    // =========================================================================
     const responsePayload = { 
         reply: replyContent,
         conversationId: conversationId,
-        isFinalMessage: false // Por defecto
+        isFinalMessage: false
     };
 
-    // Solo si el mensaje parece final, comprobamos si ya se pidió feedback.
     if (replyContent.toLowerCase().includes('llama al camarero')) {
-        // Usamos el pool porque la tabla feedback es pública y no está en el schema del tenant.
         const feedbackCheck = await pool.query(
             'SELECT id FROM public.feedback WHERE conversation_id = $1 LIMIT 1',
             [conversationId]
         );
-
-        // Si NO hay feedback previo para esta conversación, activamos la bandera.
         if (feedbackCheck.rows.length === 0) {
             responsePayload.isFinalMessage = true;
         }
     }
-    // =========================================================================
 
     if (limitReachedThisTurn) {
       responsePayload.limitReached = true;
@@ -174,7 +174,6 @@ async function handleChatMessage(req, res) {
     }
     responsePayload.currentUserMessageCount = updatedUserMessageCount;
     
-    // Commit de la transacción principal del chat
     await client.query('COMMIT');
 
     res.json(responsePayload);
@@ -191,7 +190,6 @@ async function handleChatMessage(req, res) {
 }
 
 async function resetChat(req, res) {
-  // ... (sin cambios en esta función)
   const client = req.dbClient;
   try {
     await chatRepository.archiveActiveConversations(req.sessionID, client);

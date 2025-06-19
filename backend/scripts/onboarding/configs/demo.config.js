@@ -184,469 +184,515 @@ module.exports = {
   },
 
   // --- Menú Completo del Restaurante ---
-  menu: {
-    "bebidas": {
+    "menu": {
+      "bebidas": {
         "orderId": 1,
         "title": {
-            "es": "Bebidas",
-            "en": "Drinks"
+          "es": "Bebidas",
+          "en": "Drinks",
+          "de": "Getränke",
+          "fr": "Boissons"
         },
         "dishes": [
-            {
-                "id": 15,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/vino-tinto_uvnywx.jpg",
-                "nombre": {
-                    "en": "Rioja Crianza Red Wine",
-                    "es": "Vino Tinto Rioja Crianza"
-                },
-                "descripcionCorta": {
-                    "en": "Red wine D.O.Ca. Rioja, crianza...",
-                    "es": "Vino tinto D.O.Ca. Rioja, crianza..."
-                },
-                "descripcionLarga": {
-                    "en": "Red wine from the Rioja Qualified Designation of Origin, made with Tempranillo and Graciano grapes, aged for 12 months in American oak barrels.",
-                    "es": "Vino tinto de la Denominación de Origen Calificada Rioja, elaborado con uvas Tempranillo y Graciano, con una crianza de 12 meses en barrica de roble americano."
-                },
-                "precio": 18,
-                "alergenos": [
-                    "sulfitos"
-                ],
-                "etiquetas": [
-                    "recomendado"
-                ],
-                "pairsWith": { "appetizer": 1 }
+          {
+            "id": 15,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/vino-tinto_uvnywx.jpg",
+            "nombre": {
+              "en": "Rioja Crianza Red Wine",
+              "es": "Vino Tinto Rioja Crianza",
+              "de": "Rioja Crianza Rotwein",
+              "fr": "Vin Rouge Rioja Crianza"
             },
-            {
-                "id": 19,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/zumo-tropical_kp3r0b.avif",
-                "nombre": {
-                    "en": "House Tropical Juice",
-                    "es": "Zumo Tropical de la Casa"
-                },
-                "descripcionCorta": {
-                    "en": "Fresh fruit juice, alcohol-free.",
-                    "es": "Zumo de frutas frescas sin alcohol."
-                },
-                "descripcionLarga": {
-                    "en": "Refreshing blend of pineapple, mango, orange and passion fruit, freshly squeezed and served chilled.",
-                    "es": "Refrescante mezcla de piña, mango, naranja y maracuyá, exprimida al momento y servida muy fría."
-                },
-                "precio": 4,
-                "alergenos": [],
-                "etiquetas": [
-                    "recomendado",
-                    "sin_gluten"
-                ],
-                "pairsWith": { "appetizer": 4 }
+            "descripcionCorta": {
+              "en": "Red wine D.O.Ca. Rioja, crianza...",
+              "es": "Vino tinto D.O.Ca. Rioja, crianza...",
+              "de": "Rotwein D.O.Ca. Rioja, Crianza...",
+              "fr": "Vin rouge D.O.Ca. Rioja, crianza..."
             },
-            {
-                "id": 16,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/sangria_d1gezc.jpg",
-                "nombre": {
-                    "en": "Homemade Sangria",
-                    "es": "Sangría Casera"
-                },
-                "descripcionCorta": {
-                    "en": "Refreshing sangria with red wine, fruits...",
-                    "es": "Refrescante sangría con vino tinto, frutas..."
-                },
-                "descripcionLarga": {
-                    "en": "Our special sangria, prepared on the spot with quality red wine, a selection of fresh seasonal fruits, a touch of liquor, and cinnamon.",
-                    "es": "Nuestra sangría especial, preparada al momento con vino tinto de calidad, una selección de frutas frescas de temporada, un toque de licor y canela."
-                },
-                "precio": 12.5,
-                "alergenos": [
-                    "sulfitos"
-                ],
-                "etiquetas": [
-                    "popular"
-                ],
-                "pairsWith": { "appetizer": 3 }
+            "descripcionLarga": {
+              "en": "Red wine from the Rioja Qualified Designation of Origin, made with Tempranillo and Graciano grapes, aged for 12 months in American oak barrels.",
+              "es": "Vino tinto de la Denominación de Origen Calificada Rioja, elaborado con uvas Tempranillo y Graciano, con una crianza de 12 meses en barrica de roble americano.",
+              "de": "Rotwein aus der qualifizierten Herkunftsbezeichnung Rioja, hergestellt aus Tempranillo- und Graciano-Trauben, 12 Monate in amerikanischen Eichenfässern gereift.",
+              "fr": "Vin rouge de l'Appellation d'Origine Qualifiée Rioja, élaboré avec des raisins Tempranillo et Graciano, vieilli 12 mois en fûts de chêne américain."
             },
-            {
-                "id": 18,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/cerveza-artesana_vfpdxu.jpg    ",
-                "nombre": {
-                    "en": "Local Craft Beer",
-                    "es": "Cerveza Artesana Local"
-                },
-                "descripcionCorta": {
-                    "en": "Selection of craft beers from local producers.",
-                    "es": "Selección de cervezas artesanas de productores locales."
-                },
-                "descripcionLarga": {
-                    "en": "Discover our rotating selection of craft beers brewed by small local producers. Ask our staff about the available varieties (IPA, Lager, Stout, etc.).",
-                    "es": "Descubre nuestra selección rotativa de cervezas artesanas elaboradas por pequeños productores de la región. Pregunta a nuestro personal por las variedades disponibles (IPA, Lager, Stout, etc.)."
-                },
-                "precio": 5.5,
-                "alergenos": [
-                    "gluten"
-                ],
-                "etiquetas": [],
-                "pairsWith": { "appetizer": 1 }
+            "precio": 18,
+            "alergenos": ["sulfitos"],
+            "etiquetas": ["recomendado"],
+            "pairsWith": { "appetizer": 1 }
+          },
+          {
+            "id": 19,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/zumo-tropical_kp3r0b.avif",
+            "nombre": {
+              "en": "House Tropical Juice",
+              "es": "Zumo Tropical de la Casa",
+              "de": "Hausgemachter Tropischer Saft",
+              "fr": "Jus Tropical Maison"
             },
-            {
-                "id": 17,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196816/agua-mineral_ggnbkd.jpg",
-                "nombre": {
-                    "en": "Natural Mineral Water",
-                    "es": "Agua Mineral Natural"
-                },
-                "descripcionCorta": {
-                    "en": "Natural spring mineral water.",
-                    "es": "Agua mineral natural de manantial."
-                },
-                "descripcionLarga": {
-                    "en": "Natural mineral water with low mineralization, from a protected spring. Served cold.",
-                    "es": "Agua mineral natural de mineralización débil, proveniente de manantial protegido. Servida fría."
-                },
-                "precio": 2,
-                "alergenos": [],
-                "etiquetas": [],
-                "pairsWith": { "appetizer": 2 }
-            }
+            "descripcionCorta": {
+              "en": "Fresh fruit juice, alcohol-free.",
+              "es": "Zumo de frutas frescas sin alcohol.",
+              "de": "Frischer Fruchtsaft, alkoholfrei.",
+              "fr": "Jus de fruits frais, sans alcool."
+            },
+            "descripcionLarga": {
+              "en": "Refreshing blend of pineapple, mango, orange and passion fruit, freshly squeezed and served chilled.",
+              "es": "Refrescante mezcla de piña, mango, naranja y maracuyá, exprimida al momento y servida muy fría.",
+              "de": "Erfrischende Mischung aus Ananas, Mango, Orange und Maracuja, frisch gepresst und gut gekühlt serviert.",
+              "fr": "Mélange rafraîchissant d'ananas, de mangue, d'orange et de fruit de la passion, fraîchement pressé et servi très froid."
+            },
+            "precio": 4,
+            "alergenos": [],
+            "etiquetas": ["recomendado", "sin_gluten"],
+            "pairsWith": { "appetizer": 4 }
+          },
+          {
+            "id": 16,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/sangria_d1gezc.jpg",
+            "nombre": {
+              "en": "Homemade Sangria",
+              "es": "Sangría Casera",
+              "de": "Hausgemachte Sangria",
+              "fr": "Sangria Maison"
+            },
+            "descripcionCorta": {
+              "en": "Refreshing sangria with red wine, fruits...",
+              "es": "Refrescante sangría con vino tinto, frutas...",
+              "de": "Erfrischende Sangria mit Rotwein, Früchten...",
+              "fr": "Sangria rafraîchissante avec du vin rouge, des fruits..."
+            },
+            "descripcionLarga": {
+              "en": "Our special sangria, prepared on the spot with quality red wine, a selection of fresh seasonal fruits, a touch of liquor, and cinnamon.",
+              "es": "Nuestra sangría especial, preparada al momento con vino tinto de calidad, una selección de frutas frescas de temporada, un toque de licor y canela.",
+              "de": "Unsere besondere Sangria, frisch zubereitet mit Qualitätsrotwein, einer Auswahl an frischen saisonalen Früchten, einem Schuss Likör und Zimt.",
+              "fr": "Notre sangria spéciale, préparée à la minute avec du vin rouge de qualité, une sélection de fruits frais de saison, une touche de liqueur et de la cannelle."
+            },
+            "precio": 12.5,
+            "alergenos": ["sulfitos"],
+            "etiquetas": ["popular"],
+            "pairsWith": { "appetizer": 3 }
+          },
+          {
+            "id": 18,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/cerveza-artesana_vfpdxu.jpg",
+            "nombre": {
+              "en": "Local Craft Beer",
+              "es": "Cerveza Artesana Local",
+              "de": "Lokales Craft-Bier",
+              "fr": "Bière Artisanale Locale"
+            },
+            "descripcionCorta": {
+              "en": "Selection of craft beers from local producers.",
+              "es": "Selección de cervezas artesanas de productores locales.",
+              "de": "Auswahl an Craft-Bieren von lokalen Herstellern.",
+              "fr": "Sélection de bières artisanales de producteurs locaux."
+            },
+            "descripcionLarga": {
+              "en": "Discover our rotating selection of craft beers brewed by small local producers. Ask our staff about the available varieties (IPA, Lager, Stout, etc.).",
+              "es": "Descubre nuestra selección rotativa de cervezas artesanas elaboradas por pequeños productores de la región. Pregunta a nuestro personal por las variedades disponibles (IPA, Lager, Stout, etc.).",
+              "de": "Entdecken Sie unsere wechselnde Auswahl an Craft-Bieren, gebraut von kleinen lokalen Produzenten. Fragen Sie unser Personal nach den verfügbaren Sorten (IPA, Lager, Stout, etc.).",
+              "fr": "Découvrez notre sélection tournante de bières artisanales brassées par de petits producteurs locaux. Demandez à notre personnel les variétés disponibles (IPA, Lager, Stout, etc.)."
+            },
+            "precio": 5.5,
+            "alergenos": ["gluten"],
+            "etiquetas": [],
+            "pairsWith": { "appetizer": 1 }
+          },
+          {
+            "id": 17,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196816/agua-mineral_ggnbkd.jpg",
+            "nombre": {
+              "en": "Natural Mineral Water",
+              "es": "Agua Mineral Natural",
+              "de": "Natürliches Mineralwasser",
+              "fr": "Eau Minérale Naturelle"
+            },
+            "descripcionCorta": {
+              "en": "Natural spring mineral water.",
+              "es": "Agua mineral natural de manantial.",
+              "de": "Natürliches Quellmineralwasser.",
+              "fr": "Eau minérale naturelle de source."
+            },
+            "descripcionLarga": {
+              "en": "Natural mineral water with low mineralization, from a protected spring. Served cold.",
+              "es": "Agua mineral natural de mineralización débil, proveniente de manantial protegido. Servida fría.",
+              "de": "Natürliches Mineralwasser mit geringer Mineralisierung aus einer geschützten Quelle. Kalt serviert.",
+              "fr": "Eau minérale naturelle à faible minéralisation, provenant d'une source protégée. Servie fraîche."
+            },
+            "precio": 2,
+            "alergenos": [],
+            "etiquetas": [],
+            "pairsWith": { "appetizer": 2 }
+          }
         ]
-    },
-    "entrantes": {
+      },
+      "entrantes": {
         "orderId": 2,
         "title": {
-            "es": "Entrantes",
-            "en": "Appetizers"
+          "es": "Entrantes",
+          "en": "Appetizers",
+          "de": "Vorspeisen",
+          "fr": "Entrées"
         },
         "dishes": [
-            {
-                "id": 1,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/croquetas_sh7q7a.jpg",
-                "nombre": {
-                    "en": "Ham Croquettes",
-                    "es": "Croquetas de Jamón"
-                },
-                "descripcionCorta": {
-                    "en": "Delicious homemade Iberian ham croquettes...",
-                    "es": "Deliciosas croquetas caseras de jamón ibérico..."
-                },
-                "descripcionLarga": {
-                    "en": "Delicious homemade Iberian ham croquettes with creamy béchamel, served with a touch of fresh parsley.",
-                    "es": "Deliciosas croquetas caseras de jamón ibérico con bechamel cremosa, servidas con un toque de perejil fresco."
-                },
-                "precio": 8.5,
-                "alergenos": [
-                    "gluten",
-                    "lactosa"
-                ],
-                "etiquetas": [
-                    "recomendado"
-                ],
-                "pairsWith": { "main": 6 }
+          {
+            "id": 1,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/croquetas_sh7q7a.jpg",
+            "nombre": {
+              "en": "Ham Croquettes",
+              "es": "Croquetas de Jamón",
+              "de": "Schinkenkroketten",
+              "fr": "Croquettes de Jambon"
             },
-            {
-                "id": 2,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196817/ensalada-espinacas_gsbrrv.jpg",
-                "nombre": {
-                    "en": "Spinach Salad with Goat Cheese",
-                    "es": "Ensalada de Espinacas con Queso de Cabra"
-                },
-                "descripcionCorta": {
-                    "en": "Fresh spinach, goat cheese, caramelized walnuts...",
-                    "es": "Espinacas frescas, queso de cabra, nueces caramelizadas..."
-                },
-                "descripcionLarga": {
-                    "en": "Gourmet salad with baby spinach, grilled goat cheese medallions, caramelized walnuts, green apple, and honey mustard vinaigrette.",
-                    "es": "Ensalada gourmet con espinacas baby, medallones de queso de cabra gratinado, nueces caramelizadas, manzana verde y vinagreta de miel y mostaza."
-                },
-                "precio": 10.25,
-                "alergenos": [
-                    "lactosa",
-                    "frutos_secos"
-                ],
-                "etiquetas": [
-                    "vegetariano"
-                ],
-                "pairsWith": { "main": 7 }
+            "descripcionCorta": {
+              "en": "Delicious homemade Iberian ham croquettes...",
+              "es": "Deliciosas croquetas caseras de jamón ibérico...",
+              "de": "Köstliche hausgemachte Kroketten mit Iberico-Schinken...",
+              "fr": "Délicieuses croquettes maison au jambon ibérique..."
             },
-            {
-                "id": 3,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/gazpacho_ysft1l.jpg",
-                "nombre": {
-                    "en": "Andalusian Gazpacho",
-                    "es": "Gazpacho Andaluz"
-                },
-                "descripcionCorta": {
-                    "en": "Traditional cold soup of tomato, cucumber...",
-                    "es": "Sopa fría tradicional de tomate, pepino..."
-                },
-                "descripcionLarga": {
-                    "en": "Refreshing Andalusian gazpacho, a cold soup made with ripe tomatoes, cucumber, pepper, garlic, extra virgin olive oil, and a touch of Sherry vinegar.",
-                    "es": "Refrescante gazpacho andaluz, una sopa fría elaborada con tomates maduros, pepino, pimiento, ajo, aceite de oliva virgen extra y un toque de vinagre de Jerez."
-                },
-                "precio": 6.5,
-                "alergenos": [],
-                "etiquetas": [
-                    "vegano",
-                    "popular",
-                    "sin_gluten"
-                ],
-                "pairsWith": { "main": 5 }
+            "descripcionLarga": {
+              "en": "Delicious homemade Iberian ham croquettes with creamy béchamel, served with a touch of fresh parsley.",
+              "es": "Deliciosas croquetas caseras de jamón ibérico con bechamel cremosa, servidas con un toque de perejil fresco.",
+              "de": "Köstliche hausgemachte Kroketten mit Iberico-Schinken und cremiger Béchamelsauce, serviert mit einem Hauch frischer Petersilie.",
+              "fr": "Délicieuses croquettes maison au jambon ibérique avec une béchamel crémeuse, servies avec une touche de persil frais."
             },
-            {
-                "id": 4,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/timbal-mango_v7eipm.jpg",
-                "nombre": {
-                    "en": "Mango, Avocado & Fresh Cheese Timbale",
-                    "es": "Timbal de Mango, Aguacate y Queso Fresco"
-                },
-                "descripcionCorta": {
-                    "en": "Fresh starter with layers of mango, avocado, and cheese.",
-                    "es": "Entrante fresco con capas de mango, aguacate y queso."
-                },
-                "descripcionLarga": {
-                    "en": "Colorful stack of ripe mango, creamy avocado, and fresh cheese, dressed with lime, coriander, and a touch of extra virgin olive oil. Light and flavorful.",
-                    "es": "Colorido timbal de mango maduro, aguacate cremoso, y queso fresco, aliñado con lima, cilantro y un toque de aceite de oliva virgen extra. Ligero y sabroso."
-                },
-                "precio": 11,
-                "alergenos": [
-                    "lactosa"
-                ],
-                "etiquetas": [
-                    "vegetariano"
-                ],
-                "pairsWith": { "main": 14 }
-            }
+            "precio": 8.5,
+            "alergenos": ["gluten", "lactosa"],
+            "etiquetas": ["recomendado"],
+            "pairsWith": { "main": 6 }
+          },
+          {
+            "id": 2,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196817/ensalada-espinacas_gsbrrv.jpg",
+            "nombre": {
+              "en": "Spinach Salad with Goat Cheese",
+              "es": "Ensalada de Espinacas con Queso de Cabra",
+              "de": "Spinatsalat mit Ziegenkäse",
+              "fr": "Salade d'Épinards au Fromage de Chèvre"
+            },
+            "descripcionCorta": {
+              "en": "Fresh spinach, goat cheese, caramelized walnuts...",
+              "es": "Espinacas frescas, queso de cabra, nueces caramelizadas...",
+              "de": "Frischer Spinat, Ziegenkäse, karamellisierte Walnüsse...",
+              "fr": "Épinards frais, fromage de chèvre, noix caramélisées..."
+            },
+            "descripcionLarga": {
+              "en": "Gourmet salad with baby spinach, grilled goat cheese medallions, caramelized walnuts, green apple, and honey mustard vinaigrette.",
+              "es": "Ensalada gourmet con espinacas baby, medallones de queso de cabra gratinado, nueces caramelizadas, manzana verde y vinagreta de miel y mostaza.",
+              "de": "Gourmet-Salat mit Babyspinat, gegrillten Ziegenkäse-Medaillons, karamellisierten Walnüssen, grünem Apfel und einer Honig-Senf-Vinaigrette.",
+              "fr": "Salade gourmande avec de jeunes pousses d'épinards, des médaillons de fromage de chèvre gratinés, des noix caramélisées, de la pomme verte et une vinaigrette au miel et à la moutarde."
+            },
+            "precio": 10.25,
+            "alergenos": ["lactosa", "frutos_secos"],
+            "etiquetas": ["vegetariano"],
+            "pairsWith": { "main": 7 }
+          },
+          {
+            "id": 3,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/gazpacho_ysft1l.jpg",
+            "nombre": {
+              "en": "Andalusian Gazpacho",
+              "es": "Gazpacho Andaluz",
+              "de": "Andalusischer Gazpacho",
+              "fr": "Gaspacho Andalou"
+            },
+            "descripcionCorta": {
+              "en": "Traditional cold soup of tomato, cucumber...",
+              "es": "Sopa fría tradicional de tomate, pepino...",
+              "de": "Traditionelle kalte Suppe aus Tomaten, Gurken...",
+              "fr": "Soupe froide traditionnelle à base de tomate, concombre..."
+            },
+            "descripcionLarga": {
+              "en": "Refreshing Andalusian gazpacho, a cold soup made with ripe tomatoes, cucumber, pepper, garlic, extra virgin olive oil, and a touch of Sherry vinegar.",
+              "es": "Refrescante gazpacho andaluz, una sopa fría elaborada con tomates maduros, pepino, pimiento, ajo, aceite de oliva virgen extra y un toque de vinagre de Jerez.",
+              "de": "Erfrischender andalusischer Gazpacho, eine kalte Suppe aus reifen Tomaten, Gurke, Paprika, Knoblauch, nativem Olivenöl extra und einem Schuss Sherry-Essig.",
+              "fr": "Gaspacho andalou rafraîchissant, une soupe froide préparée avec des tomates mûres, du concombre, du poivron, de l'ail, de l'huile d'olive extra vierge et une touche de vinaigre de Xérès."
+            },
+            "precio": 6.5,
+            "alergenos": [],
+            "etiquetas": ["vegano", "popular", "sin_gluten"],
+            "pairsWith": { "main": 5 }
+          },
+          {
+            "id": 4,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/timbal-mango_v7eipm.jpg",
+            "nombre": {
+              "en": "Mango, Avocado & Fresh Cheese Timbale",
+              "es": "Timbal de Mango, Aguacate y Queso Fresco",
+              "de": "Timbale mit Mango, Avocado & Frischkäse",
+              "fr": "Timbale de Mangue, Avocat et Fromage Frais"
+            },
+            "descripcionCorta": {
+              "en": "Fresh starter with layers of mango, avocado, and cheese.",
+              "es": "Entrante fresco con capas de mango, aguacate y queso.",
+              "de": "Frische Vorspeise mit Schichten aus Mango, Avocado und Käse.",
+              "fr": "Entrée fraîche avec des couches de mangue, avocat et fromage."
+            },
+            "descripcionLarga": {
+              "en": "Colorful stack of ripe mango, creamy avocado, and fresh cheese, dressed with lime, coriander, and a touch of extra virgin olive oil. Light and flavorful.",
+              "es": "Colorido timbal de mango maduro, aguacate cremoso, y queso fresco, aliñado con lima, cilantro y un toque de aceite de oliva virgen extra. Ligero y sabroso.",
+              "de": "Farbenfrohes Türmchen aus reifer Mango, cremiger Avocado und Frischkäse, angemacht mit Limette, Koriander und einem Hauch nativem Olivenöl extra. Leicht und geschmackvoll.",
+              "fr": "Timbale colorée de mangue mûre, d'avocat crémeux et de fromage frais, assaisonnée de citron vert, de coriandre et d'une touche d'huile d'olive extra vierge. Léger et savoureux."
+            },
+            "precio": 11,
+            "alergenos": ["lactosa"],
+            "etiquetas": ["vegetariano"],
+            "pairsWith": { "main": 14 }
+          }
         ]
-    },
-    "platos_principales": {
+      },
+      "platos_principales": {
         "orderId": 3,
         "title": {
-            "es": "Platos Principales",
-            "en": "Main Courses"
+          "es": "Platos Principales",
+          "en": "Main Courses",
+          "de": "Hauptgerichte",
+          "fr": "Plats Principaux"
         },
         "dishes": [
-            {
-                "id": 8,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196779/lasana-vegana_ehrfui.jpg",
-                "nombre": {
-                    "en": "Vegetable Lasagna",
-                    "es": "Lasaña de Verduras"
-                },
-                "descripcionCorta": {
-                    "en": "Layers of pasta, seasonal vegetables, and vegan béchamel.",
-                    "es": "Capas de pasta, verduras de temporada y bechamel vegana."
-                },
-                "descripcionLarga": {
-                    "en": "Delicious vegan lasagna with fresh pasta sheets, filled with a rich mix of seasonal vegetables (zucchini, eggplant, peppers, spinach) and a creamy plant-based milk béchamel, topped with melted vegan cheese.",
-                    "es": "Deliciosa lasaña vegana con láminas de pasta fresca, rellena de una rica mezcla de verduras de temporada (calabacín, berenjena, pimientos, espinacas) y una cremosa bechamel a base de leche vegetal, gratinada con queso vegano."
-                },
-                "precio": 15,
-                "alergenos": [
-                    "gluten",
-                    "soja"
-                ],
-                "etiquetas": [
-                    "recomendado",
-                    "vegano"
-                ],
-                "pairsWith": { "appetizer": 3, "dessert": 13 }
+          {
+            "id": 8,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196779/lasana-vegana_ehrfui.jpg",
+            "nombre": {
+              "en": "Vegetable Lasagna",
+              "es": "Lasaña de Verduras",
+              "de": "Gemüselasagne",
+              "fr": "Lasagnes aux Légumes"
             },
-            {
-                "id": 6,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/carrillera-vino-tinto_yznkbb.jpg",
-                "nombre": {
-                    "en": "Beef Cheeks in Red Wine",
-                    "es": "Carrillera de Ternera al Vino Tinto"
-                },
-                "descripcionCorta": {
-                    "en": "Tender beef cheeks in red wine with sweet potato purée and glazed carrots.",
-                    "es": "Carrillera melosa al vino tinto con puré de boniato y zanahorias glaseadas."
-                },
-                "descripcionLarga": {
-                    "en": "Beef cheeks slow-cooked for hours in a red wine reduction with bay leaf and rosemary. Served over creamy sweet potato purée and accompanied by butter and honey glazed baby carrots.",
-                    "es": "Carrillera de ternera cocinada a baja temperatura durante horas en una reducción de vino tinto con laurel y romero. Servida sobre un cremoso puré de boniato y acompañada de zanahorias baby glaseadas en mantequilla y miel."
-                },
-                "precio": 24.5,
-                "alergenos": [
-                    "lactosa"
-                ],
-                "etiquetas": [
-                    "popular"
-                ],
-                "pairsWith": { "appetizer": 1, "dessert": 12 }
+            "descripcionCorta": {
+              "en": "Layers of pasta, seasonal vegetables, and vegan béchamel.",
+              "es": "Capas de pasta, verduras de temporada y bechamel vegana.",
+              "de": "Schichten aus Pasta, saisonalem Gemüse und veganer Béchamelsauce.",
+              "fr": "Couches de pâtes, légumes de saison et béchamel végétalienne."
             },
-            {
-                "id": 5,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/dorada_jynxow.jpg",
-                "nombre": {
-                    "en": "Sea Bream with Sweet Chili Sauce",
-                    "es": "Dorada con Salsa de Chile Dulce"
-                },
-                "descripcionCorta": {
-                    "en": "Oven-baked sea bream with crispy skin and sweet chili glaze.",
-                    "es": "Dorada al horno con crujiente de piel y salsa agridulce."
-                },
-                "descripcionLarga": {
-                    "en": "Whole oven-baked sea bream with crispy skin, served with a homemade sweet chili sauce featuring citrus and ginger notes, over stir-fried vegetables.",
-                    "es": "Dorada entera horneada con la piel crujiente, acompañada de una salsa de chile dulce casera con toques cítricos y jengibre, sobre base de verduras salteadas al wok."
-                },
-                "precio": 23.5,
-                "alergenos": [
-                    "pescado",
-                    "soja"
-                ],
-                "etiquetas": [],
-                "pairsWith": { "appetizer": 4, "dessert": 11 }
+            "descripcionLarga": {
+              "en": "Delicious vegan lasagna with fresh pasta sheets, filled with a rich mix of seasonal vegetables (zucchini, eggplant, peppers, spinach) and a creamy plant-based milk béchamel, topped with melted vegan cheese.",
+              "es": "Deliciosa lasaña vegana con láminas de pasta fresca, rellena de una rica mezcla de verduras de temporada (calabacín, berenjena, pimientos, espinacas) y una cremosa bechamel a base de leche vegetal, gratinada con queso vegano.",
+              "de": "Köstliche vegane Lasagne mit frischen Nudelblättern, gefüllt mit einer reichhaltigen Mischung aus saisonalem Gemüse (Zucchini, Aubergine, Paprika, Spinat) und einer cremigen Béchamelsauce auf Pflanzenmilchbasis, überbacken mit veganem Käse.",
+              "fr": "Délicieuses lasagnes végétaliennes avec des feuilles de pâtes fraîches, garnies d'un riche mélange de légumes de saison (courgette, aubergine, poivrons, épinards) et d'une béchamel crémeuse à base de lait végétal, gratinées avec du fromage végétalien."
             },
-            {
-                "id": 7,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196785/berenjena-asada_lxtbp9.jpg",
-                "nombre": {
-                    "en": "Roasted Eggplant with Labneh and Pomegranate",
-                    "es": "Berenjena Asada con Labneh y Granada"
-                },
-                "descripcionCorta": {
-                    "en": "Roasted eggplant with yogurt cream, pomegranate and pistachio.",
-                    "es": "Berenjena asada con crema de yogur, granada y pistacho."
-                },
-                "descripcionLarga": {
-                    "en": "Slow-roasted eggplant until tender, served on a bed of lemony labneh, topped with toasted pistachios and pomegranate seeds. Finished with extra virgin olive oil and fresh mint.",
-                    "es": "Berenjena asada lentamente hasta quedar melosa, servida sobre una base de labneh con limón, espolvoreada con pistachos tostados y granos de granada. Finalizada con aceite de oliva virgen extra y menta fresca."
-                },
-                "precio": 16.5,
-                "alergenos": [
-                    "lactosa",
-                    "frutos_secos"
-                ],
-                "etiquetas": [
-                    "vegetariano"
-                ],
-                "pairsWith": { "appetizer": 2, "dessert": 10 }
+            "precio": 15,
+            "alergenos": ["gluten", "soja"],
+            "etiquetas": ["recomendado", "vegano"],
+            "pairsWith": { "appetizer": 3, "dessert": 13 }
+          },
+          {
+            "id": 6,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/carrillera-vino-tinto_yznkbb.jpg",
+            "nombre": {
+              "en": "Beef Cheeks in Red Wine",
+              "es": "Carrillera de Ternera al Vino Tinto",
+              "de": "Kalbsbäckchen in Rotwein",
+              "fr": "Joue de Bœuf au Vin Rouge"
             },
-            {
-                "id": 14,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/rissotto-setas_oog1bu.jpg",
-                "nombre": {
-                    "en": "Mushroom Risotto",
-                    "es": "Risotto de Setas"
-                },
-                "descripcionCorta": {
-                    "en": "Creamy rice with a variety of mushrooms...",
-                    "es": "Arroz cremoso con variedad de setas..."
-                },
-                "descripcionLarga": {
-                    "en": "Creamy Arborio risotto with a selection of seasonal wild mushrooms (boletus, chanterelles, portobello mushrooms), creamed with Parmesan and a touch of truffle.",
-                    "es": "Risotto cremoso Arborio con una selección de setas silvestres de temporada (boletus, níscalos, champiñones portobello), mantecado con parmesano y un toque de trufa."
-                },
-                "precio": 14.5,
-                "alergenos": [
-                    "lactosa"
-                ],
-                "etiquetas": [
-                    "vegetariano"
-                ],
-                "pairsWith": { "appetizer": 2, "dessert": 10 }
-            }
+            "descripcionCorta": {
+              "en": "Tender beef cheeks in red wine with sweet potato purée and glazed carrots.",
+              "es": "Carrillera melosa al vino tinto con puré de boniato y zanahorias glaseadas.",
+              "de": "Zarte Rinderbäckchen in Rotwein mit Süßkartoffelpüree und glasierten Karotten.",
+              "fr": "Joue de bœuf fondante au vin rouge avec purée de patate douce et carottes glacées."
+            },
+            "descripcionLarga": {
+              "en": "Beef cheeks slow-cooked for hours in a red wine reduction with bay leaf and rosemary. Served over creamy sweet potato purée and accompanied by butter and honey glazed baby carrots.",
+              "es": "Carrillera de ternera cocinada a baja temperatura durante horas en una reducción de vino tinto con laurel y romero. Servida sobre un cremoso puré de boniato y acompañada de zanahorias baby glaseadas en mantequilla y miel.",
+              "de": "Rinderbäckchen, stundenlang bei niedriger Temperatur in einer Rotweinreduktion mit Lorbeer und Rosmarin gegart. Serviert auf cremigem Süßkartoffelpüree und begleitet von in Butter und Honig glasierten Babykarotten.",
+              "fr": "Joue de bœuf cuite à basse température pendant des heures dans une réduction de vin rouge avec du laurier et du romarin. Servie sur une purée de patate douce crémeuse et accompagnée de carottes baby glacées au beurre et au miel."
+            },
+            "precio": 24.5,
+            "alergenos": ["lactosa"],
+            "etiquetas": ["popular"],
+            "pairsWith": { "appetizer": 1, "dessert": 12 }
+          },
+          {
+            "id": 5,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/dorada_jynxow.jpg",
+            "nombre": {
+              "en": "Sea Bream with Sweet Chili Sauce",
+              "es": "Dorada con Salsa de Chile Dulce",
+              "de": "Goldbrasse mit Süßer Chilisauce",
+              "fr": "Dorade à la Sauce Pimentée Douce"
+            },
+            "descripcionCorta": {
+              "en": "Oven-baked sea bream with crispy skin and sweet chili glaze.",
+              "es": "Dorada al horno con crujiente de piel y salsa agridulce.",
+              "de": "Im Ofen gebackene Goldbrasse mit knuspriger Haut und süßer Chili-Glasur.",
+              "fr": "Dorade au four avec une peau croustillante et une sauce aigre-douce."
+            },
+            "descripcionLarga": {
+              "en": "Whole oven-baked sea bream with crispy skin, served with a homemade sweet chili sauce featuring citrus and ginger notes, over stir-fried vegetables.",
+              "es": "Dorada entera horneada con la piel crujiente, acompañada de una salsa de chile dulce casera con toques cítricos y jengibre, sobre base de verduras salteadas al wok.",
+              "de": "Ganze im Ofen gebackene Goldbrasse mit knuspriger Haut, serviert mit einer hausgemachten süßen Chilisauce mit Zitrus- und Ingwernoten, auf einem Bett aus Wok-Gemüse.",
+              "fr": "Dorade entière cuite au four avec une peau croustillante, accompagnée d'une sauce pimentée douce maison avec des notes d'agrumes et de gingembre, sur un lit de légumes sautés au wok."
+            },
+            "precio": 23.5,
+            "alergenos": ["pescado", "soja"],
+            "etiquetas": [],
+            "pairsWith": { "appetizer": 4, "dessert": 11 }
+          },
+          {
+            "id": 7,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196785/berenjena-asada_lxtbp9.jpg",
+            "nombre": {
+              "en": "Roasted Eggplant with Labneh and Pomegranate",
+              "es": "Berenjena Asada con Labneh y Granada",
+              "de": "Gebackene Aubergine mit Labneh und Granatapfel",
+              "fr": "Aubergine Rôtie au Labneh et à la Grenade"
+            },
+            "descripcionCorta": {
+              "en": "Roasted eggplant with yogurt cream, pomegranate and pistachio.",
+              "es": "Berenjena asada con crema de yogur, granada y pistacho.",
+              "de": "Gebackene Aubergine mit Joghurtcreme, Granatapfel und Pistazien.",
+              "fr": "Aubergine rôtie avec crème de yaourt, grenade et pistache."
+            },
+            "descripcionLarga": {
+              "en": "Slow-roasted eggplant until tender, served on a bed of lemony labneh, topped with toasted pistachios and pomegranate seeds. Finished with extra virgin olive oil and fresh mint.",
+              "es": "Berenjena asada lentamente hasta quedar melosa, servida sobre una base de labneh con limón, espolvoreada con pistachos tostados y granos de granada. Finalizada con aceite de oliva virgen extra y menta fresca.",
+              "de": "Langsam geröstete Aubergine bis sie zart ist, serviert auf einem Bett aus zitronigem Labneh, garniert mit gerösteten Pistazien und Granatapfelkernen. Abgerundet mit nativem Olivenöl extra und frischer Minze.",
+              "fr": "Aubergine rôtie lentement jusqu'à ce qu'elle soit fondante, servie sur un lit de labneh citronné, parsemée de pistaches grillées et de graines de grenade. Finie avec de l'huile d'olive extra vierge et de la menthe fraîche."
+            },
+            "precio": 16.5,
+            "alergenos": ["lactosa", "frutos_secos"],
+            "etiquetas": ["vegetariano"],
+            "pairsWith": { "appetizer": 2, "dessert": 10 }
+          },
+          {
+            "id": 14,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/rissotto-setas_oog1bu.jpg",
+            "nombre": {
+              "en": "Mushroom Risotto",
+              "es": "Risotto de Setas",
+              "de": "Pilzrisotto",
+              "fr": "Risotto aux Champignons"
+            },
+            "descripcionCorta": {
+              "en": "Creamy rice with a variety of mushrooms...",
+              "es": "Arroz cremoso con variedad de setas...",
+              "de": "Cremiger Reis mit einer Vielzahl von Pilzen...",
+              "fr": "Riz crémeux avec une variété de champignons..."
+            },
+            "descripcionLarga": {
+              "en": "Creamy Arborio risotto with a selection of seasonal wild mushrooms (boletus, chanterelles, portobello mushrooms), creamed with Parmesan and a touch of truffle.",
+              "es": "Risotto cremoso Arborio con una selección de setas silvestres de temporada (boletus, níscalos, champiñones portobello), mantecado con parmesano y un toque de trufa.",
+              "de": "Cremiges Arborio-Risotto mit einer Auswahl an saisonalen Waldpilzen (Steinpilze, Pfifferlinge, Portobello-Pilze), verfeinert mit Parmesan und einem Hauch von Trüffel.",
+              "fr": "Risotto Arborio crémeux avec une sélection de champignons sauvages de saison (cèpes, girolles, champignons portobello), lié au parmesan et une touche de truffe."
+            },
+            "precio": 14.5,
+            "alergenos": ["lactosa"],
+            "etiquetas": ["vegetariano"],
+            "pairsWith": { "appetizer": 2, "dessert": 10 }
+          }
         ]
-    },
-    "postres": {
+      },
+      "postres": {
         "orderId": 4,
         "title": {
-            "es": "Postres",
-            "en": "Desserts"
+          "es": "Postres",
+          "en": "Desserts",
+          "de": "Desserts",
+          "fr": "Desserts"
         },
         "dishes": [
-            {
-                "id": 10,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/tarta-queso_tsrl8v.jpg",
-                "nombre": {
-                    "en": "Cheesecake",
-                    "es": "Tarta de Queso"
-                },
-                "descripcionCorta": {
-                    "en": "Creamy cheesecake with a cookie base...",
-                    "es": "Tarta cremosa de queso con base de galleta..."
-                },
-                "descripcionLarga": {
-                    "en": "Irresistible New York-style baked cheesecake with a crispy cookie base and a smooth homemade red berry coulis.",
-                    "es": "Irresistible tarta de queso horneada al estilo neoyorquino, con una base crujiente de galleta y un suave coulis de frutos rojos casero."
-                },
-                "precio": 6.5,
-                "alergenos": [
-                    "gluten",
-                    "lactosa",
-                    "huevo"
-                ],
-                "etiquetas": [
-                    "popular"
-                ]
+          {
+            "id": 10,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196775/tarta-queso_tsrl8v.jpg",
+            "nombre": {
+              "en": "Cheesecake",
+              "es": "Tarta de Queso",
+              "de": "Käsekuchen",
+              "fr": "Cheesecake"
             },
-            {
-                "id": 11,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196816/crema-catalana_zct65e.jpg",
-                "nombre": {
-                    "en": "Catalan Cream",
-                    "es": "Crema Catalana"
-                },
-                "descripcionCorta": {
-                    "en": "Traditional Catalan dessert with smooth cream...",
-                    "es": "Postre tradicional catalán con crema suave..."
-                },
-                "descripcionLarga": {
-                    "en": "Classic Catalan cream with a smooth and delicate texture, flavored with lemon and cinnamon, and covered with a thin layer of crispy caramelized sugar.",
-                    "es": "Clásica crema catalana con una textura suave y delicada, aromatizada con limón y canela, y cubierta con una fina capa de azúcar caramelizado crujiente."
-                },
-                "precio": 5.75,
-                "alergenos": [
-                    "lactosa",
-                    "huevo"
-                ],
-                "etiquetas": []
+            "descripcionCorta": {
+              "en": "Creamy cheesecake with a cookie base...",
+              "es": "Tarta cremosa de queso con base de galleta...",
+              "de": "Cremiger Käsekuchen mit Keksboden...",
+              "fr": "Gâteau au fromage crémeux avec une base de biscuit..."
             },
-            {
-                "id": 12,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/sorbete-limon_xgkxnt.jpg",
-                "nombre": {
-                    "en": "Lemon Sorbet with Cava",
-                    "es": "Sorbete de Limón al Cava"
-                },
-                "descripcionCorta": {
-                    "en": "Refreshing lemon sorbet with a touch of cava...",
-                    "es": "Refrescante sorbete de limón con un toque de cava..."
-                },
-                "descripcionLarga": {
-                    "en": "Light and digestive natural lemon sorbet, handcrafted and finished with a sparkling touch of brut nature cava.",
-                    "es": "Ligero y digestivo sorbete de limón natural, elaborado artesanalmente y terminado con un toque espumoso de cava brut nature."
-                },
-                "precio": 4.5,
-                "alergenos": [],
-                "etiquetas": [
-                    "vegano",
-                    "sin_gluten"
-                ]
+            "descripcionLarga": {
+              "en": "Irresistible New York-style baked cheesecake with a crispy cookie base and a smooth homemade red berry coulis.",
+              "es": "Irresistible tarta de queso horneada al estilo neoyorquino, con una base crujiente de galleta y un suave coulis de frutos rojos casero.",
+              "de": "Unwiderstehlicher gebackener Käsekuchen nach New Yorker Art mit einem knusprigen Keksboden und einem feinen hausgemachten roten Beeren-Coulis.",
+              "fr": "Irrésistible cheesecake cuit au four de style new-yorkais, avec une base de biscuit croustillante et un coulis de fruits rouges maison onctueux."
             },
-            {
-                "id": 13,
-                "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196779/brownie-con-helado_qjx6pe.jpg",
-                "nombre": {
-                    "en": "Brownie with Ice Cream",
-                    "es": "Brownie con Helado"
-                },
-                "descripcionCorta": {
-                    "en": "Vegan chocolate brownie served with vegan vanilla ice cream.",
-                    "es": "Brownie de chocolate vegano acompañado de helado de vainilla vegano."
-                },
-                "descripcionLarga": {
-                    "en": "Intense vegan dark chocolate brownie, moist on the inside with a slight crust on the outside, served with a scoop of creamy plant-based vanilla ice cream.",
-                    "es": "Intenso brownie de chocolate negro vegano, jugoso por dentro y con una ligera costra por fuera, acompañado de una bola de helado de vainilla cremoso a base de leche vegetal."
-                },
-                "precio": 7,
-                "alergenos": [
-                    "gluten",
-                    "frutos_secos"
-                ],
-                "etiquetas": [
-                    "vegano"
-                ]
-            }
+            "precio": 6.5,
+            "alergenos": ["gluten", "lactosa", "huevo"],
+            "etiquetas": ["popular"]
+          },
+          {
+            "id": 11,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196816/crema-catalana_zct65e.jpg",
+            "nombre": {
+              "en": "Catalan Cream",
+              "es": "Crema Catalana",
+              "de": "Crema Catalana",
+              "fr": "Crème Catalane"
+            },
+            "descripcionCorta": {
+              "en": "Traditional Catalan dessert with smooth cream...",
+              "es": "Postre tradicional catalán con crema suave...",
+              "de": "Traditionelles katalanisches Dessert mit zarter Creme...",
+              "fr": "Dessert traditionnel catalan à la crème onctueuse..."
+            },
+            "descripcionLarga": {
+              "en": "Classic Catalan cream with a smooth and delicate texture, flavored with lemon and cinnamon, and covered with a thin layer of crispy caramelized sugar.",
+              "es": "Clásica crema catalana con una textura suave y delicada, aromatizada con limón y canela, y cubierta con una fina capa de azúcar caramelizado crujiente.",
+              "de": "Klassische katalanische Creme mit einer glatten und zarten Textur, aromatisiert mit Zitrone und Zimt und bedeckt mit einer dünnen Schicht knusprigem karamellisiertem Zucker.",
+              "fr": "Crème catalane classique à la texture douce et délicate, parfumée au citron et à la cannelle, et recouverte d'une fine couche de sucre caramélisé croustillant."
+            },
+            "precio": 5.75,
+            "alergenos": ["lactosa", "huevo"],
+            "etiquetas": []
+          },
+          {
+            "id": 12,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/sorbete-limon_xgkxnt.jpg",
+            "nombre": {
+              "en": "Lemon Sorbet with Cava",
+              "es": "Sorbete de Limón al Cava",
+              "de": "Zitronensorbet mit Cava",
+              "fr": "Sorbet au Citron et au Cava"
+            },
+            "descripcionCorta": {
+              "en": "Refreshing lemon sorbet with a touch of cava...",
+              "es": "Refrescante sorbete de limón con un toque de cava...",
+              "de": "Erfrischendes Zitronensorbet mit einem Schuss Cava...",
+              "fr": "Sorbet au citron rafraîchissant avec une touche de cava..."
+            },
+            "descripcionLarga": {
+              "en": "Light and digestive natural lemon sorbet, handcrafted and finished with a sparkling touch of brut nature cava.",
+              "es": "Ligero y digestivo sorbete de limón natural, elaborado artesanalmente y terminado con un toque espumoso de cava brut nature.",
+              "de": "Leichtes und verdauungsförderndes natürliches Zitronensorbet, handwerklich hergestellt und mit einem spritzigen Hauch von Cava Brut Nature verfeinert.",
+              "fr": "Sorbet au citron naturel, léger et digestif, préparé artisanalement et agrémenté d'une touche pétillante de cava brut nature."
+            },
+            "precio": 4.5,
+            "alergenos": [],
+            "etiquetas": ["vegano", "sin_gluten"]
+          },
+          {
+            "id": 13,
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196779/brownie-con-helado_qjx6pe.jpg",
+            "nombre": {
+              "en": "Brownie with Ice Cream",
+              "es": "Brownie con Helado",
+              "de": "Brownie mit Eis",
+              "fr": "Brownie avec Glace"
+            },
+            "descripcionCorta": {
+              "en": "Vegan chocolate brownie served with vegan vanilla ice cream.",
+              "es": "Brownie de chocolate vegano acompañado de helado de vainilla vegano.",
+              "de": "Veganer Schokoladenbrownie serviert mit veganem Vanilleeis.",
+              "fr": "Brownie au chocolat végétalien servi avec de la glace à la vanille végétalienne."
+            },
+            "descripcionLarga": {
+              "en": "Intense vegan dark chocolate brownie, moist on the inside with a slight crust on the outside, served with a scoop of creamy plant-based vanilla ice cream.",
+              "es": "Intenso brownie de chocolate negro vegano, jugoso por dentro y con una ligera costra por fuera, acompañado de una bola de helado de vainilla cremoso a base de leche vegetal.",
+              "de": "Intensiver veganer Brownie aus dunkler Schokolade, innen saftig und außen mit einer leichten Kruste, serviert mit einer Kugel cremigem Vanilleeis auf Pflanzenbasis.",
+              "fr": "Brownie végétalien au chocolat noir intense, moelleux à l'intérieur avec une légère croûte à l'extérieur, servi avec une boule de glace crémeuse à la vanille à base de plantes."
+            },
+            "precio": 7,
+            "alergenos": ["gluten", "frutos_secos"],
+            "etiquetas": ["vegano"]
+          }
         ]
-    }
-}
+      }
+    },
 
 };

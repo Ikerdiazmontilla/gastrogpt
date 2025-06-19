@@ -2,37 +2,45 @@
 import { alergenosDetails, etiquetasDetails } from '../data/menuDefinitions.js';
 
 /**
- * Gets translated text for a dish property (name, description).
- * @param {object|string} dishProperty - The property object (e.g., { es: "Hola", en: "Hello" }).
+ * CORRECTED: Gets translated text for a dish property (name, description).
+ * It now correctly checks for the selected language before falling back.
+ * @param {object|string} dishProperty - The property object (e.g., { es: "Hola", en: "Hello", fr: "Bonjour" }).
  * @param {string} lang - The current language code ('es', 'en', 'fr', 'de').
  * @returns {string} The translated text.
  */
 export const getTranslatedDishText = (dishProperty, lang) => {
   if (typeof dishProperty === 'object' && dishProperty !== null) {
-    if (lang === 'es') {
-      return dishProperty.es || dishProperty.en || '';
-    } else {
-      return dishProperty.en || dishProperty.es || '';
+    // 1. Try the specific language first (e.g., 'fr').
+    if (dishProperty[lang]) {
+      return dishProperty[lang];
     }
+    // 2. If the specific language is not found, fall back to English.
+    if (dishProperty.en) {
+      return dishProperty.en;
+    }
+    // 3. If English is also not found, fall back to Spanish.
+    if (dishProperty.es) {
+      return dishProperty.es;
+    }
+    // 4. If nothing is found, return an empty string.
+    return '';
   }
+  // If the property is already a simple string, return it as is.
   return String(dishProperty || '');
 };
 
 /**
  * Gets the icon for a given alergeno key.
- * REFACTORIZADO: Devuelve el icono por defecto si no encuentra uno específico.
  * @param {string} alergenoKey - The key of the alergeno (e.g., "gluten").
  * @returns {string} The emoji icon.
  */
 export const getAlergenoIcon = (alergenoKey) => {
   const details = alergenosDetails[alergenoKey];
-  // Si el alérgeno está definido y tiene icono, lo usamos. Si no, usamos el icono por defecto.
   return (details && details.icon) ? details.icon : alergenosDetails.default.icon;
 };
 
 /**
- * Gets the translated name for a given alergeno key.
- * Si el alérgeno no está definido, devuelve el propio `alergenoKey`.
+ * CORRECTED: Gets the translated name for a given alergeno key.
  * @param {string} alergenoKey - The key of the alergeno.
  * @param {string} lang - The current language code.
  * @returns {string} The translated name.
@@ -43,14 +51,13 @@ export const getAlergenoNombre = (alergenoKey, lang = 'es') => {
     return alergenoKey.charAt(0).toUpperCase() + alergenoKey.slice(1);
   }
 
-  if (lang === 'es') {
-    return details.nombre || details.nombre_en || alergenoKey;
-  }
-  return details.nombre_en || details.nombre || alergenoKey;
+  // Use the same robust fallback logic as getTranslatedDishText
+  const key_lang = `nombre_${lang}`; // e.g., 'nombre_fr'
+  return details[key_lang] || details.nombre_en || details.nombre || alergenoKey;
 };
 
 /**
- * Gets UI data (label, icon) for a given etiqueta key.
+ * CORRECTED: Gets UI data (label, icon) for a given etiqueta key.
  * @param {string} etiquetaKey - The key of the etiqueta.
  * @param {string} lang - The current language code.
  * @returns {object} An object with { label, icon }.
@@ -59,12 +66,9 @@ export const getEtiquetaUIData = (etiquetaKey, lang = 'es') => {
   const detail = etiquetasDetails[etiquetaKey];
   if (!detail) return { label: etiquetaKey, icon: null };
 
-  let label;
-  if (lang === 'es') {
-    label = detail.label || detail.label_en || etiquetaKey;
-  } else {
-    label = detail.label_en || detail.label || etiquetaKey;
-  }
+  // Use the same robust fallback logic
+  const key_lang = `label_${lang}`; // e.g., 'label_fr'
+  const label = detail[key_lang] || detail.label_en || detail.label || etiquetaKey;
   
   return {
     label: label,
