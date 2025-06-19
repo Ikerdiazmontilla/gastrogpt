@@ -1,24 +1,17 @@
-// frontend/src/features/Chat/Chat.js
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
 import styles from './Chat.module.css';
-import { ReactComponent as SendIcon } from '../../assets/up-arrow-icon.svg';
-import { ReactComponent as MicrophoneIcon } from '../../assets/microphone.svg';
 import { useTenant } from '../../context/TenantContext';
-import {
-  fetchConversation,
-  postChatMessage,
-  resetChatConversation,
-  transcribeAudio,
-} from '../../services/apiService';
+import { fetchConversation, postChatMessage, resetChatConversation } from '../../services/apiService';
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
 import Feedback from './Feedback';
 import InitialFlow from './InitialFlow';
+import { useAudioRecorder } from './hooks/useAudioRecorder'; // Importa el nuevo hook
+import ChatInput from './components/ChatInput'; // Importa el nuevo componente
 
 const Chat = ({ onViewDishDetails }) => {
   const { t, i18n } = useTranslation();
-  
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
   
@@ -31,27 +24,35 @@ const Chat = ({ onViewDishDetails }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const messagesEndRef = useRef(null);
-  const textareaRef = useRef(null);
+  
   const [isLimitReached, setIsLimitReached] = useState(false);
   const [limitNotification, setLimitNotification] = useState('');
-
-  const [isRecording, setIsRecording] = useState(false);
-  const [isTranscribing, setIsTranscribing] = useState(false);
-  const mediaRecorderRef = useRef(null);
-  const audioChunksRef = useRef([]);
-  const mediaStreamRef = useRef(null);
 
   const [showFeedbackUI, setShowFeedbackUI] = useState(false);
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [feedbackAlreadyShown, setFeedbackAlreadyShown] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
 
+  // Uso del hook de audio
+  const handleTranscription = (transcribedText) => {
+    setInput(prev => prev + transcribedText + ' ');
+  };
+  const {
+    isRecording,
+    isTranscribing,
+    startAudioRecording,
+    stopAudioRecordingAndTranscribe,
+    cancelAudioRecording,
+    stopMediaStream
+  } = useAudioRecorder(handleTranscription, setError, t);
+
+
   const CustomLink = useMemo(() =>
     createMarkdownLinkRenderer(onViewDishDetails, menu, styles),
     [onViewDishDetails, menu]
   );
 
-  // Función refactorizada para enviar el mensaje a la API y manejar la respuesta
+  // Función para enviar el mensaje a la API y manejar la respuesta
   const triggerBotResponse = useCallback(async (messageText) => {
     setIsBotTyping(true);
     try {
@@ -105,7 +106,6 @@ const Chat = ({ onViewDishDetails }) => {
     const staticBotMessage = { sender: 'bot', text: questionText };
     const userMessage = { sender: 'user', text: messageText };
 
-    // Reemplaza el prompt interactivo por la pregunta estática y añade el mensaje del usuario
     setMessages(prev => [
       ...prev.filter(m => m.type !== 'initial_flow'),
       staticBotMessage,
@@ -115,6 +115,7 @@ const Chat = ({ onViewDishDetails }) => {
     triggerBotResponse(messageText);
   }, [i18n.language, triggerBotResponse]);
 
+  // Carga el historial de conversación desde la API
   const loadConversation = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -145,100 +146,29 @@ const Chat = ({ onViewDishDetails }) => {
   }, [t, initialDrinkPromptConfig]);
 
   useEffect(() => { loadConversation(); }, [loadConversation]);
+  
+  // Scroll automático al final de los mensajes
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, isBotTyping]);
+  
+  // Limpia el stream de audio al desmontar el componente para liberar recursos
   useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, [input]);
+    return () => {
+        stopMediaStream();
+    };
+  }, [stopMediaStream]);
 
-  const stopMediaStream = useCallback(() => {
-    if (mediaStreamRef.current) {
-      mediaStreamRef.current.getTracks().forEach(track => track.stop());
-      mediaStreamRef.current = null;
-    }
-  }, []);
-
+  // Reinicia la conversación
   const handleReset = async () => {
     if (isRecording) cancelAudioRecording();
     await resetChatConversation();
     await loadConversation();
   };
 
+  // Maneja el clic en una sugerencia
   const handleSuggestionClick = (suggestionText) => {
     setInput(suggestionText);
-    if (textareaRef.current) textareaRef.current.focus();
   };
   
- 
-  const startAudioRecording = async () => {
-    if (isRecording || isTranscribing || isBotTyping) return;
-    setError(null);
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaStreamRef.current = stream;
-        mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-        audioChunksRef.current = [];
-        mediaRecorderRef.current.ondataavailable = (event) => {
-            if (event.data.size > 0) audioChunksRef.current.push(event.data);
-        };
-        mediaRecorderRef.current.start();
-        setIsRecording(true);
-    } catch (err) {
-        setError(t('chat.errorAccessingMic'));
-        stopMediaStream();
-    }
-  };
-
-  const stopAudioRecordingAndTranscribe = async () => {
-    if (!isRecording || !mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') return;
-    setIsRecording(false);
-    setIsTranscribing(true);
-    mediaRecorderRef.current.onstop = async () => {
-        stopMediaStream();
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        audioChunksRef.current = [];
-        if (audioBlob.size === 0) {
-            setError(t('chat.errorNoAudio'));
-            setIsTranscribing(false);
-            return;
-        }
-        try {
-            const data = await transcribeAudio(audioBlob, 'recording.webm');
-            if (data.transcription) setInput(prev => prev + data.transcription + ' ');
-        } catch (err) {
-            setError(err.message || 'Failed to transcribe.');
-        } finally {
-            setIsTranscribing(false);
-        }
-    };
-    mediaRecorderRef.current.stop();
-  };
-
-  const cancelAudioRecording = () => {
-    if (!mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') return;
-    mediaRecorderRef.current.onstop = () => {
-        stopMediaStream();
-        audioChunksRef.current = [];
-    };
-    mediaRecorderRef.current.stop();
-    setIsRecording(false);
-    setIsTranscribing(false);
-  };
-
-  const getPlaceholderText = () => {
-    if (isTranscribing) return t('chat.placeholderTranscribing');
-    if (isRecording) return t('chat.placeholderRecording');
-    if (isLimitReached) return t('chat.placeholderLimit');
-    return t('chat.placeholder');
-  };
-  
-  const isResetDisabled = isLoading || isRecording || isTranscribing || isBotTyping;
-  const isTextareaAndSendDisabled = isLimitReached || isRecording || isTranscribing || isBotTyping;
-  const isMicButtonDisabled = isLimitReached || isTranscribing || isBotTyping;
-  const areSuggestionsDisabled = isLimitReached || isRecording || isTranscribing || isBotTyping;
-
   return (
     <>
       <div className={styles.chatContainer}>
@@ -276,39 +206,22 @@ const Chat = ({ onViewDishDetails }) => {
         </div>
       </div>
 
-      <div className={styles.inputWrapper} data-no-tab-swipe="true">
-        <div className={styles.inputArea}>
-          <textarea
-            ref={textareaRef}
-            rows="1"
-            placeholder={getPlaceholderText()}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            disabled={isTextareaAndSendDisabled}
-            readOnly={isTextareaAndSendDisabled}
-            className={styles.chatTextarea}
-          />
-          {isRecording ? (
-             <>
-              <button className={styles.cancelRecordButton} onClick={cancelAudioRecording}> ❌ </button>
-              <button className={styles.stopRecordButton} onClick={stopAudioRecordingAndTranscribe}> ✔️ </button>
-            </>
-          ) : (
-            <>
-              <button className={`${styles.micButton} ${isMicButtonDisabled ? styles.micButtonDisabled : ''}`} onClick={startAudioRecording} disabled={isMicButtonDisabled}> <MicrophoneIcon className={styles.microphoneSvg}/> </button>
-              <button className={styles.sendMessage} onClick={handleSendMessage} disabled={isTextareaAndSendDisabled || input.trim() === ''}> <SendIcon className={styles.sendSvg} /> </button>
-            </>
-          )}
-        </div>
-        <div className={styles.bottomControlsContainer}>
-          <button onClick={handleReset} disabled={isResetDisabled} className={styles.resetIconChipFixed}> ↻ </button>
-          <div className={styles.suggestionsContainerScrollable}>
-            {suggestions.slice(0, suggestionCount).map((suggestion, index) => (
-              <button key={index} className={styles.suggestionChip} onClick={() => handleSuggestionClick(suggestion)} disabled={areSuggestionsDisabled}>{suggestion}</button>
-            ))}
-          </div>
-        </div>
-      </div>
+      <ChatInput
+        input={input}
+        setInput={setInput}
+        handleSendMessage={handleSendMessage}
+        handleReset={handleReset}
+        handleSuggestionClick={handleSuggestionClick}
+        isRecording={isRecording}
+        isTranscribing={isTranscribing}
+        isBotTyping={isBotTyping}
+        isLimitReached={isLimitReached}
+        startAudioRecording={startAudioRecording}
+        stopAudioRecordingAndTranscribe={stopAudioRecordingAndTranscribe}
+        cancelAudioRecording={cancelAudioRecording}
+        suggestions={suggestions}
+        suggestionCount={suggestionCount}
+      />
     </>
   );
 };
