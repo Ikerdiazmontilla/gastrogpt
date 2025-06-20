@@ -31,7 +31,9 @@
     "allergens": "Allergènes :",
     "tags": "Étiquettes :",
     "pairsWellWith": "Se marie bien avec :",
-    "perPersonLong": "par personne"
+    "perPersonLong": "par personne",
+    "select": "Sélectionner",
+    "selected": "Sélectionné ✓"
   },
   "chat": {
     "loadingHistory": "Chargement de l'historique...",

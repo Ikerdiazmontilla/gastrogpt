@@ -55,7 +55,11 @@ const InitialFlow = ({ config, onSelection }) => {
         currentViewId: option.label.en, // La nueva vista es el ID de la opción
       }));
     } else if (option.type === 'send_message') {
-      onSelection(option.message_text);
+      // ***** CAMBIO CLAVE AQUÍ *****
+      // En lugar de enviar `option.message_text`, enviamos el texto de la etiqueta traducido.
+      // Esto asegura que el mensaje enviado al bot esté en el idioma del usuario.
+      const translatedMessage = getTranslatedText(option.label);
+      onSelection(translatedMessage, config);
     }
   };
 

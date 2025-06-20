@@ -31,7 +31,9 @@
     "allergens": "Allergens:",
     "tags": "Tags:",
     "pairsWellWith": "Pairs well with:",
-    "perPersonLong": "per person"
+    "perPersonLong": "per person",
+    "select": "Select",
+    "selected": "Selected ✓"
   },
   "chat": {
     "loadingHistory": "Loading history...",

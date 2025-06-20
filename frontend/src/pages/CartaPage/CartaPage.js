@@ -17,6 +17,9 @@ const CartaPage = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlato, setSelectedPlato] = useState(null);
+  
+  const [selectedDishes, setSelectedDishes] = useState(new Set());
+  
   const [visibleSection, setVisibleSection] = useState('');
   
   const sectionRefs = useRef({});
@@ -24,6 +27,18 @@ const CartaPage = () => {
   const tabsListRef = useRef(null);
 
   const currentLanguageForApi = i18n.language;
+
+  const handleToggleSelect = (dishId) => {
+    setSelectedDishes(prevSelected => {
+      const newSelected = new Set(prevSelected);
+      if (newSelected.has(dishId)) {
+        newSelected.delete(dishId);
+      } else {
+        newSelected.add(dishId);
+      }
+      return newSelected;
+    });
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -122,8 +137,6 @@ const CartaPage = () => {
       processCategoryOrSubcategory(category, categoryKey, categoryKey);
     });
 
-    // The logic to create the "Recomendaciones" section has been removed.
-
     return sections.map(section => ({
         ...section,
         dishes: section.dishes.map(dish => ({
@@ -218,7 +231,7 @@ const CartaPage = () => {
               key={section.key}
               id={section.key}
               ref={(el) => (sectionRefs.current[section.key] = el)}
-              className={`${styles.menuSection} ${styles['section-' + (section.parentCategoryKey || 'default')]}`}
+              className={`${styles.menuSection} ${styles['section-' - (section.parentCategoryKey || 'default')]}`}
             >
               <h2 className={styles.sectionTitle}>
                 <span className={`${styles.categoryMarker} ${styles['marker-' + (section.parentCategoryKey || 'default')]}`}></span>
@@ -230,8 +243,11 @@ const CartaPage = () => {
                   <MenuItemCard
                     key={plato.id}
                     plato={plato}
+                    isSelected={selectedDishes.has(plato.id)}
+                    onToggleSelect={handleToggleSelect}
                     onViewMore={handleSelectDishForModal}
                     menuHasImages={menuHasImages}
+                    // Pasamos la clave de la categoría para aplicar el color
                     categoryKey={plato.parentCategoryKey}
                   />
                 ))}
@@ -244,7 +260,14 @@ const CartaPage = () => {
       </div>
 
       {selectedPlato && (
-        <DishDetailModal plato={selectedPlato} onClose={handleCloseModal} onSelectPairedDish={handleSelectDishForModal} menu={menu} />
+        <DishDetailModal 
+          plato={selectedPlato} 
+          onClose={handleCloseModal} 
+          onSelectPairedDish={handleSelectDishForModal} 
+          menu={menu}
+          isSelected={selectedDishes.has(selectedPlato.id)}
+          onToggleSelect={handleToggleSelect}
+        />
       )}
     </div>
   );
