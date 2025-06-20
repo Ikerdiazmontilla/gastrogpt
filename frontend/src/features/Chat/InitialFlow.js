@@ -1,44 +1,40 @@
 // frontend/src/features/Chat/InitialFlow.js
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useOrder } from '../../context/OrderContext';
 import styles from './InitialFlow.module.css';
 
+// --- FUNCIONES HELPER ---
 const getIconForOption = (optionLabelEn) => {
-  const label = optionLabelEn.toLowerCase();
+  const label = (optionLabelEn || '').toLowerCase();
   if (label.includes('soft drinks')) return '🥤';
-  if (label.includes('alcohols')) return '🍸';
   if (label.includes('wines')) return '🍷';
-  if (label.includes('water')) return '💧';
-  if (label.includes('sangria')) return '🍹';
   if (label.includes('beer')) return '🍺';
-  if (label.includes('cocktails')) return '🧉';
+  if (label.includes('water')) return '💧';
   if (label.includes('juice')) return '🍍';
   return '-';
 };
 
-// Función recursiva para encontrar una vista por su ID en el árbol de configuración
 const findViewData = (viewId, config) => {
   const search = (options) => {
     for (const option of options) {
-      if (option.type === 'category' && option.label.en === viewId) {
-        return option; // Encontrado
-      }
+      if (option.type === 'category' && option.label.en === viewId) return option;
       if (option.type === 'category' && option.sub_options) {
         const found = search(option.sub_options);
-        if (found) return found; // Propagar el resultado
+        if (found) return found;
       }
     }
-    return null; // No encontrado en esta rama
+    return null;
   };
   return search(config.options);
 };
 
-
+// --- COMPONENTE PRINCIPAL ---
 const InitialFlow = ({ config, onSelection }) => {
   const { i18n } = useTranslation();
+  const { toggleDishSelection } = useOrder();
   const currentLanguage = i18n.language;
   
-  // El estado ahora maneja la vista actual y un historial para la navegación "Atrás"
   const [viewState, setViewState] = useState({ currentViewId: 'main', history: [] });
 
   if (!config || !config.enabled) return null;
@@ -49,52 +45,68 @@ const InitialFlow = ({ config, onSelection }) => {
 
   const handleOptionClick = (option) => {
     if (option.type === 'category') {
-      // Navega a una nueva vista
       setViewState(prev => ({
-        history: [...prev.history, prev.currentViewId], // Guarda la vista actual en el historial
-        currentViewId: option.label.en, // La nueva vista es el ID de la opción
+        history: [...prev.history, prev.currentViewId],
+        currentViewId: option.label.en,
       }));
-    } else if (option.type === 'send_message') {
-      // ***** CAMBIO CLAVE AQUÍ *****
-      // En lugar de enviar `option.message_text`, enviamos el texto de la etiqueta traducido.
-      // Esto asegura que el mensaje enviado al bot esté en el idioma del usuario.
+    } else if (option.type === 'send_message' && option.dishId) {
+      toggleDishSelection(option.dishId);
       const translatedMessage = getTranslatedText(option.label);
       onSelection(translatedMessage, config);
     }
   };
 
   const handleBackClick = () => {
-    // Vuelve a la vista anterior
     setViewState(prev => {
       const newHistory = [...prev.history];
-      const previousViewId = newHistory.pop(); // Saca el último elemento del historial
+      const previousViewId = newHistory.pop();
       return {
         history: newHistory,
-        currentViewId: previousViewId,
+        currentViewId: previousViewId || 'main',
       };
     });
   };
 
+  const isMainView = viewState.currentViewId === 'main';
+
+  // Renderiza los botones con la lógica de estilo condicional
   const renderOptions = (options) => {
     const colorClasses = [styles.color1, styles.color2, styles.color3, styles.color4, styles.color5];
-    return options.map((option, index) => (
-      <button
-        key={getTranslatedText(option.label)}
-        className={`${styles.flowButton} ${colorClasses[index % colorClasses.length]}`}
-        onClick={() => handleOptionClick(option)}
-      >
-        <span className={styles.flowButtonIcon}>
-          {getIconForOption(option.label.en)}
-        </span>
-        <span className={styles.flowButtonText}>{getTranslatedText(option.label)}</span>
-      </button>
-    ));
+    let categoryIndex = -1; // Usamos un contador separado para los colores de las categorías
+
+    return options.map((option) => {
+      const isCategory = option.type === 'category';
+      const showIcon = isMainView && isCategory;
+      let buttonClass;
+
+      // --- CAMBIO CLAVE: Aplicar colores solo a las categorías ---
+      if (isCategory) {
+        categoryIndex++; // Incrementar solo para categorías
+        const colorClass = colorClasses[categoryIndex % colorClasses.length];
+        buttonClass = `${styles.flowButtonCategory} ${colorClass}`;
+      } else {
+        // Para las bebidas, se usa la clase de producto (gris)
+        buttonClass = styles.flowButtonProduct;
+      }
+
+      return (
+        <button
+          key={getTranslatedText(option.label)}
+          className={buttonClass}
+          onClick={() => handleOptionClick(option)}
+        >
+          {showIcon && (
+            <span className={styles.flowButtonIcon}>
+              {getIconForOption(option.label.en)}
+            </span>
+          )}
+          <span className={styles.flowButtonText}>{getTranslatedText(option.label)}</span>
+        </button>
+      );
+    });
   };
   
-  // Determina qué mostrar basado en el estado actual
-  const isMainView = viewState.currentViewId === 'main';
   const currentViewData = isMainView ? null : findViewData(viewState.currentViewId, config);
-  
   const title = isMainView ? getTranslatedText(config.question) : (currentViewData ? getTranslatedText(currentViewData.label) : '');
   const optionsToRender = isMainView ? config.options : (currentViewData ? currentViewData.sub_options : []);
 

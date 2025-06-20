@@ -41,71 +41,71 @@ module.exports = {
     suggestionChipsCount: 5,
   },
 
-  initial_drink_prompt: {
-    enabled: true,
-    question: {
-      es: "¿Qué te gustaría para beber?",
-      en: "What would you like to drink?",
-      fr: "Que souhaitez-vous boire?",
-      de: "Was möchten Sie trinken?"
-    },
-    options: [
-      {
-        label: { es: "Agua", en: "Water", fr: "Eau", de: "Wasser" },
-        type: 'send_message',
-        message_text: "Agua"
-      },
-      {
-        label: { es: "Refrescos", en: "Soft Drinks", fr: "Boissons gazeuses", de: "Erfrischungsgetränke" },
-        type: 'category',
-        sub_options: [
-          { label: { es: "Coca-Cola", en: "Coca-Cola", fr: "Coca-Cola", de: "Coca-Cola" }, type: 'send_message', message_text: "Coca-Cola" },
-          { label: { es: "Fanta Naranja", en: "Fanta Orange", fr: "Fanta Orange", de: "Fanta Orange" }, type: 'send_message', message_text: "Fanta Naranja" },
-          { label: { es: "Sprite", en: "Sprite", fr: "Sprite", de: "Sprite" }, type: 'send_message', message_text: "Sprite" }
-        ]
-      },
-      {
-        label: { es: "Alcoholes", en: "Alcohols", fr: "Alcools", de: "Alkoholische Getränke" },
-        type: 'category', // Categoría principal
-        sub_options: [
-          { // Categoría ANIDADA
-            label: { es: "Vinos", en: "Wines", fr: "Vins", de: "Weine" },
-            type: 'category',
-            sub_options: [
-              { label: { es: "Vino Tinto", en: "Red Wine", fr: "Vin Rouge", de: "Rotwein" }, type: 'send_message', message_text: "Vino Tinto" },
-              { label: { es: "Vino Blanco", en: "White Wine", fr: "Vin Blanc", de: "Weißwein" }, type: 'send_message', message_text: "Vino Blanco" }
-            ]
-          },
-          { 
-            label: { es: "Sangría", en: "Sangria", fr: "Sangria", de: "Sangria" },
-            type: 'send_message', 
-            message_text: "Sangría" 
-          },
-          { 
-            label: { es: "Cervezas", en: "Beers", fr: "Bières", de: "Biere" },
-            type: 'category',
-            sub_options: [
-                { label: { es: "Caña", en: "Draft Beer", fr: "Bière pression", de: "Bier vom Fass" }, type: 'send_message', message_text: "Caña" },
-                { label: { es: "Tercio", en: "Bottle of Beer", fr: "Bouteille de bière", de: "Flaschenbier" }, type: 'send_message', message_text: "Tercio" }
-            ]
-          },
-          { 
-            label: { es: "Cocktails", en: "Cocktails", fr: "Cocktails", de: "Cocktails" },
-            type: 'category',
-            sub_options: [
-                { label: { es: "Mojito", en: "Mojito", fr: "Mojito", de: "Mojito" }, type: 'send_message', message_text: "Mojito" },
-                { label: { es: "Margarita", en: "Margarita", fr: "Margarita", de: "Margarita" }, type: 'send_message', message_text: "Margarita" }
-            ]
-          }
-        ]
-      },
-      {
-        label: { es: "Zumo Tropical", en: "Tropical Juice", fr: "Jus Tropical", de: "Tropischer Saft" },
-        type: 'send_message',
-        message_text: "Zumo Tropical"
-      }
-    ]
-  },
+  // initial_drink_prompt: {
+  //   enabled: true,
+  //   question: {
+  //     es: "¿Qué te gustaría para beber?",
+  //     en: "What would you like to drink?",
+  //     fr: "Que souhaitez-vous boire?",
+  //     de: "Was möchten Sie trinken?"
+  //   },
+  //   options: [
+  //     {
+  //       label: { es: "Agua", en: "Water", fr: "Eau", de: "Wasser" },
+  //       type: 'send_message',
+  //       message_text: "Agua"
+  //     },
+  //     {
+  //       label: { es: "Refrescos", en: "Soft Drinks", fr: "Boissons gazeuses", de: "Erfrischungsgetränke" },
+  //       type: 'category',
+  //       sub_options: [
+  //         { label: { es: "Coca-Cola", en: "Coca-Cola", fr: "Coca-Cola", de: "Coca-Cola" }, type: 'send_message', message_text: "Coca-Cola" },
+  //         { label: { es: "Fanta Naranja", en: "Fanta Orange", fr: "Fanta Orange", de: "Fanta Orange" }, type: 'send_message', message_text: "Fanta Naranja" },
+  //         { label: { es: "Sprite", en: "Sprite", fr: "Sprite", de: "Sprite" }, type: 'send_message', message_text: "Sprite" }
+  //       ]
+  //     },
+  //     {
+  //       label: { es: "Alcoholes", en: "Alcohols", fr: "Alcools", de: "Alkoholische Getränke" },
+  //       type: 'category', // Categoría principal
+  //       sub_options: [
+  //         { // Categoría ANIDADA
+  //           label: { es: "Vinos", en: "Wines", fr: "Vins", de: "Weine" },
+  //           type: 'category',
+  //           sub_options: [
+  //             { label: { es: "Vino Tinto", en: "Red Wine", fr: "Vin Rouge", de: "Rotwein" }, type: 'send_message', message_text: "Vino Tinto" },
+  //             { label: { es: "Vino Blanco", en: "White Wine", fr: "Vin Blanc", de: "Weißwein" }, type: 'send_message', message_text: "Vino Blanco" }
+  //           ]
+  //         },
+  //         { 
+  //           label: { es: "Sangría", en: "Sangria", fr: "Sangria", de: "Sangria" },
+  //           type: 'send_message', 
+  //           message_text: "Sangría" 
+  //         },
+  //         { 
+  //           label: { es: "Cervezas", en: "Beers", fr: "Bières", de: "Biere" },
+  //           type: 'category',
+  //           sub_options: [
+  //               { label: { es: "Caña", en: "Draft Beer", fr: "Bière pression", de: "Bier vom Fass" }, type: 'send_message', message_text: "Caña" },
+  //               { label: { es: "Tercio", en: "Bottle of Beer", fr: "Bouteille de bière", de: "Flaschenbier" }, type: 'send_message', message_text: "Tercio" }
+  //           ]
+  //         },
+  //         { 
+  //           label: { es: "Cocktails", en: "Cocktails", fr: "Cocktails", de: "Cocktails" },
+  //           type: 'category',
+  //           sub_options: [
+  //               { label: { es: "Mojito", en: "Mojito", fr: "Mojito", de: "Mojito" }, type: 'send_message', message_text: "Mojito" },
+  //               { label: { es: "Margarita", en: "Margarita", fr: "Margarita", de: "Margarita" }, type: 'send_message', message_text: "Margarita" }
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       label: { es: "Zumo Tropical", en: "Tropical Juice", fr: "Jus Tropical", de: "Tropischer Saft" },
+  //       type: 'send_message',
+  //       message_text: "Zumo Tropical"
+  //     }
+  //   ]
+  // },
 
   // --- Configuración del Modelo de Lenguaje (LLM) ---
   llm: {
@@ -240,243 +240,52 @@ module.exports = {
     "menu": {
       "bebidas": {
         "orderId": 1,
-        "title": {
-          "es": "Bebidas",
-          "en": "Drinks",
-          "de": "Getränke",
-          "fr": "Boissons"
-        },
+        "title": { "es": "Bebidas", "en": "Drinks", "de": "Getränke", "fr": "Boissons" },
+        // Platos que aparecen en el nivel principal de "Bebidas"
         "dishes": [
           {
-            "id": 15,
-            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/vino-tinto_uvnywx.jpg",
-            "nombre": {
-              "en": "Rioja Crianza Red Wine",
-              "es": "Vino Tinto Rioja Crianza",
-              "de": "Rioja Crianza Rotwein",
-              "fr": "Vin Rouge Rioja Crianza"
-            },
-            "descripcionCorta": {
-              "en": "Red wine D.O.Ca. Rioja, crianza...",
-              "es": "Vino tinto D.O.Ca. Rioja, crianza...",
-              "de": "Rotwein D.O.Ca. Rioja, Crianza...",
-              "fr": "Vin rouge D.O.Ca. Rioja, crianza..."
-            },
-            "descripcionLarga": {
-              "en": "Red wine from the Rioja Qualified Designation of Origin, made with Tempranillo and Graciano grapes, aged for 12 months in American oak barrels.",
-              "es": "Vino tinto de la Denominación de Origen Calificada Rioja, elaborado con uvas Tempranillo y Graciano, con una crianza de 12 meses en barrica de roble americano.",
-              "de": "Rotwein aus der qualifizierten Herkunftsbezeichnung Rioja, hergestellt aus Tempranillo- und Graciano-Trauben, 12 Monate in amerikanischen Eichenfässern gereift.",
-              "fr": "Vin rouge de l'Appellation d'Origine Qualifiée Rioja, élaboré avec des raisins Tempranillo et Graciano, vieilli 12 mois en fûts de chêne américain."
-            },
-            "precio": 18,
-            "alergenos": ["sulfitos"],
-            "etiquetas": ["recomendado"],
-            "pairsWith": { "appetizer": 1 }
+            "id": 17,
+            "nombre": { "es": "Agua Mineral Natural", "en": "Natural Mineral Water", "fr": "Eau Minérale Naturelle", "de": "Natürliches Mineralwasser" },
+            "precio": 2,
+            "alergenos": [],
+            "etiquetas": []
           },
           {
             "id": 19,
-            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/zumo-tropical_kp3r0b.avif",
-            "nombre": {
-              "en": "House Tropical Juice",
-              "es": "Zumo Tropical de la Casa",
-              "de": "Hausgemachter Tropischer Saft",
-              "fr": "Jus Tropical Maison"
-            },
-            "descripcionCorta": {
-              "en": "Fresh fruit juice, alcohol-free.",
-              "es": "Zumo de frutas frescas sin alcohol.",
-              "de": "Frischer Fruchtsaft, alkoholfrei.",
-              "fr": "Jus de fruits frais, sans alcool."
-            },
-            "descripcionLarga": {
-              "en": "Refreshing blend of pineapple, mango, orange and passion fruit, freshly squeezed and served chilled.",
-              "es": "Refrescante mezcla de piña, mango, naranja y maracuyá, exprimida al momento y servida muy fría.",
-              "de": "Erfrischende Mischung aus Ananas, Mango, Orange y Maracuja, frisch gepresst und gut gekühlt serviert.",
-              "fr": "Mélange rafraîchissant d'ananas, de mangue, d'orange et de fruit de la passion, fraîchement pressé et servi très froid."
-            },
+            "nombre": { "es": "Zumo Tropical de la Casa", "en": "House Tropical Juice", "fr": "Jus Tropical Maison", "de": "Hausgemachter Tropischer Saft" },
             "precio": 4,
             "alergenos": [],
-            "etiquetas": ["recomendado", "sin_gluten"],
-            "pairsWith": { "appetizer": 4 }
-          },
-          {
-            "id": 16,
-            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196776/sangria_d1gezc.jpg",
-            "nombre": {
-              "en": "Homemade Sangria",
-              "es": "Sangría Casera",
-              "de": "Hausgemachte Sangria",
-              "fr": "Sangria Maison"
-            },
-            "descripcionCorta": {
-              "en": "Refreshing sangria with red wine, fruits...",
-              "es": "Refrescante sangría con vino tinto, frutas...",
-              "de": "Erfrischende Sangria mit Rotwein, Früchten...",
-              "fr": "Sangria rafraîchissante avec du vin rouge, des fruits..."
-            },
-            "descripcionLarga": {
-              "en": "Our special sangria, prepared on the spot with quality red wine, a selection of fresh seasonal fruits, a touch of liquor, and cinnamon.",
-              "es": "Nuestra sangría especial, preparada al momento con vino tinto de calidad, una selección de frutas frescas de temporada, un toque de licor y canela.",
-              "de": "Unsere besondere Sangria, frisch zubereitet mit Qualitätsrotwein, einer Auswahl an frischen saisonalen Früchten, einem Schuss Likör und Zimt.",
-              "fr": "Notre sangria spéciale, préparée à la minute avec du vin rouge de qualité, une sélection de fruits frais de saison, une touche de liqueur et de la cannelle."
-            },
-            "precio": 12.5,
-            "alergenos": ["sulfitos"],
-            "etiquetas": ["popular"],
-            "pairsWith": { "appetizer": 3 }
-          },
-          {
-            "id": 18,
-            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196780/cerveza-artesana_vfpdxu.jpg",
-            "nombre": {
-              "en": "Local Craft Beer",
-              "es": "Cerveza Artesana Local",
-              "de": "Lokales Craft-Bier",
-              "fr": "Bière Artisanale Locale"
-            },
-            "descripcionCorta": {
-              "en": "Selection of craft beers from local producers.",
-              "es": "Selección de cervezas artesanas de productores locales.",
-              "de": "Auswahl an Craft-Bieren von lokalen Herstellern.",
-              "fr": "Sélection de bières artisanales de producteurs locaux."
-            },
-            "descripcionLarga": {
-              "en": "Discover our rotating selection of craft beers brewed by small local producers. Ask our staff about the available varieties (IPA, Lager, Stout, etc.).",
-              "es": "Descubre nuestra selección rotativa de cervezas artesanas elaboradas por pequeños productores de la región. Pregunta a nuestro personal por las variedades disponibles (IPA, Lager, Stout, etc.).",
-              "de": "Entdecken Sie unsere wechselnde Auswahl an Craft-Bieren, gebraut von kleinen lokalen Produzenten. Fragen Sie unser Personal nach den verfügbaren Sorten (IPA, Lager, Stout, etc.).",
-              "fr": "Découvrez notre sélection tournante de bières artisanales brassées par de petits producteurs locaux. Demandez à notre personal les variétés disponibles (IPA, Lager, Stout, etc.)."
-            },
-            "precio": 5.5,
-            "alergenos": ["gluten"],
-            "etiquetas": [],
-            "pairsWith": { "appetizer": 1 }
-          },
-          {
-            "id": 17,
-            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750196816/agua-mineral_ggnbkd.jpg",
-            "nombre": {
-              "en": "Natural Mineral Water",
-              "es": "Agua Mineral Natural",
-              "de": "Natürliches Mineralwasser",
-              "fr": "Eau Minérale Naturelle"
-            },
-            "descripcionCorta": {
-              "en": "Natural spring mineral water.",
-              "es": "Agua mineral natural de manantial.",
-              "de": "Natürliches Quellmineralwasser.",
-              "fr": "Eau minérale naturelle de source."
-            },
-            "descripcionLarga": {
-              "en": "Natural mineral water with low mineralization, from a protected spring. Served cold.",
-              "es": "Agua mineral natural de mineralización débil, proveniente de manantial protegido. Servida fría.",
-              "de": "Natürliches Mineralwasser mit geringer Mineralisierung aus einer geschützten Quelle. Kalt serviert.",
-              "fr": "Eau minérale naturelle à faible minéralisation, provenant d'une source protégée. Servie fraîche."
-            },
-            "precio": 2,
-            "alergenos": [],
-            "etiquetas": [],
-            "pairsWith": { "appetizer": 2 }
-          },
-          {
-            "id": 20,
-            "nombre": { "es": "Coca-Cola", "en": "Coca-Cola", "fr": "Coca-Cola", "de": "Coca-Cola" },
-            "descripcionCorta": { "es": "Refresco de cola.", "en": "Cola soft drink.", "fr": "Boisson gazeuse au cola.", "de": "Cola-Erfrischungsgetränk." },
-            "descripcionLarga": { "es": "El clásico y refrescante sabor de Coca-Cola, servido frío con hielo y una rodaja de limón.", "en": "The classic and refreshing taste of Coca-Cola, served cold with ice and a slice of lemon.", "fr": "Le goût classique et rafraîchissant de Coca-Cola, servi froid avec des glaçons et une tranche de citron.", "de": "Der klassische und erfrischende Geschmack von Coca-Cola, kalt serviert mit Eis und einer Zitronenscheibe." },
-            "precio": 2.5,
-            "alergenos": [],
-            "etiquetas": []
-          },
-          {
-            "id": 21,
-            "nombre": { "es": "Fanta Naranja", "en": "Fanta Orange", "fr": "Fanta Orange", "de": "Fanta Orange" },
-            "descripcionCorta": { "es": "Refresco con sabor a naranja.", "en": "Orange flavored soft drink.", "fr": "Boisson gazeuse à l'orange.", "de": "Erfrischungsgetränk mit Orangengeschmack." },
-            "descripcionLarga": { "es": "Refrescante bebida gaseosa con un intenso sabor a naranja, servida fría.", "en": "Refreshing carbonated drink with an intense orange flavor, served cold.", "fr": "Boisson gazeuse rafraîchissante avec une saveur intense d'orange, servie froide.", "de": "Erfrischendes kohlensäurehaltiges Getränk mit intensivem Orangengeschmack, kalt serviert." },
-            "precio": 2.5,
-            "alergenos": [],
-            "etiquetas": []
-          },
-          {
-            "id": 22,
-            "nombre": { "es": "Sprite", "en": "Sprite", "fr": "Sprite", "de": "Sprite" },
-            "descripcionCorta": { "es": "Refresco de lima-limón.", "en": "Lemon-lime soft drink.", "fr": "Boisson gazeuse citron-lime.", "de": "Zitronen-Limetten-Erfrischungsgetränk." },
-            "descripcionLarga": { "es": "Refrescante bebida gaseosa con sabor a lima-limón, sin cafeína, servida bien fría.", "en": "Refreshing carbonated drink with a lemon-lime flavor, caffeine-free, served chilled.", "fr": "Boisson gazeuse rafraîchissante au goût de citron-lime, sans caféine, servie bien froide.", "de": "Erfrischendes kohlensäurehaltiges Getränk mit Zitronen-Limetten-Geschmack, koffeinfrei, gut gekühlt serviert." },
-            "precio": 2.5,
-            "alergenos": [],
-            "etiquetas": []
-          },
-          {
-            "id": 23,
-            "nombre": { "es": "Agua con Gas", "en": "Sparkling Water", "fr": "Eau Gazeuse", "de": "Sprudelwasser" },
-            "descripcionCorta": { "es": "Agua mineral con gas.", "en": "Carbonated mineral water.", "fr": "Eau minérale gazeuse.", "de": "Kohlensäurehaltiges Mineralwasser." },
-            "descripcionLarga": { "es": "Agua mineral natural carbonatada, perfecta para refrescarse o acompañar la comida.", "en": "Natural carbonated mineral water, perfect for refreshing or accompanying a meal.", "fr": "Eau minérale naturelle gazéifiée, perfecta para se rafraîchir ou accompagner un repas.", "de": "Natürliches kohlensäurehaltiges Mineralwasser, perfekt zur Erfrischung oder als Begleitung zum Essen." },
-            "precio": 2.2,
-            "alergenos": [],
-            "etiquetas": []
-          },
-          {
-            "id": 24,
-            "nombre": { "es": "Vino Tinto de la Casa (Copa)", "en": "House Red Wine (Glass)", "fr": "Vin Rouge Maison (Verre)", "de": "Hausrotwein (Glas)" },
-            "descripcionCorta": { "es": "Copa de vino tinto seleccionado.", "en": "Glass of selected red wine.", "fr": "Verre de vin rouge sélectionné.", "de": "Glas ausgewählter Rotwein." },
-            "descripcionLarga": { "es": "Una copa de nuestro vino tinto de la casa, cuidadosamente seleccionado para complementar nuestros platos.", "en": "A glass of our house red wine, carefully selected to complement our dishes.", "fr": "Un verre de notre vin rouge maison, soigneusement sélectionné pour accompagner nos plats.", "de": "Ein Glas unseres Hausrotweins, sorgfältig ausgewählt, um unsere Gerichte zu ergänzen." },
-            "precio": 3.5,
-            "alergenos": ["sulfitos"],
-            "etiquetas": []
-          },
-          {
-            "id": 25,
-            "nombre": { "es": "Vino Blanco de la Casa (Copa)", "en": "House White Wine (Glass)", "fr": "Vin Blanc Maison (Verre)", "de": "Hausweißwein (Glas)" },
-            "descripcionCorta": { "es": "Copa de vino blanco fresco y afrutado.", "en": "Glass of fresh and fruity white wine.", "fr": "Verre de vin blanc frais et fruité.", "de": "Glas frischer und fruchtiger Weißwein." },
-            "descripcionLarga": { "es": "Una copa de nuestro vino blanco de la casa, fresco y afrutado, ideal para pescados y ensaladas.", "en": "A glass of our fresh and fruity house white wine, ideal for fish and salads.", "fr": "Un verre de notre vin blanc maison, frais et fruité, ideal para les poissons et les salades.", "de": "Ein Glas unseres frischen und fruchtigen Hausweißweins, ideal zu Fisch und Salaten." },
-            "precio": 3.5,
-            "alergenos": ["sulfitos"],
-            "etiquetas": []
-          },
-          {
-            "id": 26,
-            "nombre": { "es": "Vino Rosado de la Casa (Copa)", "en": "House Rosé Wine (Glass)", "fr": "Vin Rosé Maison (Verre)", "de": "Hausroséwein (Glas)" },
-            "descripcionCorta": { "es": "Copa de vino rosado ligero y refrescante.", "en": "Glass of light and refreshing rosé wine.", "fr": "Verre de vin rosé léger et rafraîchissant.", "de": "Glas leichter und erfrischender Roséwein." },
-            "descripcionLarga": { "es": "Una copa de nuestro vino rosado de la casa, ligero y refrescante, perfecto para cualquier ocasión.", "en": "A glass of our light and refreshing house rosé wine, perfect for any occasion.", "fr": "Un verre de notre vin rosé maison, léger et rafraîchissant, parfait pour toute occasion.", "de": "Ein Glas unseres leichten und erfrischenden Hausroséweins, perfekt für jeden Anlass." },
-            "precio": 3.5,
-            "alergenos": ["sulfitos"],
-            "etiquetas": []
-          },
-          {
-            "id": 27,
-            "nombre": { "es": "Caña", "en": "Draft Beer", "fr": "Bière Pression", "de": "Bier vom Fass" },
-            "descripcionCorta": { "es": "Cerveza fresca de barril.", "en": "Fresh draught beer.", "fr": "Bière fraîche à la pression.", "de": "Frisches Fassbier." },
-            "descripcionLarga": { "es": "Una caña de nuestra cerveza Lager, servida bien fría directamente del barril para un sabor y frescura óptimos.", "en": "A glass of our Lager beer, served perfectly chilled directly from the tap for optimal flavor and freshness.", "fr": "Un verre de notre bière Lager, servie parfaitement fraîche directement du fût pour une saveur et une fraîcheur optimales.", "de": "Ein Glas unseres Lagerbiers, perfekt gekühlt direkt vom Fass für optimalen Geschmack und Frische." },
-            "precio": 3.0,
-            "alergenos": ["gluten"],
-            "etiquetas": []
-          },
-          {
-            "id": 28,
-            "nombre": { "es": "Tercio", "en": "Bottle of Beer", "fr": "Bouteille de Bière", "de": "Flaschenbier" },
-            "descripcionCorta": { "es": "Botella de cerveza de 33cl.", "en": "33cl bottle of beer.", "fr": "Bouteille de bière de 33cl.", "de": "0,33l Flaschenbier." },
-            "descripcionLarga": { "es": "Botella de cerveza Lager de 33cl, ideal para disfrutar de una cerveza fría y refrescante.", "en": "33cl bottle of Lager beer, perfect for enjoying a cold and refreshing beer.", "fr": "Bouteille de bière Lager de 33cl, idéale pour savourer une bière froide et rafraîchissante.", "de": "0,33l Flasche Lagerbier, ideal, um ein kaltes und erfrischendes Bier zu genießen." },
-            "precio": 3.5,
-            "alergenos": ["gluten"],
-            "etiquetas": []
-          },
-          {
-            "id": 29,
-            "nombre": { "es": "Mojito", "en": "Mojito", "fr": "Mojito", "de": "Mojito" },
-            "descripcionCorta": { "es": "Clásico cóctel cubano con ron, lima, menta y soda.", "en": "Classic Cuban cocktail with rum, lime, mint, and soda.", "fr": "Cocktail cubain classique au rhum, citron vert, menthe et soda.", "de": "Klassischer kubanischer Cocktail mit Rum, Limette, Minze und Soda." },
-            "descripcionLarga": { "es": "Refrescante mojito preparado con ron blanco, hojas de menta fresca, zumo de lima natural, azúcar y un toque de soda. ¡El cóctel perfecto para cualquier momento!", "en": "Refreshing mojito prepared with white rum, fresh mint leaves, natural lime juice, sugar, and a splash of soda. The perfect cocktail for any occasion!", "fr": "Mojito rafraîchissant préparé avec du rhum blanc, des feuilles de menthe fraîche, du jus de citron vert naturel, du sucre et une touche de soda. Le cocktail parfait pour toute occasion !", "de": "Erfrischender Mojito, zubereitet mit weißem Rum, frischen Minzblättern, natürlichem Limettensaft, Zucker und einem Spritzer Soda. Der perfekte Cocktail für jede Gelegenheit!" },
-            "precio": 9.0,
-            "alergenos": [],
-            "etiquetas": ["alcohol"]
-          },
-          {
-            "id": 30,
-            "nombre": { "es": "Margarita", "en": "Margarita", "fr": "Margarita", "de": "Margarita" },
-            "descripcionCorta": { "es": "Cóctel mexicano con tequila, triple sec y lima.", "en": "Mexican cocktail with tequila, triple sec, and lime.", "fr": "Cocktail mexicain à la tequila, triple sec et citron vert.", "de": "Mexikanischer Cocktail mit Tequila, Triple Sec und Limette." },
-            "descripcionLarga": { "es": "Una clásica Margarita, elaborada con tequila de calidad, Cointreau y zumo de lima recién exprimido, servida con un borde de sal. Perfecta para un toque cítrico y vibrante.", "en": "A classic Margarita, made with quality tequila, Cointreau, and freshly squeezed lime juice, served with a salt rim. Perfect for a vibrant, citrusy kick.", "fr": "Une Margarita classique, préparée avec de la tequila de qualité, du Cointreau et du jus de citron vert fraîchement pressé, servie avec un bord salé. Parfaite pour une touche d'agrumes et vibrante.", "de": "Ein klassischer Margarita, zubereitet mit hochwertigem Tequila, Cointreau und frisch gepresstem Limettensaft, serviert mit einem Salzkranz. Perfekt für einen lebhaften, zitrusartigen Kick." },
-            "precio": 9.5,
-            "alergenos": [],
-            "etiquetas": ["alcohol"]
+            "etiquetas": ["recomendado", "sin_gluten"]
           }
-        ]
+        ],
+        // --- NUEVA ESTRUCTURA DE SUBCATEGORÍAS ---
+        "subCategories": {
+          "refrescos": {
+            "orderId": 1,
+            "title": { "es": "Refrescos", "en": "Soft Drinks", "fr": "Boissons gazeuses", "de": "Erfrischungsgetränke" },
+            "dishes": [
+              { "id": 20, "nombre": { "es": "Coca-Cola", "en": "Coca-Cola", "fr": "Coca-Cola", "de": "Coca-Cola" }, "precio": 2.5 },
+              { "id": 21, "nombre": { "es": "Fanta Naranja", "en": "Fanta Orange", "fr": "Fanta Orange", "de": "Fanta Orange" }, "precio": 2.5 },
+              { "id": 22, "nombre": { "es": "Sprite", "en": "Sprite", "fr": "Sprite", "de": "Sprite" }, "precio": 2.5 }
+            ]
+          },
+          "vinos": {
+            "orderId": 2,
+            "title": { "es": "Vinos", "en": "Wines", "fr": "Vins", "de": "Weine" },
+            "dishes": [
+              { "id": 15, "nombre": { "es": "Vino Tinto Rioja Crianza", "en": "Rioja Crianza Red Wine", "fr": "Vin Rouge Rioja Crianza", "de": "Rioja Crianza Rotwein" }, "precio": 18 },
+              { "id": 25, "nombre": { "es": "Vino Blanco (Copa)", "en": "White Wine (Glass)", "fr": "Vin Blanc (Verre)", "de": "Hausweißwein (Glas)" }, "precio": 3.5 }
+            ]
+          },
+          "cervezas": {
+              "orderId": 3,
+              "title": { "es": "Cervezas", "en": "Beers", "fr": "Bières", "de": "Biere" },
+              "dishes": [
+                { "id": 18, "nombre": { "es": "Cerveza Artesana Local", "en": "Local Craft Beer", "fr": "Bière Artisanale Locale", "de": "Lokales Craft-Bier" }, "precio": 5.5 },
+                { "id": 27, "nombre": { "es": "Caña", "en": "Draft Beer", "fr": "Bière Pression", "de": "Bier vom Fass" }, "precio": 3.0 }
+              ]
+          },
+        }
       },
       "entrantes": {
         "orderId": 2,

@@ -4,9 +4,8 @@ async function getTenantConfig(req, res) {
   const tenant = req.tenant; 
 
   try {
-    // Se añade 'initial_drink_prompt' a la consulta de configuraciones
     const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
-    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('frontend_welcome_message', 'suggestion_chips_text', 'suggestion_chips_count', 'initial_drink_prompt')");
+    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('frontend_welcome_message', 'suggestion_chips_text', 'suggestion_chips_count')");
     
     const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
 
@@ -16,23 +15,16 @@ async function getTenantConfig(req, res) {
 
     const menu = menuResult.rows[0].data;
 
-    // Convertimos las configuraciones de la tabla en un objeto JS amigable.
     const configurations = configResult.rows.reduce((acc, row) => {
       const keyMap = {
         frontend_welcome_message: 'welcomeMessage',
         suggestion_chips_text: 'suggestionChipsText',
         suggestion_chips_count: 'suggestionChipsCount',
-        initial_drink_prompt: 'initialDrinkPrompt' // Nueva clave mapeada
       };
       const newKey = keyMap[row.key];
       if (newKey) {
-        // Para todas las configuraciones que son objetos JSON
-        if (['frontend_welcome_message', 'suggestion_chips_text', 'initial_drink_prompt'].includes(row.key)) {
-            try {
-                acc[newKey] = JSON.parse(row.value);
-            } catch {
-                acc[newKey] = (row.key === 'frontend_welcome_message') ? {} : (row.key === 'initial_drink_prompt' ? null : []); 
-            }
+        if (['frontend_welcome_message', 'suggestion_chips_text'].includes(row.key)) {
+            try { acc[newKey] = JSON.parse(row.value); } catch { acc[newKey] = {}; }
         } else if (row.key === 'suggestion_chips_count') {
             acc[newKey] = parseInt(row.value, 10) || 4;
         } else {
@@ -42,6 +34,46 @@ async function getTenantConfig(req, res) {
       return acc;
     }, {});
     
+    const transformDrinksForInitialFlow = (menuData) => {
+      const drinksCategory = Object.values(menuData).find(cat => cat.title && (cat.title.es === 'Bebidas' || cat.title.en === 'Drinks'));
+
+      if (!drinksCategory) return { enabled: false };
+
+      const buildOptions = (category) => {
+        let currentOptions = [];
+        if (category.dishes && category.dishes.length > 0) {
+          const dishOptions = category.dishes.map(drink => ({
+            type: 'send_message', label: drink.nombre, dishId: drink.id, orderId: drink.orderId || 99
+          }));
+          currentOptions.push(...dishOptions);
+        }
+        if (category.subCategories) {
+          const subCategoryOptions = Object.values(category.subCategories).map(subCat => ({
+            type: 'category', label: subCat.title, sub_options: buildOptions(subCat), orderId: subCat.orderId || 99
+          }));
+          currentOptions.push(...subCategoryOptions);
+        }
+        return currentOptions.sort((a, b) => a.orderId - b.orderId);
+      };
+
+      const finalOptions = buildOptions(drinksCategory);
+      if (finalOptions.length === 0) return { enabled: false };
+
+      return {
+        enabled: true,
+        // --- CAMBIO CLAVE: Título estático y traducible ---
+        question: {
+          es: "¿Qué te apetece para beber?",
+          en: "What would you like to drink?",
+          fr: "Que souhaitez-vous boire?",
+          de: "Was möchten Sie trinken?"
+        },
+        options: finalOptions
+      };
+    };
+
+    const initialDrinkPrompt = transformDrinksForInitialFlow(menu);
+
     const theme = {
       logoUrl: tenant.logo_url,
       menuHasImages: tenant.menu_has_images,
@@ -61,11 +93,11 @@ async function getTenantConfig(req, res) {
       }
     };
 
-    // Combinamos todo en una única respuesta para el frontend.
     const frontendConfig = {
       menu,
       theme,
       googleReviewsUrl: tenant.google_reviews_url,
+      initialDrinkPrompt,
       ...configurations
     };
 
@@ -79,4 +111,4 @@ async function getTenantConfig(req, res) {
 
 module.exports = {
   getTenantConfig,
-}; 
+};

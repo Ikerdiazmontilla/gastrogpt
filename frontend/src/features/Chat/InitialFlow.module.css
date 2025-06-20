@@ -2,12 +2,12 @@
 
 .message {
   position: relative;
-  max-width: 90%;
-  padding: 20px;
+  max-width: 98%;
+  width: 100%;
+  padding: 15px;
   border-radius: 12px;
   word-wrap: break-word;
   align-self: flex-start;
-  border-top-left-radius: 4px;
   margin-right: auto;
   color: var(--color-text-primary);
   background-color: var(--color-surface-background);
@@ -16,15 +16,7 @@
 }
 
 .message::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -10px;
-  width: 0;
-  height: 0;
-  border-right: 14px solid var(--color-border);
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
+  display: none;
 }
 
 .bot {
@@ -41,73 +33,109 @@
 .headerContainer {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centra el contenido horizontalmente */
-  position: relative; /* Para posicionar el botón de atrás de forma absoluta */
+  justify-content: center;
+  position: relative;
   width: 100%;
 }
 
 .flowTitle {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--color-text-primary);
   text-align: center;
-  flex-grow: 1; /* El título ocupa el espacio restante */
+  flex-grow: 1;
 }
 
 .flowOptionsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
-.flowButton {
+@media (max-width: 360px) {
+  .flowOptionsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- ESTILOS DE BOTONES DIFERENCIADOS --- */
+
+/* Estilo para los botones de categoría (con colores y emoji) */
+.flowButtonCategory {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 16px 12px;
+  padding: 12px 8px;
   border-radius: 12px;
-  border: 2px solid transparent;
-  background-color: var(--color-page-background);
+  border: 1.5px solid; /* El color lo define la clase .colorX */
+  background-color: transparent;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease;
   min-height: 90px;
 }
 
+/* Estilo para los botones de producto/bebida (grisáceo y compacto) */
+.flowButtonProduct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  border-radius: 10px;
+  border: 1.5px solid black; /* Sin borde */
+  background-color: #f7f7f7; /* Fondo grisáceo */
+  color: var(--color-text-primary); /* Color de texto por defecto */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-height: 65px;
+}
+
+.flowButtonProduct:hover {
+  background-color: #e9e9e9;
+}
+
+
 .flowButtonIcon {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: 1;
 }
 
 .flowButtonText {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   text-align: center;
 }
 
-.color1, .color1 .flowButtonText { color: #4A90E2; }
-.color1 { border-color: #4A90E2; }
+/* --- CLASES DE COLOR (solo para categorías) --- */
+.color1 { border-color: #4A90E2; color: #4A90E2; }
 .color1:hover { background-color: #eaf2fb; }
 
-.color2, .color2 .flowButtonText { color: #50C878; }
-.color2 { border-color: #50C878; }
+.color2 { border-color: #50C878; color: #50C878; }
 .color2:hover { background-color: #eef9f2; }
 
-.color3, .color3 .flowButtonText { color: #8E44AD; }
-.color3 { border-color: #8E44AD; }
+.color3 { border-color: #8E44AD; color: #8E44AD; }
 .color3:hover { background-color: #f4eef7; }
 
-.color4, .color4 .flowButtonText { color: #F39C12; }
-.color4 { border-color: #F39C12; }
+.color4 { border-color: #F39C12; color: #F39C12; }
 .color4:hover { background-color: #fef5e7; }
 
-.color5, .color5 .flowButtonText { color: #7F8C8D; }
-.color5 { border-color: #7F8C8D; }
+.color5 { border-color: #7F8C8D; color: #7F8C8D; }
 .color5:hover { background-color: #f2f4f4; }
 
+/* El texto de la categoría hereda el color del borde */
+.flowButtonCategory .flowButtonText {
+  color: inherit;
+}
+
+/* El texto del producto tiene un color fijo */
+.flowButtonProduct .flowButtonText {
+  color: var(--color-text-primary);
+}
+
+
 .backButton {
-  position: absolute; /* Posición absoluta relativa al headerContainer */
+  position: absolute;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
@@ -116,7 +144,7 @@
   color: var(--color-text-secondary);
   width: 36px;
   height: 36px;
-  border-radius: 50%; /* Botón redondo */
+  border-radius: 50%;
   cursor: pointer;
   font-size: 1.2rem;
   font-weight: 500;
