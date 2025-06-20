@@ -351,6 +351,14 @@
   opacity: 0.7;
 }
 
+.orderButtonContainer {
+  width: 100%;
+  display: flex; /* Para permitir centrar el botón */
+  justify-content: center;
+  padding-top: 4px; /* Un poco de espacio respecto a las sugerencias */
+}
+
+
 .dishLink {
   background: none;
   border: none;

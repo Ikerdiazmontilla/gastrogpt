@@ -1,4 +1,4 @@
-// frontend/src/components/Order/OrderSummaryDrawer.js
+// frontend/src/components/Order/OrderSummary.js
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOrder } from '../../context/OrderContext';
@@ -6,44 +6,41 @@ import { useTenant } from '../../context/TenantContext';
 import { getTranslatedDishText, findDishById } from '../../utils/menuUtils';
 import styles from './OrderSummaryDrawer.module.css';
 
-const OrderSummaryDrawer = ({ isOpen, onClose }) => {
+// Este componente ahora se controla a sí mismo a través del contexto.
+const OrderSummary = () => {
   const { t, i18n } = useTranslation();
-  const { selectedDishes, toggleDishSelection } = useOrder();
+  // Obtiene todo lo que necesita del contexto
+  const { isDrawerOpen, closeDrawer, selectedDishes, toggleDishSelection } = useOrder();
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
-  // Calculamos los platos a mostrar y el precio total
   const { orderedItems, totalPrice } = useMemo(() => {
     if (!menu?.allDishes) {
       return { orderedItems: [], totalPrice: 0 };
     }
-
     const items = Array.from(selectedDishes)
       .map(dishId => findDishById(dishId, menu.allDishes))
-      .filter(dish => dish != null); // Filtramos por si algún plato no se encuentra
-
+      .filter(dish => dish != null);
     const total = items.reduce((sum, dish) => sum + (dish.precio || 0), 0);
-    
     return { orderedItems: items, totalPrice: total };
   }, [selectedDishes, menu?.allDishes]);
 
-  if (!isOpen) return null;
+  // Ya no necesita recibir `isOpen` o `onClose` como props.
+  if (!isDrawerOpen) return null;
 
   return (
-    // El overlay que cubre la pantalla
     <div 
-      className={`${styles.drawerOverlay} ${isOpen ? styles.open : ''}`}
-      onClick={onClose}
+      className={`${styles.drawerOverlay} ${isDrawerOpen ? styles.open : ''}`}
+      onClick={closeDrawer} // Usa la función del contexto
     >
-      {/* El panel del cajón que se desliza */}
       <div 
-        className={`${styles.drawerPanel} ${isOpen ? styles.open : ''}`}
-        onClick={(e) => e.stopPropagation()} // Evita que se cierre al hacer clic dentro
+        className={`${styles.drawerPanel} ${isDrawerOpen ? styles.open : ''}`}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.drawerHeader}>
           <h2 className={styles.drawerTitle}>{t('orderSummary.title')}</h2>
-          <button className={styles.closeButton} onClick={onClose}>×</button>
+          <button className={styles.closeButton} onClick={closeDrawer}>×</button>
         </div>
 
         <div className={styles.orderList}>
@@ -87,4 +84,4 @@ const OrderSummaryDrawer = ({ isOpen, onClose }) => {
   );
 };
 
-export default OrderSummaryDrawer;
+export default OrderSummary;

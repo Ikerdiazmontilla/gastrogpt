@@ -7,33 +7,28 @@ import { useOrder } from '../../context/OrderContext';
 import { getTranslatedDishText } from '../../utils/menuUtils';
 import MenuItemCard from '../../components/Dish/MenuItemCard';
 import DishDetailModal from '../../components/Dish/DishDetailModal';
-// --- NUEVO: Importar los nuevos componentes ---
-import FloatingOrderButton from '../../components/Order/FloatingOrderButton';
-import OrderSummaryDrawer from '../../components/Order/OrderSummaryDrawer';
+import OrderButton from '../../components/Order/OrderButton'; 
+// import OrderSummary from '../../components/Order/OrderSummary'; // Aunque OrderSummary es global ahora, esta importación está bien si se usara localmente para testing o si el cliente decide moverlo de nuevo. Para la implementación actual, solo el botón flotante se importa y usa aquí.
 
 const MODAL_HISTORY_STATE_KEY = 'dishDetailModalOpen';
 
 const CartaPage = () => {
   const { i18n, t } = useTranslation();
   const { tenantConfig } = useTenant();
-  const { selectedDishes, toggleDishSelection } = useOrder();
+  const { selectedDishes, toggleDishSelection, openDrawer } = useOrder();
   const menu = tenantConfig?.menu;
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlato, setSelectedPlato] = useState(null);
   const [visibleSection, setVisibleSection] = useState('');
-  
-  // --- NUEVO: Estado para controlar el cajón del pedido ---
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  
+
   const sectionRefs = useRef({});
   const tabRefs = useRef({});
   const tabsListRef = useRef(null);
 
   const currentLanguageForApi = i18n.language;
 
-  // ... (El resto de la lógica de la página no cambia)
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -63,7 +58,7 @@ const CartaPage = () => {
       window.removeEventListener('popstate', handlePopState);
     };
   }, [selectedPlato]);
-  
+
   const menuSections = useMemo(() => {
     if (!menu) return [];
 
@@ -225,10 +220,11 @@ const CartaPage = () => {
               key={section.key}
               id={section.key}
               ref={(el) => (sectionRefs.current[section.key] = el)}
-              className={`${styles.menuSection} ${styles['section-' - (section.parentCategoryKey || 'default')]}`}
+              // --- CORRECCIÓN DEL BUG: 'section-undefined' a 'section-default' ---
+              className={`${styles.menuSection} ${styles[`section-${section.parentCategoryKey}`] || styles['section-default']}`}
             >
               <h2 className={styles.sectionTitle}>
-                <span className={`${styles.categoryMarker} ${styles['marker-' + (section.parentCategoryKey || 'default')]}`}></span>
+                <span className={`${styles.categoryMarker} ${styles[`marker-${section.parentCategoryKey}`] || styles['marker-default']}`}></span>
                 {section.title}
               </h2>
               <p className={styles.categoryInstruction}>{t('cartaPage.orderInstruction')}</p>
@@ -262,13 +258,9 @@ const CartaPage = () => {
           onToggleSelect={toggleDishSelection}
         />
       )}
-
-      {/* --- NUEVO: Renderizado del botón y el cajón --- */}
-      <FloatingOrderButton onClick={() => setIsDrawerOpen(true)} />
-      <OrderSummaryDrawer 
-        isOpen={isDrawerOpen} 
-        onClose={() => setIsDrawerOpen(false)} 
-      />
+      
+      {/* Botón de pedido flotante para la CartaPage */}
+      <OrderButton onClick={openDrawer} isFixed={true} compact={false} />
     </div>
   );
 };

@@ -1,13 +1,11 @@
+// frontend/src/features/Chat/components/ChatInput.js
 import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from '../Chat.module.css'; // Reutiliza los estilos existentes
+import styles from '../Chat.module.css';
 import { ReactComponent as SendIcon } from '../../../assets/up-arrow-icon.svg';
 import { ReactComponent as MicrophoneIcon } from '../../../assets/microphone.svg';
+import OrderButton from '../../../components/Order/OrderButton'; // <-- Importado el nuevo botón
 
-/**
- * Componente que renderiza el área de entrada del chat, incluyendo
- * el campo de texto, botones y sugerencias.
- */
 const ChatInput = ({
   input,
   setInput,
@@ -22,12 +20,12 @@ const ChatInput = ({
   stopAudioRecordingAndTranscribe,
   cancelAudioRecording,
   suggestions,
-  suggestionCount
+  suggestionCount,
+  onOpenOrder, // <-- Todavía necesitamos esta función
 }) => {
   const { t } = useTranslation();
   const textareaRef = useRef(null);
 
-  // Ajusta la altura del textarea dinámicamente según el contenido.
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -35,13 +33,11 @@ const ChatInput = ({
     }
   }, [input]);
 
-  // Determina el texto del placeholder según el estado actual.
   const getPlaceholderText = () => {
     if (isLimitReached) return t('chat.placeholderLimit');
     return t('chat.placeholder');
   };
 
-  // Lógica para deshabilitar botones según el estado del chat.
   const isResetDisabled = isRecording || isTranscribing || isBotTyping;
   const isTextareaAndSendDisabled = isLimitReached || isBotTyping;
   const isMicButtonDisabled = isLimitReached || isTranscribing || isBotTyping || isRecording;
@@ -50,45 +46,22 @@ const ChatInput = ({
   return (
     <div className={styles.inputWrapper} data-no-tab-swipe="true">
       <div className={styles.inputArea}>
+        {/* ... (Lógica del input de texto y grabación sin cambios) ... */}
         {isRecording || isTranscribing ? (
-          // Vista durante la grabación o transcripción.
           <div className={styles.recordingStatusContainer}>
-            {isRecording && (
-              <button className={styles.recordingControlButton} onClick={cancelAudioRecording}>
-                ✖️
-              </button>
-            )}
-            <span className={styles.statusText}>
-              {isTranscribing ? t('chat.placeholderTranscribing') : t('chat.placeholderRecording')}
-            </span>
-            {isRecording && (
-              <button className={styles.recordingControlButton} onClick={stopAudioRecordingAndTranscribe}>
-                ✔️
-              </button>
-            )}
+            {isRecording && (<button className={styles.recordingControlButton} onClick={cancelAudioRecording}>✖️</button>)}
+            <span className={styles.statusText}>{isTranscribing ? t('chat.placeholderTranscribing') : t('chat.placeholderRecording')}</span>
+            {isRecording && (<button className={styles.recordingControlButton} onClick={stopAudioRecordingAndTranscribe}>✔️</button>)}
           </div>
         ) : (
-          // Vista por defecto con el textarea.
           <>
-            <textarea
-              ref={textareaRef}
-              rows="1"
-              placeholder={getPlaceholderText()}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={isTextareaAndSendDisabled}
-              readOnly={isTextareaAndSendDisabled}
-              className={styles.chatTextarea}
-            />
-            <button className={`${styles.micButton} ${isMicButtonDisabled ? styles.micButtonDisabled : ''}`} onClick={startAudioRecording} disabled={isMicButtonDisabled}>
-              <MicrophoneIcon className={styles.microphoneSvg} />
-            </button>
-            <button className={styles.sendMessage} onClick={handleSendMessage} disabled={isTextareaAndSendDisabled || input.trim() === ''}>
-              <SendIcon className={styles.sendSvg} />
-            </button>
+            <textarea ref={textareaRef} rows="1" placeholder={getPlaceholderText()} value={input} onChange={(e) => setInput(e.target.value)} disabled={isTextareaAndSendDisabled} readOnly={isTextareaAndSendDisabled} className={styles.chatTextarea} />
+            <button className={`${styles.micButton} ${isMicButtonDisabled ? styles.micButtonDisabled : ''}`} onClick={startAudioRecording} disabled={isMicButtonDisabled}><MicrophoneIcon className={styles.microphoneSvg} /></button>
+            <button className={styles.sendMessage} onClick={handleSendMessage} disabled={isTextareaAndSendDisabled || input.trim() === ''}><SendIcon className={styles.sendSvg} /></button>
           </>
         )}
       </div>
+      
       <div className={styles.bottomControlsContainer}>
         <button onClick={handleReset} disabled={isResetDisabled} className={styles.resetIconChipFixed}> ↻ </button>
         <div className={styles.suggestionsContainerScrollable}>
@@ -96,6 +69,15 @@ const ChatInput = ({
             <button key={index} className={styles.suggestionChip} onClick={() => handleSuggestionClick(suggestion)} disabled={areSuggestionsDisabled}>{suggestion}</button>
           ))}
         </div>
+      </div>
+
+      {/* --- NUEVO: Contenedor para el botón de pedido --- */}
+      <div className={styles.orderButtonContainer}>
+        <OrderButton 
+          onClick={onOpenOrder} 
+          isFixed={false} 
+          compact={true} 
+        />
       </div>
     </div>
   );

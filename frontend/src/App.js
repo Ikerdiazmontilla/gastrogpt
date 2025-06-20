@@ -3,31 +3,30 @@ import React, { useRef, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { TenantProvider, useTenant } from './context/TenantContext';
-import { OrderProvider } from './context/OrderContext'; // <-- IMPORTADO
+import { OrderProvider } from './context/OrderContext';
 import Navbar from './components/Navbar/Navbar';
 import ChatPage from './pages/ChatPage';
 import CartaPage from './pages/CartaPage/CartaPage';
 import ThemeApplicator from './components/Theme/ThemeApplicator';
 import LanguageSelector from './components/LanguageSelector/LanguageSelector';
+// --- NUEVO: Importar el componente de resumen global ---
+import OrderSummary from './components/Order/OrderSummary'; 
 import { initialLanguage } from './i18n';
 import './App.css';
 
+// ... (El código de MainApp no cambia)
 const tabPaths = ['/carta', '/chat'];
 const SWIPE_THRESHOLD_X = 75;
 const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.25;
 
 function MainApp() {
-  // ... (el código de MainApp no cambia)
   const navigate = useNavigate();
   const location = useLocation();
   const containerRef = useRef(null);
-
   const [showLanguageSelector, setShowLanguageSelector] = useState(!initialLanguage);
-
-  const handleLanguageSelected = () => {
-    setShowLanguageSelector(false);
-  };
-
+  const handleLanguageSelected = () => setShowLanguageSelector(false);
+  
+  // ... (Toda la lógica de swipe se mantiene igual)
   const touchStartXRef = useRef(0);
   const touchStartYRef = useRef(0);
   const touchEndXRef = useRef(0);
@@ -95,7 +94,6 @@ function MainApp() {
     }
   }, [navigate, location.pathname]);
 
-
   if (showLanguageSelector) {
     return <LanguageSelector onLanguageSelect={handleLanguageSelected} />;
   }
@@ -112,10 +110,14 @@ function MainApp() {
           <Route path="/carta" element={<CartaPage />} />
         </Routes>
       </div>
+      {/* --- NUEVO: Se añade el cajón de resumen aquí --- */}
+      {/* Será invisible hasta que `isDrawerOpen` sea true en el contexto */}
+      <OrderSummary />
     </>
   );
 }
 
+// ... (El resto del archivo App.js no cambia)
 function AppContent() {
   const { isLoading, error } = useTenant();
   const { t } = useTranslation();
@@ -135,7 +137,6 @@ function App() {
   return (
     <Router>
       <TenantProvider>
-        {/* Envolvemos la app con el OrderProvider */}
         <OrderProvider>
           <ThemeApplicator />
           <AppContent />
