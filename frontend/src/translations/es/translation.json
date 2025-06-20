@@ -17,10 +17,7 @@
     "pageTitle": "Nuestra Carta",
     "orderInstruction": "Cuando termine su pedido, avise al camarero.",
     "searchPlaceholder": "Buscar platos, ingredientes...",
-    "tabEntrantes": "🥗 Entrantes",
-    "tabPrincipales": "🍲 Platos Principales",
-    "tabPostres": "🍰 Postres",
-    "tabBebidas": "🍷 Bebidas",
+    "viewOrder": "Ver Pedido",
     "noResults": "No se encontraron platos que coincidan con tu búsqueda en esta categoría."
   },
   "menuItemCard": {
@@ -35,7 +32,14 @@
     "select": "Seleccionar",
     "selected": "Seleccionado ✓"
   },
+  "orderSummary": {
+    "title": "Tu Pedido",
+    "empty": "Aún no has seleccionado ningún plato.",
+    "total": "Total",
+    "callWaiter": "¡Llama al camarero para pedir!"
+  },
   "chat": {
+    "viewDetailsFor": "Ver detalles de {{dishName}}",
     "loadingHistory": "Cargando historial...",
     "limitReached": "Límite de mensajes alcanzado.",
     "limitReachedCta": "Por favor, inicia un nuevo chat para continuar.",

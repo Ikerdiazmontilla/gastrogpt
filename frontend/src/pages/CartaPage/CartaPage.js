@@ -3,17 +3,20 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './CartaPage.module.css';
 import { useTenant } from '../../context/TenantContext';
-import { useOrder } from '../../context/OrderContext'; // <-- IMPORTADO
+import { useOrder } from '../../context/OrderContext';
 import { getTranslatedDishText } from '../../utils/menuUtils';
 import MenuItemCard from '../../components/Dish/MenuItemCard';
 import DishDetailModal from '../../components/Dish/DishDetailModal';
+// --- NUEVO: Importar los nuevos componentes ---
+import FloatingOrderButton from '../../components/Order/FloatingOrderButton';
+import OrderSummaryDrawer from '../../components/Order/OrderSummaryDrawer';
 
 const MODAL_HISTORY_STATE_KEY = 'dishDetailModalOpen';
 
 const CartaPage = () => {
   const { i18n, t } = useTranslation();
   const { tenantConfig } = useTenant();
-  const { selectedDishes, toggleDishSelection } = useOrder(); // <-- USANDO EL CONTEXTO
+  const { selectedDishes, toggleDishSelection } = useOrder();
   const menu = tenantConfig?.menu;
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
@@ -21,14 +24,16 @@ const CartaPage = () => {
   const [selectedPlato, setSelectedPlato] = useState(null);
   const [visibleSection, setVisibleSection] = useState('');
   
+  // --- NUEVO: Estado para controlar el cajón del pedido ---
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  
   const sectionRefs = useRef({});
   const tabRefs = useRef({});
   const tabsListRef = useRef(null);
 
   const currentLanguageForApi = i18n.language;
 
-  // Ya no necesitamos handleToggleSelect local, usamos toggleDishSelection del contexto.
-  
+  // ... (El resto de la lógica de la página no cambia)
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -58,8 +63,7 @@ const CartaPage = () => {
       window.removeEventListener('popstate', handlePopState);
     };
   }, [selectedPlato]);
-
-  // ... (el resto del componente, como menuSections, handleTabClick y useEffects, no cambia)
+  
   const menuSections = useMemo(() => {
     if (!menu) return [];
 
@@ -187,7 +191,7 @@ const CartaPage = () => {
       activeTabElement.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
   }, [visibleSection]);
-  
+
   if (!menu) return <div className={styles.cartaContainer}>{t('app.loading')}</div>;
 
   return (
@@ -258,6 +262,13 @@ const CartaPage = () => {
           onToggleSelect={toggleDishSelection}
         />
       )}
+
+      {/* --- NUEVO: Renderizado del botón y el cajón --- */}
+      <FloatingOrderButton onClick={() => setIsDrawerOpen(true)} />
+      <OrderSummaryDrawer 
+        isOpen={isDrawerOpen} 
+        onClose={() => setIsDrawerOpen(false)} 
+      />
     </div>
   );
 };

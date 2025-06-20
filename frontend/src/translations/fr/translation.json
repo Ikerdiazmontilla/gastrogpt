@@ -17,10 +17,7 @@
     "pageTitle": "Notre Menu",
     "orderInstruction": "Lorsque vous êtes prêt à commander, veuillez en informer le serveur.",
     "searchPlaceholder": "Rechercher des plats, des ingrédients...",
-    "tabEntrantes": "🥗 Entrées",
-    "tabPrincipales": "🍲 Plats Principaux",
-    "tabPostres": "🍰 Desserts",
-    "tabBebidas": "🍹 Boissons",
+    "viewOrder": "Voir la Commande",
     "noResults": "Aucun plat ne correspond à votre recherche dans cette catégorie."
   },
   "menuItemCard": {
@@ -35,7 +32,14 @@
     "select": "Sélectionner",
     "selected": "Sélectionné ✓"
   },
+  "orderSummary": {
+    "title": "Votre Commande",
+    "empty": "Vous n'avez encore sélectionné aucun plat.",
+    "total": "Total",
+    "callWaiter": "Appelez le serveur pour commander !"
+  },
   "chat": {
+    "viewDetailsFor": "Voir les détails de {{dishName}}",
     "loadingHistory": "Chargement de l'historique...",
     "limitReached": "Limite de messages atteinte.",
     "limitReachedCta": "Veuillez commencer une nouvelle discussion pour continuer.",

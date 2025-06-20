@@ -17,10 +17,7 @@
     "pageTitle": "Our Menu",
     "orderInstruction": "When you are ready to order, please notify your waiter.",
     "searchPlaceholder": "Search dishes, ingredients...",
-    "tabEntrantes": "🥗 Appetizers",
-    "tabPrincipales": "🍲 Main Courses",
-    "tabPostres": "🍰 Desserts",
-    "tabBebidas": "🍹 Drinks",
+    "viewOrder": "View Order",
     "noResults": "No dishes found matching your search in this category."
   },
   "menuItemCard": {
@@ -35,7 +32,14 @@
     "select": "Select",
     "selected": "Selected ✓"
   },
+  "orderSummary": {
+    "title": "Your Order",
+    "empty": "You haven't selected any dishes yet.",
+    "total": "Total",
+    "callWaiter": "Call the waiter to order!"
+  },
   "chat": {
+    "viewDetailsFor": "View details for {{dishName}}",
     "loadingHistory": "Loading history...",
     "limitReached": "Message limit reached.",
     "limitReachedCta": "Please start a new chat to continue.",

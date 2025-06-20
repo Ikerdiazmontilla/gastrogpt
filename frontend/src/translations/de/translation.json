@@ -17,10 +17,7 @@
     "pageTitle": "Unsere Speisekarte",
     "orderInstruction": "Wenn Sie Ihre Bestellung aufgeben möchten, benachrichtigen Sie bitte den Kellner.",
     "searchPlaceholder": "Gerichte, Zutaten suchen...",
-    "tabEntrantes": "🥗 Vorspeisen",
-    "tabPrincipales": "🍲 Hauptgerichte",
-    "tabPostres": "🍰 Desserts",
-    "tabBebidas": "🍹 Getränke",
+    "viewOrder": "Bestellung ansehen",
     "noResults": "In dieser Kategorie wurden keine Gerichte gefunden, die Ihrer Suche entsprechen."
   },
   "menuItemCard": {
@@ -35,7 +32,14 @@
     "select": "Auswählen",
     "selected": "Ausgewählt ✓"
   },
+  "orderSummary": {
+    "title": "Ihre Bestellung",
+    "empty": "Sie haben noch keine Gerichte ausgewählt.",
+    "total": "Gesamt",
+    "callWaiter": "Rufen Sie den Kellner, um zu bestellen!"
+  },
   "chat": {
+    "viewDetailsFor": "Details für {{dishName}} anzeigen",
     "loadingHistory": "Verlauf wird geladen...",
     "limitReached": "Nachrichtenlimit erreicht.",
     "limitReachedCta": "Bitte starten Sie einen neuen Chat, um fortzufahren.",
