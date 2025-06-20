@@ -1,3 +1,4 @@
+// frontend/src/features/Chat/Chat.js
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
@@ -7,8 +8,8 @@ import { fetchConversation, postChatMessage, resetChatConversation } from '../..
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
 import Feedback from './Feedback';
 import InitialFlow from './InitialFlow';
-import { useAudioRecorder } from './hooks/useAudioRecorder'; // Import the new hook
-import ChatInput from './components/ChatInput'; // Import the new component
+import { useAudioRecorder } from './hooks/useAudioRecorder';
+import ChatInput from './components/ChatInput';
 
 const Chat = ({ onViewDishDetails }) => {
   const { t, i18n } = useTranslation();
@@ -33,7 +34,6 @@ const Chat = ({ onViewDishDetails }) => {
   const [feedbackAlreadyShown, setFeedbackAlreadyShown] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
 
-  // Uso del hook de audio
   const handleTranscription = (transcribedText) => {
     setInput(prev => prev + transcribedText + ' ');
   };
@@ -52,7 +52,6 @@ const Chat = ({ onViewDishDetails }) => {
     [onViewDishDetails]
   );
 
-  // Función para enviar el mensaje a la API y manejar la respuesta
   const triggerBotResponse = useCallback(async (messageText) => {
     setIsBotTyping(true);
     try {
@@ -88,7 +87,6 @@ const Chat = ({ onViewDishDetails }) => {
     }
   }, [t, feedbackAlreadyShown]);
   
-  // Maneja un mensaje normal del input de texto
   const handleSendMessage = useCallback(async () => {
     const trimmedInput = input.trim();
     if (trimmedInput === '' || isBotTyping) return;
@@ -100,7 +98,6 @@ const Chat = ({ onViewDishDetails }) => {
     await triggerBotResponse(trimmedInput);
   }, [input, isBotTyping, triggerBotResponse]);
   
-  // Maneja la selección desde el flujo inicial
   const handleInitialFlowSelection = useCallback((messageText, originalConfig) => {
     const questionText = originalConfig.question[i18n.language] || originalConfig.question.en || originalConfig.question.es;
     const staticBotMessage = { sender: 'bot', text: questionText };
@@ -115,7 +112,6 @@ const Chat = ({ onViewDishDetails }) => {
     triggerBotResponse(messageText);
   }, [i18n.language, triggerBotResponse]);
 
-  // Carga el historial de conversación desde la API
   const loadConversation = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -147,24 +143,20 @@ const Chat = ({ onViewDishDetails }) => {
 
   useEffect(() => { loadConversation(); }, [loadConversation]);
   
-  // Scroll automático al final de los mensajes
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, isBotTyping]);
   
-  // Limpia el stream de audio al desmontar el componente para liberar recursos
   useEffect(() => {
     return () => {
         stopMediaStream();
     };
   }, [stopMediaStream]);
 
-  // Reinicia la conversación
   const handleReset = async () => {
     if (isRecording) cancelAudioRecording();
     await resetChatConversation();
     await loadConversation();
   };
 
-  // Maneja el clic en una sugerencia
   const handleSuggestionClick = (suggestionText) => {
     setInput(suggestionText);
   };
@@ -185,7 +177,11 @@ const Chat = ({ onViewDishDetails }) => {
             return (
               <div key={index} className={`${styles.message} ${styles[msg.sender]}`}>
                 {msg.sender === 'bot' ? (
-                  <ReactMarkdown components={{ a: CustomLink }} urlTransform={markdownUrlTransform}>{msg.text}</ReactMarkdown>
+                  // ----- CORRECCIÓN AQUÍ -----
+                  // Se añade unwrapDisallowed para evitar el anidamiento inválido.
+                  <ReactMarkdown components={{ a: CustomLink }} urlTransform={markdownUrlTransform} unwrapDisallowed={true}>
+                    {msg.text}
+                  </ReactMarkdown>
                 ) : (
                   <span>{msg.text}</span>
                 )}

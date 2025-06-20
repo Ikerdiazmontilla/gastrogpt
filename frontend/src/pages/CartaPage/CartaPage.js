@@ -3,6 +3,7 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './CartaPage.module.css';
 import { useTenant } from '../../context/TenantContext';
+import { useOrder } from '../../context/OrderContext'; // <-- IMPORTADO
 import { getTranslatedDishText } from '../../utils/menuUtils';
 import MenuItemCard from '../../components/Dish/MenuItemCard';
 import DishDetailModal from '../../components/Dish/DishDetailModal';
@@ -12,14 +13,12 @@ const MODAL_HISTORY_STATE_KEY = 'dishDetailModalOpen';
 const CartaPage = () => {
   const { i18n, t } = useTranslation();
   const { tenantConfig } = useTenant();
+  const { selectedDishes, toggleDishSelection } = useOrder(); // <-- USANDO EL CONTEXTO
   const menu = tenantConfig?.menu;
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlato, setSelectedPlato] = useState(null);
-  
-  const [selectedDishes, setSelectedDishes] = useState(new Set());
-  
   const [visibleSection, setVisibleSection] = useState('');
   
   const sectionRefs = useRef({});
@@ -28,18 +27,8 @@ const CartaPage = () => {
 
   const currentLanguageForApi = i18n.language;
 
-  const handleToggleSelect = (dishId) => {
-    setSelectedDishes(prevSelected => {
-      const newSelected = new Set(prevSelected);
-      if (newSelected.has(dishId)) {
-        newSelected.delete(dishId);
-      } else {
-        newSelected.add(dishId);
-      }
-      return newSelected;
-    });
-  };
-
+  // Ya no necesitamos handleToggleSelect local, usamos toggleDishSelection del contexto.
+  
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -70,6 +59,7 @@ const CartaPage = () => {
     };
   }, [selectedPlato]);
 
+  // ... (el resto del componente, como menuSections, handleTabClick y useEffects, no cambia)
   const menuSections = useMemo(() => {
     if (!menu) return [];
 
@@ -197,7 +187,7 @@ const CartaPage = () => {
       activeTabElement.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
   }, [visibleSection]);
-
+  
   if (!menu) return <div className={styles.cartaContainer}>{t('app.loading')}</div>;
 
   return (
@@ -244,10 +234,9 @@ const CartaPage = () => {
                     key={plato.id}
                     plato={plato}
                     isSelected={selectedDishes.has(plato.id)}
-                    onToggleSelect={handleToggleSelect}
+                    onToggleSelect={toggleDishSelection}
                     onViewMore={handleSelectDishForModal}
                     menuHasImages={menuHasImages}
-                    // Pasamos la clave de la categoría para aplicar el color
                     categoryKey={plato.parentCategoryKey}
                   />
                 ))}
@@ -266,7 +255,7 @@ const CartaPage = () => {
           onSelectPairedDish={handleSelectDishForModal} 
           menu={menu}
           isSelected={selectedDishes.has(selectedPlato.id)}
-          onToggleSelect={handleToggleSelect}
+          onToggleSelect={toggleDishSelection}
         />
       )}
     </div>

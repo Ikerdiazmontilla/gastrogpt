@@ -3,27 +3,25 @@ import React, { useRef, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { TenantProvider, useTenant } from './context/TenantContext';
+import { OrderProvider } from './context/OrderContext'; // <-- IMPORTADO
 import Navbar from './components/Navbar/Navbar';
 import ChatPage from './pages/ChatPage';
 import CartaPage from './pages/CartaPage/CartaPage';
 import ThemeApplicator from './components/Theme/ThemeApplicator';
 import LanguageSelector from './components/LanguageSelector/LanguageSelector';
-// Importamos la variable de estado inicial desde i18n.js
 import { initialLanguage } from './i18n';
 import './App.css';
 
 const tabPaths = ['/carta', '/chat'];
 const SWIPE_THRESHOLD_X = 75;
-//do not change this:
 const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.25;
 
 function MainApp() {
+  // ... (el código de MainApp no cambia)
   const navigate = useNavigate();
   const location = useLocation();
   const containerRef = useRef(null);
 
-  // El estado ahora se inicializa directamente con el valor pre-calculado.
-  // Si initialLanguage es null (no soportado), !initialLanguage es true.
   const [showLanguageSelector, setShowLanguageSelector] = useState(!initialLanguage);
 
   const handleLanguageSelected = () => {
@@ -133,13 +131,15 @@ function AppContent() {
   return <MainApp />;
 }
 
-
 function App() {
   return (
     <Router>
       <TenantProvider>
-        <ThemeApplicator />
-        <AppContent />
+        {/* Envolvemos la app con el OrderProvider */}
+        <OrderProvider>
+          <ThemeApplicator />
+          <AppContent />
+        </OrderProvider>
       </TenantProvider>
     </Router>
   );

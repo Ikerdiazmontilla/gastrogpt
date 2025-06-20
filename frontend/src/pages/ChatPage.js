@@ -1,21 +1,22 @@
 // src/pages/ChatPage.js
-import React, { useState, useEffect } from 'react'; // Importado useEffect
+import React, { useState, useEffect } from 'react';
 import Chat from '../features/Chat/Chat';
 import DishDetailModal from '../components/Dish/DishDetailModal';
 import { useTenant } from '../context/TenantContext';
+import { useOrder } from '../context/OrderContext'; // <-- CORRECCIÓN: Importar useOrder
 
 const MODAL_HISTORY_STATE_KEY = 'dishDetailModalOpen';
 
 const ChatPage = () => {
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
+  
+  // ----- CORRECCIÓN AQUÍ -----
+  // Conectamos con el contexto del pedido para obtener el estado y la función.
+  const { selectedDishes, toggleDishSelection } = useOrder();
 
   const [selectedPlatoModal, setSelectedPlatoModal] = useState(null);
 
-  // ====================================================================
-  // LÓGICA DE HISTORIAL CENTRALIZADA AQUÍ
-  // ====================================================================
-  
   const handleDisplayDishInModal = (plato) => {
     if (!selectedPlatoModal) {
       window.history.pushState({ [MODAL_HISTORY_STATE_KEY]: true }, '');
@@ -52,6 +53,10 @@ const ChatPage = () => {
           onClose={handleCloseModal}
           onSelectPairedDish={handleDisplayDishInModal}
           menu={menu}
+          // ----- CORRECCIÓN AQUÍ -----
+          // Pasamos las props que faltaban al modal.
+          isSelected={selectedDishes.has(selectedPlatoModal.id)}
+          onToggleSelect={toggleDishSelection}
         />
       )}
     </>

@@ -37,7 +37,7 @@
   right: 10px;
   z-index: 1; /* Para que esté por encima del contenido */
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: red;
   border: none;
   font-size: 1.4rem;
   font-weight: 500;
