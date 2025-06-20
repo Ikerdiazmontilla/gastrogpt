@@ -41,21 +41,26 @@
   font-size: 1rem;
   color: var(--color-text-primary);
   flex-grow: 1;
-  /* Truncation for long titles */
-  white-space: nowrap;
+  line-height: 1.3;
+  /* NEW: 2-line truncation logic */
   overflow: hidden;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.categoryEmoji {
+  font-size: 2rem;
+  margin-right: 12px;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
 .textOnlyLayout {
-  justify-content: center;
+  justify-content: flex-start; /* Align items to the start for text-only */
 }
 
+/* In the text-only layout, the title should not be centered if there's an emoji */
 .textOnlyLayout .dishTitle {
-  text-align: center;
-  white-space: normal; /* Allow text to wrap in text-only mode if needed */
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Limit to 2 lines */
-  -webkit-box-orient: vertical;
+  text-align: left;
 }

@@ -1,37 +1,51 @@
-// frontend/src/context/TenantContext.js
 import React, { createContext, useState, useEffect, useContext, useMemo } from 'react';
 import { fetchTenantConfig } from '../services/apiService';
 
 const TenantContext = createContext(null);
 
-// ====================================================================
-// NUEVA FUNCIÓN RECURSIVA para aplanar el menú
-// ====================================================================
 /**
- * Recorre recursivamente un nodo del menú y extrae todos los platos.
- * @param {object|array} menuNode - El nodo actual del menú a procesar.
- * @returns {array} Un array plano de todos los platos encontrados.
+ * Recurses through the menu structure to build a flat list of all dishes
+ * and a map of each dish ID to its top-level parent category key.
+ * @param {object} menuNode - The current node of the menu to process.
+ * @param {string} parentKey - The key of the top-level category for the current node.
+ * @param {Map} dishToParentMap - The map to populate with dish IDs and their parent keys.
+ * @returns {array} A flat array of all dishes found in the node.
  */
-const flattenAllDishes = (menuNode) => {
+const flattenDishesAndMapCategories = (menuNode, parentKey, dishToParentMap) => {
   let dishes = [];
   if (Array.isArray(menuNode)) {
-    // Si el nodo es un array (categoría simple), lo añadimos directamente.
-    dishes = dishes.concat(menuNode);
+    // This is a direct array of dishes.
+    menuNode.forEach(dish => {
+      if (dish && dish.id) {
+        dishes.push(dish);
+        if (!dishToParentMap.has(dish.id)) {
+          dishToParentMap.set(dish.id, parentKey);
+        }
+      }
+    });
   } else if (typeof menuNode === 'object' && menuNode !== null) {
-    // Si es un objeto, puede tener subcategorías o ser un objeto de sección.
+    // This is a category or sub-category object.
     if (Array.isArray(menuNode.dishes)) {
-      // Es un objeto de sección como { title: ..., dishes: [...] }
-      dishes = dishes.concat(menuNode.dishes);
-    } else {
-      // Es un contenedor de subcategorías, iteramos sobre sus claves.
-      for (const key in menuNode) {
-        dishes = dishes.concat(flattenAllDishes(menuNode[key]));
+      menuNode.dishes.forEach(dish => {
+        if (dish && dish.id) {
+          dishes.push(dish);
+          if (!dishToParentMap.has(dish.id)) {
+            dishToParentMap.set(dish.id, parentKey);
+          }
+        }
+      });
+    }
+    // Recurse into sub-categories if they exist.
+    if (menuNode.subCategories) {
+      for (const subCatKey in menuNode.subCategories) {
+        dishes = dishes.concat(
+          flattenDishesAndMapCategories(menuNode.subCategories[subCatKey], parentKey, dishToParentMap)
+        );
       }
     }
   }
   return dishes;
 };
-
 
 export const TenantProvider = ({ children }) => {
   const [tenantConfig, setTenantConfig] = useState(null);
@@ -44,9 +58,26 @@ export const TenantProvider = ({ children }) => {
         const config = await fetchTenantConfig();
         
         if (config.menu) {
-          // Usamos la nueva función para crear la lista plana de platos.
-          // Esto funciona con cualquier nivel de anidación.
-          config.menu.allDishes = flattenAllDishes(config.menu);
+          const dishToParentMap = new Map();
+          let allDishes = [];
+
+          // Iterate over top-level categories to start the process.
+          for (const categoryKey in config.menu) {
+            if (categoryKey === 'allDishes') continue;
+            allDishes = allDishes.concat(
+              flattenDishesAndMapCategories(config.menu[categoryKey], categoryKey, dishToParentMap)
+            );
+          }
+          
+          // Remove duplicates that might arise from complex structures
+          const uniqueDishes = Array.from(new Map(allDishes.map(d => [d.id, d])).values());
+
+          // Add the parentCategoryKey to each unique dish object.
+          uniqueDishes.forEach(dish => {
+            dish.parentCategoryKey = dishToParentMap.get(dish.id) || 'default';
+          });
+          
+          config.menu.allDishes = uniqueDishes;
         }
 
         setTenantConfig(config);
