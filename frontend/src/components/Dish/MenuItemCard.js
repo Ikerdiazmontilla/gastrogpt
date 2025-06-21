@@ -3,36 +3,34 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './MenuItemCard.module.css';
 import { getTranslatedDishText } from '../../utils/menuUtils';
+import { useOrder } from '../../context/OrderContext';
+import MenuItemOrderControl from './controls/MenuItemOrderControl'; // NUEVO
 
-// Se añade categoryKey a las props
-const MenuItemCard = ({ plato, onViewMore, onToggleSelect, isSelected, menuHasImages, categoryKey }) => {
+const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
   const { i18n } = useTranslation();
+  const { isOrderingFeatureEnabled, selectedDishes } = useOrder();
+  const isSelected = selectedDishes.has(plato.id);
+  
   const currentLanguage = i18n.language;
-
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage);
 
-  const shouldShowImage = menuHasImages && plato.imagen;
-
-  // Clases CSS condicionales para la tarjeta, incluyendo la de la categoría
   const cardClasses = [
     styles.card,
-    isSelected ? styles.selected : '',
-    // Se añade la clase de la categoría o una por defecto si no existe
-    styles[`card-${categoryKey}`] || styles['card-default']
+    isOrderingFeatureEnabled && isSelected ? styles.selected : '',
+    styles[`card-${plato.parentCategoryKey}`] || styles['card-default']
   ].join(' ');
 
-  const handleAddClick = (event) => {
-    event.stopPropagation();
-    onToggleSelect(plato.id);
-  };
-  
-  const handleCardClick = () => {
-    onViewMore(plato);
-  };
+  // Se extrae la imagen del control de pedido para que siempre se muestre
+  const imageContent = menuHasImages && plato.imagen
+    ? (
+      <div className={styles.imageContainer}>
+        <img src={plato.imagen.startsWith('http') ? plato.imagen : process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
+      </div>
+    ) : null;
 
   return (
-    <div className={cardClasses} onClick={handleCardClick}>
+    <div className={cardClasses} onClick={() => onViewMore(plato)}>
       <div className={styles.textContent}>
         <div className={styles.cardHeader}>
           <h3 className={styles.dishName}>{nombre}</h3>
@@ -43,32 +41,13 @@ const MenuItemCard = ({ plato, onViewMore, onToggleSelect, isSelected, menuHasIm
         <p className={styles.dishDescription}>{descripcionCorta}</p>
       </div>
 
-      <div className={styles.mediaContent}>
-        {shouldShowImage ? (
-          <div className={styles.imageContainer}>
-            <img src={plato.imagen.startsWith('http') ? plato.imagen : process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
-            <button 
-              className={`${styles.addButton} ${isSelected ? styles.added : ''}`} 
-              onClick={handleAddClick}
-              aria-label={`Añadir ${nombre} al pedido`}
-            >
-              <span className={styles.addIcon}>+</span>
-              <span className={styles.addedIcon}>✓</span>
-            </button>
-          </div>
-        ) : (
-          <div className={styles.addButtonContainer}>
-            <button 
-              className={`${styles.addButton} ${styles.noImage} ${isSelected ? styles.added : ''}`} 
-              onClick={handleAddClick}
-              aria-label={`Añadir ${nombre} al pedido`}
-            >
-              <span className={styles.addIcon}>+</span>
-              <span className={styles.addedIcon}>✓</span>
-            </button>
-          </div>
-        )}
-      </div>
+      {/* Si la función de pedido está habilitada, muestra el control.
+          Si no, y si hay imagen, muestra solo la imagen. */}
+      {isOrderingFeatureEnabled ? (
+        <MenuItemOrderControl dish={plato} menuHasImages={menuHasImages} />
+      ) : (
+        imageContent && <div className={styles.mediaContent}>{imageContent}</div>
+      )}
     </div>
   );
 };

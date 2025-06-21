@@ -11,13 +11,19 @@ import {
   findDishById
 } from '../../utils/menuUtils';
 import { useTenant } from '../../context/TenantContext';
+import { useOrder } from '../../context/OrderContext';
+import DishDetailOrderControl from './controls/DishDetailOrderControl'; // NUEVO: Componente para el control de pedido
 
-// Se añaden los nuevos props: isSelected y onToggleSelect
-const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, isSelected, onToggleSelect }) => {
+// Se eliminan las props `isSelected` y `onToggleSelect` ya que ahora se gestionan internamente
+const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
   const { t, i18n } = useTranslation();
+  // Se obtiene `isOrderingFeatureEnabled` del contexto para saber si mostrar los controles de pedido
+  const { isOrderingFeatureEnabled } = useOrder(); 
+  
   const currentLanguage = i18n.language;
 
   const { tenantConfig } = useTenant();
+  // Se mantiene `menuHasImages` para controlar la visibilidad de la imagen del plato
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
   if (!plato) return null;
@@ -48,6 +54,8 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, isSelected,
         <button className={styles.closeButton} onClick={onClose}>×</button>
         
         <div className={styles.modalBody}>
+          {/* La imagen del plato se muestra si `menuHasImages` es true,
+              independientemente de `isOrderingFeatureEnabled`. */}
           {menuHasImages && plato.imagen && (
             <img src={plato.imagen.startsWith('http') ? plato.imagen : process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.modalImage} />
           )}
@@ -111,15 +119,9 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, isSelected,
           )}
         </div>
         
-        {/* --- NUEVO: Footer del modal con el botón de selección --- */}
-        <div className={styles.modalFooter}>
-          <button
-            className={`${styles.selectButton} ${isSelected ? styles.selected : ''}`}
-            onClick={() => onToggleSelect(plato.id)}
-          >
-            {isSelected ? t('dishDetailModal.selected') : t('dishDetailModal.select')}
-          </button>
-        </div>
+        {/* Renderiza el control del pedido (botón de "Seleccionar")
+            solo si la característica de pedido está habilitada. */}
+        {isOrderingFeatureEnabled && <DishDetailOrderControl dishId={plato.id} />}
       </div>
     </div>
   );

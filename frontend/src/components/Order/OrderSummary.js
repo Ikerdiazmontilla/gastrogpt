@@ -6,11 +6,9 @@ import { useTenant } from '../../context/TenantContext';
 import { getTranslatedDishText, findDishById } from '../../utils/menuUtils';
 import styles from './OrderSummaryDrawer.module.css';
 
-// Este componente ahora se controla a sí mismo a través del contexto.
 const OrderSummary = () => {
   const { t, i18n } = useTranslation();
-  // Obtiene todo lo que necesita del contexto
-  const { isDrawerOpen, closeDrawer, selectedDishes, toggleDishSelection } = useOrder();
+  const { isOrderingFeatureEnabled, isDrawerOpen, closeDrawer, selectedDishes, toggleDishSelection } = useOrder();
   const { tenantConfig } = useTenant();
   const menu = tenantConfig?.menu;
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
@@ -26,13 +24,14 @@ const OrderSummary = () => {
     return { orderedItems: items, totalPrice: total };
   }, [selectedDishes, menu?.allDishes]);
 
-  // Ya no necesita recibir `isOpen` o `onClose` como props.
-  if (!isDrawerOpen) return null;
+  if (!isOrderingFeatureEnabled || !isDrawerOpen) {
+    return null;
+  }
 
   return (
     <div 
       className={`${styles.drawerOverlay} ${isDrawerOpen ? styles.open : ''}`}
-      onClick={closeDrawer} // Usa la función del contexto
+      onClick={closeDrawer}
     >
       <div 
         className={`${styles.drawerPanel} ${isDrawerOpen ? styles.open : ''}`}

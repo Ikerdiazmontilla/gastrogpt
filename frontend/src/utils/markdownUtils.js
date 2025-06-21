@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTenant } from '../context/TenantContext';
-import { useOrder } from '../context/OrderContext'; // <-- IMPORTADO
+import { useOrder } from '../context/OrderContext';
 import { findDishById } from './menuUtils';
 import DishPreviewLink from '../components/Dish/DishPreviewLink';
 
@@ -10,7 +10,7 @@ export const createMarkdownLinkRenderer = (onViewDishDetailsCallback) => {
   const CustomLinkComponent = (props) => {
     const { href, children, node, ...rest } = props;
     const { tenantConfig } = useTenant();
-    const { selectedDishes, toggleDishSelection } = useOrder(); // <-- USANDO EL CONTEXTO
+    const { isOrderingFeatureEnabled, selectedDishes, toggleDishSelection } = useOrder();
     const { i18n } = useTranslation();
 
     const menu = tenantConfig?.menu;
@@ -23,7 +23,6 @@ export const createMarkdownLinkRenderer = (onViewDishDetailsCallback) => {
       const dish = menu?.allDishes ? findDishById(dishId, menu.allDishes) : null;
 
       if (dish) {
-        // Comprueba si el plato está seleccionado y pasa el estado y la función.
         const isSelected = selectedDishes.has(dish.id);
 
         return (
@@ -36,8 +35,9 @@ export const createMarkdownLinkRenderer = (onViewDishDetailsCallback) => {
             }}
             currentLanguage={currentLanguage}
             menuHasImages={menuHasImages}
-            isSelected={isSelected} // <-- Pasando el estado
-            onToggleSelect={toggleDishSelection} // <-- Pasando la función
+            isSelected={isSelected}
+            onToggleSelect={toggleDishSelection}
+            isOrderingFeatureEnabled={isOrderingFeatureEnabled}
             {...rest}
           />
         );
@@ -64,7 +64,6 @@ export const createMarkdownLinkRenderer = (onViewDishDetailsCallback) => {
   return CustomLinkComponent;
 };
 
-// ... (markdownUrlTransform no cambia)
 export const markdownUrlTransform = (uri) => {
   if (uri.startsWith('dish:')) {
     return uri;

@@ -1,12 +1,15 @@
 // frontend/src/context/OrderContext.js
 import React, { createContext, useState, useEffect, useContext, useMemo, useCallback } from 'react';
+import { isOrderingEnabled } from '../config'; // <-- NUEVO: Importamos la bandera de configuración
 
 const ORDER_STORAGE_KEY = 'gastroai_order';
 
 const OrderContext = createContext(null);
 
 export const OrderProvider = ({ children }) => {
+  // El estado interno sigue igual para cuando la función está habilitada
   const [selectedDishes, setSelectedDishes] = useState(() => {
+    if (!isOrderingEnabled) return new Set(); // Si está desactivado, siempre empieza vacío
     try {
       const storedOrder = localStorage.getItem(ORDER_STORAGE_KEY);
       if (storedOrder) {
@@ -18,10 +21,14 @@ export const OrderProvider = ({ children }) => {
     return new Set();
   });
 
-  // --- NUEVO: Estado para controlar el cajón del pedido ---
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
+    // Solo guardamos en localStorage si la funcionalidad está habilitada
+    if (!isOrderingEnabled) {
+      localStorage.removeItem(ORDER_STORAGE_KEY);
+      return;
+    };
     try {
       const dishIds = Array.from(selectedDishes);
       localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(dishIds));
@@ -30,7 +37,10 @@ export const OrderProvider = ({ children }) => {
     }
   }, [selectedDishes]);
 
-  const toggleDishSelection = (dishId) => {
+  const toggleDishSelection = useCallback((dishId) => {
+    // La función no hace nada si la característica está desactivada
+    if (!isOrderingEnabled) return;
+
     setSelectedDishes(prevSelected => {
       const newSelected = new Set(prevSelected);
       if (newSelected.has(dishId)) {
@@ -40,19 +50,24 @@ export const OrderProvider = ({ children }) => {
       }
       return newSelected;
     });
-  };
+  }, []);
 
-  // --- NUEVO: Funciones para abrir y cerrar el cajón ---
-  const openDrawer = useCallback(() => setIsDrawerOpen(true), []);
+  const openDrawer = useCallback(() => {
+    if (isOrderingEnabled) setIsDrawerOpen(true);
+  }, []);
+
   const closeDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
+  // UseMemo es perfecto para construir el valor del contexto condicionalmente
   const value = useMemo(() => ({
-    selectedDishes,
+    // Proporcionamos la bandera directamente para que los componentes la puedan usar
+    isOrderingFeatureEnabled: isOrderingEnabled,
+    selectedDishes: isOrderingEnabled ? selectedDishes : new Set(),
     toggleDishSelection,
-    isDrawerOpen, // <-- Exponemos el estado
-    openDrawer,   // <-- Exponemos la función para abrir
-    closeDrawer,  // <-- Exponemos la función para cerrar
-  }), [selectedDishes, isDrawerOpen, openDrawer, closeDrawer]);
+    isDrawerOpen: isOrderingEnabled ? isDrawerOpen : false,
+    openDrawer,
+    closeDrawer,
+  }), [ selectedDishes, isDrawerOpen, openDrawer, closeDrawer, toggleDishSelection]);
 
   return (
     <OrderContext.Provider value={value}>
