@@ -11,26 +11,25 @@ import {
   findDishById
 } from '../../utils/menuUtils';
 import { useTenant } from '../../context/TenantContext';
-import { useOrder } from '../../context/OrderContext';
-import DishDetailOrderControl from './controls/DishDetailOrderControl'; // NUEVO: Componente para el control de pedido
+// Las importaciones de useOrder y DishDetailOrderControl han sido eliminadas
 
-// Se eliminan las props `isSelected` y `onToggleSelect` ya que ahora se gestionan internamente
+// Las props `isSelected` y `onToggleSelect` han sido eliminadas
 const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
   const { t, i18n } = useTranslation();
-  // Se obtiene `isOrderingFeatureEnabled` del contexto para saber si mostrar los controles de pedido
-  const { isOrderingFeatureEnabled } = useOrder(); 
-  
+  // isOrderingFeatureEnabled ha sido eliminado
+
   const currentLanguage = i18n.language;
 
   const { tenantConfig } = useTenant();
-  // Se mantiene `menuHasImages` para controlar la visibilidad de la imagen del plato
+  // menuHasImages se mantiene para controlar la visibilidad de la imagen del plato
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
-  if (!plato) return null;
+  if (!plato) return null; // No renderizar si no hay plato
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionLarga = getTranslatedDishText(plato.descripcionLarga, currentLanguage);
 
+  // Función para renderizar un plato emparejado, creando un botón que abre su modal de detalle
   const renderPairedItem = (pairedItemId) => {
     const pairedDish = menu?.allDishes ? findDishById(pairedItemId, menu.allDishes) : null;
     if (!pairedDish) return null;
@@ -40,7 +39,7 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
       <div className={styles.pairedItem}>
         <button
           className={styles.pairedItemLink}
-          onClick={() => onSelectPairedDish(pairedDish)}
+          onClick={() => onSelectPairedDish(pairedDish)} // Al hacer clic, abre el modal del plato emparejado
         >
           {pairedDishName}
         </button>
@@ -50,22 +49,22 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose}>×</button>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}> {/* Evita que el clic se propague al overlay */}
+        <button className={styles.closeButton} onClick={onClose}>×</button> {/* Botón para cerrar el modal */}
         
         <div className={styles.modalBody}>
-          {/* La imagen del plato se muestra si `menuHasImages` es true,
-              independientemente de `isOrderingFeatureEnabled`. */}
+          {/* Muestra la imagen del plato si menuHasImages es true y el plato tiene una imagen */}
           {menuHasImages && plato.imagen && (
             <img src={plato.imagen.startsWith('http') ? plato.imagen : process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.modalImage} />
           )}
 
           <div className={styles.modalHeader}>
             <h2 className={styles.modalTitle}>{nombre}</h2>
+            {/* Muestra el precio si está definido y es mayor que 0 */}
             {(plato.precio != null && plato.precio > 0) && (
               <p className={styles.modalPrice}>
-                {plato.precio.toFixed(2)}€
-                {plato.precio_por_persona && (
+                {plato.precio.toFixed(2)}€ {/* Formatea el precio a dos decimales */}
+                {plato.precio_por_persona && ( // Muestra "por persona" si aplica
                   <span className={styles.perPersonText}>
                     {' '}{t('dishDetailModal.perPersonLong')}
                   </span>
@@ -75,6 +74,7 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
           </div>
           <p className={styles.modalDescription}>{descripcionLarga}</p>
 
+          {/* Sección de alérgenos */}
           {plato.alergenos && plato.alergenos.length > 0 && (
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>{t('dishDetailModal.allergens')}</h4>
@@ -88,6 +88,7 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
             </div>
           )}
 
+          {/* Sección de etiquetas */}
           {plato.etiquetas && plato.etiquetas.length > 0 && (
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>{t('dishDetailModal.tags')}</h4>
@@ -107,10 +108,12 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
             </div>
           )}
 
+          {/* Sección de platos que combinan bien */}
           {plato.pairsWith && (Object.keys(plato.pairsWith).length > 0) && (
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>{t('dishDetailModal.pairsWellWith')}</h4>
               <div className={styles.pairedItemsContainer}>
+                {/* Renderiza los platos emparejados si existen */}
                 {plato.pairsWith.main && renderPairedItem(plato.pairsWith.main)}
                 {plato.pairsWith.drink && renderPairedItem(plato.pairsWith.drink)}
                 {plato.pairsWith.dessert && renderPairedItem(plato.pairsWith.dessert)}
@@ -119,9 +122,7 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu }) => {
           )}
         </div>
         
-        {/* Renderiza el control del pedido (botón de "Seleccionar")
-            solo si la característica de pedido está habilitada. */}
-        {isOrderingFeatureEnabled && <DishDetailOrderControl dishId={plato.id} />}
+        {/* El footer del modal con el botón de selección ha sido eliminado */}
       </div>
     </div>
   );

@@ -3,31 +3,25 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './MenuItemCard.module.css';
 import { getTranslatedDishText } from '../../utils/menuUtils';
-import { useOrder } from '../../context/OrderContext';
-import MenuItemOrderControl from './controls/MenuItemOrderControl'; // NUEVO
+// Las importaciones relacionadas con useOrder y los controles de pedido han sido eliminadas
 
 const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
   const { i18n } = useTranslation();
-  const { isOrderingFeatureEnabled, selectedDishes } = useOrder();
-  const isSelected = selectedDishes.has(plato.id);
   
   const currentLanguage = i18n.language;
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage);
 
+  // shouldShowImage determina si se debe mostrar la imagen del plato.
+  // Esta lógica ya no depende de la funcionalidad de pedido.
+  const shouldShowImage = menuHasImages && plato.imagen;
+
   const cardClasses = [
     styles.card,
-    isOrderingFeatureEnabled && isSelected ? styles.selected : '',
+    // La clase 'selected' ha sido eliminada
+    // Aplica una clase CSS de estilo de tarjeta basada en la categoría del plato.
     styles[`card-${plato.parentCategoryKey}`] || styles['card-default']
   ].join(' ');
-
-  // Se extrae la imagen del control de pedido para que siempre se muestre
-  const imageContent = menuHasImages && plato.imagen
-    ? (
-      <div className={styles.imageContainer}>
-        <img src={plato.imagen.startsWith('http') ? plato.imagen : process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
-      </div>
-    ) : null;
 
   return (
     <div className={cardClasses} onClick={() => onViewMore(plato)}>
@@ -41,12 +35,14 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages }) => {
         <p className={styles.dishDescription}>{descripcionCorta}</p>
       </div>
 
-      {/* Si la función de pedido está habilitada, muestra el control.
-          Si no, y si hay imagen, muestra solo la imagen. */}
-      {isOrderingFeatureEnabled ? (
-        <MenuItemOrderControl dish={plato} menuHasImages={menuHasImages} />
-      ) : (
-        imageContent && <div className={styles.mediaContent}>{imageContent}</div>
+      {/* La imagen del plato ahora se muestra condicionalmente solo por `shouldShowImage`.
+          Ya no hay controles de pedido en esta tarjeta. */}
+      {shouldShowImage && (
+        <div className={styles.mediaContent}>
+          <div className={styles.imageContainer}>
+            <img src={plato.imagen.startsWith('http') ? plato.imagen : process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
+          </div>
+        </div>
       )}
     </div>
   );

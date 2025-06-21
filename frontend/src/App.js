@@ -3,18 +3,17 @@ import React, { useRef, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { TenantProvider, useTenant } from './context/TenantContext';
-import { OrderProvider } from './context/OrderContext';
+// La importación de OrderProvider ha sido eliminada
 import Navbar from './components/Navbar/Navbar';
 import ChatPage from './pages/ChatPage';
 import CartaPage from './pages/CartaPage/CartaPage';
 import ThemeApplicator from './components/Theme/ThemeApplicator';
 import LanguageSelector from './components/LanguageSelector/LanguageSelector';
-// --- NUEVO: Importar el componente de resumen global ---
-import OrderSummary from './components/Order/OrderSummary'; 
+// La importación de OrderSummary ha sido eliminada
 import { initialLanguage } from './i18n';
 import './App.css';
 
-// ... (El código de MainApp no cambia)
+// Rutas de las pestañas para la navegación con swipe
 const tabPaths = ['/carta', '/chat'];
 const SWIPE_THRESHOLD_X = 75;
 const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.25;
@@ -26,17 +25,18 @@ function MainApp() {
   const [showLanguageSelector, setShowLanguageSelector] = useState(!initialLanguage);
   const handleLanguageSelected = () => setShowLanguageSelector(false);
   
-  // ... (Toda la lógica de swipe se mantiene igual)
+  // Refs para el manejo del swipe entre pestañas
   const touchStartXRef = useRef(0);
   const touchStartYRef = useRef(0);
   const touchEndXRef = useRef(0);
   const touchEndYRef = useRef(0);
-  const disableTabSwipeRef = useRef(false);
+  const disableTabSwipeRef = useRef(false); // Bandera para deshabilitar swipe en elementos interactivos
 
   useEffect(() => {
     const PcontainerNode = containerRef.current;
 
     const handleTouchStart = (e) => {
+      // Comprueba si el touch se inició en un elemento que no debería activar el swipe de pestañas
       if (e.target.closest('[data-no-tab-swipe="true"]')) {
         disableTabSwipeRef.current = true;
       } else {
@@ -46,8 +46,8 @@ function MainApp() {
       if (!disableTabSwipeRef.current) {
         touchStartXRef.current = e.touches[0].clientX;
         touchStartYRef.current = e.touches[0].clientY;
-        touchEndXRef.current = e.touches[0].clientX;
-        touchEndYRef.current = e.touches[0].clientY;
+        touchEndXRef.current = e.touches[0].clientX; // Inicializa EndX también en start
+        touchEndYRef.current = e.touches[0].clientY; // Inicializa EndY también en start
       }
     };
 
@@ -67,14 +67,15 @@ function MainApp() {
       const deltaX = touchEndXRef.current - touchStartXRef.current;
       const deltaY = touchEndYRef.current - touchStartYRef.current;
 
+      // Detecta si es un swipe horizontal significativo, ignorando movimientos verticales menores
       if (Math.abs(deltaX) > SWIPE_THRESHOLD_X && Math.abs(deltaY) < Math.abs(deltaX) * SWIPE_VERTICAL_TOLERANCE_FACTOR) {
         const currentIndex = tabPaths.indexOf(location.pathname);
-        if (currentIndex === -1) return;
+        if (currentIndex === -1) return; // Si no estamos en una ruta de pestaña, no hacer nada
 
         let nextIndex;
-        if (deltaX < 0) { // Swiped Left
+        if (deltaX < 0) { // Swipe a la izquierda
           nextIndex = (currentIndex + 1) % tabPaths.length;
-        } else { // Swiped Right
+        } else { // Swipe a la derecha
           nextIndex = (currentIndex - 1 + tabPaths.length) % tabPaths.length;
         }
         navigate(tabPaths[nextIndex]);
@@ -92,8 +93,9 @@ function MainApp() {
         PcontainerNode.removeEventListener('touchend', handleTouchEnd);
       };
     }
-  }, [navigate, location.pathname]);
+  }, [navigate, location.pathname]); // Dependencias del efecto
 
+  // Si el selector de idioma debe mostrarse, renderizarlo.
   if (showLanguageSelector) {
     return <LanguageSelector onLanguageSelect={handleLanguageSelected} />;
   }
@@ -110,14 +112,12 @@ function MainApp() {
           <Route path="/carta" element={<CartaPage />} />
         </Routes>
       </div>
-      {/* --- NUEVO: Se añade el cajón de resumen aquí --- */}
-      {/* Será invisible hasta que `isDrawerOpen` sea true en el contexto */}
-      <OrderSummary />
+      {/* El componente OrderSummary ha sido eliminado */}
     </>
   );
 }
 
-// ... (El resto del archivo App.js no cambia)
+// Componente que maneja la carga de la configuración del tenant y los errores.
 function AppContent() {
   const { isLoading, error } = useTenant();
   const { t } = useTranslation();
@@ -133,14 +133,16 @@ function AppContent() {
   return <MainApp />;
 }
 
+// Componente principal de la aplicación.
 function App() {
   return (
     <Router>
+      {/* TenantProvider envuelve toda la aplicación para proporcionar la configuración del inquilino */}
       <TenantProvider>
-        <OrderProvider>
-          <ThemeApplicator />
-          <AppContent />
-        </OrderProvider>
+        {/* OrderProvider ha sido eliminado */}
+        <ThemeApplicator /> {/* Aplica los estilos del tema del inquilino */}
+        <AppContent />
+        {/* El cierre de OrderProvider ha sido eliminado */}
       </TenantProvider>
     </Router>
   );

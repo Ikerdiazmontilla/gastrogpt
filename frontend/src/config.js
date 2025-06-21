@@ -1,1 +1,0 @@
-export const isOrderingEnabled = process.env.REACT_APP_ORDERING_ENABLED === 'true';
