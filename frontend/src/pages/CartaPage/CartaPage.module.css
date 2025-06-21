@@ -54,14 +54,15 @@
 
 .tabsList {
   position: sticky;
+  top: var(--sticky-tabs-top, 0px); /* Usamos una variable CSS con un fallback */
   z-index: 10;
   background-color: var(--color-page-background);
-  padding: 8px 0;
+  /* REEMPLAZADO: margin: 0 -15px 20px -15px; */
+  /* Ahora padding interno para el contenido de las pestañas */
+  padding: 8px 15px; 
+  margin-bottom: 20px; /* Mantenemos el margen inferior */
   display: flex;
   gap: 8px;
-  margin: 0 -15px 20px -15px;
-  padding-left: 15px;
-  padding-right: 15px;
   border-bottom: 1px solid var(--color-border);
   overflow-x: auto;
   white-space: nowrap;
@@ -133,7 +134,6 @@
   padding-top: 1.5rem;
   margin-top: 1.5rem;
 }
-/* CHANGED: Switched to a stronger solid border using the main, more saturated category color. */
 .section-bebidas { border-top: 3px solid var(--gastro-cat-color-bebidas); }
 .section-entrantes { border-top: 3px solid var(--gastro-cat-color-entrantes); }
 .section-platos_principales { border-top: 3px solid var(--gastro-cat-color-platos_principales); }

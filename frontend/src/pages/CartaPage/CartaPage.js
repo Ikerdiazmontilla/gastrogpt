@@ -1,41 +1,70 @@
 // src/pages/CartaPage/CartaPage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './CartaPage.module.css';
 import { useTenant } from '../../context/TenantContext';
-// La importación de useOrder ha sido eliminada
 
-// Importando los nuevos hooks para modularizar la lógica
 import { useMenuFiltering } from './hooks/useMenuFiltering';
 import { useStickyTabs } from './hooks/useStickyTabs';
 import { useDishModal } from './hooks/useDishModal';
 
 import MenuItemCard from '../../components/Dish/MenuItemCard';
 import DishDetailModal from '../../components/Dish/DishDetailModal';
-// La importación de OrderButton ha sido eliminada
 
 const CartaPage = () => {
   const { i18n, t } = useTranslation();
   const { tenantConfig } = useTenant();
-  // openDrawer ha sido eliminado
   
-  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // Usando los hooks personalizados para manejar la lógica compleja
   const menuSections = useMenuFiltering(tenantConfig?.menu, searchTerm, i18n.language);
   const { selectedPlato, openModal, closeModal } = useDishModal();
   const { visibleSection, sectionRefs, tabRefs, tabsListRef } = useStickyTabs(menuSections);
 
-  // Datos básicos del tenant
   const menu = tenantConfig?.menu;
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
-  // Función para manejar el clic en una pestaña, desplazando la sección correspondiente a la vista
+  // useEffect para la lógica de la barra de navegación y las pestañas pegajosas
+  useEffect(() => {
+    const navContainer = document.querySelector('.nav-container');
+    const tabsListElement = tabsListRef.current;
+    if (!navContainer || !tabsListElement) return;
+
+    const updateLayout = () => {
+      const navHeight = navContainer.offsetHeight;
+      const tabsHeight = tabsListElement.offsetHeight;
+      
+      // Establece la variable CSS --sticky-tabs-top para la posición superior de las pestañas
+      document.documentElement.style.setProperty('--sticky-tabs-top', `${navHeight}px`);
+
+      // Ajusta el scroll-margin-top de las secciones para que no queden ocultas bajo las cabeceras pegajosas
+      const totalStickyHeight = navHeight + tabsHeight + 10; // +10px para un pequeño margen de separación
+      const sectionElements = Object.values(sectionRefs.current);
+      sectionElements.forEach(section => {
+        if (section) section.style.scrollMarginTop = `${totalStickyHeight}px`;
+      });
+    };
+
+    // Usa ResizeObserver para recalcular las alturas cuando cambian los elementos pegajosos
+    const navObserver = new ResizeObserver(updateLayout);
+    navObserver.observe(navContainer);
+    const tabsObserver = new ResizeObserver(updateLayout);
+    tabsObserver.observe(tabsListElement);
+
+    // Ejecuta la actualización inicial con un pequeño retardo para asegurar que los elementos estén renderizados
+    const initialUpdateTimeout = setTimeout(updateLayout, 100);
+
+    return () => {
+      clearTimeout(initialUpdateTimeout);
+      navObserver.disconnect();
+      tabsObserver.disconnect();
+    };
+  }, [menuSections]); // Dependencia: re-ejecutar si la estructura del menú cambia
+
   const handleTabClick = (key) => {
     sectionRefs.current[key]?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Muestra un mensaje de carga si el menú aún no está disponible
   if (!menu) return <div className={styles.cartaContainer}>{t('app.loading')}</div>;
 
   return (
@@ -55,14 +84,11 @@ const CartaPage = () => {
         </div>
       </div>
 
-      {/* Lista de pestañas de categorías, se desplazan horizontalmente */}
       <div ref={tabsListRef} className={styles.tabsList} data-no-tab-swipe="true">
         {menuSections.map(section => (
           <button
             key={section.key}
-            // Asigna una ref a cada botón de pestaña para el control de scroll y visibilidad
             ref={(el) => (tabRefs.current[section.key] = el)}
-            // Clases dinámicas para resaltar la pestaña activa y aplicar estilos de categoría
             className={`${styles.tabTrigger} ${visibleSection === section.key ? styles.activeTab : ''} ${styles['tab-' + (section.parentCategoryKey || 'default')]}`}
             onClick={() => handleTabClick(section.key)}
           >
@@ -71,54 +97,46 @@ const CartaPage = () => {
         ))}
       </div>
 
-      {/* Contenido principal del menú, con las secciones de platos */}
       <div className={styles.menuContent}>
         {menuSections.length > 0 ? (
           menuSections.map(section => (
             <section
               key={section.key}
-              id={section.key} // ID para el IntersectionObserver
-              // Asigna una ref a cada sección para el IntersectionObserver
+              id={section.key}
               ref={(el) => (sectionRefs.current[section.key] = el)}
-              // Clases dinámicas para estilos de sección basados en la categoría
               className={`${styles.menuSection} ${styles[`section-${section.parentCategoryKey}`] || styles['section-default']}`}
             >
               <h2 className={styles.sectionTitle}>
-                {/* Marcador de color para la categoría */}
                 <span className={`${styles.categoryMarker} ${styles[`marker-${section.parentCategoryKey}`] || styles['marker-default']}`}></span>
                 {section.title}
               </h2>
               <p className={styles.categoryInstruction}>{t('cartaPage.orderInstruction')}</p>
               <div className={styles.dishesGrid}>
-                {/* Mapea y renderiza las tarjetas de cada plato dentro de la sección */}
                 {section.dishes.map(plato => (
                   <MenuItemCard
                     key={plato.id}
                     plato={plato}
-                    onViewMore={openModal} // Abre el modal de detalle al hacer clic
-                    menuHasImages={menuHasImages} // Pasa si el menú tiene imágenes
+                    onViewMore={openModal}
+                    menuHasImages={menuHasImages}
+                    categoryKey={section.key} 
                   />
                 ))}
               </div>
             </section>
           ))
         ) : (
-          // Mensaje si no hay resultados de búsqueda
           <p className={styles.noResultsMessage}>{t('cartaPage.noResults')}</p>
         )}
       </div>
 
-      {/* Modal de detalle de plato, se muestra condicionalmente si hay un plato seleccionado */}
       {selectedPlato && (
         <DishDetailModal 
           plato={selectedPlato} 
           onClose={closeModal} 
-          onSelectPairedDish={openModal} // Permite abrir otro plato relacionado desde el modal
-          menu={menu} // Se pasa el menú completo para buscar platos relacionados
+          onSelectPairedDish={openModal} 
+          menu={menu}
         />
       )}
-      
-      {/* El OrderButton ha sido eliminado */}
     </div>
   );
 };
