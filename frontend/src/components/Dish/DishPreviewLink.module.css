@@ -1,5 +1,3 @@
-/* frontend/src/components/Dish/DishPreviewLink.module.css */
-
 .buttonWrapper {
   display: block;
   width: 100%;
@@ -22,13 +20,14 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 80px;
+  /* Se cambia height por min-height para permitir que el contenedor crezca */
+  min-height: 80px; 
   background-color: white;
   border: 1px solid var(--color-border, #e0e0e0);
   border-radius: calc(var(--border-radius, 8px) - 2px); /* Ajuste para que encaje dentro del wrapper */
   padding: 8px;
   text-align: left;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, min-height 0.2s ease; /* Se añade transición para la altura */
 }
 
 .buttonWrapper:hover .card {
@@ -53,7 +52,6 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 }
 
 .categoryEmoji {

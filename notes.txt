@@ -13,6 +13,7 @@ message user background
 message user color
 link color: likely equals buttonbackground
 
+
 Que te sugiera directamente los platos
 
 cuando alguien pide algo q no existe gestionarlo

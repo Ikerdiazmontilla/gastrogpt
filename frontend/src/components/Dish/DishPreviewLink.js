@@ -1,4 +1,3 @@
-// frontend/src/components/Dish/DishPreviewLink.js
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './DishPreviewLink.module.css';
