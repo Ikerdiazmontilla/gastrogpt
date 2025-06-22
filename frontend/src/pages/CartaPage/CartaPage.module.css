@@ -180,6 +180,20 @@
   gap: 20px;
 }
 
+.subsectionContainer {
+  margin-top: 2rem; /* Espacio entre grupos de subcategorías */
+}
+
+/* Distingue el título de la subcategoría del título principal */
+.subsectionTitle {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+  padding-left: 10px;
+  border-left: 2px solid var(--color-border);
+}
+
 .noResultsMessage {
   text-align: center;
   padding: 20px 10px;

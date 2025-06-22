@@ -34,24 +34,20 @@ const CartaPage = () => {
       const navHeight = navContainer.offsetHeight;
       const tabsHeight = tabsListElement.offsetHeight;
       
-      // Establece la variable CSS --sticky-tabs-top para la posición superior de las pestañas
       document.documentElement.style.setProperty('--sticky-tabs-top', `${navHeight}px`);
 
-      // Ajusta el scroll-margin-top de las secciones para que no queden ocultas bajo las cabeceras pegajosas
-      const totalStickyHeight = navHeight + tabsHeight + 10; // +10px para un pequeño margen de separación
+      const totalStickyHeight = navHeight + tabsHeight + 10;
       const sectionElements = Object.values(sectionRefs.current);
       sectionElements.forEach(section => {
         if (section) section.style.scrollMarginTop = `${totalStickyHeight}px`;
       });
     };
 
-    // Usa ResizeObserver para recalcular las alturas cuando cambian los elementos pegajosos
     const navObserver = new ResizeObserver(updateLayout);
     navObserver.observe(navContainer);
     const tabsObserver = new ResizeObserver(updateLayout);
     tabsObserver.observe(tabsListElement);
 
-    // Ejecuta la actualización inicial con un pequeño retardo para asegurar que los elementos estén renderizados
     const initialUpdateTimeout = setTimeout(updateLayout, 100);
 
     return () => {
@@ -59,7 +55,7 @@ const CartaPage = () => {
       navObserver.disconnect();
       tabsObserver.disconnect();
     };
-  }, [menuSections]); // Dependencia: re-ejecutar si la estructura del menú cambia
+  }, [menuSections, tabsListRef, sectionRefs]); // Dependencias actualizadas
 
   const handleTabClick = (key) => {
     sectionRefs.current[key]?.scrollIntoView({ behavior: 'smooth' });
@@ -111,17 +107,43 @@ const CartaPage = () => {
                 {section.title}
               </h2>
               <p className={styles.categoryInstruction}>{t('cartaPage.orderInstruction')}</p>
-              <div className={styles.dishesGrid}>
-                {section.dishes.map(plato => (
-                  <MenuItemCard
-                    key={plato.id}
-                    plato={plato}
-                    onViewMore={openModal}
-                    menuHasImages={menuHasImages}
-                    categoryKey={section.key} 
-                  />
-                ))}
-              </div>
+              
+              {/* --- INICIO DEL CAMBIO DE RENDERIZADO --- */}
+
+              {/* Renderizar platos que no tienen subcategoría */}
+              {section.dishesWithoutSubcategory && section.dishesWithoutSubcategory.length > 0 && (
+                <div className={styles.dishesGrid}>
+                  {section.dishesWithoutSubcategory.map(plato => (
+                    <MenuItemCard
+                      key={plato.id}
+                      plato={plato}
+                      onViewMore={openModal}
+                      menuHasImages={menuHasImages}
+                      categoryKey={section.key}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Renderizar grupos de subcategorías */}
+              {section.subCategoryGroups && section.subCategoryGroups.map(subCategory => (
+                <div key={subCategory.key} className={styles.subsectionContainer}>
+                  <h3 className={styles.subsectionTitle}>{subCategory.title}</h3>
+                  <div className={styles.dishesGrid}>
+                    {subCategory.dishes.map(plato => (
+                      <MenuItemCard
+                        key={plato.id}
+                        plato={plato}
+                        onViewMore={openModal}
+                        menuHasImages={menuHasImages}
+                        categoryKey={section.key}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              {/* --- FIN DEL CAMBIO DE RENDERIZADO --- */}
             </section>
           ))
         ) : (

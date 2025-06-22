@@ -36,14 +36,14 @@ module.exports = {
 
   // --- Configuración del Chatbot y la UI ---
   chatConfig: {
-    // welcomeMessage: {
-    //   "es": `¡Hola! Bienvenido a La Taurina. Habla conmigo para decidir lo que quieres para comer. 
-    //   ¿Te parece si empezamos por las bebidas?
-    //   ¿Que te apetece para beber?`,
-    //   "en": "Hi! Welcome to La Taurina. Talk to me to decide what you'd like to eat. Shall we start with drinks? What would you like to drink?",
-    //   "fr": "Bonjour ! Bienvenue à La Taurina. Parle avec moi pour choisir ce que tu veux manger. On commence par les boissons ? Qu’est-ce que tu as envie de boire ?",
-    //   "de": "Hallo! Willkommen bei La Taurina. Sprich mit mir, um zu entscheiden, was du essen möchtest. Sollen wir mit den Getränken anfangen? Worauf hast du Lust zu trinken?"
-    // },
+    welcomeMessage: {
+      "es": `¡Hola! Bienvenido a La Taurina. Habla conmigo para decidir lo que quieres para comer. 
+      ¿Te parece si empezamos por las bebidas?
+      ¿Que te apetece para beber?`,
+      "en": "Hi! Welcome to La Taurina. Talk to me to decide what you'd like to eat. Shall we start with drinks? What would you like to drink?",
+      "fr": "Bonjour ! Bienvenue à La Taurina. Parle avec moi pour choisir ce que tu veux manger. On commence par les boissons ? Qu’est-ce que tu as envie de boire ?",
+      "de": "Hallo! Willkommen bei La Taurina. Sprich mit mir, um zu entscheiden, was du essen möchtest. Sollen wir mit den Getränken anfangen? Worauf hast du Lust zu trinken?"
+    },
     suggestionChips: {
       es: [
         "¿Qué tipos de paella tenéis?",
@@ -206,7 +206,7 @@ Eres GastroAI, un chatbot del restaurante La Taurina. Tu misión es acompañar a
 > [Homemade creamy ham or cod croquettes (see dish)](dish:2)  
 > [Seafood paella (see dish)](dish:23)  
 > [Homemade cheesecake (see dish)](dish:40)  
-> **When you’re ready, just call the waiter to place the order.**
+> **When you're ready, just call the waiter to place the order.**
 
 ---
 ### **5. Menú del restaurante**
@@ -603,106 +603,6 @@ __MENU_JSON_PLACEHOLDER__
             "etiquetas": ["económico"]
           },
           {
-            "id": 2,
-            "nombre": {
-              "es": "Croquetas cremosas caseras de jamón o bacalao (6 unidades)",
-              "en": "Homemade creamy ham or cod croquettes (6 pcs)",
-              "de": "Hausgemachte cremige Schinken- oder Kabeljaukroketten (6 Stück)",
-              "fr": "Croquettes maison crémeuses au jambon ou à la morue (6 pièces)"
-            },
-            "descripcionCorta": {
-              "es": "Crujientes por fuera, irresistiblemente cremosas por dentro.",
-              "en": "Crunchy outside, irresistibly creamy inside.",
-              "de": "Außen knusprig, innen unwiderstehlich cremig.",
-              "fr": "Croustillantes à l'extérieur, irrésistiblement crémeuses à l'intérieur."
-            },
-            "descripcionLarga": {
-              "es": "Bechamel suave elaborada con jamón ibérico o bacalao desalado, empanadas artesanalmente y fritas al momento.",
-              "en": "Silky béchamel with Iberian ham or desalted cod, hand-breaded and fried to order.",
-              "de": "Seidige Béchamelsauce mit Iberico-Schinken oder entsalztem Kabeljau, von Hand paniert und auf Bestellung frittiert.",
-              "fr": "Béchamel onctueuse au jambon ibérique ou à la morue dessalée, panée artisanalement et frite à la minute."
-            },
-            "precio": 12.6,
-            "pairsWith": { "main": 24 },
-            "alergenos": ["gluten", "lácteos", "huevo", "pescado"],
-            "etiquetas": ["popular"]
-          },
-          {
-            "id": 3,
-            "nombre": {
-              "es": "Ensaladilla rusa con nuestro bonito en escabeche casero",
-              "en": "Russian salad with our house-pickled bonito",
-              "de": "Russischer Salat mit unserem hausgemachten eingelegten Bonito",
-              "fr": "Salade russe avec notre bonite marinée maison"
-            },
-            "descripcionCorta": {
-              "es": "La ensaladilla de siempre, con un toque único y casero.",
-              "en": "The usual ensaladilla, with a unique homemade twist.",
-              "de": "Der klassische Kartoffelsalat, mit einer einzigartigen hausgemachten Note.",
-              "fr": "La salade russe de toujours, avec une touche unique et maison."
-            },
-            "descripcionLarga": {
-              "es": "Patata, zanahoria y mayonesa cremosa coronadas con bonito marinado en escabeche elaborado en casa.",
-              "en": "Potato, carrot and creamy mayonnaise crowned with bonito marinated in our own escabeche.",
-              "de": "Kartoffel, Karotte und cremige Mayonnaise, gekrönt mit Bonito, der in unserer eigenen Escabeche mariniert wurde.",
-              "fr": "Pommes de terre, carottes et mayonnaise crémeuse couronnées de bonite marinée dans notre propre escabèche."
-            },
-            "precio": 13,
-            "pairsWith": { "main": 35 },
-            "alergenos": ["huevo", "pescado", "sulfitos"],
-            "etiquetas": ["popular"]
-          },
-          {
-            "id": 4,
-            "nombre": {
-              "es": "Croquetas de rabo de toro (6 unidades)",
-              "en": "Oxtail croquettes (6 pcs)",
-              "de": "Ochsenschwanzkroketten (6 Stück)",
-              "fr": "Croquettes de queue de taureau (6 pièces)"
-            },
-            "descripcionCorta": {
-              "es": "Un bocado intenso que se deshace en la boca.",
-              "en": "An intense bite that melts in the mouth.",
-              "de": "Ein intensiver Bissen, der auf der Zunge zergeht.",
-              "fr": "Une bouchée intense qui fond dans la bouche."
-            },
-            "descripcionLarga": {
-              "es": "Rellenas de estofado de rabo de toro cocinado a fuego lento, con una textura sedosa y crujiente por fuera.",
-              "en": "Filled with slow-braised oxtail stew, silky inside and crispy outside.",
-              "de": "Gefüllt mit langsam geschmortem Ochsenschwanzeintopf, innen seidig und außen knusprig.",
-              "fr": "Farcies de ragoût de queue de taureau mijoté, soyeuses à l'intérieur et croustillantes à l'extérieur."
-            },
-            "precio": 15,
-            "pairsWith": { "main": 27 },
-            "alergenos": ["gluten", "lácteos", "huevo"],
-            "etiquetas": ["popular"]
-          },
-          {
-            "id": 5,
-            "nombre": {
-              "es": "Tortilla de bacalao estilo “Donosti”",
-              "en": "\"Donosti\"-style cod omelette",
-              "de": "Kabeljau-Omelett nach „Donosti“-Art",
-              "fr": "Omelette à la morue style « Donosti »"
-            },
-            "descripcionCorta": {
-              "es": "Esponjosa, jugosa y con todo el sabor del norte.",
-              "en": "Fluffy, juicy and full of northern flavour.",
-              "de": "Luftig, saftig und voller nordischem Geschmack.",
-              "fr": "Moelleuse, juteuse et pleine de saveur du nord."
-            },
-            "descripcionLarga": {
-              "es": "Tortilla ligera con bacalao desmigado, cebolla pochada y un toque vasco inconfundible.",
-              "en": "Light omelette with flaked cod, sautéed onion and an unmistakable Basque touch.",
-              "de": "Leichtes Omelett mit zerzupftem Kabeljau, sautierten Zwiebeln und einem unverkennbaren baskischen Touch.",
-              "fr": "Omelette légère avec de la morue émiettée, de l'oignon confit et une touche basque inimitable."
-            },
-            "precio": 16,
-            "pairsWith": { "main": 33 },
-            "alergenos": ["huevo", "pescado"],
-            "etiquetas": ["sin gluten"]
-          },
-          {
             "id": 6,
             "nombre": {
               "es": "Parrillada de verduras",
@@ -728,306 +628,6 @@ __MENU_JSON_PLACEHOLDER__
             "etiquetas": ["vegetariano"]
           },
           {
-            "id": 7,
-            "nombre": {
-              "es": "Alcachofas confitadas a la plancha y sofrito de jamón",
-              "en": "Confit artichokes on the griddle with ham sofrito",
-              "de": "Konfierte Artischocken vom Grill mit Schinken-Sofrito",
-              "fr": "Artichauts confits à la plancha avec sofrito de jambon"
-            },
-            "descripcionCorta": {
-              "es": "Un bocado tierno y dorado con el sabor del buen jamón.",
-              "en": "Tender, golden bite with the flavour of good ham.",
-              "de": "Ein zarter, goldener Bissen mit dem Geschmack von gutem Schinken.",
-              "fr": "Une bouchée tendre et dorée avec la saveur du bon jambon."
-            },
-            "descripcionLarga": {
-              "es": "Corazones de alcachofa cocinados lentamente en aceite de oliva y marcados a la plancha, acompañados de sofrito de jamón serrano.",
-              "en": "Artichoke hearts slow-cooked in olive oil then seared, served with serrano ham sofrito.",
-              "de": "Artischockenherzen, langsam in Olivenöl gegart und dann angebraten, serviert mit Serrano-Schinken-Sofrito.",
-              "fr": "Cœurs d'artichauts cuits lentement dans l'huile d'olive puis saisis, servis avec un sofrito de jambon serrano."
-            },
-            "precio": 16.4,
-            "pairsWith": { "main": 36 },
-            "alergenos": [],
-            "etiquetas": ["gourmet"]
-          },
-          {
-            "id": 8,
-            "nombre": {
-              "es": "Dados crujientes de bacalao con alioli de cebollino",
-              "en": "Crispy cod bites with chive aioli",
-              "de": "Knusprige Kabeljauwürfel mit Schnittlauch-Aioli",
-              "fr": "Dés de morue croustillants avec aïoli à la ciboulette"
-            },
-            "descripcionCorta": {
-              "es": "Dorados por fuera, jugosos por dentro, con un toque fresco de alioli.",
-              "en": "Golden outside, juicy inside, with a fresh aioli touch.",
-              "de": "Außen goldbraun, innen saftig, mit einem frischen Hauch von Aioli.",
-              "fr": "Dorés à l'extérieur, juteux à l'intérieur, avec une touche fraîche d'aïoli."
-            },
-            "descripcionLarga": {
-              "es": "Tacos de bacalao rebozados y fritos, servidos con una suave salsa de alioli aromatizada con cebollino fresco.",
-              "en": "Battered cod cubes fried and served with a smooth chive-infused aioli.",
-              "de": "Panierte und frittierte Kabeljauwürfel, serviert mit einer glatten, mit Schnittlauch verfeinerten Aioli.",
-              "fr": "Cubes de morue panés et frits, servis avec un aïoli doux infusé à la ciboulette."
-            },
-            "precio": 16.5,
-            "pairsWith": { "main": 25 },
-            "alergenos": ["pescado", "huevo", "ajo", "sulfitos"],
-            "etiquetas": ["ideal para compartir"]
-          },
-          {
-            "id": 9,
-            "nombre": {
-              "es": "Zamburiñas a la plancha con majado de ajo y perejil (6 unidades)",
-              "en": "Griddled queen scallops with garlic & parsley mash (6 pcs)",
-              "de": "Gegrillte Jakobsmuscheln mit Knoblauch-Petersilien-Püree (6 Stück)",
-              "fr": "Pétoncles à la plancha avec purée d'ail et persil (6 pièces)"
-            },
-            "descripcionCorta": {
-              "es": "Del mar directo a la brasa con aroma mediterráneo.",
-              "en": "From the sea straight to the grill with Mediterranean aroma.",
-              "de": "Direkt vom Meer auf den Grill mit mediterranem Aroma.",
-              "fr": "De la mer directement au gril avec un arôme méditerranéen."
-            },
-            "descripcionLarga": {
-              "es": "Zamburiñas frescas marcadas a la plancha con majado de ajo, perejil y un toque de limón.",
-              "en": "Fresh queen scallops seared on the griddle with a mash of garlic, parsley and a hint of lemon.",
-              "de": "Frische Jakobsmuscheln auf der Grillplatte gebraten mit einer Paste aus Knoblauch, Petersilie und einem Hauch Zitrone.",
-              "fr": "Pétoncles frais saisis à la plancha avec une purée d'ail, de persil et un soupçon de citron."
-            },
-            "precio": 16.5,
-            "pairsWith": { "main": 26 },
-            "alergenos": ["moluscos", "ajo", "sulfitos"],
-            "etiquetas": ["temporada"]
-          },
-          {
-            "id": 10,
-            "nombre": {
-              "es": "Calamares cristal a la andaluza",
-              "en": "Crystal-style fried squid Andalusian way",
-              "de": "Kristall-Tintenfisch nach andalusischer Art",
-              "fr": "Calamars cristal à l'andalouse"
-            },
-            "descripcionCorta": {
-              "es": "Finos, crujientes y ligeros como el cristal.",
-              "en": "Thin, crispy and as light as glass.",
-              "de": "Dünn, knusprig und leicht wie Glas.",
-              "fr": "Fins, croustillants et légers comme du verre."
-            },
-            "descripcionLarga": {
-              "es": "Fritura tradicional andaluza con calamares tiernos y rebozado fino, acompañados de limón fresco.",
-              "en": "Traditional Andalusian fry with tender squid and a fine batter, served with fresh lemon.",
-              "de": "Traditionelle andalusische Frittüre mit zartem Tintenfisch und feiner Panade, serviert mit frischer Zitrone.",
-              "fr": "Friture traditionnelle andalouse avec des calamars tendres et une fine panure, servie avec du citron frais."
-            },
-            "precio": 16.8,
-            "pairsWith": { "main": 23 },
-            "alergenos": ["moluscos", "gluten"],
-            "etiquetas": ["popular"]
-          },
-          {
-            "id": 11,
-            "nombre": {
-              "es": "Sepia a la plancha con alioli",
-              "en": "Griddled cuttlefish with aioli",
-              "de": "Gegrillter Tintenfisch mit Aioli",
-              "fr": "Seiche à la plancha avec aïoli"
-            },
-            "descripcionCorta": {
-              "es": "Tierno sabor marino con el clásico alioli.",
-              "en": "Tender sea flavour with classic aioli.",
-              "de": "Zarter Meeresgeschmack mit klassischem Aioli.",
-              "fr": "Saveur marine tendre avec l'aïoli classique."
-            },
-            "descripcionLarga": {
-              "es": "Sepia fresca a la plancha, servida con alioli suave y cremosa.",
-              "en": "Fresh cuttlefish on the griddle, served with smooth creamy aioli.",
-              "de": "Frischer Tintenfisch vom Grill, serviert mit glattem, cremigem Aioli.",
-              "fr": "Seiche fraîche à la plancha, servie avec un aïoli doux et crémeux."
-            },
-            "precio": 17.2,
-            "pairsWith": { "main": 22 },
-            "alergenos": ["moluscos", "huevo", "ajo"],
-            "etiquetas": ["ideal para compartir"]
-          },
-          {
-            "id": 12,
-            "nombre": {
-              "es": "Huevos rotos de corral con gajos de patata y jamón ibérico",
-              "en": "Free-range broken eggs with potato wedges and Iberian ham",
-              "de": "Spiegeleier aus Freilandhaltung mit Kartoffelecken und Iberico-Schinken",
-              "fr": "Œufs au plat fermiers avec pommes de terre rissolées et jambon ibérique"
-            },
-            "descripcionCorta": {
-              "es": "El sabor de casa, con el toque premium del jamón.",
-              "en": "Taste of home, with a premium ham touch.",
-              "de": "Ein Geschmack wie zu Hause, mit einem Hauch von Premium-Schinken.",
-              "fr": "Le goût de la maison, avec la touche premium du jambon."
-            },
-            "descripcionLarga": {
-              "es": "Huevos camperos rotos sobre patatas rústicas fritas, cubiertos con jamón ibérico.",
-              "en": "Pasture eggs broken over rustic fried potatoes, topped with Iberian ham.",
-              "de": "Eier aus Weidehaltung über rustikalen Bratkartoffeln, garniert mit Iberico-Schinken.",
-              "fr": "Œufs de poules élevées en plein air cassés sur des frites rustiques, garnis de jambon ibérique."
-            },
-            "precio": 17.5,
-            "pairsWith": { "main": 39 },
-            "alergenos": ["huevo"],
-            "etiquetas": ["ideal para compartir"]
-          },
-          {
-            "id": 16,
-            "nombre": {
-              "es": "Ensalada variada de temporada",
-              "en": "Seasonal mixed salad",
-              "de": "Gemischter Saisonsalat",
-              "fr": "Salade mixte de saison"
-            },
-            "descripcionCorta": {
-              "es": "Fresca y colorida mezcla de vegetales de temporada.",
-              "en": "Fresh, colourful mix of seasonal vegetables.",
-              "de": "Frische, farbenfrohe Mischung aus saisonalem Gemüse.",
-              "fr": "Mélange frais et coloré de légumes de saison."
-            },
-            "descripcionLarga": {
-              "es": "Una ensalada equilibrada con lechugas, tomates y otros ingredientes frescos del día, perfecta como entrante ligero o acompañamiento.",
-              "en": "A balanced salad with lettuces, tomatoes and other daily fresh ingredients, perfect as a light starter or side.",
-              "de": "Ein ausgewogener Salat mit Salaten, Tomaten und anderen tagesfrischen Zutaten, perfekt als leichte Vorspeise oder Beilage.",
-              "fr": "Une salade équilibrée avec des laitues, des tomates et d'autres ingrédients frais du jour, parfaite comme entrée légère ou accompagnement."
-            },
-            "precio": 12.9,
-            "pairsWith": { "main": 21 },
-            "alergenos": [],
-            "etiquetas": ["vegetariano"]
-          },
-          {
-            "id": 17,
-            "nombre": {
-              "es": "Ensalada César (con tiras de pechuga de pollo, beicon, croutons y parmesano)",
-              "en": "Caesar salad (with chicken strips, bacon, croutons & parmesan)",
-              "de": "Caesar Salat (mit Hähnchenstreifen, Speck, Croutons & Parmesan)",
-              "fr": "Salade César (avec lanières de poulet, bacon, croûtons et parmesan)"
-            },
-            "descripcionCorta": {
-              "es": "La clásica César con pollo crujiente y parmesano.",
-              "en": "The classic Caesar with crispy chicken and parmesan.",
-              "de": "Der klassische Caesar mit knusprigem Hähnchen und Parmesan.",
-              "fr": "La classique César avec poulet croustillant et parmesan."
-            },
-            "descripcionLarga": {
-              "es": "Ensalada de pollo a la plancha, beicon crujiente, croutons y lascas de parmesano, aliñada con salsa César casera.",
-              "en": "Salad of grilled chicken, crispy bacon, croutons and parmesan shavings, dressed with house Caesar sauce.",
-              "de": "Salat aus gegrilltem Hähnchen, knusprigem Speck, Croutons und Parmesanhobeln, angemacht mit hausgemachter Caesar-Sauce.",
-              "fr": "Salade de poulet grillé, bacon croustillant, croûtons et copeaux de parmesan, assaisonnée avec une sauce César maison."
-            },
-            "precio": 17,
-            "pairsWith": { "main": 34 },
-            "alergenos": ["gluten", "huevo", "lácteos", "mostaza"],
-            "etiquetas": ["ideal para compartir"]
-          },
-          {
-            "id": 18,
-            "nombre": {
-              "es": "Carpaccio de tomate de la huerta con burrata fresca de Puglia y pomodoro secchi",
-              "en": "Garden tomato carpaccio with fresh Puglia burrata and sun-dried pomodoro",
-              "de": "Gartentomaten-Carpaccio mit frischer Burrata aus Apulien und sonnengetrockneten Tomaten",
-              "fr": "Carpaccio de tomates du jardin avec burrata fraîche des Pouilles et pomodoro secchi"
-            },
-            "descripcionCorta": {
-              "es": "Tomate laminado con cremosa burrata italiana.",
-              "en": "Thin-sliced tomato with creamy Italian burrata.",
-              "de": "Dünn geschnittene Tomaten mit cremiger italienischer Burrata.",
-              "fr": "Tomates en fines tranches avec une burrata italienne crémeuse."
-            },
-            "descripcionLarga": {
-              "es": "Carpaccio de tomate coronado con burrata de Puglia y tomates secos al pomodoro.",
-              "en": "Tomato carpaccio topped with Puglia burrata and sun-dried tomatoes in pomodoro.",
-              "de": "Tomaten-Carpaccio, belegt mit Burrata aus Apulien und sonnengetrockneten Tomaten in Pomodoro.",
-              "fr": "Carpaccio de tomates garni de burrata des Pouilles et de tomates séchées au pomodoro."
-            },
-            "precio": 17.5,
-            "pairsWith": { "main": 29 },
-            "alergenos": ["lácteos"],
-            "etiquetas": ["gourmet"]
-          },
-          {
-            "id": 19,
-            "nombre": {
-              "es": "Ensalada de tomate con bonito en escabeche casero y cebolla dulce",
-              "en": "Tomato salad with house-pickled bonito and sweet onion",
-              "de": "Tomatensalat mit hausgemachtem eingelegtem Bonito und süßer Zwiebel",
-              "fr": "Salade de tomates avec bonite marinée maison et oignon doux"
-            },
-            "descripcionCorta": {
-              "es": "Tomates frescos con bonito casero y cebolla caramelizada.",
-              "en": "Fresh tomatoes with house bonito and caramelised onion.",
-              "de": "Frische Tomaten mit hausgemachtem Bonito und karamellisierten Zwiebeln.",
-              "fr": "Tomates fraîches avec bonite maison et oignon caramélisé."
-            },
-            "descripcionLarga": {
-              "es": "Rodajas de tomate maduro con bonito en escabeche elaborado en casa y cebolla dulce.",
-              "en": "Slices of ripe tomato with house-made escabeche bonito and sweet onion.",
-              "de": "Scheiben von reifen Tomaten mit hausgemachtem Bonito in Escabeche und süßer Zwiebel.",
-              "fr": "Tranches de tomate mûre avec bonite en escabèche maison et oignon doux."
-            },
-            "precio": 18,
-            "pairsWith": { "main": 38 },
-            "alergenos": ["pescado", "sulfitos"],
-            "etiquetas": ["sin gluten"]
-          },
-          {
-            "id": 13,
-            "nombre": {
-              "es": "Cazuela de gambas al ajillo con su guindilla",
-              "en": "Sizzling garlic prawns with chilli",
-              "de": "Brutzelnde Knoblauchgarnelen mit Chili",
-              "fr": "Cassolette de crevettes à l'ail et au piment"
-            },
-            "descripcionCorta": {
-              "es": "Clásico, sabroso y con un toque picante que engancha.",
-              "en": "Classic, tasty and with a hooking spicy kick.",
-              "de": "Klassisch, lecker und mit einer süchtig machenden scharfen Note.",
-              "fr": "Classique, savoureux et avec une touche pimentée qui accroche."
-            },
-            "descripcionLarga": {
-              "es": "Gambas salteadas en aceite de oliva con láminas de ajo y guindilla, servidas en cazuela caliente.",
-              "en": "Prawns sautéed in olive oil with garlic slices and chilli, served in a hot clay dish.",
-              "de": "Garnelen in Olivenöl mit Knoblauchscheiben und Chili sautiert, in einer heißen Tonschale serviert.",
-              "fr": "Crevettes sautées à l'huile d'olive avec des lamelles d'ail et du piment, servies dans un plat en terre cuite chaud."
-            },
-            "precio": 22,
-            "pairsWith": { "main": 37 },
-            "alergenos": ["crustáceos", "ajo"],
-            "etiquetas": ["picante"]
-          },
-          {
-            "id": 14,
-            "nombre": {
-              "es": "Chipirones de anzuelo encebollados con crujiente",
-              "en": "Hook-caught baby squid with onion and crunch",
-              "de": "Geangelter Baby-Tintenfisch mit Zwiebeln und Knusper",
-              "fr": "Chipirons de ligne aux oignons avec croustillant"
-            },
-            "descripcionCorta": {
-              "es": "Suaves, sabrosos y con un toque crujiente que sorprende.",
-              "en": "Soft, savoury and with a surprising crunch.",
-              "de": "Weich, würzig und mit einem überraschenden Crunch.",
-              "fr": "Moelleux, savoureux et avec une touche croustillante surprenante."
-            },
-            "descripcionLarga": {
-              "es": "Chipirones frescos, con cebolla, acompañados de un crujiente fino y dorado.",
-              "en": "Fresh baby squid with onion, served with a fine golden crisp topping.",
-              "de": "Frischer Baby-Tintenfisch mit Zwiebeln, serviert mit einer feinen goldenen knusprigen Auflage.",
-              "fr": "Chipirons frais, avec des oignons, accompagnés d'un croustillant fin et doré."
-            },
-            "precio": 23.5,
-            "pairsWith": { "main": 32 },
-            "alergenos": ["moluscos", "gluten"],
-            "etiquetas": ["temporada"]
-          },
-          {
             "id": 15,
             "nombre": {
               "es": "Jamón ibérico de bellota acompañado con pan tumaca",
@@ -1051,8 +651,205 @@ __MENU_JSON_PLACEHOLDER__
             "pairsWith": { "main": 30 },
             "alergenos": ["gluten", "sulfitos"],
             "etiquetas": ["gourmet"]
+          },
+          {
+            "id": 7,
+            "nombre": {
+              "es": "Alcachofas confitadas a la plancha y sofrito de jamón",
+              "en": "Confit artichokes on the griddle with ham sofrito",
+              "de": "Konfierte Artischocken vom Grill mit Schinken-Sofrito",
+              "fr": "Artichauts confits à la plancha avec sofrito de jambon"
+            },
+            "precio": 16.4,
+            "pairsWith": { "main": 36 }, "alergenos": [], "etiquetas": ["gourmet"]
           }
-        ]
+        ],
+        "subCategories": {
+          "para_picar": {
+            "orderId": 1,
+            "title": { "es": "Para Picar", "en": "To Share & Nibble", "de": "Zum Teilen & Knabbern", "fr": "À Partager & Grignoter" },
+            "dishes": [
+              {
+                "id": 2,
+                "nombre": {
+                  "es": "Croquetas cremosas caseras de jamón o bacalao (6 unidades)",
+                  "en": "Homemade creamy ham or cod croquettes (6 pcs)",
+                  "de": "Hausgemachte cremige Schinken- oder Kabeljaukroketten (6 Stück)",
+                  "fr": "Croquettes maison crémeuses au jambon ou à la morue (6 pièces)"
+                },
+                "precio": 12.6,
+                "pairsWith": { "main": 24 }, "alergenos": ["gluten", "lácteos", "huevo", "pescado"], "etiquetas": ["popular"]
+              },
+              {
+                "id": 4,
+                "nombre": {
+                  "es": "Croquetas de rabo de toro (6 unidades)",
+                  "en": "Oxtail croquettes (6 pcs)",
+                  "de": "Ochsenschwanzkroketten (6 Stück)",
+                  "fr": "Croquettes de queue de taureau (6 pièces)"
+                },
+                "precio": 15,
+                "pairsWith": { "main": 27 }, "alergenos": ["gluten", "lácteos", "huevo"], "etiquetas": ["popular"]
+              },
+              {
+                "id": 5,
+                "nombre": {
+                  "es": "Tortilla de bacalao estilo “Donosti”",
+                  "en": "\"Donosti\"-style cod omelette",
+                  "de": "Kabeljau-Omelett nach „Donosti“-Art",
+                  "fr": "Omelette à la morue style « Donosti »"
+                },
+                "precio": 16,
+                "pairsWith": { "main": 33 }, "alergenos": ["huevo", "pescado"], "etiquetas": ["sin gluten"]
+              },
+              {
+                "id": 12,
+                "nombre": {
+                  "es": "Huevos rotos de corral con gajos de patata y jamón ibérico",
+                  "en": "Free-range broken eggs with potato wedges and Iberian ham",
+                  "de": "Spiegeleier aus Freilandhaltung mit Kartoffelecken und Iberico-Schinken",
+                  "fr": "Œufs au plat fermiers avec pommes de terre rissolées et jambon ibérique"
+                },
+                "precio": 17.5,
+                "pairsWith": { "main": 39 }, "alergenos": ["huevo"], "etiquetas": ["ideal para compartir"]
+              }
+            ]
+          },
+          "ensaladas_y_frios": {
+            "orderId": 2,
+            "title": { "es": "Ensaladas y Platos Fríos", "en": "Salads & Cold Dishes", "de": "Salate & Kalte Gerichte", "fr": "Salades et Plats Froids" },
+            "dishes": [
+              {
+                "id": 3,
+                "nombre": {
+                  "es": "Ensaladilla rusa con nuestro bonito en escabeche casero",
+                  "en": "Russian salad with our house-pickled bonito",
+                  "de": "Russischer Salat mit unserem hausgemachten eingelegten Bonito",
+                  "fr": "Salade russe avec notre bonite marinée maison"
+                },
+                "precio": 13,
+                "pairsWith": { "main": 35 }, "alergenos": ["huevo", "pescado", "sulfitos"], "etiquetas": ["popular"]
+              },
+              {
+                "id": 16,
+                "nombre": {
+                  "es": "Ensalada variada de temporada",
+                  "en": "Seasonal mixed salad",
+                  "de": "Gemischter Saisonsalat",
+                  "fr": "Salade mixte de saison"
+                },
+                "precio": 12.9,
+                "pairsWith": { "main": 21 }, "alergenos": [], "etiquetas": ["vegetariano"]
+              },
+              {
+                "id": 17,
+                "nombre": {
+                  "es": "Ensalada César (con tiras de pechuga de pollo, beicon, croutons y parmesano)",
+                  "en": "Caesar salad (with chicken strips, bacon, croutons & parmesan)",
+                  "de": "Caesar Salat (mit Hähnchenstreifen, Speck, Croutons & Parmesan)",
+                  "fr": "Salade César (avec lanières de poulet, bacon, croûtons et parmesan)"
+                },
+                "precio": 17,
+                "pairsWith": { "main": 34 }, "alergenos": ["gluten", "huevo", "lácteos", "mostaza"], "etiquetas": ["ideal para compartir"]
+              },
+              {
+                "id": 18,
+                "nombre": {
+                  "es": "Carpaccio de tomate de la huerta con burrata fresca de Puglia y pomodoro secchi",
+                  "en": "Garden tomato carpaccio with fresh Puglia burrata and sun-dried pomodoro",
+                  "de": "Gartentomaten-Carpaccio mit frischer Burrata aus Apulien und sonnengetrockneten Tomaten",
+                  "fr": "Carpaccio de tomates du jardin avec burrata fraîche des Pouilles et pomodoro secchi"
+                },
+                "precio": 17.5,
+                "pairsWith": { "main": 29 }, "alergenos": ["lácteos"], "etiquetas": ["gourmet"]
+              },
+              {
+                "id": 19,
+                "nombre": {
+                  "es": "Ensalada de tomate con bonito en escabeche casero y cebolla dulce",
+                  "en": "Tomato salad with house-pickled bonito and sweet onion",
+                  "de": "Tomatensalat mit hausgemachtem eingelegtem Bonito und süßer Zwiebel",
+                  "fr": "Salade de tomates avec bonite marinée maison et oignon doux"
+                },
+                "precio": 18,
+                "pairsWith": { "main": 38 }, "alergenos": ["pescado", "sulfitos"], "etiquetas": ["sin gluten"]
+              }
+            ]
+          },
+          "del_mar": {
+            "orderId": 3,
+            "title": { "es": "Del Mar", "en": "From The Sea", "de": "Aus dem Meer", "fr": "De la Mer" },
+            "dishes": [
+              {
+                "id": 8,
+                "nombre": {
+                  "es": "Dados crujientes de bacalao con alioli de cebollino",
+                  "en": "Crispy cod bites with chive aioli",
+                  "de": "Knusprige Kabeljauwürfel mit Schnittlauch-Aioli",
+                  "fr": "Dés de morue croustillants avec aïoli à la ciboulette"
+                },
+                "precio": 16.5,
+                "pairsWith": { "main": 25 }, "alergenos": ["pescado", "huevo", "ajo", "sulfitos"], "etiquetas": ["ideal para compartir"]
+              },
+              {
+                "id": 9,
+                "nombre": {
+                  "es": "Zamburiñas a la plancha con majado de ajo y perejil (6 unidades)",
+                  "en": "Griddled queen scallops with garlic & parsley mash (6 pcs)",
+                  "de": "Gegrillte Jakobsmuscheln mit Knoblauch-Petersilien-Püree (6 Stück)",
+                  "fr": "Pétoncles à la plancha avec purée d'ail et persil (6 pièces)"
+                },
+                "precio": 16.5,
+                "pairsWith": { "main": 26 }, "alergenos": ["moluscos", "ajo", "sulfitos"], "etiquetas": ["temporada"]
+              },
+              {
+                "id": 10,
+                "nombre": {
+                  "es": "Calamares cristal a la andaluza",
+                  "en": "Crystal-style fried squid Andalusian way",
+                  "de": "Kristall-Tintenfisch nach andalusischer Art",
+                  "fr": "Calamars cristal à l'andalouse"
+                },
+                "precio": 16.8,
+                "pairsWith": { "main": 23 }, "alergenos": ["moluscos", "gluten"], "etiquetas": ["popular"]
+              },
+              {
+                "id": 11,
+                "nombre": {
+                  "es": "Sepia a la plancha con alioli",
+                  "en": "Griddled cuttlefish with aioli",
+                  "de": "Gegrillter Tintenfisch mit Aioli",
+                  "fr": "Seiche à la plancha avec aïoli"
+                },
+                "precio": 17.2,
+                "pairsWith": { "main": 22 }, "alergenos": ["moluscos", "huevo", "ajo"], "etiquetas": ["ideal para compartir"]
+              },
+              {
+                "id": 13,
+                "nombre": {
+                  "es": "Cazuela de gambas al ajillo con su guindilla",
+                  "en": "Sizzling garlic prawns with chilli",
+                  "de": "Brutzelnde Knoblauchgarnelen mit Chili",
+                  "fr": "Cassolette de crevettes à l'ail et au piment"
+                },
+                "precio": 22,
+                "pairsWith": { "main": 37 }, "alergenos": ["crustáceos", "ajo"], "etiquetas": ["picante"]
+              },
+              {
+                "id": 14,
+                "nombre": {
+                  "es": "Chipirones de anzuelo encebollados con crujiente",
+                  "en": "Hook-caught baby squid with onion and crunch",
+                  "de": "Geangelter Baby-Tintenfisch mit Zwiebeln und Knusper",
+                  "fr": "Chipirons de ligne aux oignons avec croustillant"
+                },
+                "precio": 23.5,
+                "pairsWith": { "main": 32 }, "alergenos": ["moluscos", "gluten"], "etiquetas": ["temporada"]
+              },
+        
+            ]
+          }
+        }
       },
       "platos_principales": {
         "orderId": 3,
