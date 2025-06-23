@@ -15,7 +15,7 @@ module.exports = {
 
   // --- Configuración de Theming y Estilo ---
   theme: {
-    logoUrl: '/assets/logos/la_taurina.png', // Deberás crear y subir este logo a frontend/public/logos/
+    logoUrl: '/assets/logos/la-taurina.png', // Deberás crear y subir este logo a frontend/public/logos/
     menuHasImages: false, // CLAVE: No se mostrarán imágenes en el menú.
     borderRadiusPx: 4,    // Un borde más definido, menos redondeado, para un estilo más tradicional.
     colors: {

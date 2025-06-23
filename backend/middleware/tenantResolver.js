@@ -14,7 +14,7 @@ async function tenantResolver(req, res, next) {
   }
 
   try {
-    // The query now selects the 'google_reviews_url' column.
+    // MODIFIED: The query now selects the `show_short_description_in_menu` column.
     const query = `
       SELECT
         id, subdomain, schema_name, restaurant_name, is_active,
@@ -22,7 +22,7 @@ async function tenantResolver(req, res, next) {
         theme_color_accent, theme_color_accent_text, theme_color_page_bg,
         theme_color_surface_bg, theme_color_text_primary, theme_color_text_secondary,
         theme_color_border, theme_chat_bubble_user_bg, theme_chat_bubble_bot_bg,
-        google_reviews_url
+        google_reviews_url, show_short_description_in_menu
       FROM public.tenants
       WHERE subdomain = $1
     `;
@@ -35,7 +35,7 @@ async function tenantResolver(req, res, next) {
       return res.status(404).json({ error: 'Restaurante no encontrado o inactivo.' });
     }
 
-    // 'req.tenant' will now contain the full tenant object including the new URL.
+    // 'req.tenant' will now contain the full tenant object including the new property.
     req.tenant = tenant;
     console.log(`Petición resuelta para el inquilino: ${tenant.restaurant_name} (schema: ${tenant.schema_name})`);
     

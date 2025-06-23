@@ -39,22 +39,25 @@ const pool = require('../../db/pool');
     const schemaName = tenantToUpdate.schema_name;
     console.log(`  -> Inquilino encontrado. Schema: '${schemaName}'. Procediendo a actualizar.`);
 
+    // MODIFIED: Added `show_short_description_in_menu` to the UPDATE query.
     const updateTenantQuery = `
       UPDATE public.tenants SET
         restaurant_name = $2, logo_url = $3, menu_has_images = $4, border_radius_px = $5,
         theme_color_accent = $6, theme_color_accent_text = $7, theme_color_page_bg = $8,
         theme_color_surface_bg = $9, theme_color_text_primary = $10, theme_color_text_secondary = $11,
         theme_color_border = $12, theme_chat_bubble_user_bg = $13, theme_chat_bubble_bot_bg = $14,
-        google_reviews_url = $15
+        google_reviews_url = $15, show_short_description_in_menu = $16
       WHERE subdomain = $1;
     `;
     const theme = tenantConfig.theme;
+    // MODIFIED: Added the new config value to the values array.
     const tenantValues = [
       tenantConfig.subdomain, tenantConfig.restaurantName, theme.logoUrl, theme.menuHasImages, 
       theme.borderRadiusPx, theme.colors.accent, theme.colors.accentText, theme.colors.pageBackground, 
       theme.colors.surfaceBackground, theme.colors.textPrimary, theme.colors.textSecondary, 
       theme.colors.border, theme.colors.chat.userBubbleBackground, theme.colors.chat.botBubbleBackground,
-      tenantConfig.google_reviews_url
+      tenantConfig.google_reviews_url,
+      theme.showShortDescriptionInMenu || false // Default to false if not present
     ];
     await client.query(updateTenantQuery, tenantValues);
     console.log(`✅ PASO 1/3: Tabla 'public.tenants' actualizada para '${tenantConfig.restaurantName}'.`);
@@ -72,10 +75,8 @@ const pool = require('../../db/pool');
     `;
     await client.query(upsertConfigQuery, ['llm_instructions', tenantConfig.llm.instructions]);
     await client.query(upsertConfigQuery, ['llm_first_message', tenantConfig.llm.firstMessage]);
-    // REMOVED: The line that upserted 'frontend_welcome_message' has been deleted.
     await client.query(upsertConfigQuery, ['suggestion_chips_text', JSON.stringify(tenantConfig.chatConfig.suggestionChips)]);
     await client.query(upsertConfigQuery, ['suggestion_chips_count', tenantConfig.chatConfig.suggestionChipsCount.toString()]);
-    // Añadido el upsert para la nueva configuración del flujo de bebidas
     if (tenantConfig.initial_drink_prompt) {
       await client.query(upsertConfigQuery, ['initial_drink_prompt', JSON.stringify(tenantConfig.initial_drink_prompt)]);
     }

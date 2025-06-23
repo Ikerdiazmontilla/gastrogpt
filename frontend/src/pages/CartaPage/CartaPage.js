@@ -23,8 +23,10 @@ const CartaPage = () => {
 
   const menu = tenantConfig?.menu;
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
+  // Read the new configuration setting. Defaults to false if not specified.
+  const showShortDescriptionInMenu = tenantConfig?.theme?.showShortDescriptionInMenu ?? false;
 
-  // useEffect para la lógica de la barra de navegación y las pestañas pegajosas
+  // useEffect for the logic of the navigation bar and sticky tabs
   useEffect(() => {
     const navContainer = document.querySelector('.nav-container');
     const tabsListElement = tabsListRef.current;
@@ -55,7 +57,7 @@ const CartaPage = () => {
       navObserver.disconnect();
       tabsObserver.disconnect();
     };
-  }, [menuSections, tabsListRef, sectionRefs]); // Dependencias actualizadas
+  }, [menuSections, tabsListRef, sectionRefs]); // Updated dependencies
 
   const handleTabClick = (key) => {
     sectionRefs.current[key]?.scrollIntoView({ behavior: 'smooth' });
@@ -108,9 +110,7 @@ const CartaPage = () => {
               </h2>
               <p className={styles.categoryInstruction}>{t('cartaPage.orderInstruction')}</p>
               
-              {/* --- INICIO DEL CAMBIO DE RENDERIZADO --- */}
-
-              {/* Renderizar platos que no tienen subcategoría */}
+              {/* Render dishes that do not have a subcategory */}
               {section.dishesWithoutSubcategory && section.dishesWithoutSubcategory.length > 0 && (
                 <div className={styles.dishesGrid}>
                   {section.dishesWithoutSubcategory.map(plato => (
@@ -120,12 +120,13 @@ const CartaPage = () => {
                       onViewMore={openModal}
                       menuHasImages={menuHasImages}
                       categoryKey={section.key}
+                      showShortDescriptionInMenu={showShortDescriptionInMenu} // Pass the prop here
                     />
                   ))}
                 </div>
               )}
 
-              {/* Renderizar grupos de subcategorías */}
+              {/* Render subcategory groups */}
               {section.subCategoryGroups && section.subCategoryGroups.map(subCategory => (
                 <div key={subCategory.key} className={styles.subsectionContainer}>
                   <h3 className={styles.subsectionTitle}>{subCategory.title}</h3>
@@ -137,13 +138,12 @@ const CartaPage = () => {
                         onViewMore={openModal}
                         menuHasImages={menuHasImages}
                         categoryKey={section.key}
+                        showShortDescriptionInMenu={showShortDescriptionInMenu} // And pass it here as well
                       />
                     ))}
                   </div>
                 </div>
               ))}
-
-              {/* --- FIN DEL CAMBIO DE RENDERIZADO --- */}
             </section>
           ))
         ) : (

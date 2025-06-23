@@ -5,7 +5,6 @@ async function getTenantConfig(req, res) {
 
   try {
     const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
-    // MODIFIED: Removed 'frontend_welcome_message' from the query as it's no longer used.
     const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('suggestion_chips_text', 'suggestion_chips_count')");
     
     const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
@@ -17,14 +16,12 @@ async function getTenantConfig(req, res) {
     const menu = menuResult.rows[0].data;
 
     const configurations = configResult.rows.reduce((acc, row) => {
-      // MODIFIED: Removed 'welcomeMessage' from the key map.
       const keyMap = {
         suggestion_chips_text: 'suggestionChipsText',
         suggestion_chips_count: 'suggestionChipsCount',
       };
       const newKey = keyMap[row.key];
       if (newKey) {
-        // MODIFIED: Simplified the parsing logic as welcomeMessage is no longer needed.
         if (row.key === 'suggestion_chips_text') {
             try { acc[newKey] = JSON.parse(row.value); } catch { acc[newKey] = {}; }
         } else if (row.key === 'suggestion_chips_count') {
@@ -63,7 +60,6 @@ async function getTenantConfig(req, res) {
 
       return {
         enabled: true,
-        // --- CAMBIO CLAVE: Título estático y traducible ---
         question: {
           es: "¿Qué te apetece para beber?",
           en: "What would you like to drink?",
@@ -76,9 +72,12 @@ async function getTenantConfig(req, res) {
 
     const initialDrinkPrompt = transformDrinksForInitialFlow(menu);
 
+    // MODIFIED: The theme object now correctly includes `showShortDescriptionInMenu`
+    // retrieved from the tenant object.
     const theme = {
       logoUrl: tenant.logo_url,
       menuHasImages: tenant.menu_has_images,
+      showShortDescriptionInMenu: tenant.show_short_description_in_menu, // <-- ADDED THIS LINE
       borderRadius: tenant.border_radius_px ? `${tenant.border_radius_px}px` : null,
       colors: {
         accent: tenant.theme_color_accent,

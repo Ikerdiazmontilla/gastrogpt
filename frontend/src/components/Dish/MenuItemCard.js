@@ -8,14 +8,17 @@ import {
   getAlergenoIcon,
 } from '../../utils/menuUtils';
 
-const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey }) => {
+// The component now accepts `showShortDescriptionInMenu` to control description visibility
+const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey, showShortDescriptionInMenu }) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
+  // Get the translated short description
+  const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage);
   const shouldShowImage = menuHasImages && plato.imagen;
 
-  // --- Clases base para la tarjeta ---
+  // --- Base classes for the card ---
   const getBaseCardClasses = () => {
     const classes = [styles.card];
     if (categoryKey && styles[`card-${categoryKey}`]) {
@@ -34,18 +37,20 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey }) => {
     }
   };
 
-  // --- RENDERIZADO CONDICIONAL: Dos layouts diferentes ---
-
-  // Layout 1: Tarjeta CON IMAGEN
+  // Layout 1: Card WITH IMAGE
   if (shouldShowImage) {
     const cardClasses = [...getBaseCardClasses(), styles.hasImage].join(' ');
 
     return (
       <div className={cardClasses} onClick={() => onViewMore(plato)}>
-        {/* Columna de Texto */}
+        {/* Text Column */}
         <div className={styles.textContent}>
           <div>
             <h3 className={styles.dishName}>{nombre}</h3>
+            {/* Conditionally render the short description if the prop is true and description exists */}
+            {showShortDescriptionInMenu && descripcionCorta && (
+              <p className={styles.dishDescription}>{descripcionCorta}</p>
+            )}
           </div>
           <div className={styles.cardBottom}>
             <div className={styles.detailsRow}>
@@ -63,7 +68,7 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey }) => {
           </div>
         </div>
 
-        {/* Columna de Imagen */}
+        {/* Image Column */}
         <div className={styles.mediaContent}>
           <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
           <div className={styles.tagsOverlayContainer}>
@@ -86,7 +91,7 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey }) => {
     );
   }
 
-  // Layout 2: Tarjeta SIN IMAGEN
+  // Layout 2: Card WITHOUT IMAGE
   const cardClasses = [...getBaseCardClasses(), styles.noImage].join(' ');
 
   return (
@@ -106,7 +111,10 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey }) => {
           )}
         </div>
         
-
+        {/* Conditionally render the short description between header and footer */}
+        {showShortDescriptionInMenu && descripcionCorta && (
+          <p className={styles.dishDescription}>{descripcionCorta}</p>
+        )}
 
         <div className={styles.cardFooter}>
           <div className={styles.allergensContainer}>

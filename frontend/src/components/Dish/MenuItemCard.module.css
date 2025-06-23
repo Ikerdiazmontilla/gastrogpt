@@ -134,12 +134,19 @@
   color: var(--color-text-secondary);
 }
 
+/* UPDATED: General style for the short description */
 .dishDescription {
   font-size: 0.8rem;
   color: var(--color-text-secondary);
-  margin-bottom: 10px;
-  flex-grow: 1;
   line-height: 1.4;
+  margin-top: 5px; /* Space from the title */
+  margin-bottom: 10px; /* Space before the next element */
+  /* Clamp to a few lines to avoid huge cards */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
 }
 
 .cardFooter {

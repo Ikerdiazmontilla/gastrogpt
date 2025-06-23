@@ -18,6 +18,7 @@ module.exports = {
   theme: {
     logoUrl: '/assets/logos/la-birra-bar.png',
     menuHasImages: true,
+    showShortDescriptionInMenu: true,
     borderRadiusPx: 4,
     colors: {
       accent: '#222222',

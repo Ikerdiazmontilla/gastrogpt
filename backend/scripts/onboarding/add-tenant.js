@@ -30,21 +30,25 @@ const tenantConfig = require(configPath);
     await client.query('BEGIN');
     console.log('✅ Transacción iniciada.');
 
+    // MODIFIED: Added `show_short_description_in_menu` to the INSERT query.
     const insertTenantQuery = `
       INSERT INTO public.tenants (
         subdomain, schema_name, restaurant_name, logo_url, menu_has_images, border_radius_px,
         theme_color_accent, theme_color_accent_text, theme_color_page_bg, theme_color_surface_bg,
         theme_color_text_primary, theme_color_text_secondary, theme_color_border,
-        theme_chat_bubble_user_bg, theme_chat_bubble_bot_bg, google_reviews_url
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
+        theme_chat_bubble_user_bg, theme_chat_bubble_bot_bg, google_reviews_url,
+        show_short_description_in_menu
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17);
     `;
     const theme = tenantConfig.theme;
+    // MODIFIED: Added the new config value to the values array.
     const tenantValues = [
       tenantConfig.subdomain, schemaName, tenantConfig.restaurantName, theme.logoUrl, 
       theme.menuHasImages, theme.borderRadiusPx, theme.colors.accent, theme.colors.accentText, 
       theme.colors.pageBackground, theme.colors.surfaceBackground, theme.colors.textPrimary, 
       theme.colors.textSecondary, theme.colors.border, theme.colors.chat.userBubbleBackground, 
-      theme.colors.chat.botBubbleBackground, tenantConfig.google_reviews_url
+      theme.colors.chat.botBubbleBackground, tenantConfig.google_reviews_url,
+      theme.showShortDescriptionInMenu || false // Default to false if not present
     ];
     await client.query(insertTenantQuery, tenantValues);
     console.log(`✅ PASO 1/4: Inquilino '${tenantConfig.restaurantName}' registrado en public.tenants.`);
@@ -68,7 +72,6 @@ const tenantConfig = require(configPath);
     await client.query(insertConfigQuery, ['llm_first_message', tenantConfig.llm.firstMessage]);
     await client.query(insertConfigQuery, ['suggestion_chips_text', JSON.stringify(tenantConfig.chatConfig.suggestionChips)]);
     await client.query(insertConfigQuery, ['suggestion_chips_count', tenantConfig.chatConfig.suggestionChipsCount.toString()]);
-    // Añadida la inserción para la nueva configuración
     if (tenantConfig.initial_drink_prompt) {
         await client.query(insertConfigQuery, ['initial_drink_prompt', JSON.stringify(tenantConfig.initial_drink_prompt)]);
     }
