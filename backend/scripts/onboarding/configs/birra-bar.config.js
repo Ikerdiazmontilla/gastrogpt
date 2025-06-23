@@ -16,20 +16,20 @@ module.exports = {
 
   // --- Configuración de Theming y Estilo ---
   theme: {
-    logoUrl: '/assets/logos/birra-bar',
+    logoUrl: '/assets/logos/la-birra-bar.png',
     menuHasImages: true,
-    borderRadiusPx: 8,
+    borderRadiusPx: 4,
     colors: {
-      accent: '#0071E3',
-      accentText: '#FFFFFF',
-      pageBackground: '#FAFAFC',
-      surfaceBackground: '#ffffff',
-      textPrimary: '#333333',
-      textSecondary: '#6c757d',
-      border: '#dee2e6',
+      accent: '#222222',
+      accentText: '#FFC107',
+      pageBackground: '#F8F8F8',
+      surfaceBackground: '#FFFFFF',
+      textPrimary: '#222222',
+      textSecondary: '#666666',
+      border: '#EAEAEA',
       chat: {
-        userBubbleBackground: '#b3e3ff',
-        botBubbleBackground: '#eeebde',
+        userBubbleBackground: '#FFC107',
+        botBubbleBackground: '#EFEFEF',
       }
     }
   },
@@ -1165,7 +1165,7 @@ module.exports = {
           }
         ]
       },
-      "hamburguesas": {
+      "platos_principales": {
         "orderId": 3,
         "title": {
           "es": "Hamburguesas",

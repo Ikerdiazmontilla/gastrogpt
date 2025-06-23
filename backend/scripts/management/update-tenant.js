@@ -72,7 +72,7 @@ const pool = require('../../db/pool');
     `;
     await client.query(upsertConfigQuery, ['llm_instructions', tenantConfig.llm.instructions]);
     await client.query(upsertConfigQuery, ['llm_first_message', tenantConfig.llm.firstMessage]);
-    await client.query(upsertConfigQuery, ['frontend_welcome_message', JSON.stringify(tenantConfig.chatConfig.welcomeMessage)]);
+    // REMOVED: The line that upserted 'frontend_welcome_message' has been deleted.
     await client.query(upsertConfigQuery, ['suggestion_chips_text', JSON.stringify(tenantConfig.chatConfig.suggestionChips)]);
     await client.query(upsertConfigQuery, ['suggestion_chips_count', tenantConfig.chatConfig.suggestionChipsCount.toString()]);
     // Añadido el upsert para la nueva configuración del flujo de bebidas

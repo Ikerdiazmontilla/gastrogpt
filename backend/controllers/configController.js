@@ -5,7 +5,8 @@ async function getTenantConfig(req, res) {
 
   try {
     const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
-    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('frontend_welcome_message', 'suggestion_chips_text', 'suggestion_chips_count')");
+    // MODIFIED: Removed 'frontend_welcome_message' from the query as it's no longer used.
+    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('suggestion_chips_text', 'suggestion_chips_count')");
     
     const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
 
@@ -16,14 +17,15 @@ async function getTenantConfig(req, res) {
     const menu = menuResult.rows[0].data;
 
     const configurations = configResult.rows.reduce((acc, row) => {
+      // MODIFIED: Removed 'welcomeMessage' from the key map.
       const keyMap = {
-        frontend_welcome_message: 'welcomeMessage',
         suggestion_chips_text: 'suggestionChipsText',
         suggestion_chips_count: 'suggestionChipsCount',
       };
       const newKey = keyMap[row.key];
       if (newKey) {
-        if (['frontend_welcome_message', 'suggestion_chips_text'].includes(row.key)) {
+        // MODIFIED: Simplified the parsing logic as welcomeMessage is no longer needed.
+        if (row.key === 'suggestion_chips_text') {
             try { acc[newKey] = JSON.parse(row.value); } catch { acc[newKey] = {}; }
         } else if (row.key === 'suggestion_chips_count') {
             acc[newKey] = parseInt(row.value, 10) || 4;
