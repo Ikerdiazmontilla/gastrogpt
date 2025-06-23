@@ -171,8 +171,3 @@
 .selectButton:active {
   transform: scale(0.98);
 }
-
-.selectButton.selected {
-  background-color: #28a745; /* Verde para indicar éxito/selección */
-  color: #ffffff;
-}
