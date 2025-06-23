@@ -49,6 +49,7 @@
     "placeholderLimit": "Limit reached. Reset.",
     "errorAccessingMic": "Error accessing microphone.",
     "errorNoAudio": "No audio recorded.",
-    "errorTranscription": "Transcription error."
+    "errorTranscription": "Transcription error.",
+    "errorTranscriptionTimeout": "Transcription is taking too long. Please try again."
   }
 }

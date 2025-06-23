@@ -11,7 +11,6 @@ import InitialFlow from './InitialFlow';
 import { useAudioRecorder } from './hooks/useAudioRecorder';
 import ChatInput from './components/ChatInput';
 
-// NUEVO: se añade la prop setSendMessageApi
 const Chat = ({ onViewDishDetails, setSendMessageApi }) => {
   const { t, i18n } = useTranslation();
   const { tenantConfig } = useTenant();
@@ -31,8 +30,14 @@ const Chat = ({ onViewDishDetails, setSendMessageApi }) => {
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [feedbackAlreadyShown, setFeedbackAlreadyShown] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
+  
+  // MODIFICADO: La función ahora llama a programmaticSendMessage.
+  const handleTranscription = useCallback((transcribedText) => {
+    if (transcribedText && transcribedText.trim()) {
+      programmaticSendMessage(transcribedText.trim());
+    }
+  }, []); // El callback se define una vez. programmaticSendMessage se obtiene de un ref o de una función estable, pero para simplificar, lo definimos dentro y lo hacemos estable.
 
-  const handleTranscription = (transcribedText) => setInput(prev => prev + transcribedText + ' ');
   const { isRecording, isTranscribing, startAudioRecording, stopAudioRecordingAndTranscribe, cancelAudioRecording, stopMediaStream } = useAudioRecorder(handleTranscription, setError, t);
   
   const CustomLink = useMemo(() => createMarkdownLinkRenderer(onViewDishDetails), [onViewDishDetails]);
@@ -72,7 +77,6 @@ const Chat = ({ onViewDishDetails, setSendMessageApi }) => {
     }
   }, [t, feedbackAlreadyShown]);
   
-  // NUEVA FUNCIÓN: permite enviar un mensaje de forma programática
   const programmaticSendMessage = useCallback(async (messageText) => {
     if (messageText.trim() === '' || isBotTyping) return;
     const userMessage = { sender: 'user', text: messageText };
@@ -80,22 +84,18 @@ const Chat = ({ onViewDishDetails, setSendMessageApi }) => {
     await triggerBotResponse(messageText);
   }, [isBotTyping, triggerBotResponse]);
 
-  // NUEVO EFECTO: expone la función programmaticSendMessage al componente padre
   useEffect(() => {
     if (setSendMessageApi) {
       setSendMessageApi({ sendMessage: programmaticSendMessage });
     }
   }, [setSendMessageApi, programmaticSendMessage]);
 
-
   const handleSendMessage = useCallback(async () => {
     const trimmedInput = input.trim();
     if (trimmedInput === '') return;
     setInput('');
-    // Reutilizamos la nueva función para el envío manual también
     await programmaticSendMessage(trimmedInput);
   }, [input, programmaticSendMessage]);
-
 
   const handleInitialFlowSelection = useCallback((messageText, originalConfig) => {
     const questionText = originalConfig.question[i18n.language] || originalConfig.question.en || originalConfig.question.es;

@@ -1,3 +1,4 @@
+// frontend/src/features/Chat/hooks/useAudioRecorder.js
 import { useState, useRef, useCallback } from 'react';
 import { transcribeAudio } from '../../../services/apiService';
 
@@ -15,7 +16,6 @@ export const useAudioRecorder = (onTranscriptionSuccess, onError, t) => {
   const audioChunksRef = useRef([]);
   const mediaStreamRef = useRef(null);
 
-  // Detiene las pistas de medios (cámara, micrófono) para liberar los recursos.
   const stopMediaStream = useCallback(() => {
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
@@ -23,10 +23,9 @@ export const useAudioRecorder = (onTranscriptionSuccess, onError, t) => {
     }
   }, []);
 
-  // Inicia la grabación de audio.
   const startAudioRecording = async () => {
     if (isRecording || isTranscribing) return;
-    onError(null); // Limpia errores previos
+    onError(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaStreamRef.current = stream;
@@ -44,8 +43,8 @@ export const useAudioRecorder = (onTranscriptionSuccess, onError, t) => {
       stopMediaStream();
     }
   };
-
-  // Detiene la grabación y envía el audio para ser transcrito.
+  
+  // MODIFICADO: Ahora incluye la lógica de timeout.
   const stopAudioRecordingAndTranscribe = async () => {
     if (!isRecording || !mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') return;
     setIsRecording(false);
@@ -62,12 +61,29 @@ export const useAudioRecorder = (onTranscriptionSuccess, onError, t) => {
         return;
       }
       try {
-        const data = await transcribeAudio(audioBlob, 'recording.webm');
+        // ---- NUEVA LÓGICA DE TIMEOUT ----
+        // 1. Creamos una promesa que falla después de 7 segundos.
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('timeout')), 7000);
+        });
+
+        // 2. Creamos la promesa de transcripción.
+        const transcriptionPromise = transcribeAudio(audioBlob, 'recording.webm');
+
+        // 3. Usamos Promise.race para ver cuál termina primero.
+        const data = await Promise.race([transcriptionPromise, timeoutPromise]);
+        
         if (data.transcription) {
           onTranscriptionSuccess(data.transcription);
         }
+        // ---- FIN DE LA NUEVA LÓGICA ----
       } catch (err) {
-        onError(err.message || t('chat.errorTranscription'));
+        // MODIFICADO: Se captura el error de timeout.
+        if (err.message === 'timeout') {
+          onError(t('chat.errorTranscriptionTimeout'));
+        } else {
+          onError(err.message || t('chat.errorTranscription'));
+        }
       } finally {
         setIsTranscribing(false);
       }
@@ -75,7 +91,6 @@ export const useAudioRecorder = (onTranscriptionSuccess, onError, t) => {
     mediaRecorderRef.current.stop();
   };
 
-  // Cancela la grabación sin procesar el audio.
   const cancelAudioRecording = () => {
     if (!mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') return;
     mediaRecorderRef.current.onstop = () => {
@@ -87,7 +102,6 @@ export const useAudioRecorder = (onTranscriptionSuccess, onError, t) => {
     setIsTranscribing(false);
   };
 
-  // Exporta el estado y las funciones para que el componente las use.
   return {
     isRecording,
     isTranscribing,

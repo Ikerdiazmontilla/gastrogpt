@@ -49,6 +49,7 @@
     "placeholderLimit": "Limit erreicht. Zurücksetzen.",
     "errorAccessingMic": "Fehler beim Zugriff auf das Mikrofon.",
     "errorNoAudio": "Kein Audio aufgenommen.",
-    "errorTranscription": "Transkriptionsfehler."
+    "errorTranscription": "Transkriptionsfehler.",
+    "errorTranscriptionTimeout": "Die Transkription dauert zu lange. Bitte versuchen Sie es erneut."
   }
 }
