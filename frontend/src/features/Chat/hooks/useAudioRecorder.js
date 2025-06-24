@@ -64,7 +64,7 @@ export const useAudioRecorder = (onTranscriptionSuccess, onError, t) => {
         // ---- NUEVA LÓGICA DE TIMEOUT ----
         // 1. Creamos una promesa que falla después de 7 segundos.
         const timeoutPromise = new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('timeout')), 7000);
+          setTimeout(() => reject(new Error('timeout')), 9000);
         });
 
         // 2. Creamos la promesa de transcripción.

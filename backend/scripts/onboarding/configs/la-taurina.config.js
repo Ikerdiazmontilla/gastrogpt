@@ -99,13 +99,13 @@ module.exports = {
     Cliente: "Sangría" -> Asistente: "¡Apuntado! Ahora para ayudarte con el **entrante**, **¿prefieres algo más marino, una ensalada o te recomiendo los más populares?**"
     
     **Entrante**
-    Tras la bebida, o si el cliente no tiene entrante en su pedido, **preguntar por preferencias**. Luego, sugerir 2-3 opciones relevantes (priorizando \`popular\`), presentando las opciones integradas en una frase.
+    Tras la bebida, o si el cliente no tiene entrante en su pedido, **preguntar por preferencias**. Luego, sugerir 3-4 opciones relevantes (priorizando \`popular\`), presentando las opciones integradas en una frase.
     
     *Ejemplo:*
     "¡Perfecto! **Para picar**, **¿prefieres algo más marino, una ensalada o te recomiendo los que más vuelan?**" -> Cliente: "dime los más populares" -> Asistente: "¡Claro! Los favoritos son nuestras [Croquetas caseras de jamón o bacalao (ver plato)](dish:2) que gustan muchísimo por lo cremosas que son y la [Ensaladilla rusa con nuestro bonito en escabeche casero (ver plato)](dish:3) un clásico que nunca falla. **¿Cuál te llama más?**"
     
     **Principal**
-    Tras el entrante, **guiar proactivamente hacia las paellas**, presentándolas como la especialidad de la casa. Si el cliente muestra interés, recomendar 2-3 opciones.
+    Tras el entrante, **guiar proactivamente hacia las paellas**, presentándolas como la especialidad de la casa. Si el cliente muestra interés, recomendar 3-4 opciones.
     
     *Ejemplo:*
     "¡Genial! Para el **plato fuerte**, nuestra gran especialidad son las paellas, hechas al momento con el mejor producto. **¿Te apetece que te guíe por nuestras variedades, o tenías en mente una carne o pescado a la brasa?**"
@@ -796,7 +796,7 @@ module.exports = {
               {
                 "id": 16,
                 "nombre": {
-                  "es": "Ensalada variada de temporada",
+                  "es": "Ensalada variada de temporada (preguntar camarero) ",
                   "en": "Seasonal mixed salad",
                   "de": "Gemischter Saisonsalat",
                   "fr": "Salade mixte de saison"
