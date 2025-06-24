@@ -1,0 +1,48 @@
+/* frontend/src/components/Category/CategoryPreviewLink.module.css */
+
+.categoryCard {
+  /* Estructura base copiada de DishPreviewLink para consistencia */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 80px; 
+  text-align: left;
+  cursor: pointer;
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: var(--border-radius, 8px);
+  transition: all 0.2s ease-in-out;
+
+  /* Diferencias visuales para marcarlo como una categoría/acción */
+  border: 1.5px solid var(--color-accent);
+  background-color: #f7f9ff; /* Un fondo muy claro, casi blanco pero azulado */
+  color: var(--color-accent);
+}
+
+.categoryCard:hover {
+  background-color: #eaf2fb; /* Un poco más oscuro al pasar el ratón */
+  border-style: solid; /* El borde se vuelve sólido en hover */
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px var(--shadow-sm);
+}
+
+.categoryIcon {
+  /* Estilo del emoji, similar a DishPreviewLink */
+  font-size: 1.8rem;
+  margin-right: 12px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.categoryName {
+  /* Estilo del texto, similar a DishPreviewLink */
+  font-weight: 600; /* Un poco más grueso para destacar la acción */
+  font-size: 1rem;
+  flex-grow: 1;
+  line-height: 1.3;
+  color: inherit; /* Hereda el color del botón (var(--color-accent)) */
+}
+
+/* .text { */
+  /* Estilos específicos para el texto si son necesarios */
+/* } */

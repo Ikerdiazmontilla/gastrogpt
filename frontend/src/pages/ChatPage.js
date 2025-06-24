@@ -15,10 +15,8 @@ const ChatPage = () => {
 
   const [selectedPlatoModal, setSelectedPlatoModal] = useState(null);
   
-  // Ref para guardar la función que envía mensajes al chat
   const chatApiRef = useRef(null);
 
-  // Función para mostrar un plato en el modal de detalles
   const handleDisplayDishInModal = useCallback((plato) => {
     if (!selectedPlatoModal) {
       window.history.pushState({ [MODAL_HISTORY_STATE_KEY]: true }, '');
@@ -26,7 +24,6 @@ const ChatPage = () => {
     setSelectedPlatoModal(plato);
   }, [selectedPlatoModal]);
 
-  // Función para cerrar el modal de detalles del plato
   const handleCloseModal = useCallback(() => {
     setSelectedPlatoModal(null);
     if (window.history.state && window.history.state[MODAL_HISTORY_STATE_KEY]) {
@@ -34,22 +31,23 @@ const ChatPage = () => {
     }
   }, []);
 
-  // NUEVA FUNCIÓN: Se ejecuta cuando se pulsa "Elegir" en el modal
   const handleSelectDishFromChat = useCallback((plato) => {
     if (chatApiRef.current && plato) {
-      // 1. Obtiene el nombre del plato en el idioma actual
       const dishName = getTranslatedDishText(plato.nombre, i18n.language);
-      
-      // 2. Llama a la función expuesta por el componente Chat para enviar el mensaje
       chatApiRef.current.sendMessage(dishName);
-      
-      // 3. Cierra el modal
       handleCloseModal();
     }
   }, [i18n.language, handleCloseModal]);
 
+  // NUEVO: Callback para cuando se hace clic en una tarjeta de categoría
+  const handleCategoryClick = useCallback((categoryName) => {
+    if (chatApiRef.current && categoryName) {
+      // Envía el nombre de la categoría como un nuevo mensaje del usuario
+      chatApiRef.current.sendMessage(categoryName);
+    }
+  }, []); // No tiene dependencias externas, es estable.
 
-  // Efecto para manejar el botón de atrás del navegador cuando el modal está abierto
+
   useEffect(() => {
     const handlePopState = () => {
       if (selectedPlatoModal) {
@@ -65,23 +63,20 @@ const ChatPage = () => {
 
   return (
     <>
-      {/* Componente principal del chat */}
       <Chat 
         onViewDishDetails={handleDisplayDishInModal} 
-        // NUEVO: Pasamos una función para que Chat nos dé su API
+        // NUEVO: Pasamos el nuevo callback al componente Chat
+        onCategoryClick={handleCategoryClick}
         setSendMessageApi={(api) => { chatApiRef.current = api; }}
       />
       
-      {/* Modal de detalle del plato */}
       {selectedPlatoModal && (
         <DishDetailModal
           plato={selectedPlatoModal}
           onClose={handleCloseModal}
           onSelectPairedDish={handleDisplayDishInModal}
           menu={menu}
-          // NUEVO: Indicamos que el modal se abre desde el chat
           source="chat" 
-          // NUEVO: Pasamos la función que se ejecutará al pulsar "Elegir"
           onSelectDish={handleSelectDishFromChat}
         />
       )}

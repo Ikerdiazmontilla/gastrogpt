@@ -2,51 +2,87 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTenant } from '../context/TenantContext';
-// La importación de useOrder ha sido eliminada
 import { findDishById } from './menuUtils';
 import DishPreviewLink from '../components/Dish/DishPreviewLink';
+import CategoryPreviewLink from '../components/Category/CategoryPreviewLink';
 
-// Crea un componente de enlace personalizado para ReactMarkdown
-export const createMarkdownLinkRenderer = (onViewDishDetailsCallback) => {
+export const createMarkdownLinkRenderer = (onViewDishDetailsCallback, onCategoryClickCallback) => {
   const CustomLinkComponent = (props) => {
+    // La prop `node` es la clave para acceder al texto crudo del enlace.
     const { href, children, node, ...rest } = props;
     const { tenantConfig } = useTenant();
-    // Las variables relacionadas con el pedido han sido eliminadas
     const { i18n } = useTranslation();
 
     const menu = tenantConfig?.menu;
     const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
     const currentLanguage = i18n.language;
 
-    // Si el href comienza con 'dish:', es un enlace interno a un plato
+    // Lógica para platos (sin cambios)
     if (href && href.startsWith('dish:')) {
-      const dishIdString = href.split(':')[1]; // Extrae el ID del plato
+      const dishIdString = href.split(':')[1];
       const dishId = parseInt(dishIdString, 10);
       const dish = menu?.allDishes ? findDishById(dishId, menu.allDishes) : null;
 
       if (dish) {
-        // Renderiza un DishPreviewLink para el plato
         return (
           <DishPreviewLink
             dish={dish}
             onViewDetails={() => {
               if (onViewDishDetailsCallback) {
-                onViewDishDetailsCallback(dish); // Llama al callback para abrir el modal del plato
+                onViewDishDetailsCallback(dish);
               }
             }}
             currentLanguage={currentLanguage}
             menuHasImages={menuHasImages}
-            // Las props relacionadas con el pedido han sido eliminadas
             {...rest}
           />
         );
       } else {
         console.warn(`MarkdownUtils: Dish with ID '${dishIdString}' not found.`);
-        return null; // No renderiza nada si el plato no se encuentra
+        return null;
       }
     }
 
-    // Si es una URL externa, renderiza un enlace HTML estándar
+    // Lógica para categorías flexibles
+    if (href === 'category') {
+      // --- LA CORRECCIÓN ESTÁ AQUÍ ---
+      // Usamos `node.children[0].value` para obtener el texto original del enlace.
+      const fullText = node?.children?.[0]?.value || '';
+      
+      if (fullText.trim() !== '') {
+        const defaultEmoji = '🏷️';
+        const emojiRegex = /^(\p{Emoji})/u;
+        const match = fullText.match(emojiRegex);
+
+        let emoji;
+        let categoryName;
+
+        if (match) {
+          emoji = match[1];
+          categoryName = fullText.substring(emoji.length).trim();
+        } else {
+          emoji = defaultEmoji;
+          categoryName = fullText.trim();
+        }
+        
+        return (
+          <CategoryPreviewLink
+            emoji={emoji}
+            categoryName={categoryName}
+            onClick={() => {
+              if (onCategoryClickCallback) {
+                onCategoryClickCallback(categoryName);
+              }
+            }}
+            {...rest}
+          />
+        );
+      }
+      return null;
+    }
+
+
+    // Lógica para enlaces externos (sin cambios)
     if (href) {
       try {
         const url = new URL(href);
@@ -54,30 +90,28 @@ export const createMarkdownLinkRenderer = (onViewDishDetailsCallback) => {
           return <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>{children}</a>;
         }
       } catch (e) {
-        // No es una URL válida, se trata como texto
+        // No es una URL válida
       }
     }
 
-    // Si no es un enlace de plato ni una URL válida, renderiza solo el contenido (texto)
     return <span {...rest}>{children}</span>;
   };
 
   return CustomLinkComponent;
 };
 
-// Función para transformar URLs en Markdown
-// Solo permite URLs HTTP/HTTPS y los enlaces 'dish:'
+// Esta función ya estaba correcta, se mantiene sin cambios.
 export const markdownUrlTransform = (uri) => {
-  if (uri.startsWith('dish:')) {
-    return uri; // Permite enlaces internos de platos
+  if (uri.startsWith('dish:') || uri === 'category') {
+    return uri;
   }
   try {
     const parsedUrl = new URL(uri);
     if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
-      return uri; // Permite URLs estándar
+      return uri;
     }
   } catch (e) {
-    // No es una URL estándar o tiene un esquema no permitido.
+    // No es una URL estándar
   }
-  return null; // Bloquea otros tipos de enlaces
+  return null;
 };

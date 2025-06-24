@@ -11,7 +11,8 @@ import InitialFlow from './InitialFlow';
 import { useAudioRecorder } from './hooks/useAudioRecorder';
 import ChatInput from './components/ChatInput';
 
-const Chat = ({ onViewDishDetails, setSendMessageApi }) => {
+// MODIFICADO: Aceptamos el nuevo prop onCategoryClick
+const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   const { t, i18n } = useTranslation();
   const { tenantConfig } = useTenant();
 
@@ -31,16 +32,16 @@ const Chat = ({ onViewDishDetails, setSendMessageApi }) => {
   const [feedbackAlreadyShown, setFeedbackAlreadyShown] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
   
-  // MODIFICADO: La función ahora llama a programmaticSendMessage.
   const handleTranscription = useCallback((transcribedText) => {
     if (transcribedText && transcribedText.trim()) {
       programmaticSendMessage(transcribedText.trim());
     }
-  }, []); // El callback se define una vez. programmaticSendMessage se obtiene de un ref o de una función estable, pero para simplificar, lo definimos dentro y lo hacemos estable.
+  }, []);
 
   const { isRecording, isTranscribing, startAudioRecording, stopAudioRecordingAndTranscribe, cancelAudioRecording, stopMediaStream } = useAudioRecorder(handleTranscription, setError, t);
   
-  const CustomLink = useMemo(() => createMarkdownLinkRenderer(onViewDishDetails), [onViewDishDetails]);
+  // MODIFICADO: Pasamos el nuevo callback al creador del renderer
+  const CustomLink = useMemo(() => createMarkdownLinkRenderer(onViewDishDetails, onCategoryClick), [onViewDishDetails, onCategoryClick]);
 
   const triggerBotResponse = useCallback(async (messageText) => {
     setIsBotTyping(true);
