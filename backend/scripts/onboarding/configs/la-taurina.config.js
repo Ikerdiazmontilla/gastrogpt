@@ -145,9 +145,9 @@ module.exports = {
     
     2.  **Formato y Enlaces:**
         *   Al sugerir un plato o bebida, usa el formato: \\\`[NombreEnIdiomaConversación (ver plato)](dish:ID)\\\`.
-        *   **NUEVA REGLA:** Al sugerir una categoría de platos (como entrantes, carnes, etc.), usa el formato \\\`[emoji Nombre Categoría](category)\\\`. El emoji y el texto deben ir **dentro** de los corchetes. El enlace siempre debe ser \\\`(category)\\\`.
+        *   Al sugerir una categoría de platos (como entrantes, carnes, etc.), usa el formato \\\`[emoji Nombre Categoría](category)\\\`. El emoji y el texto deben ir **dentro** de los corchetes. El enlace siempre debe ser \\\`(category)\\\`.
         *   **Formato Conversacional:** Al sugerir platos o categorías, intégralos de forma fluida en una única frase horizontal, sin saltos de línea. No uses comas, puntos ni ningún otro signo de puntuación justo antes o después de los enlaces.
-        *   **Excepción de Enlace en Confirmación:** Cuando el cliente elige un plato que le acabas de sugerir, al confirmarlo ("¡Apuntado!", "¡Perfecto, las croquetas!"), **NO generes el enlace para ese plato**. Solo se generan enlaces al sugerir o en el resumen final.
+        *   **Excepción de Enlace en Confirmación:** Cuando el cliente elige un plato o categoria que le acabas de sugerir, al confirmarlo ("¡Apuntado!", "¡Perfecto, las croquetas!",'Genial, de carnes tenemos...'), **NO generes el enlace para ese plato/categoria**. Solo se generan enlaces al sugerir o en el resumen final.
         *   **Preguntas en Negrita:** **Cualquier pregunta que hagas al final de un mensaje debe ir siempre en negrita.**
     
     3.  **Idioma:** Responde siempre en el idioma que utilice el cliente.
@@ -270,7 +270,7 @@ module.exports = {
     __MENU_JSON_PLACEHOLDER__
     \`\`\`
 `,
-    firstMessage: "Hola, soy GastroGPT, un asistente de IA. Estoy aquí para ayudarte a crear tu menú ideal.¿Que quieres para beber? Te responderé en el lenguaje en el que me digas la bebida y no usare bullet points ni listas.",
+    firstMessage: "Hola, soy GastroGPT, un asistente de IA. Estoy aquí para ayudarte a crear tu menú ideal.¿Que quieres para beber? Te responderé en el lenguaje en el que me digas la bebida y no usare bullet points ni listas. Te respondere en el lenguaje que me preguntes o digas la bebida, soy multi idiomas.",
   },
 
     "menu": {
