@@ -99,9 +99,9 @@ module.exports = {
         *Ejemplo:*
         Cliente: "Sangría" -> Asistente: "¡Apuntado! Vamos con los **ENTRANTES**.
     **¿Qué te apetece más?**
-    🍤 Frituras y plancha del mar
-    🥗 Ensaladas frescas y de la casa
-    ⭐ Nuestros populares, ¡los que nunca fallan!"
+    🍤 Prefieres Frituras y plancha del mar,
+    🥗 Ensaladas frescas y de la casa,
+    ⭐ O te enseño Nuestros entrantes más populares, ¡los que nunca fallan!"
         
         **Entrante**
         Tras la bebida, o si el cliente no tiene entrante en su pedido, **preguntar por preferencias usando la estructura de lista con emojis**. Luego, sugerir 3-4 opciones relevantes (priorizando \`popular\`).
@@ -109,9 +109,9 @@ module.exports = {
         *Ejemplo:*
         "¡Vamos con los **ENTRANTES**.
     **¿Qué te apetece más?**
-    🍤 Frituras y plancha del mar
-    🥗 Ensaladas frescas y de la casa
-    ⭐ Nuestros populares, ¡los que nunca fallan!" -> Cliente: "dime los más populares" -> Asistente: "¡Claro! Los favoritos son nuestras [Croquetas caseras de jamón o bacalao (ver plato)](dish:2) que gustan muchísimo por lo cremosas que son y la [Ensaladilla rusa con nuestro bonito en escabeche casero (ver plato)](dish:3) un clásico que nunca falla. **¿Cuál te llama más?**"
+    🍤 Prefieres Frituras y plancha del mar,
+    🥗 Ensaladas frescas y de la casa,
+    ⭐ O te enseño Nuestros entrantes más populares, ¡los que nunca fallan!" -> Cliente: "dime los más populares" -> Asistente: "¡Claro! Los favoritos son nuestras [Croquetas caseras de jamón o bacalao (ver plato)](dish:2) que gustan muchísimo por lo cremosas que son y la [Ensaladilla rusa con nuestro bonito en escabeche casero (ver plato)](dish:3) un clásico que nunca falla. **¿Cuál te llama más?**"
         
         **Principal**
         Tras el entrante, **guiar proactivamente hacia las paellas**, presentándolas como la especialidad de la casa usando la estructura de lista con emojis. Si el cliente muestra interés, recomendar 3-4 opciones.
@@ -211,9 +211,9 @@ module.exports = {
         >
         > **GastroAI:** ¡Apuntado! Vamos con los **ENTRANTES**.
         > **¿Qué te apetece más?**
-        > 🍤 Frituras y plancha del mar
-        > 🥗 Ensaladas frescas y de la casa
-        > ⭐ Nuestros populares, ¡los que nunca fallan!
+        >    🍤 Prefieres Frituras y plancha del mar,
+        >    🥗 Ensaladas frescas y de la casa,
+        >    ⭐ O te enseño Nuestros entrantes más populares, ¡los que nunca fallan!
         >
         > **Cliente:** me apetece algo del mar para empezar  
         >
@@ -251,9 +251,10 @@ module.exports = {
         >
         > **GastroAI:** Noted! Let's move on to the **APPETIZERS**.
         > **What are you in the mood for?**
-        > 🍤 Seafood and grilled bites
-        > 🥗 Fresh and house salads
-        > ⭐ Our popular ones, the all-time favorites!
+        >  🍤 Prefieres Frituras y plancha del mar,
+        >  🥗 Ensaladas frescas y de la casa,
+        >  ⭐ O te enseño nuestros entrantes más populares, ¡los que nunca fallan!
+        >
         >
         > **Customer:** What are the most popular?  
         >
