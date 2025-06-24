@@ -50,10 +50,11 @@ export const getAlergenoNombre = (alergenoKey, lang = 'es') => {
   if (!details) {
     return alergenoKey.charAt(0).toUpperCase() + alergenoKey.slice(1);
   }
-
-  // Use the same robust fallback logic as getTranslatedDishText
-  const key_lang = `nombre_${lang}`; // e.g., 'nombre_fr'
-  return details[key_lang] || details.nombre_en || details.nombre || alergenoKey;
+  // CORRECCIÓN: Usar 'nombre' para español y 'nombre_xx' para otros idiomas.
+    const langKey = lang === 'es' ? 'nombre' : `nombre_${lang}`;
+  
+  // Fallback: idioma específico -> español ('nombre') -> inglés ('nombre_en') -> clave original
+   return details[langKey] || details.nombre || details.nombre_en || alergenoKey;
 };
 
 /**

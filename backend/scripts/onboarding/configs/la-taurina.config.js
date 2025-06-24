@@ -741,7 +741,7 @@ module.exports = {
                   "fr": "Croquettes maison crémeuses au jambon ou à la morue (6 pièces)"
                 },
                 "precio": 12.6,
-                "pairsWith": { "main": 24 }, "alergenos": ["gluten", "lácteos", "huevo", "pescado"], "etiquetas": ["popular"]
+                "pairsWith": { "main": 24 }, "alergenos": ["gluten", "lactosa", "huevo", "pescado"], "etiquetas": ["popular"]
               },
               {
                 "id": 4,
@@ -752,7 +752,7 @@ module.exports = {
                   "fr": "Croquettes de queue de taureau (6 pièces)"
                 },
                 "precio": 15,
-                "pairsWith": { "main": 27 }, "alergenos": ["gluten", "lácteos", "huevo"], "etiquetas": ["popular"]
+                "pairsWith": { "main": 27 }, "alergenos": ["gluten", "lactosa", "huevo"], "etiquetas": ["popular"]
               },
               {
                 "id": 5,
@@ -796,7 +796,7 @@ module.exports = {
               {
                 "id": 16,
                 "nombre": {
-                  "es": "Ensalada variada de temporada (preguntar camarero) ",
+                  "es": "Ensalada variada de temporada (preguntar camarero)",
                   "en": "Seasonal mixed salad",
                   "de": "Gemischter Saisonsalat",
                   "fr": "Salade mixte de saison"
@@ -813,7 +813,7 @@ module.exports = {
                   "fr": "Salade César (avec lanières de poulet, bacon, croûtons et parmesan)"
                 },
                 "precio": 17,
-                "pairsWith": { "main": 34 }, "alergenos": ["gluten", "huevo", "lácteos", "mostaza"], "etiquetas": ["ideal para compartir"]
+                "pairsWith": { "main": 34 }, "alergenos": ["gluten", "huevo", "lactosa", "mostaza"], "etiquetas": ["ideal para compartir"]
               },
               {
                 "id": 18,
@@ -824,7 +824,7 @@ module.exports = {
                   "fr": "Carpaccio de tomates du jardin avec burrata fraîche des Pouilles et pomodoro secchi"
                 },
                 "precio": 17.5,
-                "pairsWith": { "main": 29 }, "alergenos": ["lácteos"], "etiquetas": ["gourmet"]
+                "pairsWith": { "main": 29 }, "alergenos": ["lactosa"], "etiquetas": ["gourmet"]
               },
               {
                 "id": 19,
@@ -1284,7 +1284,7 @@ module.exports = {
                 },
                 "precio": 15.5,
                 "pairsWith": { "appetizer": 17, "dessert": 42 },
-                "alergenos": ["gluten", "lácteos", "mostaza", "sésamo", "huevo"],
+                "alergenos": ["gluten", "lactosa", "mostaza", "sésamo", "huevo"],
                 "etiquetas": ["nuevo"]
               },
               {
@@ -1409,7 +1409,7 @@ module.exports = {
                 },
                 "precio": 32.5,
                 "pairsWith": { "appetizer": 12, "dessert": 43 },
-                "alergenos": ["gluten", "lácteos", "huevo"],
+                "alergenos": ["gluten", "lactosa", "huevo"],
                 "etiquetas": ["popular"]
               }
             ]
@@ -1502,7 +1502,7 @@ module.exports = {
               "fr": "Gâteau au fromage avec une base croustillante et une texture onctueuse, idéal pour les amateurs de fromage."
             },
             "precio": null,
-            "alergenos": ["huevo", "lácteos", "gluten"],
+            "alergenos": ["huevo", "lactosa", "gluten"],
             "etiquetas": ["popular"]
           },
           {
@@ -1521,7 +1521,7 @@ module.exports = {
               "fr": "Flan aux œufs maison avec une texture soyeuse et un caramel doré."
             },
             "precio": null,
-            "alergenos": ["huevo", "lácteos"],
+            "alergenos": ["huevo", "lactosa"],
             "etiquetas": ["nuevo"]
           },
           {
@@ -1545,7 +1545,7 @@ module.exports = {
               "fr": "Glace artisanale à la vanille, au chocolat ou à la fraise."
             },
             "precio": null,
-            "alergenos": ["lácteos", "huevo", "gluten", "frutos secos"],
+            "alergenos": ["lactosa", "huevo", "gluten", "frutos_secos"],
             "etiquetas": ["popular"]
           },
           {
