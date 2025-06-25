@@ -6,12 +6,12 @@ import styles from './Chat.module.css';
 import { useTenant } from '../../context/TenantContext';
 import { fetchConversation, postChatMessage, resetChatConversation } from '../../services/apiService';
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
+import { transformMenuForLanguage } from '../../utils/menuTransformer';
 import Feedback from './Feedback';
 import InitialFlow from './InitialFlow';
 import { useAudioRecorder } from './hooks/useAudioRecorder';
 import ChatInput from './components/ChatInput';
 
-// MODIFICADO: Aceptamos el nuevo prop onCategoryClick
 const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   const { t, i18n } = useTranslation();
   const { tenantConfig } = useTenant();
@@ -19,6 +19,7 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   const suggestions = tenantConfig?.suggestionChipsText?.[i18n.language] || tenantConfig?.suggestionChipsText?.es || [];
   const suggestionCount = tenantConfig?.suggestionChipsCount || 4;
   const initialDrinkPromptConfig = tenantConfig?.initialDrinkPrompt;
+  const fullMenu = tenantConfig?.menu;
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -34,19 +35,19 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   
   const handleTranscription = useCallback((transcribedText) => {
     if (transcribedText && transcribedText.trim()) {
+      // Llamada desde voz/texto, no se pasa `initialFlowClick`
       programmaticSendMessage(transcribedText.trim());
     }
   }, []);
 
   const { isRecording, isTranscribing, startAudioRecording, stopAudioRecordingAndTranscribe, cancelAudioRecording, stopMediaStream } = useAudioRecorder(handleTranscription, setError, t);
   
-  // MODIFICADO: Pasamos el nuevo callback al creador del renderer
   const CustomLink = useMemo(() => createMarkdownLinkRenderer(onViewDishDetails, onCategoryClick), [onViewDishDetails, onCategoryClick]);
 
-  const triggerBotResponse = useCallback(async (messageText) => {
+  const triggerBotResponse = useCallback(async (messageText, options = {}) => {
     setIsBotTyping(true);
     try {
-      const data = await postChatMessage(messageText);
+      const data = await postChatMessage(messageText, options); 
       setActiveConversationId(data.conversationId);
       if (data.reply) {
         setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
@@ -78,12 +79,25 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
     }
   }, [t, feedbackAlreadyShown]);
   
-  const programmaticSendMessage = useCallback(async (messageText) => {
+  // --- MODIFICACIÓN CLAVE ---
+  // Ahora `programmaticSendMessage` acepta un segundo argumento opcional.
+  const programmaticSendMessage = useCallback(async (messageText, options = {}) => {
     if (messageText.trim() === '' || isBotTyping) return;
+    
     const userMessage = { sender: 'user', text: messageText };
     setMessages(prev => [...prev.filter(m => m.type !== 'initial_flow'), userMessage]);
-    await triggerBotResponse(messageText);
-  }, [isBotTyping, triggerBotResponse]);
+
+    // Prepara el payload base.
+    const basePayload = {
+        language: i18n.language,
+        menu: transformMenuForLanguage(fullMenu, i18n.language)
+    };
+
+    // Combina el payload base con cualquier opción extra (como `initialFlowClick`).
+    const finalPayload = { ...basePayload, ...options };
+    
+    await triggerBotResponse(messageText, finalPayload);
+  }, [isBotTyping, triggerBotResponse, i18n.language, fullMenu]);
 
   useEffect(() => {
     if (setSendMessageApi) {
@@ -95,15 +109,18 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
     const trimmedInput = input.trim();
     if (trimmedInput === '') return;
     setInput('');
+    // Al enviar desde el input, no se pasa `initialFlowClick`.
     await programmaticSendMessage(trimmedInput);
   }, [input, programmaticSendMessage]);
 
-  const handleInitialFlowSelection = useCallback((messageText, originalConfig) => {
+  const handleInitialFlowSelection = useCallback((messageText, originalConfig, extraPayload) => {
     const questionText = originalConfig.question[i18n.language] || originalConfig.question.en || originalConfig.question.es;
     const staticBotMessage = { sender: 'bot', text: questionText };
     const userMessage = { sender: 'user', text: messageText };
     setMessages(prev => [...prev.filter(m => m.type !== 'initial_flow'), staticBotMessage, userMessage]);
-    triggerBotResponse(messageText);
+    
+    // El payload ya viene preparado desde `InitialFlow`
+    triggerBotResponse(messageText, extraPayload);
   }, [i18n.language, triggerBotResponse]);
 
   const loadConversation = useCallback(async () => {
@@ -134,9 +151,7 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   }, [t, initialDrinkPromptConfig]);
 
   useEffect(() => { loadConversation(); }, [loadConversation]);
-
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, isBotTyping]);
-
   useEffect(() => { return () => { stopMediaStream(); }; }, [stopMediaStream]);
 
   const handleReset = async () => {
@@ -155,7 +170,7 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
           {error && <div className={`${styles.message} ${styles.system} ${styles.error}`}>{error}</div>}
           {messages.map((msg, index) => {
             if (msg.type === 'initial_flow') {
-              return <InitialFlow key={`initial-flow-${index}`} config={msg.config} onSelection={(text, config) => handleInitialFlowSelection(text, config)} />;
+              return <InitialFlow key={`initial-flow-${index}`} config={msg.config} onSelection={handleInitialFlowSelection} />;
             }
             return (
               <div key={index} className={`${styles.message} ${styles[msg.sender]}`}>

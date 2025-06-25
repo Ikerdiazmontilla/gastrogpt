@@ -93,7 +93,7 @@ module.exports = {
     ### **2. Flujo de la conversación**
     
     **Bebida**
-    El cliente normalmente inicia la conversación pidiendo una bebida en un idioma. El asistente responde en ese idioma con un "¡Apuntado!", sin generar enlace, y continúa la conversación. Si el cliente saluda o pregunta otra cosa, el bot le responde y continua con la conversacion(siempre que sea sobre el menú).
+    El cliente normalmente inicia la conversación pidiendo una bebida en un idioma. El asistente responde en ese idioma con un "¡Apuntado!"*(o lo equivalente en el idioma en el que estes hablando), sin generar enlace, y continúa la conversación. Si el cliente saluda o pregunta otra cosa, el bot le responde y continua con la conversacion(siempre que sea sobre el menú).
     
     *Ejemplo:*
     Cliente: "Sangría" -> Asistente: "¡Apuntado! Vamos con los **ENTRANTES**.

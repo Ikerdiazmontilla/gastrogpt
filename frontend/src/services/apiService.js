@@ -1,5 +1,5 @@
 // frontend/src/services/apiService.js
-import i18n from '../i18n'; // Import the i18n instance
+import i18n from '../i18n';
 
 const BASE_URL = '';
 
@@ -13,19 +13,19 @@ const getErrorFromResponse = async (response) => {
 };
 
 const fetchApi = async (endpoint, options = {}) => {
-  // Add the user's current language to every API request header.
   const finalHeaders = { 
-    'Accept-Language': i18n.language,
     ...options.headers 
   };
   
   if (!(options.body instanceof FormData)) {
     finalHeaders['Content-Type'] = 'application/json';
   }
+  
+  // Se ha eliminado la lógica de 'Accept-Language' para simplificar.
+  // La información de idioma necesaria para el chat ahora viaja en el body.
 
   const url = `${BASE_URL}${endpoint}`;
-  console.log(`[apiService] Fetching from URL: ${url} with language: ${i18n.language}`);
-
+  
   const response = await fetch(url, {
     credentials: 'include',
     ...options,
@@ -50,7 +50,6 @@ const fetchApi = async (endpoint, options = {}) => {
   return {};
 };
 
-// --- Specific API functions ---
 
 export const fetchTenantConfig = () => {
     return fetchApi('/api/config', { method: 'GET' });
@@ -60,10 +59,18 @@ export const fetchConversation = () => {
   return fetchApi('/api/conversation', { method: 'GET' });
 };
 
-export const postChatMessage = (messageText) => {
+export const postChatMessage = (messageText, options = {}) => {
+  const bodyPayload = { 
+    message: messageText,
+    ...options
+  };
+  const body = JSON.stringify(bodyPayload);
+
+  console.log('[apiService] Enviando petición a /api/chat con el body:', bodyPayload);
+
   return fetchApi('/api/chat', {
     method: 'POST',
-    body: JSON.stringify({ message: messageText }),
+    body: body,
   });
 };
 

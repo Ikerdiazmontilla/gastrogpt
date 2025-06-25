@@ -79,7 +79,7 @@ module.exports = {
     ### **2. Flujo de la conversación**
     
     **Bebida**
-    El cliente normalmente inicia la conversación pidiendo una bebida. El asistente responde con un "¡Apuntado!", sin generar enlace, y continúa la conversación. Si el cliente saluda o pregunta otra cosa, el bot le responde y continúa con la conversación (siempre que sea sobre el menú).
+    El cliente normalmente inicia la conversación pidiendo una bebida. El asistente responde con un "¡Apuntado!"(o lo equivalente en el idioma en el que estes hablando), sin generar enlace, y continúa la conversación. Si el cliente saluda o pregunta otra cosa, el bot le responde y continúa con la conversación (siempre que sea sobre el menú).
     
     *Ejemplo:*
     Cliente: "Una Paulaner" -> Asistente: "¡Apuntado! Ahora, a por la estrella del menú: la **HAMBURGUESA**..."
@@ -140,7 +140,6 @@ module.exports = {
         *   **Excepción de Enlace en Confirmación:** Cuando el cliente elige algo que le acabas de sugerir, al confirmarlo ("¡Apuntado!", "¡Perfecto!"), **NO generes el enlace para ese ítem**.
         *   **Preguntas en Negrita:** **Cualquier pregunta que hagas al final de un mensaje debe ir siempre en negrita.**
     
-    3.  **Idioma:** Responde siempre en el idioma que utilice el cliente.
     
     4.  **Prioridad de Sugerencia:**
         1.  Preferencias del cliente.
@@ -259,7 +258,7 @@ module.exports = {
     __MENU_JSON_PLACEHOLDER__
     \`\`\`
 `,
-    firstMessage: "Hola, soy GastroGPT, un asistente de IA. Estoy aquí para ayudarte a crear tu menú ideal.¿Que quieres para beber? Te responderé en el lenguaje en el que me digas la bebida o me preguntes y no usare bullet points ni listas.",
+    firstMessage: "Hola, soy GastroGPT, un asistente de IA. Estoy aquí para ayudarte a crear tu menú ideal.¿Que quieres para beber?  No usare bullet points ni listas.",
   },
 
   // --- Menú Completo del Restaurante ---
@@ -867,7 +866,7 @@ module.exports = {
               "es": "Tinto de Verano",
               "en": "Summer Red Wine",
               "de": "Sommer-Rotwein",
-              "fr": "Tinto de Verano"
+              "fr": "Vin rouge avec limonade"
             },
             "descripcionCorta": {
               "es": "Vino tinto refrescado con limón o gaseosa.",

@@ -2,7 +2,8 @@
 const chatRepository = require('../db/chatRepository');
 const llmService = require('../services/llmService');
 const pool = require('../db/pool');
-const { transformMenuForLanguage } = require('../utils/menuTransformer'); // Import the new utility
+// Se elimina la importación de 'transformMenuForLanguage' ya que no se usa aquí.
+const { preparePromptsForLlm } = require('../services/promptBuilderService'); // Se importa el nuevo servicio
 
 const USER_MESSAGE_LIMIT = 15;
 
@@ -11,7 +12,6 @@ function countUserMessages(messagesArray) {
   return messagesArray.filter(msg => msg.role === 'user').length;
 }
 
-// Esta función es la única que necesita cambios en este archivo.
 async function getConversationHistory(req, res) {
   const client = req.dbClient;
   try {
@@ -22,7 +22,6 @@ async function getConversationHistory(req, res) {
       const lastBotMessageInHistory = conversation.messages.slice().reverse().find(m => m.role === 'assistant');
       const limitReachedNotified = lastBotMessageInHistory && lastBotMessageInHistory.limitReachedNotification;
 
-      // Mapea los mensajes de la BBDD al formato que espera el frontend
       const frontendMessages = conversation.messages.map(msg => ({
         sender: msg.role === 'assistant' ? 'bot' : 'user',
         text: msg.content,
@@ -37,8 +36,6 @@ async function getConversationHistory(req, res) {
         }
       });
     } else {
-      // SI NO HAY HISTORIAL, SE ENVÍA UN ARRAY DE MENSAJES VACÍO.
-      // Ya no se construye ni se envía un 'welcomeMessage' desde aquí.
       res.json({ messages: [] });
     }
   } catch (error) {
@@ -47,42 +44,40 @@ async function getConversationHistory(req, res) {
   }
 }
 
-
 async function handleChatMessage(req, res) {
-  const { message } = req.body;
+  const { message, language, menu: providedMenu, initialFlowClick } = req.body;
+
   if (!message || typeof message !== 'string' || message.trim() === '') {
     return res.status(400).json({ error: 'Message is required and must be text.' });
   }
+  if (!language || !providedMenu) {
+      return res.status(400).json({ error: 'Language and menu are required in the payload.' });
+  }
+
   const userMessageContent = message.trim();
   const client = req.dbClient;
-  
-  const userLang = req.get('Accept-Language') || 'es';
 
   try {
     await client.query('BEGIN');
 
-    const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
-    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('llm_instructions', 'llm_first_message')");
-    
-    const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
-
-    const fullMenuData = menuResult.rows[0]?.data;
+    const configResult = await client.query("SELECT key, value FROM configurations WHERE key IN ('llm_instructions', 'llm_first_message')");
     const configs = configResult.rows.reduce((acc, row) => ({ ...acc, [row.key]: row.value }), {});
     
-    const systemInstructionsTemplate = configs.llm_instructions;
-    const firstBotMessage = configs.llm_first_message; 
-
-    if (!fullMenuData || !systemInstructionsTemplate || !firstBotMessage) {
-        throw new Error('Configuración esencial para el LLM (menú, instrucciones, primer mensaje) no encontrada en la BBDD.');
+    if (!configs.llm_instructions || !configs.llm_first_message) {
+        throw new Error('Configuración esencial para el LLM no encontrada en la BBDD.');
     }
 
-    const singleLanguageMenu = transformMenuForLanguage(fullMenuData, userLang);
+    // --- MODIFICACIÓN CLAVE: Lógica extraída ---
+    // Toda la lógica de construcción de prompts se reemplaza por esta única llamada.
+    const { systemInstructions, firstBotMessage } = preparePromptsForLlm({
+        language,
+        providedMenu,
+        initialFlowClick,
+        systemInstructionsTemplate: configs.llm_instructions,
+        firstBotMessageTemplate: configs.llm_first_message
+    });
     
-    const systemInstructions = systemInstructionsTemplate.replace(
-        '__MENU_JSON_PLACEHOLDER__',
-        JSON.stringify(singleLanguageMenu, null, 2)
-    );
-
+    // El resto de la función continúa como antes, pero ahora usando los prompts ya preparados.
     let activeConversation = await chatRepository.getActiveConversation(req.sessionID, client);
     
     let messagesToSaveInDB = [];
