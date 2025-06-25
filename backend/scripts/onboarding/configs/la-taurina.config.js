@@ -522,6 +522,30 @@ module.exports = {
                 "etiquetas": []
               },
               {
+                "id": 48,
+                "nombre": {
+                  "es": "Nestea",
+                  "en": "Nestea",
+                  "de": "Nestea",
+                  "fr": "Nestea"
+                },
+                "descripcionCorta": {
+                  "es": "Refresco dulce y burbujeante.",
+                  "en": "Sweet, bubbly soft drink.",
+                  "de": "Süße, spritzige Limonaden.",
+                  "fr": "Boissons gazeuses aux agrumes, douces."
+                },
+                "descripcionLarga": {
+                  "es": "Refresco dulce y burbujeante.",
+                  "en": "Sweet, bubbly soft drink.",
+                  "de": "Süße, spritzige Limonaden.",
+                  "fr": "Boissons gazeuses aux agrumes, douces."
+                },
+                "precio": null,
+                "alergenos": [],
+                "etiquetas": []
+              },
+              {
                 "id": 49,
                 "nombre": {
                   "es": "Coca-Cola",
