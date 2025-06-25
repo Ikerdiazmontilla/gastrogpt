@@ -1,56 +1,39 @@
+// frontend/src/components/Dish/DishPreviewLink.js
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './DishPreviewLink.module.css';
-import { getTranslatedDishText } from '../../utils/menuUtils';
 
-// Función para obtener un emoji representativo de la categoría
-const getEmojiForCategory = (categoryKey) => {
-  switch (categoryKey) {
-    case 'bebidas': return '🍹';
-    case 'entrantes': return '🥗';
-    case 'platos_principales': return '🍲';
-    case 'postres': return '🍰';
-    default: return '🍽️';
-  }
-};
-
-// Se eliminan las props `isSelected` y `onToggleSelect`
-const DishPreviewLink = ({ dish, onViewDetails, currentLanguage, menuHasImages }) => {
+const DishPreviewLink = ({ dish, onViewDetails, menuHasImages, emoji, cleanDishName }) => {
   const { t } = useTranslation();
-  const dishName = getTranslatedDishText(dish.nombre, currentLanguage);
-  // Texto accesible para lectores de pantalla
-  const accessibleLabel = t('chat.viewDetailsFor', { dishName: dishName });
+  
+  // El texto accesible usa el nombre limpio para una mejor pronunciación.
+  const accessibleLabel = t('chat.viewDetailsFor', { dishName: cleanDishName });
 
   const showImage = menuHasImages && dish.imagen;
-  const categoryEmoji = getEmojiForCategory(dish.parentCategoryKey);
 
   return (
-    // buttonWrapper actúa como el botón clickeable para ver detalles.
-    // La clase 'selected' ha sido eliminada ya que no hay seguimiento de pedidos.
     <div 
       className={styles.buttonWrapper} 
-      onClick={onViewDetails} // Llama a onViewDetails al hacer clic
-      aria-label={accessibleLabel} // Proporciona una etiqueta accesible
-      role="button" // Define el rol como botón para accesibilidad
-      tabIndex="0" // Hace que el div sea enfocable
+      onClick={onViewDetails}
+      aria-label={accessibleLabel}
+      role="button"
+      tabIndex="0"
     >
       <div className={`${styles.card} ${!showImage ? styles.textOnlyLayout : ''}`}>
         {showImage ? (
-          // Muestra la imagen si está disponible
+          // Si hay imagen, se muestra la imagen y el nombre limpio.
           <>
-            <img src={dish.imagen} alt={dishName} className={styles.dishImage} />
-            <span className={styles.dishTitle}>{dishName}</span>
+            <img src={dish.imagen.startsWith('http') ? dish.imagen : process.env.PUBLIC_URL + dish.imagen} alt={cleanDishName} className={styles.dishImage} />
+            <span className={styles.dishTitle}>{cleanDishName}</span>
           </>
         ) : (
-          // Si no hay imagen, muestra un emoji de categoría y el título
+          // Si no hay imagen, se muestra el emoji y el nombre limpio.
           <>
-            <span className={styles.categoryEmoji}>{categoryEmoji}</span>
-            <span className={styles.dishTitle}>{dishName}</span>
+            <span className={styles.categoryEmoji}>{emoji}</span>
+            <span className={styles.dishTitle}>{cleanDishName}</span>
           </>
         )}
       </div>
-
-      {/* El botón de añadir/tick ha sido eliminado */}
     </div>
   );
 };
