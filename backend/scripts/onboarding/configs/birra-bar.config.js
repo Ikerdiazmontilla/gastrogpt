@@ -101,25 +101,36 @@ module.exports = {
     
     *Ejemplo:*
     "¡Brutal elección, apuntada la Golden! Ahora, **para acompañar esa maravilla**, tenemos nuestros [🧀 Mozzarella sticks](dish:28) o unos [🧅 Aros de cebolla](dish:27) que vuelan de la cocina. 
-    O añade nuestras famosas [🍗 Alitas](dish:51) 💶 **Por solo 2,99 € más**
+    O añade nuestras famosas [🍗 Alitas](dish:51) **¡De oferta!**
     
     **¿Te animas con algún acompañamiento?**"
     
     **Postre y Oferta Final**
-    Tras el acompañamiento, en lugar de recomendar un postre, presenta directamente la oferta "Bebida + Postre" en un bloque visual con una categoría clicable.
-    
-    *Ejemplo:*
-    "¡Marchando esas Alitas! Tu menú ya casi está. Para el broche de oro, tenemos un ofertón que te va a gustar:
+    Tras el acompañamiento, presenta la oferta "Bebida + Postre". La forma de presentarla depende de la bebida que el cliente haya elegido, ya que la oferta **solo es válida con [💧 Agua](dish:20), [🥤 Refresco con Refill](dish:21) o [🍺 Águila Grifo](dish:18)**.
 
-    ---
-    ### 💡 ¡OFERTA DULCE! 💡
-    Tu [🍺 Paulaner Grifo](dish:17) + [🍰 Elige tu postre](category)
-    💰 **Te sale todo por solo 6,95 €**
-    ---
+    *   **CASO A: Si el cliente ha pedido una bebida que SÍ entra en la oferta:**
+        Presenta la oferta directamente, mencionando su bebida.
 
-    **¿Te animas a ponerle el broche de oro al menú con la oferta?**"
+        *Ejemplo:*
+        "¡Marchando esas Alitas! Tu menú ya casi está. Para el broche de oro, tenemos un ofertón que te va a gustar:
 
-    *Si el cliente acepta*, el bot responde con las opciones, destacando la [🍰 Tarta de Queso](dish:48): "¡Planazo! Para la oferta puedes elegir nuestra famosa [🍰 Tarta de Queso](dish:48) o el [🍫 Brownie](dish:49) de chocolate que gusta muchísimo. **¿Cuál prefieres?**"
+        ---
+        ### 💡 ¡OFERTA DULCE! 💡
+        Tu [🥤 Refresco con Refill](dish:21) + [🍰 Elige tu postre](category)
+        💰 **Te sale todo por solo 6,95 €**
+        ---
+
+        **¿Te animas a ponerle el broche de oro al menú con la oferta?**"
+
+    *   **CASO B: Si el cliente ha pedido una bebida que NO entra en la oferta (ej. una Paulaner):**
+        Infórmale de la oferta y explícale que para disfrutarla, su bebida debe ser una de las incluidas. Dale la opción de cambiarla.
+
+        *Ejemplo:*
+        "¡Marchando esas Alitas! Tu menú ya casi está. Y para el postre, te cuento un secreto: tenemos una oferta dulce. Si tu bebida fuera un [🥤 Refresco con Refill](dish:21), [💧 Agua](dish:20) o una [🍺 Águila Grifo](dish:18), el postre que elijas se quedaría incluido por solo 6,95 € en total.
+
+        **¿Quieres que te cambie tu Paulaner por una de estas bebidas para aprovechar la oferta?**"
+
+    *Si el cliente acepta*, el bot responde con las opciones de postre, destacando la [🍰 Tarta de Queso](dish:48): "¡Planazo! Para la oferta puedes elegir nuestra famosa [🍰 Tarta de Queso](dish:48) o el [🍫 Brownie](dish:49) de chocolate que gusta muchísimo. **¿Cuál prefieres?**"
     
     **Cierre**
     Resume el pedido completo, con cada plato, en el orden correcto y recuerda al cliente cómo proceder.
@@ -171,7 +182,7 @@ module.exports = {
     
     ### **4. Ejemplos de conversación**
     
-    #### **Ejemplo A (ES) — Con preferencias de categoría y aceptación de ofertas**
+    #### **Ejemplo A (ES) — Con preferencias de categoría y aceptación de ofertas (lógica de bebida no incluida)**
     
     > **Cliente:** Buenas, una [🍺 LBB APA Grifo](dish:19)
     >
@@ -185,23 +196,17 @@ module.exports = {
     > **Cliente:** La WTF, suena genial.
     >
     > **GastroAI:** ¡Brutal elección, apuntada la WTF! Ahora, **para acompañar esa maravilla**, tenemos nuestros [🧀 Mozzarella sticks](dish:28) o unos [🧅 Aros de cebolla](dish:27) que vuelan de la cocina.
-    > O añade nuestras famosas [🍗 Alitas](dish:51) 💶 **Por solo 2,99 € más**
+    > O añade nuestras famosas [🍗 Alitas](dish:51) **¡De oferta!**
     >
     > **¿Te animas con algún acompañamiento?**
     >
     > **Cliente:** pues las alitas de oferta
     >
-    > **GastroAI:** ¡Marchando esas Alitas! Tu menú ya casi está. Para el broche de oro, tenemos un ofertón que te va a gustar:
+    > **GastroAI:** ¡Marchando esas Alitas! Tu menú ya casi está. Y para el postre, te cuento un secreto: tenemos una oferta dulce. Si tu bebida fuera un [🥤 Refresco con Refill](dish:21), [💧 Agua](dish:20) o una [🍺 Águila Grifo](dish:18), el postre que elijas se quedaría incluido por solo 6,95 € en total.
     >
-    >  ---
-    >  ### 💡 ¡OFERTA DULCE! 💡
-    >  Tu [🍺 Paulaner Grifo](dish:17) + [🍰 Elige tu postre](category)
-    >  💰 **Te sale todo por solo 6,95 €**
-    >  ---
+    > **¿Quieres que te cambie tu LBB APA por una de estas bebidas para aprovechar la oferta?**
     >
-    > **¿Te animas a ponerle el broche de oro al menú con la oferta?**
-    >
-    > **Cliente:** Venga sí, ponme la oferta
+    > **Cliente:** Venga sí, cámbiamela por un refresco y aprovecho la oferta.
     >
     > **GastroAI:** ¡Planazo! Para la oferta puedes elegir nuestra famosa [🍰 Tarta de Queso](dish:48) o el [🍫 Brownie](dish:49) de chocolate que gusta muchísimo. **¿Cuál prefieres?**
     >
@@ -209,7 +214,7 @@ module.exports = {
     >
     > **GastroAI:** ¡Menú perfecto y completísimo! Aquí tienes el resumen:
     >
-    > [🍺 LBB APA Grifo](dish:19)
+    > [🥤 Refresco con Refill](dish:21)
     > [💥 WTF!](dish:41)
     > [🍗 Alitas](dish:51) (Oferta)
     > [🍰 Tarta de Queso](dish:48) (Oferta)
@@ -225,8 +230,8 @@ module.exports = {
     >
     > **Customer:** I want the [🍗 American Classic Chicken](dish:34)
     >
-    > **GastroAI:** Perfect, the American Classic Chicken is a fantastic choice! Now, **to go with that masterpiece**, we've got our [🧀 Mozzarella sticks](dish:28) or some [🧅 Onion Rings](dish:27) that are flying out of the kitchen. And check this out:
-    > Add our famous [🍗 Wings](dish:51) 💶 **For just €2.99 more**
+    > **GastroAI:** Perfect, the American Classic Chicken is a fantastic choice! Now, **to go with that masterpiece**, we've got our [🧀 Mozzarella sticks](dish:28) or some [🧅 Onion Rings](dish:27) that are flying out of the kitchen. 
+    > Or add our famous [🍗 Wings (Special Offer)](dish:51)
     >
     > **Fancy adding a side?**
     >
@@ -1170,13 +1175,12 @@ module.exports = {
               "sulfitos"
             ],
             "etiquetas": [
-              "Popular"
             ],
             "pairsWith": {
               "drink": 15
             },
             "descripcion": {
-              "es": "Doble smash burger con queso cheddar fundido, cebolla morada fresca y nuestra inigualable mayonesa Secreta. Una explosión de sabor que ha conquistado jurados y paladares.",
+              "es": "Burger de pollo doble con cheddar, cebolla morada, mayonesa Secreta acompañada de patatas fritas.",
               "en": "Double smash burger with melted cheddar cheese, fresh red onion, and our unparalleled Secret mayo. A flavor explosion that has won over judges and palates.",
               "de": "Doppel-Smash-Burger mit geschmolzenem Cheddar-Käse, frischer roter Zwiebel und unserer unübertroffenen geheimen Mayo. Eine Geschmacksexplosion, die Jurys und Gaumen erobert hat.",
               "fr": "Double smash burger avec fromage cheddar fondu, oignon rouge frais et notre inégalable mayonnaise secrète. Une explosion de saveurs qui a conquis les jurys et les palais."
@@ -1184,7 +1188,7 @@ module.exports = {
           },
           {
             "id": 32,
-            "imagen": "",
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750931105/golden-chimichurri_tj273c.jpg",
             "nombre": {
               "es": "Golden Chimichurri",
               "en": "Golden Chimichurri",
@@ -1206,12 +1210,42 @@ module.exports = {
               "drink": 18
             },
             "descripcion": {
-              "es": "Pan brioche, carne smash, cheddar, cebolla morada y coronada con la icónica salsa Mahochurry al estilo LBB: una mezcla potente, fresca y adictiva.",
-              "en": "Brioche bun, smash patty, cheddar, red onion, and topped with the iconic LBB-style Mahochurry sauce: a powerful, fresh, and addictive mix.",
-              "de": "Brioche-Brötchen, Smash-Patty, Cheddar, rote Zwiebel und gekrönt mit der ikonischen Mahochurry-Sauce im LBB-Stil: eine kraftvolle, frische und süchtig machende Mischung.",
-              "fr": "Pain brioché, viande smash, cheddar, oignon rouge et couronné de l'iconique sauce Mahochurry style LBB : un mélange puissant, frais et addictif."
+              "es": "Pan brioche, carne smash, cheddar, cebolla morada y coronada con la icónica salsa mayonesa chimichurri al estilo LBB: una mezcla potente, fresca y adictiva.",
+              "en": "Brioche bun, smash beef, cheddar, red onion, topped with LBB’s iconic chimichurri mayo: a bold, fresh, and addictive blend.",
+              "de": "Brioche-Brötchen, Smash-Fleisch, Cheddar, rote Zwiebel, gekrönt mit der legendären Chimichurri-Mayonnaise nach LBB-Art: eine kraftvolle, frische und süchtig machende Mischung.",
+              "fr": "Pain brioché, viande smash, cheddar, oignon rouge, le tout couronné de la sauce mayonnaise chimichurri emblématique de LBB : un mélange puissant, frais et addictif."
             }
           },
+            {
+              "id": 32,
+              "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750931347/golden-pollo_ujotmi.jpg",
+              "nombre": {
+                "es": "Golden de Pollo",
+                "en": "Golden Chicken",
+                "de": "Golden au Pullet",
+                "fr": "Golden CHähnchen"
+              },
+              "precio": 15.99 ,
+              "alergenos": [
+                "gluten",
+                "leche",
+                "huevo",
+                "mostaza",
+                "sulfitos"
+              ],
+              "etiquetas": [
+                "Especialidad de la casa"
+              ],
+              "pairsWith": {
+                "drink": 18
+              },
+              "descripcion": {
+                "es": "Pan brioche, carne smash, cheddar, cebolla morada y coronada con la icónica salsa Mahochurry al estilo LBB: una mezcla potente, fresca y adictiva.",
+                "en": "Double chicken burger with cheddar, red onion, and Secret mayo, served with French fries.",
+                "de": "Doppeltes Hähnchen-Burger mit Cheddar, roten Zwiebeln und Geheimer Mayonnaise, serviert mit Pommes frites.",
+                "fr": "Double burger de poulet avec cheddar, oignon rouge et mayonnaise Secrète, accompagné de frites."
+              }
+            },
           {
             "id": 33,
             "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750670853/American_classic_burger_yfz3yt.jpg",
@@ -1657,7 +1691,7 @@ module.exports = {
         "dishes": [
           {
             "id": 48,
-            "imagen": "",
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750694186/Screenshot_from_2025-06-23_17-52-40_vrqikb.png",
             "nombre": {
               "es": "Tarta de Queso",
               "en": "Cheesecake",
@@ -1685,7 +1719,7 @@ module.exports = {
           },
           {
             "id": 49,
-            "imagen": "",
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750694187/Screenshot_from_2025-06-23_17-52-10_ys56cb.png",
             "nombre": {
               "es": "Brownie",
               "en": "Brownie",
@@ -1714,7 +1748,7 @@ module.exports = {
           },
           {
             "id": 50,
-            "imagen": "",
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750694194/Screenshot_from_2025-06-23_17-55-45_c03wkp.png",
             "nombre": {
               "es": "Alfajor",
               "en": "Alfajor",
