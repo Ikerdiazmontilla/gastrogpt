@@ -268,711 +268,735 @@ module.exports = {
 
   // --- Menú Completo del Restaurante ---
     "menu": {
-      "bebidas": {
-        "orderId": 1,
-        "title": {
-          "es": "Bebidas",
-          "en": "Drinks",
-          "de": "Getränke",
-          "fr": "Boissons"
-        },
-        "dishes": [],
-        "subCategories": {
-          "cervezas": {
-            "orderId": 1,
-            "title": {
-              "es": "Cervezas",
-              "en": "Beers",
-              "de": "Biere",
-              "fr": "Bières"
-            },
-            "dishes": [],
-            "subCategories": {
-              "cervezas_de_grifo": {
-                "orderId": 1,
-                "title": {
-                  "es": "Cervezas de Grifo",
-                  "en": "Draft Beers",
-                  "de": "Biere vom Fass",
-                  "fr": "Bières Pression"
-                },
-                "dishes": [
-                  {
-                    "id": 15,
-                    "nombre": {
-                      "es": "Aguila Dorada Grifo",
-                      "en": "Aguila Dorada on Tap",
-                      "de": "Aguila Dorada vom Fass",
-                      "fr": "Aguila Dorada à la Pression"
-                    },
-                    "precio": 3.95,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Popular"
-                    ],
-                    "pairsWith": {
-                      "main": 31
-                    },
-                    "descripcion": {
-                      "es": "Servida directamente del grifo para resaltar su frescura y efervescencia. Equilibrada y suave, con aromas a malta clara, acabado limpio y burbuja persistente. Ideal para acompañar cualquier comida o tapa.",
-                      "en": "Served directly from the tap to highlight its freshness and effervescence. Balanced and smooth, with light malt aromas, a clean finish, and a persistent bubble. Ideal to accompany any meal or tapa.",
-                      "de": "Direkt vom Fass serviert, um seine Frische und Spritzigkeit hervorzuheben. Ausgewogen und sanft, mit hellen Malzaromen, einem sauberen Abgang und anhaltender Perlage. Ideal als Begleitung zu jeder Mahlzeit oder Tapa.",
-                      "fr": "Servie directement du robinet pour souligner sa fraîcheur et son effervescence. Équilibrée et douce, avec des arômes de malt clair, une finale nette et une bulle persistante. Idéale pour accompagner n'importe quel repas ou tapa."
-                    }
-                  },
-                  {
-                    "id": 16,
-                    "nombre": {
-                      "es": "Amstel Radler Grifo",
-                      "en": "Amstel Radler on Tap",
-                      "de": "Amstel Radler vom Fass",
-                      "fr": "Amstel Radler à la Pression"
-                    },
-                    "precio": 3.95,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Recomendado"
-                    ],
-                    "pairsWith": {
-                      "main": 34
-                    },
-                    "descripcion": {
-                      "es": "Combina la base ligera de Amstel Lager con zumo de limón fresco, ofreciendo una bebida ligeramente amarga, cítrica y de baja graduación (≈ 2% alc.). Ideal para días calurosos.",
-                      "en": "Combines the light base of Amstel Lager with fresh lemon juice, offering a slightly bitter, citrusy, low-alcohol drink (≈ 2% ABV). Ideal for hot days.",
-                      "de": "Kombiniert die leichte Basis von Amstel Lager mit frischem Zitronensaft und bietet ein leicht bitteres, zitrusartiges Getränk mit niedrigem Alkoholgehalt (≈ 2 % Vol.). Ideal für heiße Tage.",
-                      "fr": "Combine la base légère de l'Amstel Lager avec du jus de citron frais, offrant une boisson légèrement amère, citrique et à faible teneur en alcool (≈ 2 % alc.). Idéal pour les jours chauds."
-                    }
-                  },
-                  {
-                    "id": 17,
-                    "nombre": {
-                      "es": "Paulaner Grifo",
-                      "en": "Paulaner on Tap",
-                      "de": "Paulaner vom Fass",
-                      "fr": "Paulaner à la Pression"
-                    },
-                    "precio": 5.1,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Popular"
-                    ],
-                    "pairsWith": {
-                      "main": 36
-                    },
-                    "descripcion": {
-                      "es": "Estilo tradicional de Múnich, elaborado con malta Pilsner y Munich, y lúpulo Hallertauer. De cuerpo ligero-medio, sabor a pan fresco y dulzor sutil, final limpio y amargor equilibrado. Servida fría del barril, realza su vivacidad.",
-                      "en": "Traditional Munich style, brewed with Pilsner and Munich malt, and Hallertauer hops. Light-medium body, fresh bread flavor and subtle sweetness, clean finish, and balanced bitterness. Served cold from the keg, it enhances its liveliness.",
-                      "de": "Traditioneller Münchner Stil, gebraut mit Pilsner und Münchner Malz und Hallertauer Hopfen. Leichter bis mittlerer Körper, Geschmack nach frischem Brot und subtile Süße, sauberer Abgang und ausgewogene Bitterkeit. Kalt vom Fass serviert, unterstreicht es seine Lebendigkeit.",
-                      "fr": "Style traditionnel de Munich, élaboré avec du malt Pilsner et Munich, et du houblon Hallertauer. Corps léger à moyen, saveur de pain frais et douceur subtile, finale nette et amertume équilibrée. Servie froide du fût, elle rehausse sa vivacité."
-                    }
-                  },
-                  {
-                    "id": 18,
-                    "nombre": {
-                      "es": "LBB RED Grifo",
-                      "en": "LBB RED on Tap",
-                      "de": "LBB RED vom Fass",
-                      "fr": "LBB RED à la Pression"
-                    },
-                    "precio": 5.85,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Especialidad de la casa"
-                    ],
-                    "pairsWith": {
-                      "main": 32
-                    },
-                    "descripcion": {
-                      "es": "Red Ale de La Brújula servida directamente del grifo, muestra un color rojizo ámbar, cuerpo medio y sabor maltoso-carbonizado con matices de toffee y frutos rojos. Final suave y ligeramente amargo.",
-                      "en": "Red Ale from La Brújula served directly from the tap, it shows a reddish-amber color, medium body, and a malty-carbonated flavor with hints of toffee and red fruits. Smooth and slightly bitter finish.",
-                      "de": "Red Ale von La Brújula direkt vom Fass serviert, zeigt eine rötlich-bernsteinfarbene Farbe, einen mittleren Körper und einen malzig-kohlensäurehaltigen Geschmack mit Noten von Toffee und roten Früchten. Sanfter und leicht bitterer Abgang.",
-                      "fr": "Red Ale de La Brújula servie directement du robinet, elle présente une couleur ambrée-rougeâtre, un corps moyen et une saveur maltée-carbonatée avec des nuances de toffee et de fruits rouges. Finale douce et légèrement amère."
-                    }
-                  },
-                  {
-                    "id": 19,
-                    "nombre": {
-                      "es": "LBB APA Grifo",
-                      "en": "LBB APA on Tap",
-                      "de": "LBB APA vom Fass",
-                      "fr": "LBB APA à la Pression"
-                    },
-                    "precio": 5.45,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Especialidad de la casa"
-                    ],
-                    "pairsWith": {
-                      "main": 46
-                    },
-                    "descripcion": {
-                      "es": "American Pale Ale en barril con lúpulos aromáticos típicos (cítricos y resinas), cuerpo medio y final seco. Burbujeo fino y persistente.",
-                      "en": "American Pale Ale on tap with typical aromatic hops (citrus and resin), medium body, and a dry finish. Fine and persistent bubble.",
-                      "de": "American Pale Ale vom Fass mit typischem Aromahopfen (Zitrus und Harz), mittlerem Körper und trockenem Abgang. Feine und anhaltende Perlage.",
-                      "fr": "American Pale Ale en fût avec des houblons aromatiques typiques (agrumes et résines), corps moyen et finale sèche. Bulles fines et persistantes."
-                    }
-                  }
-                ]
+        "bebidas": {
+          "orderId": 1,
+          "title": {
+            "es": "Bebidas",
+            "en": "Drinks",
+            "de": "Getränke",
+            "fr": "Boissons"
+          },
+          "dishes": [],
+          "subCategories": {
+            "cervezas": {
+              "orderId": 1,
+              "title": {
+                "es": "Cervezas",
+                "en": "Beers",
+                "de": "Biere",
+                "fr": "Bières"
               },
-              "cervezas_clasicas_y_artesanales": {
-                "orderId": 2,
-                "title": {
-                  "es": "Cervezas Clásicas y Artesanales",
-                  "en": "Classic & Craft Beers",
-                  "de": "Klassische & Handwerksbiere",
-                  "fr": "Bières Classiques et Artisanales"
+              "dishes": [],
+              "subCategories": {
+                "cervezas_artesanales": {
+                  "orderId": 1,
+                  "title": {
+                    "es": "Cervezas Artesanales",
+                    "en": "Craft Beers",
+                    "de": "Handwerksbiere",
+                    "fr": "Bières Artisanales"
+                  },
+                  "dishes": [
+                    {
+                      "id": 18,
+                      "nombre": {
+                        "es": "LBB RED Grifo",
+                        "en": "LBB RED on Tap",
+                        "de": "LBB RED vom Fass",
+                        "fr": "LBB RED à la Pression"
+                      },
+                      "precio": 5.85,
+                      "alergenos": [
+                        "cebada",
+                        "gluten"
+                      ],
+                      "etiquetas": [
+                        "Especialidad de la casa"
+                      ],
+                      "pairsWith": {
+                        "main": 32
+                      },
+                      "descripcion": {
+                        "es": "Red Ale de La Brújula servida directamente del grifo, muestra un color rojizo ámbar, cuerpo medio y sabor maltoso-carbonizado con matices de toffee y frutos rojos. Final suave y ligeramente amargo.",
+                        "en": "Red Ale from La Brújula served directly from the tap, it shows a reddish-amber color, medium body, and a malty-carbonated flavor with hints of toffee and red fruits. Smooth and slightly bitter finish.",
+                        "de": "Red Ale von La Brújula direkt vom Fass serviert, zeigt eine rötlich-bernsteinfarbene Farbe, einen mittleren Körper und einen malzig-kohlensäurehaltigen Geschmack mit Noten von Toffee und roten Früchten. Sanfter und leicht bitterer Abgang.",
+                        "fr": "Red Ale de La Brújula servie directement du robinet, elle présente une couleur ambrée-rougeâtre, un corps moyen et une saveur maltée-carbonatée avec des nuances de toffee et de fruits rouges. Finale douce et légèrement amère."
+                      }
+                    },
+                    {
+                      "id": 19,
+                      "nombre": {
+                        "es": "LBB APA Grifo",
+                        "en": "LBB APA on Tap",
+                        "de": "LBB APA vom Fass",
+                        "fr": "LBB APA à la Pression"
+                      },
+                      "precio": 5.45,
+                      "alergenos": [
+                        "cebada",
+                        "gluten"
+                      ],
+                      "etiquetas": [
+                        "Especialidad de la casa"
+                      ],
+                      "pairsWith": {
+                        "main": 46
+                      },
+                      "descripcion": {
+                        "es": "American Pale Ale en barril con lúpulos aromáticos típicos (cítricos y resinas), cuerpo medio y final seco. Burbujeo fino y persistente.",
+                        "en": "American Pale Ale on tap with typical aromatic hops (citrus and resin), medium body, and a dry finish. Fine and persistent bubble.",
+                        "de": "American Pale Ale vom Fass mit typischem Aromahopfen (Zitrus und Harz), mittlerem Körper und trockenem Abgang. Feine und anhaltende Perlage.",
+                        "fr": "American Pale Ale en fût avec des houblons aromatiques typiques (agrumes et résines), corps moyen et finale sèche. Bulles fines et persistantes."
+                      }
+                    },
+                    {
+                      "id": 6,
+                      "nombre": {
+                        "es": "LBB Honey",
+                        "en": "LBB Honey",
+                        "de": "LBB Honig",
+                        "fr": "LBB Miel"
+                      },
+                      "precio": 4.65,
+                      "alergenos": [
+                        "cebada",
+                        "gluten"
+                      ],
+                      "etiquetas": [
+                        "Especialidad de la casa"
+                      ],
+                      "pairsWith": {
+                        "main": 37
+                      },
+                      "descripcion": {
+                        "es": "Una cerveza rubia de cuerpo medio, con notas florales y un dulzor sutil aportado por miel pura. Perfecta para quienes buscan una experiencia suave, equilibrada y ligeramente dulce.",
+                        "en": "A medium-bodied lager with floral notes and a subtle sweetness from pure honey. Perfect for those looking for a smooth, balanced, and slightly sweet experience.",
+                        "de": "Ein mittelkräftiges blondes Bier mit blumigen Noten und einer subtilen Süße von reinem Honig. Perfekt für diejenigen, die ein sanftes, ausgewogenes und leicht süßes Erlebnis suchen.",
+                        "fr": "Une bière blonde de corps moyen, avec des notes florales et une douceur subtile apportée par du miel pur. Parfaite pour ceux qui recherchent une expérience douce, équilibrée et légèrement sucrée."
+                      }
+                    },
+                    {
+                      "id": 7,
+                      "nombre": {
+                        "es": "LBB Negra Porter",
+                        "en": "LBB Black Porter",
+                        "de": "LBB Schwarzporter",
+                        "fr": "LBB Porter Noire"
+                      },
+                      "precio": 4.65,
+                      "alergenos": [
+                        "cebada",
+                        "gluten"
+                      ],
+                      "etiquetas": [
+                        "Especialidad de la casa"
+                      ],
+                      "pairsWith": {
+                        "main": 47
+                      },
+                      "descripcion": {
+                        "es": "Una porter intensa y sedosa, con cuerpo robusto y espuma cremosa. Destacan los aromas tostados a café, chocolate negro y malta torrefacta.",
+                        "en": "An intense and silky porter, with a robust body and creamy head. Toasted aromas of coffee, dark chocolate, and roasted malt stand out.",
+                        "de": "Ein intensiver und seidiger Porter mit robustem Körper und cremigem Schaum. Aromen von geröstetem Kaffee, dunkler Schokolade und geröstetem Malz stechen hervor.",
+                        "fr": "Un porter intense et soyeux, avec un corps robuste et une mousse crémeuse. Les arômes grillés de café, de chocolat noir et de malt torréfié se distinguent."
+                      }
+                    },
+                    {
+                      "id": 8,
+                      "nombre": {
+                        "es": "LBB IPA",
+                        "en": "LBB IPA",
+                        "de": "LBB IPA",
+                        "fr": "LBB IPA"
+                      },
+                      "precio": 4.65,
+                      "alergenos": [
+                        "cebada",
+                        "gluten"
+                      ],
+                      "etiquetas": [
+                        "Especialidad de la casa"
+                      ],
+                      "pairsWith": {
+                        "main": 41
+                      },
+                      "descripcion": {
+                        "es": "Una India Pale Ale elaborada por LBB que destaca por su carácter lupulado, con aromas cítricos, resinosos y un punto floral.",
+                        "en": "An India Pale Ale brewed by LBB that stands out for its hoppy character, with citrus, resinous aromas, and a floral note.",
+                        "de": "Ein von LBB gebrautes India Pale Ale, das sich durch seinen hopfigen Charakter mit Zitrus-, harzigen Aromen und einer blumigen Note auszeichnet.",
+                        "fr": "Une India Pale Ale élaborée par LBB qui se distingue par son caractère houblonné, avec des arômes d'agrumes, résineux et une pointe florale."
+                      }
+                    },
+                    {
+                      "id": 9,
+                      "nombre": {
+                        "es": "Lagunitas IPA",
+                        "en": "Lagunitas IPA",
+                        "de": "Lagunitas IPA",
+                        "fr": "Lagunitas IPA"
+                      },
+                      "precio": 4.65,
+                      "alergenos": [
+                        "cebada",
+                        "gluten"
+                      ],
+                      "etiquetas": [
+                        "Especialidad de la casa"
+                      ],
+                      "pairsWith": {
+                        "main": 42
+                      },
+                      "descripcion": {
+                        "es": "Clásica IPA californiana: lúpulos cítricos y florales, cuerpo moderado-alto y final seco.",
+                        "en": "Classic Californian IPA: citrus and floral hops, medium-high body, and a dry finish.",
+                        "de": "Klassisches kalifornisches IPA: Zitrus- und Blumenhopfen, mittlerer bis hoher Körper und trockener Abgang.",
+                        "fr": "IPA californienne classique : houblons citriques et floraux, corps modéré-élevé et finale sèche."
+                      }
+                    },
+                    {
+                      "id": 12,
+                      "nombre": {
+                        "es": "Cibeles",
+                        "en": "Cibeles",
+                        "de": "Cibeles",
+                        "fr": "Cibeles"
+                      },
+                      "precio": 4.45,
+                      "alergenos": [
+                        "cebada",
+                        "gluten"
+                      ],
+                      "etiquetas": [
+                        "Temporada"
+                      ],
+                      "pairsWith": {
+                        "main": 35
+                      },
+                      "descripcion": {
+                        "es": "Elaborada en Madrid, esta cerveza pale ale ofrece un sabor limpio con un perfil maltoso suave y un amargor ligero.",
+                        "en": "Brewed in Madrid, this pale ale offers a clean flavor with a smooth malty profile and a light bitterness.",
+                        "de": "In Madrid gebraut, bietet dieses Pale Ale einen sauberen Geschmack mit einem sanften Malzprofil und einer leichten Bitterkeit.",
+                        "fr": "Brassée à Madrid, cette pale ale offre une saveur nette avec un profil malté doux et une légère amertume."
+                      }
+                    }
+                  ],
+                  "subCategories": {}
                 },
-                "dishes": [
-                  {
-                    "id": 1,
-                    "nombre": {
-                      "es": "Aguila Dorada",
-                      "en": "Aguila Dorada",
-                      "de": "Aguila Dorada",
-                      "fr": "Aguila Dorada"
-                    },
-                    "precio": 3.95,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Recomendado"
-                    ],
-                    "pairsWith": {
-                      "main": 44
-                    },
-                    "descripcion": {
-                      "es": "Rubia de fermentación baja, de cuerpo ligero y espuma blanca cremosa. Ideal para cualquier ocasión, destaca por su sabor neutro y equilibrado, con un ligero trasfondo dulce.",
-                      "en": "A bottom-fermented lager with a light body and creamy white head. Ideal for any occasion, it stands out for its neutral and balanced flavor, with a slightly sweet undertone.",
-                      "de": "Untergäriges blondes Bier mit leichtem Körper und cremigem weißem Schaum. Ideal für jede Gelegenheit, zeichnet es sich durch seinen neutralen und ausgewogenen Geschmack mit einem leicht süßlichen Nachgeschmack aus.",
-                      "fr": "Bière blonde de fermentation basse, au corps léger et à la mousse blanche crémeuse. Idéale pour toute occasion, elle se distingue par sa saveur neutre et équilibrée, avec une légère note de fond sucrée."
-                    }
+                "cervezas_clasicas": {
+                  "orderId": 2,
+                  "title": {
+                    "es": "Cervezas Clásicas y de Grifo",
+                    "en": "Classic & Draft Beers",
+                    "de": "Klassische & Fassbiere",
+                    "fr": "Bières Classiques et Pression"
                   },
-                  {
-                    "id": 2,
-                    "nombre": {
-                      "es": "Aguila Sin Filtrar",
-                      "en": "Unfiltered Aguila",
-                      "de": "Aguila Ungefiltert",
-                      "fr": "Aguila Non Filtrée"
+                  "dishes": [],
+                  "subCategories": {
+                    "cervezas_de_grifo": {
+                      "orderId": 1,
+                      "title": {
+                        "es": "Cervezas de Grifo",
+                        "en": "Draft Beers",
+                        "de": "Biere vom Fass",
+                        "fr": "Bières Pression"
+                      },
+                      "dishes": [
+                        {
+                          "id": 15,
+                          "nombre": {
+                            "es": "Aguila Dorada Grifo",
+                            "en": "Aguila Dorada on Tap",
+                            "de": "Aguila Dorada vom Fass",
+                            "fr": "Aguila Dorada à la Pression"
+                          },
+                          "precio": 3.95,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Popular"
+                          ],
+                          "pairsWith": {
+                            "main": 31
+                          },
+                          "descripcion": {
+                            "es": "Servida directamente del grifo para resaltar su frescura y efervescencia. Equilibrada y suave, con aromas a malta clara, acabado limpio y burbuja persistente. Ideal para acompañar cualquier comida o tapa.",
+                            "en": "Served directly from the tap to highlight its freshness and effervescence. Balanced and smooth, with light malt aromas, a clean finish, and a persistent bubble. Ideal to accompany any meal or tapa.",
+                            "de": "Direkt vom Fass serviert, um seine Frische und Spritzigkeit hervorzuheben. Ausgewogen und sanft, mit hellen Malzaromen, einem sauberen Abgang und anhaltender Perlage. Ideal als Begleitung zu jeder Mahlzeit oder Tapa.",
+                            "fr": "Servie directement du robinet pour souligner sa fraîcheur et son effervescence. Équilibrée et douce, avec des arômes de malt clair, une finale nette et une bulle persistante. Idéale pour accompagner n'importe quel repas ou tapa."
+                          }
+                        },
+                        {
+                          "id": 16,
+                          "nombre": {
+                            "es": "Amstel Radler Grifo",
+                            "en": "Amstel Radler on Tap",
+                            "de": "Amstel Radler vom Fass",
+                            "fr": "Amstel Radler à la Pression"
+                          },
+                          "precio": 3.95,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Recomendado"
+                          ],
+                          "pairsWith": {
+                            "main": 34
+                          },
+                          "descripcion": {
+                            "es": "Combina la base ligera de Amstel Lager con zumo de limón fresco, ofreciendo una bebida ligeramente amarga, cítrica y de baja graduación (≈ 2% alc.). Ideal para días calurosos.",
+                            "en": "Combines the light base of Amstel Lager with fresh lemon juice, offering a slightly bitter, citrusy, low-alcohol drink (≈ 2% ABV). Ideal for hot days.",
+                            "de": "Kombiniert die leichte Basis von Amstel Lager mit frischem Zitronensaft und bietet ein leicht bitteres, zitrusartiges Getränk mit niedrigem Alkoholgehalt (≈ 2 % Vol.). Ideal für heiße Tage.",
+                            "fr": "Combine la base légère de l'Amstel Lager avec du jus de citron frais, offrant une boisson légèrement amère, citrique et à faible teneur en alcool (≈ 2 % alc.). Idéal pour les jours chauds."
+                          }
+                        },
+                        {
+                          "id": 17,
+                          "nombre": {
+                            "es": "Paulaner Grifo",
+                            "en": "Paulaner on Tap",
+                            "de": "Paulaner vom Fass",
+                            "fr": "Paulaner à la Pression"
+                          },
+                          "precio": 5.1,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Popular"
+                          ],
+                          "pairsWith": {
+                            "main": 36
+                          },
+                          "descripcion": {
+                            "es": "Estilo tradicional de Múnich, elaborado con malta Pilsner y Munich, y lúpulo Hallertauer. De cuerpo ligero-medio, sabor a pan fresco y dulzor sutil, final limpio y amargor equilibrado. Servida fría del barril, realza su vivacidad.",
+                            "en": "Traditional Munich style, brewed with Pilsner and Munich malt, and Hallertauer hops. Light-medium body, fresh bread flavor and subtle sweetness, clean finish, and balanced bitterness. Served cold from the keg, it enhances its liveliness.",
+                            "de": "Traditioneller Münchner Stil, gebraut mit Pilsner und Münchner Malz und Hallertauer Hopfen. Leichter bis mittlerer Körper, Geschmack nach frischem Brot und subtile Süße, sauberer Abgang und ausgewogene Bitterkeit. Kalt vom Fass serviert, unterstreicht es seine Lebendigkeit.",
+                            "fr": "Style traditionnel de Munich, élaboré avec du malt Pilsner et Munich, et du houblon Hallertauer. Corps léger à moyen, saveur de pain frais et douceur subtile, finale nette et amertume équilibrée. Servie froide du fût, elle rehausse sa vivacité."
+                          }
+                        }
+                      ]
                     },
-                    "precio": 3.95,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Gourmet"
-                    ],
-                    "pairsWith": {
-                      "main": 39
+                    "cervezas_en_botella": {
+                      "orderId": 2,
+                      "title": {
+                        "es": "Cervezas en Botella",
+                        "en": "Bottled Beers",
+                        "de": "Flaschenbiere",
+                        "fr": "Bières en Bouteille"
+                      },
+                      "dishes": [
+                        {
+                          "id": 1,
+                          "nombre": {
+                            "es": "Aguila Dorada",
+                            "en": "Aguila Dorada",
+                            "de": "Aguila Dorada",
+                            "fr": "Aguila Dorada"
+                          },
+                          "precio": 3.95,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Recomendado"
+                          ],
+                          "pairsWith": {
+                            "main": 44
+                          },
+                          "descripcion": {
+                            "es": "Rubia de fermentación baja, de cuerpo ligero y espuma blanca cremosa. Ideal para cualquier ocasión, destaca por su sabor neutro y equilibrado, con un ligero trasfondo dulce.",
+                            "en": "A bottom-fermented lager with a light body and creamy white head. Ideal for any occasion, it stands out for its neutral and balanced flavor, with a slightly sweet undertone.",
+                            "de": "Untergäriges blondes Bier mit leichtem Körper und cremigem weißem Schaum. Ideal für jede Gelegenheit, zeichnet es sich durch seinen neutralen und ausgewogenen Geschmack mit einem leicht süßlichen Nachgeschmack aus.",
+                            "fr": "Bière blonde de fermentation basse, au corps léger et à la mousse blanche crémeuse. Idéale pour toute occasion, elle se distingue par sa saveur neutre et équilibrée, avec une légère note de fond sucrée."
+                          }
+                        },
+                        {
+                          "id": 2,
+                          "nombre": {
+                            "es": "Aguila Sin Filtrar",
+                            "en": "Unfiltered Aguila",
+                            "de": "Aguila Ungefiltert",
+                            "fr": "Aguila Non Filtrée"
+                          },
+                          "precio": 3.95,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Gourmet"
+                          ],
+                          "pairsWith": {
+                            "main": 39
+                          },
+                          "descripcion": {
+                            "es": "Esta versión sin filtrar mantiene partículas de levadura, lo que le confiere textura, complejidad y un perfil más afrutado y especiado, con aroma desequilibrado y sensación final redonda.",
+                            "en": "This unfiltered version retains yeast particles, which gives it texture, complexity, and a fruitier, spicier profile, with an unbalanced aroma and a round finish.",
+                            "de": "Diese ungefilterte Version enthält Hefepartikel, die ihr Textur, Komplexität und ein fruchtigeres, würzigeres Profil mit einem unausgewogenen Aroma und einem runden Abgang verleihen.",
+                            "fr": "Cette version non filtrée conserve des particules de levure, ce qui lui confère texture, complexité et un profil plus fruité et épicé, avec un arôme déséquilibré et une sensation finale ronde."
+                          }
+                        },
+                        {
+                          "id": 3,
+                          "nombre": {
+                            "es": "Cruzcampo Reserva",
+                            "en": "Cruzcampo Reserve",
+                            "de": "Cruzcampo Reserva",
+                            "fr": "Cruzcampo Réserve"
+                          },
+                          "precio": 4.2,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Gourmet"
+                          ],
+                          "pairsWith": {
+                            "main": 43
+                          },
+                          "descripcion": {
+                            "es": "Clase tostada de Cruzcampo: envejecida en bodega, sabor intenso a malta tostada, caramelo y toques amargos. Espuma persistente, color ámbar profundo. Perfecta con carnes.",
+                            "en": "A toasted style from Cruzcampo: aged in the cellar, intense flavor of toasted malt, caramel, and bitter notes. Persistent head, deep amber color. Perfect with meats.",
+                            "de": "Eine geröstete Sorte von Cruzcampo: im Keller gereift, intensiver Geschmack nach geröstetem Malz, Karamell und bitteren Noten. Anhaltender Schaum, tief bernsteinfarbene Farbe. Perfekt zu Fleischgerichten.",
+                            "fr": "Une bière de style torréfié de Cruzcampo : vieillie en cave, saveur intense de malt torréfié, de caramel et touches amères. Mousse persistante, couleur ambrée profonde. Parfaite avec les viandes."
+                          }
+                        },
+                        {
+                          "id": 4,
+                          "nombre": {
+                            "es": "Cruzcampo SG",
+                            "en": "Cruzcampo SG",
+                            "de": "Cruzcampo SG",
+                            "fr": "Cruzcampo SG"
+                          },
+                          "precio": 3.95,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Recomendado"
+                          ],
+                          "pairsWith": {
+                            "main": 40
+                          },
+                          "descripcion": {
+                            "es": "Estilo boil alemán, malta pilsner y lúpulo aromático. Equilibrada, ligeramente amarga, ideal para maridar con tapas.",
+                            "en": "German boil style, pilsner malt and aromatic hops. Balanced, slightly bitter, ideal for pairing with tapas.",
+                            "de": "Deutscher Braustil, Pilsner Malz und Aromahopfen. Ausgewogen, leicht bitter, ideal zur Begleitung von Tapas.",
+                            "fr": "Style d'ébullition allemand, malt pilsner et houblon aromatique. Équilibrée, légèrement amère, idéale pour accompagner les tapas."
+                          }
+                        },
+                        {
+                          "id": 10,
+                          "nombre": {
+                            "es": "Birra Moretti",
+                            "en": "Birra Moretti",
+                            "de": "Birra Moretti",
+                            "fr": "Birra Moretti"
+                          },
+                          "precio": 4.65,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Gourmet"
+                          ],
+                          "pairsWith": {
+                            "main": 33
+                          },
+                          "descripcion": {
+                            "es": "Estilo europeo clásico: sabor suave, notas de pan y lúpulo delicado. Muy bebible.",
+                            "en": "Classic European style: smooth flavor, notes of bread and delicate hops. Very drinkable.",
+                            "de": "Klassischer europäischer Stil: milder Geschmack, Noten von Brot und zartem Hopfen. Sehr trinkbar.",
+                            "fr": "Style européen classique : saveur douce, notes de pain et houblon délicat. Très facile à boire."
+                          }
+                        },
+                        {
+                          "id": 11,
+                          "nombre": {
+                            "es": "Guiness",
+                            "en": "Guinness",
+                            "de": "Guinness",
+                            "fr": "Guinness"
+                          },
+                          "precio": 4.45,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Recomendado"
+                          ],
+                          "pairsWith": {
+                            "drink": 6
+                          },
+                          "descripcion": {
+                            "es": "Cuerpo medio, tostados, amargor suave y espuma característica. Versátil en maridaje con carnes y postres.",
+                            "en": "Medium body, roasted notes, smooth bitterness, and a characteristic head. Versatile for pairing with meats and desserts.",
+                            "de": "Mittlerer Körper, geröstete Noten, sanfte Bitterkeit und charakteristischer Schaum. Vielseitig kombinierbar mit Fleisch und Desserts.",
+                            "fr": "Corps moyen, notes grillées, amertume douce et mousse caractéristique. Polyvalent pour accompagner viandes et desserts."
+                          }
+                        },
+                        {
+                          "id": 13,
+                          "nombre": {
+                            "es": "El Alcazar",
+                            "en": "El Alcazar",
+                            "de": "El Alcazar",
+                            "fr": "El Alcazar"
+                          },
+                          "precio": 3.95,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Temporada"
+                          ],
+                          "pairsWith": {
+                            "main": 45
+                          },
+                          "descripcion": {
+                            "es": "Nacida en Jaén y recuperada como emblema andaluz, El Alcázar es una cerveza tipo lager con mayor graduación, cuerpo más intenso y sabor persistente.",
+                            "en": "Born in Jaén and revived as an Andalusian emblem, El Alcázar is a lager-style beer with higher alcohol content, a more intense body, and a persistent flavor.",
+                            "de": "Geboren in Jaén und als andalusisches Wahrzeichen wiederbelebt, ist El Alcázar ein Lagerbier mit höherem Alkoholgehalt, intensiverem Körper und anhaltendem Geschmack.",
+                            "fr": "Née à Jaén et récupérée comme un emblème andalou, El Alcázar est une bière de type lager avec une plus grande teneur en alcool, un corps plus intense et une saveur persistante."
+                          }
+                        },
+                        {
+                          "id": 14,
+                          "nombre": {
+                            "es": "18/70",
+                            "en": "18/70",
+                            "de": "18/70",
+                            "fr": "18/70"
+                          },
+                          "precio": 3.95,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Nuevo"
+                          ],
+                          "pairsWith": {
+                            "main": 38
+                          },
+                          "descripcion": {
+                            "es": "Cerveza especial nacida en el País Vasco, 18/70 La Rubia combina lo mejor de una lager tradicional con un toque moderno. Tiene un sabor limpio, con cuerpo medio, sutil amargor y notas maltosas bien equilibradas.",
+                            "en": "A special beer born in the Basque Country, 18/70 La Rubia combines the best of a traditional lager with a modern touch. It has a clean flavor, medium body, subtle bitterness, and well-balanced malty notes.",
+                            "de": "Ein besonderes Bier aus dem Baskenland, 18/70 La Rubia kombiniert das Beste eines traditionellen Lagers mit einem modernen Touch. Es hat einen sauberen Geschmack, mittleren Körper, subtile Bitterkeit und ausgewogene Malznoten.",
+                            "fr": "Bière spéciale née au Pays Basque, 18/70 La Rubia combine le meilleur d'une lager traditionnelle avec une touche moderne. Elle a une saveur nette, un corps moyen, une amertume subtile et des notes maltées bien équilibrées."
+                          }
+                        }
+                      ]
                     },
-                    "descripcion": {
-                      "es": "Esta versión sin filtrar mantiene partículas de levadura, lo que le confiere textura, complejidad y un perfil más afrutado y especiado, con aroma desequilibrado y sensación final redonda.",
-                      "en": "This unfiltered version retains yeast particles, which gives it texture, complexity, and a fruitier, spicier profile, with an unbalanced aroma and a round finish.",
-                      "de": "Diese ungefilterte Version enthält Hefepartikel, die ihr Textur, Komplexität und ein fruchtigeres, würzigeres Profil mit einem unausgewogenen Aroma und einem runden Abgang verleihen.",
-                      "fr": "Cette version non filtrée conserve des particules de levure, ce qui lui confère texture, complexité et un profil plus fruité et épicé, avec un arôme déséquilibré et une sensation finale ronde."
-                    }
-                  },
-                  {
-                    "id": 3,
-                    "nombre": {
-                      "es": "Cruzcampo Reserva",
-                      "en": "Cruzcampo Reserve",
-                      "de": "Cruzcampo Reserva",
-                      "fr": "Cruzcampo Réserve"
-                    },
-                    "precio": 4.2,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Gourmet"
-                    ],
-                    "pairsWith": {
-                      "main": 43
-                    },
-                    "descripcion": {
-                      "es": "Clase tostada de Cruzcampo: envejecida en bodega, sabor intenso a malta tostada, caramelo y toques amargos. Espuma persistente, color ámbar profundo. Perfecta con carnes.",
-                      "en": "A toasted style from Cruzcampo: aged in the cellar, intense flavor of toasted malt, caramel, and bitter notes. Persistent head, deep amber color. Perfect with meats.",
-                      "de": "Eine geröstete Sorte von Cruzcampo: im Keller gereift, intensiver Geschmack nach geröstetem Malz, Karamell und bitteren Noten. Anhaltender Schaum, tief bernsteinfarbene Farbe. Perfekt zu Fleischgerichten.",
-                      "fr": "Une bière de style torréfié de Cruzcampo : vieillie en cave, saveur intense de malt torréfié, de caramel et touches amères. Mousse persistante, couleur ambrée profonde. Parfaite avec les viandes."
-                    }
-                  },
-                  {
-                    "id": 4,
-                    "nombre": {
-                      "es": "Cruzcampo SG",
-                      "en": "Cruzcampo SG",
-                      "de": "Cruzcampo SG",
-                      "fr": "Cruzcampo SG"
-                    },
-                    "precio": 3.95,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Recomendado"
-                    ],
-                    "pairsWith": {
-                      "main": 40
-                    },
-                    "descripcion": {
-                      "es": "Estilo boil alemán, malta pilsner y lúpulo aromático. Equilibrada, ligeramente amarga, ideal para maridar con tapas.",
-                      "en": "German boil style, pilsner malt and aromatic hops. Balanced, slightly bitter, ideal for pairing with tapas.",
-                      "de": "Deutscher Braustil, Pilsner Malz und Aromahopfen. Ausgewogen, leicht bitter, ideal zur Begleitung von Tapas.",
-                      "fr": "Style d'ébullition allemand, malt pilsner et houblon aromatique. Équilibrée, légèrement amère, idéale pour accompagner les tapas."
-                    }
-                  },
-                  {
-                    "id": 6,
-                    "nombre": {
-                      "es": "LBB Honey",
-                      "en": "LBB Honey",
-                      "de": "LBB Honig",
-                      "fr": "LBB Miel"
-                    },
-                    "precio": 4.65,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Especialidad de la casa"
-                    ],
-                    "pairsWith": {
-                      "main": 37
-                    },
-                    "descripcion": {
-                      "es": "Una cerveza rubia de cuerpo medio, con notas florales y un dulzor sutil aportado por miel pura. Perfecta para quienes buscan una experiencia suave, equilibrada y ligeramente dulce.",
-                      "en": "A medium-bodied lager with floral notes and a subtle sweetness from pure honey. Perfect for those looking for a smooth, balanced, and slightly sweet experience.",
-                      "de": "Ein mittelkräftiges blondes Bier mit blumigen Noten und einer subtilen Süße von reinem Honig. Perfekt für diejenigen, die ein sanftes, ausgewogenes und leicht süßes Erlebnis suchen.",
-                      "fr": "Une bière blonde de corps moyen, avec des notes florales et une douceur subtile apportée par du miel pur. Parfaite pour ceux qui recherchent une expérience douce, équilibrée et légèrement sucrée."
-                    }
-                  },
-                  {
-                    "id": 7,
-                    "nombre": {
-                      "es": "LBB Negra Porter",
-                      "en": "LBB Black Porter",
-                      "de": "LBB Schwarzporter",
-                      "fr": "LBB Porter Noire"
-                    },
-                    "precio": 4.65,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Especialidad de la casa"
-                    ],
-                    "pairsWith": {
-                      "main": 47
-                    },
-                    "descripcion": {
-                      "es": "Una porter intensa y sedosa, con cuerpo robusto y espuma cremosa. Destacan los aromas tostados a café, chocolate negro y malta torrefacta.",
-                      "en": "An intense and silky porter, with a robust body and creamy head. Toasted aromas of coffee, dark chocolate, and roasted malt stand out.",
-                      "de": "Ein intensiver und seidiger Porter mit robustem Körper und cremigem Schaum. Aromen von geröstetem Kaffee, dunkler Schokolade und geröstetem Malz stechen hervor.",
-                      "fr": "Un porter intense et soyeux, avec un corps robuste et une mousse crémeuse. Les arômes grillés de café, de chocolat noir et de malt torréfié se distinguent."
-                    }
-                  },
-                  {
-                    "id": 8,
-                    "nombre": {
-                      "es": "LBB IPA",
-                      "en": "LBB IPA",
-                      "de": "LBB IPA",
-                      "fr": "LBB IPA"
-                    },
-                    "precio": 4.65,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Especialidad de la casa"
-                    ],
-                    "pairsWith": {
-                      "main": 41
-                    },
-                    "descripcion": {
-                      "es": "Una India Pale Ale elaborada por LBB que destaca por su carácter lupulado, con aromas cítricos, resinosos y un punto floral.",
-                      "en": "An India Pale Ale brewed by LBB that stands out for its hoppy character, with citrus, resinous aromas, and a floral note.",
-                      "de": "Ein von LBB gebrautes India Pale Ale, das sich durch seinen hopfigen Charakter mit Zitrus-, harzigen Aromen und einer blumigen Note auszeichnet.",
-                      "fr": "Une India Pale Ale élaborée par LBB qui se distingue par son caractère houblonné, avec des arômes d'agrumes, résineux et une pointe florale."
-                    }
-                  },
-                  {
-                    "id": 9,
-                    "nombre": {
-                      "es": "Lagunitas IPA",
-                      "en": "Lagunitas IPA",
-                      "de": "Lagunitas IPA",
-                      "fr": "Lagunitas IPA"
-                    },
-                    "precio": 4.65,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Especialidad de la casa"
-                    ],
-                    "pairsWith": {
-                      "main": 42
-                    },
-                    "descripcion": {
-                      "es": "Clásica IPA californiana: lúpulos cítricos y florales, cuerpo moderado-alto y final seco.",
-                      "en": "Classic Californian IPA: citrus and floral hops, medium-high body, and a dry finish.",
-                      "de": "Klassisches kalifornisches IPA: Zitrus- und Blumenhopfen, mittlerer bis hoher Körper und trockener Abgang.",
-                      "fr": "IPA californienne classique : houblons citriques et floraux, corps modéré-élevé et finale sèche."
-                    }
-                  },
-                  {
-                    "id": 10,
-                    "nombre": {
-                      "es": "Birra Moretti",
-                      "en": "Birra Moretti",
-                      "de": "Birra Moretti",
-                      "fr": "Birra Moretti"
-                    },
-                    "precio": 4.65,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Gourmet"
-                    ],
-                    "pairsWith": {
-                      "main": 33
-                    },
-                    "descripcion": {
-                      "es": "Estilo europeo clásico: sabor suave, notas de pan y lúpulo delicado. Muy bebible.",
-                      "en": "Classic European style: smooth flavor, notes of bread and delicate hops. Very drinkable.",
-                      "de": "Klassischer europäischer Stil: milder Geschmack, Noten von Brot und zartem Hopfen. Sehr trinkbar.",
-                      "fr": "Style européen classique : saveur douce, notes de pain et houblon délicat. Très facile à boire."
-                    }
-                  },
-                  {
-                    "id": 11,
-                    "nombre": {
-                      "es": "Guiness",
-                      "en": "Guinness",
-                      "de": "Guinness",
-                      "fr": "Guinness"
-                    },
-                    "precio": 4.45,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Recomendado"
-                    ],
-                    "pairsWith": {
-                      "drink": 6
-                    },
-                    "descripcion": {
-                      "es": "Cuerpo medio, tostados, amargor suave y espuma característica. Versátil en maridaje con carnes y postres.",
-                      "en": "Medium body, roasted notes, smooth bitterness, and a characteristic head. Versatile for pairing with meats and desserts.",
-                      "de": "Mittlerer Körper, geröstete Noten, sanfte Bitterkeit und charakteristischer Schaum. Vielseitig kombinierbar mit Fleisch und Desserts.",
-                      "fr": "Corps moyen, notes grillées, amertume douce et mousse caractéristique. Polyvalent pour accompagner viandes et desserts."
-                    }
-                  },
-                  {
-                    "id": 12,
-                    "nombre": {
-                      "es": "Cibeles",
-                      "en": "Cibeles",
-                      "de": "Cibeles",
-                      "fr": "Cibeles"
-                    },
-                    "precio": 4.45,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Temporada"
-                    ],
-                    "pairsWith": {
-                      "main": 35
-                    },
-                    "descripcion": {
-                      "es": "Elaborada en Madrid, esta cerveza pale ale ofrece un sabor limpio con un perfil maltoso suave y un amargor ligero.",
-                      "en": "Brewed in Madrid, this pale ale offers a clean flavor with a smooth malty profile and a light bitterness.",
-                      "de": "In Madrid gebraut, bietet dieses Pale Ale einen sauberen Geschmack mit einem sanften Malzprofil und einer leichten Bitterkeit.",
-                      "fr": "Brassée à Madrid, cette pale ale offre une saveur nette avec un profil malté doux et une légère amertume."
-                    }
-                  },
-                  {
-                    "id": 13,
-                    "nombre": {
-                      "es": "El Alcazar",
-                      "en": "El Alcazar",
-                      "de": "El Alcazar",
-                      "fr": "El Alcazar"
-                    },
-                    "precio": 3.95,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Temporada"
-                    ],
-                    "pairsWith": {
-                      "main": 45
-                    },
-                    "descripcion": {
-                      "es": "Nacida en Jaén y recuperada como emblema andaluz, El Alcázar es una cerveza tipo lager con mayor graduación, cuerpo más intenso y sabor persistente.",
-                      "en": "Born in Jaén and revived as an Andalusian emblem, El Alcázar is a lager-style beer with higher alcohol content, a more intense body, and a persistent flavor.",
-                      "de": "Geboren in Jaén und als andalusisches Wahrzeichen wiederbelebt, ist El Alcázar ein Lagerbier mit höherem Alkoholgehalt, intensiverem Körper und anhaltendem Geschmack.",
-                      "fr": "Née à Jaén et récupérée comme un emblème andalou, El Alcázar est une bière de type lager avec une plus grande teneur en alcool, un corps plus intense et une saveur persistante."
-                    }
-                  },
-                  {
-                    "id": 14,
-                    "nombre": {
-                      "es": "18/70",
-                      "en": "18/70",
-                      "de": "18/70",
-                      "fr": "18/70"
-                    },
-                    "precio": 3.95,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Nuevo"
-                    ],
-                    "pairsWith": {
-                      "main": 38
-                    },
-                    "descripcion": {
-                      "es": "Cerveza especial nacida en el País Vasco, 18/70 La Rubia combina lo mejor de una lager tradicional con un toque moderno. Tiene un sabor limpio, con cuerpo medio, sutil amargor y notas maltosas bien equilibradas.",
-                      "en": "A special beer born in the Basque Country, 18/70 La Rubia combines the best of a traditional lager with a modern touch. It has a clean flavor, medium body, subtle bitterness, and well-balanced malty notes.",
-                      "de": "Ein besonderes Bier aus dem Baskenland, 18/70 La Rubia kombiniert das Beste eines traditionellen Lagers mit einem modernen Touch. Es hat einen sauberen Geschmack, mittleren Körper, subtile Bitterkeit und ausgewogene Malznoten.",
-                      "fr": "Bière spéciale née au Pays Basque, 18/70 La Rubia combine le meilleur d'une lager traditionnelle avec une touche moderne. Elle a une saveur nette, un corps moyen, une amertume subtile et des notes maltées bien équilibrées."
+                    "sin_alcohol": {
+                      "orderId": 3,
+                      "title": {
+                        "es": "Cervezas Sin Alcohol",
+                        "en": "Non-Alcoholic Beers",
+                        "de": "Alkoholfreie Biere",
+                        "fr": "Bières Sans Alcool"
+                      },
+                      "dishes": [
+                        {
+                          "id": 5,
+                          "nombre": {
+                            "es": "Heineken 0.0",
+                            "en": "Heineken 0.0",
+                            "de": "Heineken 0.0",
+                            "fr": "Heineken 0.0"
+                          },
+                          "precio": 3.85,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Temporada"
+                          ],
+                          "pairsWith": {
+                            "appetizer": 27
+                          },
+                          "descripcion": {
+                            "es": "Doble fermentación, eliminación suave de alcohol, mantienen sabor malta + lúpulo con un toque afrutado. Aporta apenas 69 kcal por 33 cl.",
+                            "en": "Double fermentation, gentle alcohol removal, maintains malt + hop flavor with a fruity touch. Provides only 69 kcal per 33 cl.",
+                            "de": "Doppelte Gärung, schonende Alkoholentfernung, behält Malz- und Hopfengeschmack mit einer fruchtigen Note. Liefert nur 69 kcal pro 33 cl.",
+                            "fr": "Double fermentation, élimination douce de l'alcool, conserve la saveur malt + houblon avec une touche fruitée. Apporte seulement 69 kcal pour 33 cl."
+                          }
+                        }
+                      ]
                     }
                   }
-                ]
-              },
-              "sin_alcohol": {
-                "orderId": 3,
-                "title": {
-                  "es": "Cervezas Sin Alcohol",
-                  "en": "Non-Alcoholic Beers",
-                  "de": "Alkoholfreie Biere",
-                  "fr": "Bières Sans Alcool"
-                },
-                "dishes": [
-                  {
-                    "id": 5,
-                    "nombre": {
-                      "es": "Heineken 0.0",
-                      "en": "Heineken 0.0",
-                      "de": "Heineken 0.0",
-                      "fr": "Heineken 0.0"
-                    },
-                    "precio": 3.85,
-                    "alergenos": [
-                      "cebada",
-                      "gluten"
-                    ],
-                    "etiquetas": [
-                      "Temporada"
-                    ],
-                    "pairsWith": {
-                      "appetizer": 27
-                    },
-                    "descripcion": {
-                      "es": "Doble fermentación, eliminación suave de alcohol, mantienen sabor malta + lúpulo con un toque afrutado. Aporta apenas 69 kcal por 33 cl.",
-                      "en": "Double fermentation, gentle alcohol removal, maintains malt + hop flavor with a fruity touch. Provides only 69 kcal per 33 cl.",
-                      "de": "Doppelte Gärung, schonende Alkoholentfernung, behält Malz- und Hopfengeschmack mit einer fruchtigen Note. Liefert nur 69 kcal pro 33 cl.",
-                      "fr": "Double fermentation, élimination douce de l'alcool, conserve la saveur malt + houblon avec une touche fruitée. Apporte seulement 69 kcal pour 33 cl."
-                    }
-                  }
-                ]
+                }
               }
+            },
+            "vinos_y_similares": {
+              "orderId": 2,
+              "title": {
+                "es": "Vinos y Similares",
+                "en": "Wines & Similar",
+                "de": "Weine & Ähnliches",
+                "fr": "Vins et Similaires"
+              },
+              "dishes": [
+                {
+                  "id": 20,
+                  "nombre": {
+                    "es": "Tinto de Verano",
+                    "en": "Summer Red Wine",
+                    "de": "Sommer-Rotwein",
+                    "fr": "Vin rouge avec limonade"
+                  },
+                  "precio": 4.1,
+                  "alergenos": [
+                    "sulfitos"
+                  ],
+                  "etiquetas": [
+                    "Sin gluten"
+                  ],
+                  "pairsWith": {
+                    "appetizer": 28
+                  },
+                  "descripcion": {
+                    "es": "Mezcla de vino joven con soda, color rojo claro, dulce, ideal para verano.",
+                    "en": "Mix of young wine with soda, light red color, sweet, ideal for summer.",
+                    "de": "Mischung aus jungem Wein mit Soda, hellrote Farbe, süß, ideal für den Sommer.",
+                    "fr": "Mélange de vin jeune avec de la limonade, couleur rouge clair, doux, idéal pour l'été."
+                  }
+                }
+              ]
+            },
+            "refrescos": {
+              "orderId": 3,
+              "title": {
+                "es": "Refrescos",
+                "en": "Soft Drinks",
+                "de": "Erfrischungsgetränke",
+                "fr": "Boissons Gazeuses"
+              },
+              "dishes": [
+                {
+                  "id": 21,
+                  "nombre": {
+                    "es": "Refresco Refill",
+                    "en": "Soda Refill",
+                    "de": "Getränke-Nachfüllung",
+                    "fr": "Boisson à volonté"
+                  },
+                  "precio": 3.95,
+                  "alergenos": [
+                    "aromas y colorantes"
+                  ],
+                  "etiquetas": [
+                    "Sin gluten"
+                  ],
+                  "pairsWith": {
+                    "appetizer": 25
+                  },
+                  "descripcion": {
+                    "es": "Bebida carbonatada, sabor frutal o caramelizado. Variante refill implica reutilización del envase.",
+                    "en": "Carbonated drink, fruity or caramelized flavor. Refill option implies container reuse.",
+                    "de": "Kohlensäurehaltiges Getränk, fruchtiger oder karamellisierter Geschmack. Die Nachfülloption beinhaltet die Wiederverwendung des Behälters.",
+                    "fr": "Boisson gazeuse, saveur fruitée ou caramélisée. L'option à volonté implique la réutilisation du contenant."
+                  }
+                },
+                {
+                  "id": 22,
+                  "nombre": {
+                    "es": "Refresco Botella 500ml",
+                    "en": "Soft Drink Bottle 500ml",
+                    "de": "Erfrischungsgetränk Flasche 500ml",
+                    "fr": "Boisson en Bouteille 500ml"
+                  },
+                  "precio": 3.75,
+                  "alergenos": [
+                    "aromas y colorantes"
+                  ],
+                  "etiquetas": [
+                    "Popular"
+                  ],
+                  "pairsWith": {
+                    "appetizer": 29
+                  },
+                  "descripcion": {
+                    "es": "Bebida carbonatada, sabor frutal o caramelizado.",
+                    "en": "Carbonated drink, fruity or caramelized flavor.",
+                    "de": "Kohlensäurehaltiges Getränk, fruchtiger oder karamellisierter Geschmack.",
+                    "fr": "Boisson gazeuse, saveur fruitée ou caramélisée."
+                  }
+                }
+              ]
+            },
+            "aguas": {
+              "orderId": 4,
+              "title": {
+                "es": "Aguas",
+                "en": "Waters",
+                "de": "Wasser",
+                "fr": "Eaux"
+              },
+              "dishes": [
+                {
+                  "id": 23,
+                  "nombre": {
+                    "es": "Agua",
+                    "en": "Water",
+                    "de": "Wasser",
+                    "fr": "Eau"
+                  },
+                  "precio": 2.65,
+                  "alergenos": [],
+                  "etiquetas": [
+                    "Sin gluten"
+                  ],
+                  "pairsWith": {
+                    "appetizer": 30
+                  },
+                  "descripcion": {
+                    "es": "Hidratante pura; sin calorías, sin gluten ni azúcares.",
+                    "en": "Purely hydrating; no calories, no gluten, no sugars.",
+                    "de": "Rein hydratisierend; ohne Kalorien, ohne Gluten, ohne Zucker.",
+                    "fr": "Hydratation pure ; sans calories, sans gluten ni sucres."
+                  }
+                },
+                {
+                  "id": 24,
+                  "nombre": {
+                    "es": "Agua con gas",
+                    "en": "Sparkling Water",
+                    "de": "Mineralwasser mit Kohlensäure",
+                    "fr": "Eau pétillante"
+                  },
+                  "precio": 2.95,
+                  "alergenos": [],
+                  "etiquetas": [
+                    "Sin gluten"
+                  ],
+                  "pairsWith": {
+                    "appetizer": 30
+                  },
+                  "descripcion": {
+                    "es": "Hidratante pura; sin calorías, sin gluten ni azúcares.",
+                    "en": "Purely hydrating; no calories, no gluten, no sugars.",
+                    "de": "Rein hydratisierend; ohne Kalorien, ohne Gluten, ohne Zucker.",
+                    "fr": "Hydratation pure ; sans calories, sans gluten ni sucres."
+                  }
+                }
+              ]
             }
-          },
-          "vinos_y_similares": {
-            "orderId": 2,
-            "title": {
-              "es": "Vinos y Similares",
-              "en": "Wines & Similar",
-              "de": "Weine & Ähnliches",
-              "fr": "Vins et Similaires"
-            },
-            "dishes": [
-              {
-                "id": 20,
-                "nombre": {
-                  "es": "Tinto de Verano",
-                  "en": "Summer Red Wine",
-                  "de": "Sommer-Rotwein",
-                  "fr": "Vin rouge avec limonade"
-                },
-                "precio": 4.1,
-                "alergenos": [
-                  "sulfitos"
-                ],
-                "etiquetas": [
-                  "Sin gluten"
-                ],
-                "pairsWith": {
-                  "appetizer": 28
-                },
-                "descripcion": {
-                  "es": "Mezcla de vino joven con soda, color rojo claro, dulce, ideal para verano.",
-                  "en": "Mix of young wine with soda, light red color, sweet, ideal for summer.",
-                  "de": "Mischung aus jungem Wein mit Soda, hellrote Farbe, süß, ideal für den Sommer.",
-                  "fr": "Mélange de vin jeune avec de la limonade, couleur rouge clair, doux, idéal pour l'été."
-                }
-              }
-            ]
-          },
-          "refrescos": {
-            "orderId": 3,
-            "title": {
-              "es": "Refrescos",
-              "en": "Soft Drinks",
-              "de": "Erfrischungsgetränke",
-              "fr": "Boissons Gazeuses"
-            },
-            "dishes": [
-              {
-                "id": 21,
-                "nombre": {
-                  "es": "Refresco Refill",
-                  "en": "Soda Refill",
-                  "de": "Getränke-Nachfüllung",
-                  "fr": "Boisson à volonté"
-                },
-                "precio": 3.95,
-                "alergenos": [
-                  "aromas y colorantes"
-                ],
-                "etiquetas": [
-                  "Sin gluten"
-                ],
-                "pairsWith": {
-                  "appetizer": 25
-                },
-                "descripcion": {
-                  "es": "Bebida carbonatada, sabor frutal o caramelizado. Variante refill implica reutilización del envase.",
-                  "en": "Carbonated drink, fruity or caramelized flavor. Refill option implies container reuse.",
-                  "de": "Kohlensäurehaltiges Getränk, fruchtiger oder karamellisierter Geschmack. Die Nachfülloption beinhaltet die Wiederverwendung des Behälters.",
-                  "fr": "Boisson gazeuse, saveur fruitée ou caramélisée. L'option à volonté implique la réutilisation du contenant."
-                }
-              },
-              {
-                "id": 22,
-                "nombre": {
-                  "es": "Refresco Botella 500ml",
-                  "en": "Soft Drink Bottle 500ml",
-                  "de": "Erfrischungsgetränk Flasche 500ml",
-                  "fr": "Boisson en Bouteille 500ml"
-                },
-                "precio": 3.75,
-                "alergenos": [
-                  "aromas y colorantes"
-                ],
-                "etiquetas": [
-                  "Popular"
-                ],
-                "pairsWith": {
-                  "appetizer": 29
-                },
-                "descripcion": {
-                  "es": "Bebida carbonatada, sabor frutal o caramelizado.",
-                  "en": "Carbonated drink, fruity or caramelized flavor.",
-                  "de": "Kohlensäurehaltiges Getränk, fruchtiger oder karamellisierter Geschmack.",
-                  "fr": "Boisson gazeuse, saveur fruitée ou caramélisée."
-                }
-              }
-            ]
-          },
-          "aguas": {
-            "orderId": 4,
-            "title": {
-              "es": "Aguas",
-              "en": "Waters",
-              "de": "Wasser",
-              "fr": "Eaux"
-            },
-            "dishes": [
-              {
-                "id": 23,
-                "nombre": {
-                  "es": "Agua",
-                  "en": "Water",
-                  "de": "Wasser",
-                  "fr": "Eau"
-                },
-                "precio": 2.65,
-                "alergenos": [],
-                "etiquetas": [
-                  "Sin gluten"
-                ],
-                "pairsWith": {
-                  "appetizer": 30
-                },
-                "descripcion": {
-                  "es": "Hidratante pura; sin calorías, sin gluten ni azúcares.",
-                  "en": "Purely hydrating; no calories, no gluten, no sugars.",
-                  "de": "Rein hydratisierend; ohne Kalorien, ohne Gluten, ohne Zucker.",
-                  "fr": "Hydratation pure ; sans calories, sans gluten ni sucres."
-                }
-              },
-              {
-                "id": 24,
-                "nombre": {
-                  "es": "Agua con gas",
-                  "en": "Sparkling Water",
-                  "de": "Mineralwasser mit Kohlensäure",
-                  "fr": "Eau pétillante"
-                },
-                "precio": 2.95,
-                "alergenos": [],
-                "etiquetas": [
-                  "Sin gluten"
-                ],
-                "pairsWith": {
-                  "appetizer": 30
-                },
-                "descripcion": {
-                  "es": "Hidratante pura; sin calorías, sin gluten ni azúcares.",
-                  "en": "Purely hydrating; no calories, no gluten, no sugars.",
-                  "de": "Rein hydratisierend; ohne Kalorien, ohne Gluten, ohne Zucker.",
-                  "fr": "Hydratation pure ; sans calories, sans gluten ni sucres."
-                }
-              }
-            ]
           }
-        }
-      },
+        },
       "entrantes": {
         "orderId": 2,
         "title": {
