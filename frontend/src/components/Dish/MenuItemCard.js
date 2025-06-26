@@ -14,8 +14,8 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey, showShort
   const currentLanguage = i18n.language;
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
-  // Get the translated short description
-  const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage);
+  // Changed from `descripcionCorta` to `descripcion` to get the main description.
+  const descripcion = getTranslatedDishText(plato.descripcion, currentLanguage);
   const shouldShowImage = menuHasImages && plato.imagen;
 
   // --- Base classes for the card ---
@@ -47,9 +47,9 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey, showShort
         <div className={styles.textContent}>
           <div>
             <h3 className={styles.dishName}>{nombre}</h3>
-            {/* Conditionally render the short description if the prop is true and description exists */}
-            {showShortDescriptionInMenu && descripcionCorta && (
-              <p className={styles.dishDescription}>{descripcionCorta}</p>
+            {/* Now displays the main description if the prop is true. CSS handles truncation. */}
+            {showShortDescriptionInMenu && descripcion && (
+              <p className={styles.dishDescription}>{descripcion}</p>
             )}
           </div>
           <div className={styles.cardBottom}>
@@ -111,9 +111,9 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey, showShort
           )}
         </div>
         
-        {/* Conditionally render the short description between header and footer */}
-        {showShortDescriptionInMenu && descripcionCorta && (
-          <p className={styles.dishDescription}>{descripcionCorta}</p>
+        {/* Now displays the main description if the prop is true. CSS handles truncation. */}
+        {showShortDescriptionInMenu && descripcion && (
+          <p className={styles.dishDescription}>{descripcion}</p>
         )}
 
         <div className={styles.cardFooter}>

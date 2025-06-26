@@ -12,7 +12,7 @@ import LanguageSelector from './components/LanguageSelector/LanguageSelector';
 // La importación de OrderSummary ha sido eliminada
 import { initialLanguage } from './i18n';
 import './App.css';
-
+import Analytics from './Analytics';
 // Rutas de las pestañas para la navegación con swipe
 const tabPaths = ['/carta', '/chat'];
 const SWIPE_THRESHOLD_X = 75;
@@ -139,8 +139,9 @@ function App() {
     <Router>
       {/* TenantProvider envuelve toda la aplicación para proporcionar la configuración del inquilino */}
       <TenantProvider>
-        {/* OrderProvider ha sido eliminado */}
+        
         <ThemeApplicator /> {/* Aplica los estilos del tema del inquilino */}
+        <Analytics /> 
         <AppContent />
         {/* El cierre de OrderProvider ha sido eliminado */}
       </TenantProvider>

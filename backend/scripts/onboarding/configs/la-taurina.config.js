@@ -149,8 +149,7 @@ module.exports = {
         *   **Formato Conversacional:** Al sugerir platos o categorías, intégralos de forma fluida en una única frase horizontal, sin saltos de línea. No uses comas, puntos ni ningún otro signo de puntuación justo antes o después de los enlaces.
         *   **Excepción de Enlace en Confirmación:** Cuando el cliente elige un plato o categoria que le acabas de sugerir, al confirmarlo ("¡Apuntado!", "¡Perfecto, las croquetas!",'Genial, de carnes tenemos...'), **NO generes el enlace para ese plato/categoria**. Solo se generan enlaces al sugerir o en el resumen final.
         *   **Preguntas en Negrita:** **Cualquier pregunta que hagas al final de un mensaje debe ir siempre en negrita.**
-    
-    3.  **Idioma:** Responde siempre en el idioma que utilice el cliente.
+  
     
     4.  **Prioridad de Sugerencia:**
         1.  **Preferencias del cliente:** Son la máxima prioridad.
@@ -272,7 +271,6 @@ module.exports = {
 `,
     firstMessage: "Hola, soy GastroGPT, un asistente de IA. Estoy aquí para ayudarte a crear tu menú ideal.¿Que quieres para beber? Te responderé en el lenguaje en el que me digas la bebida y no usare bullet points ni listas. Te respondere en el lenguaje que me preguntes o digas la bebida, soy multi idiomas.",
   },
-
     "menu": {
       "bebidas": {
         "orderId": 1,
@@ -282,34 +280,35 @@ module.exports = {
           "de": "Getränke",
           "fr": "Boissons"
         },
-        "dishes": [{
-                "id": 54,
-                "nombre": {
-                  "es": "Café (especificar al camarero)",
-                  "en": "Coffee (specify to the waiter)",
-                  "de": "Kaffee (beim Kellner angeben)",
-                  "fr": "Café (à préciser au serveur)"
-                },
-                "descripcionCorta": {
-                  "es": "Aromático, intenso y estimulante.",
-                  "en": "Aromatic, intense and stimulating.",
-                  "de": "Aromatisch, intensiv und anregend.",
-                  "fr": "Aromatique, intense et stimulant."
-                },
-                "descripcionLarga": {
-                  "es": "Aromático, intenso y estimulante.",
-                  "en": "Aromatic, intense and stimulating.",
-                  "de": "Aromatisch, intensiv und anregend.",
-                  "fr": "Aromatique, intense et stimulant."
-                },
-                "precio": null,
-                "alergenos": [],
-                "etiquetas": []
-          }],
+        "dishes": [
+          {
+            "id": 54,
+            "nombre": {
+              "es": "Café (especificar al camarero)",
+              "en": "Coffee (specify to the waiter)",
+              "de": "Kaffee (beim Kellner angeben)",
+              "fr": "Café (à préciser au serveur)"
+            },
+            "descripcion": {
+              "es": "Aromático, intenso y estimulante.",
+              "en": "Aromatic, intense and stimulating.",
+              "de": "Aromatisch, intensiv und anregend.",
+              "fr": "Aromatique, intense et stimulant."
+            },
+            "precio": null,
+            "alergenos": [],
+            "etiquetas": []
+          }
+        ],
         "subCategories": {
           "cervezas": {
             "orderId": 1,
-            "title": { "es": "Cervezas", "en": "Beers", "de": "Biere", "fr": "Bières" },
+            "title": {
+              "es": "Cervezas",
+              "en": "Beers",
+              "de": "Biere",
+              "fr": "Bières"
+            },
             "dishes": [
               {
                 "id": 44,
@@ -319,23 +318,19 @@ module.exports = {
                   "de": " San Miguel Bier",
                   "fr": "Bière San Miguel"
                 },
-                "descripcionCorta": {
-                  "es": "Cerveza española, refrescante y con cuerpo suave.",
-                  "en": "Spanish beer, refreshing with a smooth body.",
-                  "de": "Spanisches Bier, erfrischend mit mildem Körper.",
-                  "fr": "Bière espagnole, rafraîchissante et au corps léger."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Cerveza española, refrescante y con cuerpo suave.",
                   "en": "Spanish beer, refreshing with a smooth body.",
                   "de": "Spanisches Bier, erfrischend mit mildem Körper.",
                   "fr": "Bière espagnole, rafraîchissante et au corps léger."
                 },
                 "precio": null,
-                "pairsWith": { "appetizer": 10 },
+                "pairsWith": {
+                  "appetizer": 10
+                },
                 "alergenos": [],
                 "etiquetas": []
-              }, 
+              },
               {
                 "id": 44,
                 "nombre": {
@@ -344,20 +339,16 @@ module.exports = {
                   "de": "Mahou  Bier",
                   "fr": "Bière Mahou"
                 },
-                "descripcionCorta": {
-                  "es": "Cerveza española, refrescante y con cuerpo suave.",
-                  "en": "Spanish beer, refreshing with a smooth body.",
-                  "de": "Spanisches Bier, erfrischend mit mildem Körper.",
-                  "fr": "Bière espagnole, rafraîchissante et au corps léger."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Cerveza española, refrescante y con cuerpo suave.",
                   "en": "Spanish beer, refreshing with a smooth body.",
                   "de": "Spanisches Bier, erfrischend mit mildem Körper.",
                   "fr": "Bière espagnole, rafraîchissante et au corps léger."
                 },
                 "precio": null,
-                "pairsWith": { "appetizer": 10 },
+                "pairsWith": {
+                  "appetizer": 10
+                },
                 "alergenos": [],
                 "etiquetas": []
               },
@@ -369,13 +360,7 @@ module.exports = {
                   "de": "Alkoholfreies Bier",
                   "fr": "Bière sans alcool"
                 },
-                "descripcionCorta": {
-                  "es": "Todo el sabor, sin alcohol.",
-                  "en": "All the flavour, zero alcohol.",
-                  "de": "Voller Geschmack, kein Alkohol.",
-                  "fr": "Tout le goût, sans alcool."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Todo el sabor, sin alcohol.",
                   "en": "All the flavour, zero alcohol.",
                   "de": "Voller Geschmack, kein Alkohol.",
@@ -389,7 +374,12 @@ module.exports = {
           },
           "vinos_y_similares": {
             "orderId": 2,
-            "title": { "es": "Vinos y Similares", "en": "Wines & Similar", "de": "Weine & Ähnliches", "fr": "Vins et Similaires" },
+            "title": {
+              "es": "Vinos y Similares",
+              "en": "Wines & Similar",
+              "de": "Weine & Ähnliches",
+              "fr": "Vins et Similaires"
+            },
             "dishes": [
               {
                 "id": 46,
@@ -399,21 +389,19 @@ module.exports = {
                   "de": "Rotwein",
                   "fr": "Vin rouge"
                 },
-                "descripcionCorta": {
-                  "es": "Con cuerpo y aromas intensos. Rioja, Ribera del Duero...",
-                  "en": "Full-bodied with intense aromas. Rioja, Ribera del Duero...",
-                  "de": "Vollmundig mit intensiven Aromen. Rioja, Ribera del Duero...",
-                  "fr": "Corsé avec des arômes intenses. Rioja, Ribera del Duero..."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Con cuerpo y aromas intensos. Rioja, Ribera del Duero...",
                   "en": "Full-bodied with intense aromas. Rioja, Ribera del Duero...",
                   "de": "Vollmundig mit intensiven Aromen. Rioja, Ribera del Duero...",
                   "fr": "Corsé avec des arômes intenses. Rioja, Ribera del Duero..."
                 },
                 "precio": null,
-                "pairsWith": { "appetizer": 15 },
-                "alergenos": ["sulfitos"],
+                "pairsWith": {
+                  "appetizer": 15
+                },
+                "alergenos": [
+                  "sulfitos"
+                ],
                 "etiquetas": []
               },
               {
@@ -424,21 +412,19 @@ module.exports = {
                   "de": "Weißwein",
                   "fr": "Vin blanc"
                 },
-                "descripcionCorta": {
-                  "es": "Ligero, afrutado y fresco. Verdejo, Albariño, Rueda...",
-                  "en": "Light, fruity and fresh. Verdejo, Albariño, Rueda...",
-                  "de": "Leicht, fruchtig und frisch. Verdejo, Albariño, Rueda...",
-                  "fr": "Léger, fruité et frais. Verdejo, Albariño, Rueda..."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Ligero, afrutado y fresco. Verdejo, Albariño, Rueda...",
                   "en": "Light, fruity and fresh. Verdejo, Albariño, Rueda...",
                   "de": "Leicht, fruchtig und frisch. Verdejo, Albariño, Rueda...",
                   "fr": "Léger, fruité et frais. Verdejo, Albariño, Rueda..."
                 },
                 "precio": null,
-                "pairsWith": { "appetizer": 9 },
-                "alergenos": ["sulfitos"],
+                "pairsWith": {
+                  "appetizer": 9
+                },
+                "alergenos": [
+                  "sulfitos"
+                ],
                 "etiquetas": []
               },
               {
@@ -449,21 +435,19 @@ module.exports = {
                   "de": "Sangria",
                   "fr": "Sangria"
                 },
-                "descripcionCorta": {
-                  "es": "Bebida típica con vino y frutas, refrescante y festiva.",
-                  "en": "Typical wine-and-fruit drink, refreshing and festive.",
-                  "de": "Typisches Getränk mit Wein und Früchten, erfrischend und festlich.",
-                  "fr": "Boisson typique à base de vin et de fruits, rafraîchissante et festive."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Bebida típica con vino y frutas, refrescante y festiva.",
                   "en": "Typical wine-and-fruit drink, refreshing and festive.",
                   "de": "Typisches Getränk mit Wein und Früchten, erfrischend und festlich.",
                   "fr": "Boisson typique à base de vin et de fruits, rafraîchissante et festive."
                 },
                 "precio": null,
-                "pairsWith": { "appetizer": 12 },
-                "alergenos": ["sulfitos"],
+                "pairsWith": {
+                  "appetizer": 12
+                },
+                "alergenos": [
+                  "sulfitos"
+                ],
                 "etiquetas": []
               },
               {
@@ -474,28 +458,31 @@ module.exports = {
                   "de": "Tinto de verano (Rotweinschorle)",
                   "fr": "Tinto de verano (vin rouge et limonade)"
                 },
-                "descripcionCorta": {
-                  "es": "Vino tinto con gaseosa o limón, ligero y refrescante.",
-                  "en": "Red wine with soda or lemon, light and refreshing.",
-                  "de": "Rotwein mit Limonade oder Zitrone, leicht und erfrischend.",
-                  "fr": "Vin rouge avec de la limonade gazeuse ou du citron, léger et rafraîchissant."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Vino tinto con gaseosa o limón, ligero y refrescante.",
                   "en": "Red wine with soda or lemon, light and refreshing.",
                   "de": "Rotwein mit Limonade oder Zitrone, leicht und erfrischend.",
                   "fr": "Vin rouge avec de la limonade gazeuse ou du citron, léger et rafraîchissant."
                 },
                 "precio": null,
-                "pairsWith": { "appetizer": 8 },
-                "alergenos": ["sulfitos"],
+                "pairsWith": {
+                  "appetizer": 8
+                },
+                "alergenos": [
+                  "sulfitos"
+                ],
                 "etiquetas": []
               }
             ]
           },
           "refrescos": {
             "orderId": 3,
-            "title": { "es": "Refrescos", "en": "Soft Drinks", "de": "Erfrischungsgetränke", "fr": "Boissons Gazeuses" },
+            "title": {
+              "es": "Refrescos",
+              "en": "Soft Drinks",
+              "de": "Erfrischungsgetränke",
+              "fr": "Boissons Gazeuses"
+            },
             "dishes": [
               {
                 "id": 48,
@@ -505,13 +492,7 @@ module.exports = {
                   "de": "Fanta Orange / Zitrone",
                   "fr": "Fanta orange / citron"
                 },
-                "descripcionCorta": {
-                  "es": "Refrescos cítricos dulces y burbujeantes.",
-                  "en": "Sweet, bubbly citrus soft drinks.",
-                  "de": "Süße, spritzige Zitrus-Limonaden.",
-                  "fr": "Boissons gazeuses aux agrumes, douces et pétillantes."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Refrescos cítricos dulces y burbujeantes.",
                   "en": "Sweet, bubbly citrus soft drinks.",
                   "de": "Süße, spritzige Zitrus-Limonaden.",
@@ -529,13 +510,7 @@ module.exports = {
                   "de": "Nestea",
                   "fr": "Nestea"
                 },
-                "descripcionCorta": {
-                  "es": "Refresco dulce y burbujeante.",
-                  "en": "Sweet, bubbly soft drink.",
-                  "de": "Süße, spritzige Limonaden.",
-                  "fr": "Boissons gazeuses aux agrumes, douces."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Refresco dulce y burbujeante.",
                   "en": "Sweet, bubbly soft drink.",
                   "de": "Süße, spritzige Limonaden.",
@@ -553,13 +528,7 @@ module.exports = {
                   "de": "Coca-Cola",
                   "fr": "Coca-Cola"
                 },
-                "descripcionCorta": {
-                  "es": "El clásico refresco de cola.",
-                  "en": "The classic cola soft drink.",
-                  "de": "Der klassische Cola-Softdrink.",
-                  "fr": "Le classique soda au cola."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "El clásico refresco de cola.",
                   "en": "The classic cola soft drink.",
                   "de": "Der klassische Cola-Softdrink.",
@@ -577,13 +546,7 @@ module.exports = {
                   "de": "Aquarius Zitrone / Orange",
                   "fr": "Aquarius citron / orange"
                 },
-                "descripcionCorta": {
-                  "es": "Ideal para hidratarse y recuperar energías.",
-                  "en": "Ideal to hydrate and recover energy.",
-                  "de": "Ideal zum Hydrieren und Energietanken.",
-                  "fr": "Idéal pour s'hydrater et récupérer de l'énergie."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Ideal para hidratarse y recuperar energías.",
                   "en": "Ideal to hydrate and recover energy.",
                   "de": "Ideal zum Hydrieren und Energietanken.",
@@ -601,13 +564,7 @@ module.exports = {
                   "de": "Tonic Water",
                   "fr": "Eau tonique"
                 },
-                "descripcionCorta": {
-                  "es": "Refresco amargo y burbujeante.",
-                  "en": "Bitter, bubbly soft drink.",
-                  "de": "Bitterer, spritziger Softdrink.",
-                  "fr": "Boisson gazeuse amère et pétillante."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Refresco amargo y burbujeante.",
                   "en": "Bitter, bubbly soft drink.",
                   "de": "Bitterer, spritziger Softdrink.",
@@ -621,18 +578,22 @@ module.exports = {
           },
           "aguas": {
             "orderId": 4,
-            "title": { "es": "Aguas", "en": "Waters", "de": "Wasser", "fr": "Eaux" },
+            "title": {
+              "es": "Aguas",
+              "en": "Waters",
+              "de": "Wasser",
+              "fr": "Eaux"
+            },
             "dishes": [
               {
                 "id": 52,
-                "nombre": { "es": "Agua", "en": "Water", "de": "Wasser", "fr": "Eau" },
-                "descripcionCorta": {
-                  "es": "La bebida más esencial y saludable.",
-                  "en": "The most essential and healthy drink.",
-                  "de": "Das wichtigste und gesündeste Getränk.",
-                  "fr": "La boisson la plus essentielle et saine."
+                "nombre": {
+                  "es": "Agua",
+                  "en": "Water",
+                  "de": "Wasser",
+                  "fr": "Eau"
                 },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "La bebida más esencial y saludable.",
                   "en": "The most essential and healthy drink.",
                   "de": "Das wichtigste und gesündeste Getränk.",
@@ -650,13 +611,7 @@ module.exports = {
                   "de": "Sprudelwasser",
                   "fr": "Eau gazeuse"
                 },
-                "descripcionCorta": {
-                  "es": "Agua burbujeante para un extra de frescor.",
-                  "en": "Bubbly water for extra freshness.",
-                  "de": "Sprudelndes Wasser für extra Frische.",
-                  "fr": "De l'eau pétillante pour un surplus de fraîcheur."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Agua burbujeante para un extra de frescor.",
                   "en": "Bubbly water for extra freshness.",
                   "de": "Sprudelndes Wasser für extra Frische.",
@@ -667,7 +622,7 @@ module.exports = {
                 "etiquetas": []
               }
             ]
-          },
+          }
         }
       },
       "entrantes": {
@@ -687,22 +642,23 @@ module.exports = {
               "de": "Kastilische Suppe mit Schinkenwürfeln und Eierfäden",
               "fr": "Soupe castillane avec jambon en dés et œuf filé"
             },
-            "descripcionCorta": {
-              "es": "Un clásico reconfortante para empezar con sabor auténtico.",
-              "en": "A comforting classic to start with authentic flavour.",
-              "de": "Ein tröstlicher Klassiker für einen Start mit authentischem Geschmack.",
-              "fr": "Un classique réconfortant pour commencer avec une saveur authentique."
-            },
-            "descripcionLarga": {
+            "descripcion": {
               "es": "Caldo tradicional de ajo y pimentón, con virutas de jamón serrano y delicadas hebras de huevo cocido.",
               "en": "Traditional garlic-paprika broth topped with serrano ham shavings and delicate strands of cooked egg.",
               "de": "Traditionelle Knoblauch-Paprika-Brühe, garniert mit Serrano-Schinken-Spänen und feinen Fäden aus gekochtem Ei.",
               "fr": "Bouillon traditionnel à l'ail et au paprika, garni de copeaux de jambon serrano et de délicats filaments d'œuf cuit."
             },
             "precio": 11.5,
-            "pairsWith": { "main": 37 },
-            "alergenos": ["huevo", "sulfitos"],
-            "etiquetas": ["económico"]
+            "pairsWith": {
+              "main": 37
+            },
+            "alergenos": [
+              "huevo",
+              "sulfitos"
+            ],
+            "etiquetas": [
+              "económico"
+            ]
           },
           {
             "id": 6,
@@ -712,22 +668,20 @@ module.exports = {
               "de": "Gemischter Gemüseteller vom Grill",
               "fr": "Assortiment de légumes grillés"
             },
-            "descripcionCorta": {
-              "es": "La huerta en su punto justo de brasa.",
-              "en": "The market garden at its perfect char.",
-              "de": "Der Gemüsegarten perfekt gegrillt.",
-              "fr": "Le potager parfaitement grillé."
-            },
-            "descripcionLarga": {
+            "descripcion": {
               "es": "Verduras frescas, asadas al grill con aceite de oliva virgen extra.",
               "en": "Fresh vegetables, grilled and dressed with extra-virgin olive oil.",
               "de": "Frisches Gemüse, gegrillt und mit nativem Olivenöl extra beträufelt.",
               "fr": "Légumes frais, grillés et arrosés d'huile d'olive extra vierge."
             },
             "precio": 16,
-            "pairsWith": { "main": 20 },
+            "pairsWith": {
+              "main": 20
+            },
             "alergenos": [],
-            "etiquetas": ["vegetariano"]
+            "etiquetas": [
+              "vegetariano"
+            ]
           },
           {
             "id": 15,
@@ -737,22 +691,23 @@ module.exports = {
               "de": "Eichel-gefütterter Iberischer Schinken mit Pan Tumaca",
               "fr": "Jambon ibérique de bellota accompagné de pan tumaca"
             },
-            "descripcionCorta": {
-              "es": "El ibérico más selecto con el pan más sencillo y delicioso.",
-              "en": "Select Ibérico ham with the simplest, most delicious bread.",
-              "de": "Ausgewählter Ibérico-Schinken mit dem einfachsten und köstlichsten Brot.",
-              "fr": "Le jambon ibérique le plus sélect avec le pain le plus simple et délicieux."
-            },
-            "descripcionLarga": {
+            "descripcion": {
               "es": "Finas lonchas de jamón de bellota 100% ibérico, servidas con pan crujiente y tomate rallado al estilo catalán.",
               "en": "Thin slices of 100% acorn-fed Ibérico ham served with crusty bread and grated tomato Catalan style.",
               "de": "Dünne Scheiben von 100% Eichel-gefüttertem Ibérico-Schinken, serviert mit knusprigem Brot und geriebener Tomate nach katalanischer Art.",
               "fr": "Fines tranches de jambon de bellota 100% ibérique, servies avec du pain croustillant et de la tomate râpée à la catalane."
             },
             "precio": 32,
-            "pairsWith": { "main": 30 },
-            "alergenos": ["gluten", "sulfitos"],
-            "etiquetas": ["gourmet"]
+            "pairsWith": {
+              "main": 30
+            },
+            "alergenos": [
+              "gluten",
+              "sulfitos"
+            ],
+            "etiquetas": [
+              "gourmet"
+            ]
           },
           {
             "id": 7,
@@ -760,16 +715,27 @@ module.exports = {
               "es": "Alcachofas confitadas a la plancha y sofrito de jamón",
               "en": "Confit artichokes on the griddle with ham sofrito",
               "de": "Konfierte Artischocken vom Grill mit Schinken-Sofrito",
-              "fr": "Artichauts confits à la plancha avec sofrito de jambon"
+              "fr": "Artichauts confits à la plancha con sofrito de jamón"
             },
             "precio": 16.4,
-            "pairsWith": { "main": 36 }, "alergenos": [], "etiquetas": ["gourmet"]
+            "pairsWith": {
+              "main": 36
+            },
+            "alergenos": [],
+            "etiquetas": [
+              "gourmet"
+            ]
           }
         ],
         "subCategories": {
           "para_picar": {
             "orderId": 1,
-            "title": { "es": "Para Picar", "en": "To Share & Nibble", "de": "Zum Teilen & Knabbern", "fr": "À Partager & Grignoter" },
+            "title": {
+              "es": "Para Picar",
+              "en": "To Share & Nibble",
+              "de": "Zum Teilen & Knabbern",
+              "fr": "À Partager & Grignoter"
+            },
             "dishes": [
               {
                 "id": 2,
@@ -780,7 +746,18 @@ module.exports = {
                   "fr": "Croquettes maison crémeuses au jambon ou à la morue (6 pièces)"
                 },
                 "precio": 12.6,
-                "pairsWith": { "main": 24 }, "alergenos": ["gluten", "lactosa", "huevo", "pescado"], "etiquetas": ["popular"]
+                "pairsWith": {
+                  "main": 24
+                },
+                "alergenos": [
+                  "gluten",
+                  "lactosa",
+                  "huevo",
+                  "pescado"
+                ],
+                "etiquetas": [
+                  "popular"
+                ]
               },
               {
                 "id": 4,
@@ -791,7 +768,17 @@ module.exports = {
                   "fr": "Croquettes de queue de taureau (6 pièces)"
                 },
                 "precio": 15,
-                "pairsWith": { "main": 27 }, "alergenos": ["gluten", "lactosa", "huevo"], "etiquetas": ["popular"]
+                "pairsWith": {
+                  "main": 27
+                },
+                "alergenos": [
+                  "gluten",
+                  "lactosa",
+                  "huevo"
+                ],
+                "etiquetas": [
+                  "popular"
+                ]
               },
               {
                 "id": 5,
@@ -802,7 +789,16 @@ module.exports = {
                   "fr": "Omelette à la morue style « Donosti »"
                 },
                 "precio": 16,
-                "pairsWith": { "main": 33 }, "alergenos": ["huevo", "pescado"], "etiquetas": ["sin gluten"]
+                "pairsWith": {
+                  "main": 33
+                },
+                "alergenos": [
+                  "huevo",
+                  "pescado"
+                ],
+                "etiquetas": [
+                  "sin gluten"
+                ]
               },
               {
                 "id": 12,
@@ -813,13 +809,26 @@ module.exports = {
                   "fr": "Œufs au plat fermiers avec pommes de terre rissolées et jambon ibérique"
                 },
                 "precio": 17.5,
-                "pairsWith": { "main": 39 }, "alergenos": ["huevo"], "etiquetas": ["ideal para compartir"]
+                "pairsWith": {
+                  "main": 39
+                },
+                "alergenos": [
+                  "huevo"
+                ],
+                "etiquetas": [
+                  "ideal para compartir"
+                ]
               }
             ]
           },
           "ensaladas_y_frios": {
             "orderId": 2,
-            "title": { "es": "Ensaladas y Platos Fríos", "en": "Salads & Cold Dishes", "de": "Salate & Kalte Gerichte", "fr": "Salades et Plats Froids" },
+            "title": {
+              "es": "Ensaladas y Platos Fríos",
+              "en": "Salads & Cold Dishes",
+              "de": "Salate & Kalte Gerichte",
+              "fr": "Salades et Platos Froids"
+            },
             "dishes": [
               {
                 "id": 3,
@@ -830,7 +839,17 @@ module.exports = {
                   "fr": "Salade russe avec notre bonite marinée maison"
                 },
                 "precio": 13,
-                "pairsWith": { "main": 35 }, "alergenos": ["huevo", "pescado", "sulfitos"], "etiquetas": ["popular"]
+                "pairsWith": {
+                  "main": 35
+                },
+                "alergenos": [
+                  "huevo",
+                  "pescado",
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "popular"
+                ]
               },
               {
                 "id": 16,
@@ -841,7 +860,13 @@ module.exports = {
                   "fr": "Salade mixte de saison"
                 },
                 "precio": 12.9,
-                "pairsWith": { "main": 21 }, "alergenos": [], "etiquetas": ["vegetariano"]
+                "pairsWith": {
+                  "main": 21
+                },
+                "alergenos": [],
+                "etiquetas": [
+                  "vegetariano"
+                ]
               },
               {
                 "id": 17,
@@ -852,7 +877,18 @@ module.exports = {
                   "fr": "Salade César (avec lanières de poulet, bacon, croûtons et parmesan)"
                 },
                 "precio": 17,
-                "pairsWith": { "main": 34 }, "alergenos": ["gluten", "huevo", "lactosa", "mostaza"], "etiquetas": ["ideal para compartir"]
+                "pairsWith": {
+                  "main": 34
+                },
+                "alergenos": [
+                  "gluten",
+                  "huevo",
+                  "lactosa",
+                  "mostaza"
+                ],
+                "etiquetas": [
+                  "ideal para compartir"
+                ]
               },
               {
                 "id": 18,
@@ -863,7 +899,15 @@ module.exports = {
                   "fr": "Carpaccio de tomates du jardin avec burrata fraîche des Pouilles et pomodoro secchi"
                 },
                 "precio": 17.5,
-                "pairsWith": { "main": 29 }, "alergenos": ["lactosa"], "etiquetas": ["gourmet"]
+                "pairsWith": {
+                  "main": 29
+                },
+                "alergenos": [
+                  "lactosa"
+                ],
+                "etiquetas": [
+                  "gourmet"
+                ]
               },
               {
                 "id": 19,
@@ -874,13 +918,27 @@ module.exports = {
                   "fr": "Salade de tomates avec bonite marinée maison et oignon doux"
                 },
                 "precio": 18,
-                "pairsWith": { "main": 38 }, "alergenos": ["pescado", "sulfitos"], "etiquetas": ["sin gluten"]
+                "pairsWith": {
+                  "main": 38
+                },
+                "alergenos": [
+                  "pescado",
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "sin gluten"
+                ]
               }
             ]
           },
           "del_mar": {
             "orderId": 3,
-            "title": { "es": "Del Mar", "en": "From The Sea", "de": "Aus dem Meer", "fr": "De la Mer" },
+            "title": {
+              "es": "Del Mar",
+              "en": "From The Sea",
+              "de": "Aus dem Meer",
+              "fr": "De la Mer"
+            },
             "dishes": [
               {
                 "id": 8,
@@ -891,7 +949,18 @@ module.exports = {
                   "fr": "Dés de morue croustillants avec aïoli à la ciboulette"
                 },
                 "precio": 16.5,
-                "pairsWith": { "main": 25 }, "alergenos": ["pescado", "huevo", "ajo", "sulfitos"], "etiquetas": ["ideal para compartir"]
+                "pairsWith": {
+                  "main": 25
+                },
+                "alergenos": [
+                  "pescado",
+                  "huevo",
+                  "ajo",
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "ideal para compartir"
+                ]
               },
               {
                 "id": 9,
@@ -902,7 +971,17 @@ module.exports = {
                   "fr": "Pétoncles à la plancha avec purée d'ail et persil (6 pièces)"
                 },
                 "precio": 16.5,
-                "pairsWith": { "main": 26 }, "alergenos": ["moluscos", "ajo", "sulfitos"], "etiquetas": ["temporada"]
+                "pairsWith": {
+                  "main": 26
+                },
+                "alergenos": [
+                  "moluscos",
+                  "ajo",
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "temporada"
+                ]
               },
               {
                 "id": 10,
@@ -910,10 +989,19 @@ module.exports = {
                   "es": "Calamares cristal a la andaluza",
                   "en": "Crystal-style fried squid Andalusian way",
                   "de": "Kristall-Tintenfisch nach andalusischer Art",
-                  "fr": "Calamars cristal à l'andalouse"
+                  "fr": "Calamars cristal a la andaluza"
                 },
                 "precio": 16.8,
-                "pairsWith": { "main": 23 }, "alergenos": ["moluscos", "gluten"], "etiquetas": ["popular"]
+                "pairsWith": {
+                  "main": 23
+                },
+                "alergenos": [
+                  "moluscos",
+                  "gluten"
+                ],
+                "etiquetas": [
+                  "popular"
+                ]
               },
               {
                 "id": 11,
@@ -921,10 +1009,20 @@ module.exports = {
                   "es": "Sepia a la plancha con alioli",
                   "en": "Griddled cuttlefish with aioli",
                   "de": "Gegrillter Tintenfisch mit Aioli",
-                  "fr": "Seiche à la plancha avec aïoli"
+                  "fr": "Seiche à la plancha con aïoli"
                 },
                 "precio": 17.2,
-                "pairsWith": { "main": 22 }, "alergenos": ["moluscos", "huevo", "ajo"], "etiquetas": ["ideal para compartir"]
+                "pairsWith": {
+                  "main": 22
+                },
+                "alergenos": [
+                  "moluscos",
+                  "huevo",
+                  "ajo"
+                ],
+                "etiquetas": [
+                  "ideal para compartir"
+                ]
               },
               {
                 "id": 13,
@@ -935,7 +1033,16 @@ module.exports = {
                   "fr": "Cassolette de crevettes à l'ail et au piment"
                 },
                 "precio": 22,
-                "pairsWith": { "main": 37 }, "alergenos": ["crustáceos", "ajo"], "etiquetas": ["picante"]
+                "pairsWith": {
+                  "main": 37
+                },
+                "alergenos": [
+                  "crustáceos",
+                  "ajo"
+                ],
+                "etiquetas": [
+                  "picante"
+                ]
               },
               {
                 "id": 14,
@@ -946,9 +1053,17 @@ module.exports = {
                   "fr": "Chipirons de ligne aux oignons avec croustillant"
                 },
                 "precio": 23.5,
-                "pairsWith": { "main": 32 }, "alergenos": ["moluscos", "gluten"], "etiquetas": ["temporada"]
-              },
-        
+                "pairsWith": {
+                  "main": 32
+                },
+                "alergenos": [
+                  "moluscos",
+                  "gluten"
+                ],
+                "etiquetas": [
+                  "temporada"
+                ]
+              }
             ]
           }
         }
@@ -979,13 +1094,7 @@ module.exports = {
                   "de": "Gemüsepaella",
                   "fr": "Paella aux légumes"
                 },
-                "descripcionCorta": {
-                  "es": "Paella vegetariana llena de sabor.",
-                  "en": "Vegetarian paella full of flavour.",
-                  "de": "Vegetarische Paella voller Geschmack.",
-                  "fr": "Paella végétarienne pleine de saveur."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Arroz con verduras frescas de temporada, cocinado con sofrito valenciano.",
                   "en": "Rice with seasonal fresh vegetables cooked with Valencian sofrito.",
                   "de": "Reis mit frischem Saisongemüse, gekocht mit valencianischem Sofrito.",
@@ -993,9 +1102,14 @@ module.exports = {
                 },
                 "precio": 22.9,
                 "precio_por_persona": true,
-                "pairsWith": { "appetizer": 6, "dessert": 43 },
+                "pairsWith": {
+                  "appetizer": 6,
+                  "dessert": 43
+                },
                 "alergenos": [],
-                "etiquetas": ["vegetariano"]
+                "etiquetas": [
+                  "vegetariano"
+                ]
               },
               {
                 "id": 21,
@@ -1005,13 +1119,7 @@ module.exports = {
                   "de": "Hähnchen- und Gemüsepaella",
                   "fr": "Paella au poulet et aux légumes"
                 },
-                "descripcionCorta": {
-                  "es": "El clásico arroz con pollo y vegetales.",
-                  "en": "Classic rice with chicken and veg.",
-                  "de": "Klassischer Reis mit Huhn und Gemüse.",
-                  "fr": "Le classique riz au poulet et aux légumes."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Arroz con trozos de pollo tierno y verduras frescas, cocinado a fuego lento.",
                   "en": "Rice with tender chicken pieces and fresh vegetables, slowly cooked.",
                   "de": "Reis mit zarten Hühnchenstücken und frischem Gemüse, langsam gekocht.",
@@ -1019,9 +1127,14 @@ module.exports = {
                 },
                 "precio": 23.9,
                 "precio_por_persona": true,
-                "pairsWith": { "appetizer": 16, "dessert": 41 },
+                "pairsWith": {
+                  "appetizer": 16,
+                  "dessert": 41
+                },
                 "alergenos": [],
-                "etiquetas": ["ideal para compartir"]
+                "etiquetas": [
+                  "ideal para compartir"
+                ]
               },
               {
                 "id": 22,
@@ -1031,13 +1144,7 @@ module.exports = {
                   "de": "„Señorét“-Paella (Huhn, Tintenfisch, grüne Bohnen, Garnelen, Muschel)",
                   "fr": "Paella « Señorét » (poulet, seiche, haricots verts, crevettes, moule)"
                 },
-                "descripcionCorta": {
-                  "es": "Paella mixta con todo pelado y lista para comer.",
-                  "en": "Mixed paella, all peeled and ready to eat.",
-                  "de": "Gemischte Paella, alles geschält und servierfertig.",
-                  "fr": "Paella mixte, tout est décortiqué et prêt à manger."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Paella servida sin cáscaras ni conchas para disfrutar cómodamente.",
                   "en": "Paella served without shells so you can enjoy comfortably.",
                   "de": "Paella ohne Schalen serviert, damit Sie sie bequem genießen können.",
@@ -1045,9 +1152,14 @@ module.exports = {
                 },
                 "precio": 24.5,
                 "precio_por_persona": true,
-                "pairsWith": { "appetizer": 11, "dessert": 40 },
+                "pairsWith": {
+                  "appetizer": 11,
+                  "dessert": 40
+                },
                 "alergenos": [],
-                "etiquetas": ["gourmet"]
+                "etiquetas": [
+                  "gourmet"
+                ]
               },
               {
                 "id": 23,
@@ -1057,13 +1169,7 @@ module.exports = {
                   "de": "Meeresfrüchte-Paella (Kaisergranat, Garnele, Venusmuschel, Miesmuschel, Tintenfisch, Shrimp)",
                   "fr": "Paella aux fruits de mer (langoustine, crevette, palourde, moule, seiche, gambas)"
                 },
-                "descripcionCorta": {
-                  "es": "La especialidad de la casa.",
-                  "en": "The house speciality.",
-                  "de": "Die Spezialität des Hauses.",
-                  "fr": "La spécialité de la maison."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Paella tradicional de marisco con fondo de mariscos.",
                   "en": "Traditional seafood paella with rich shellfish stock.",
                   "de": "Traditionelle Meeresfrüchte-Paella mit reichhaltigem Schalentierfond.",
@@ -1071,9 +1177,18 @@ module.exports = {
                 },
                 "precio": 24.9,
                 "precio_por_persona": true,
-                "pairsWith": { "appetizer": 10, "dessert": 42 },
-                "alergenos": ["marisco", "moluscos", "pescado"],
-                "etiquetas": ["popular"]
+                "pairsWith": {
+                  "appetizer": 10,
+                  "dessert": 42
+                },
+                "alergenos": [
+                  "marisco",
+                  "moluscos",
+                  "pescado"
+                ],
+                "etiquetas": [
+                  "popular"
+                ]
               },
               {
                 "id": 24,
@@ -1083,13 +1198,7 @@ module.exports = {
                   "de": "Gemischte Paella (Huhn, Kaisergranat, Muschel, Tintenfisch, grüne Bohne)",
                   "fr": "Paella mixte (poulet, langoustine, moule, seiche, haricot vert)"
                 },
-                "descripcionCorta": {
-                  "es": "La mejor combinación: carne y mariscos.",
-                  "en": "Best combination: meat and seafood.",
-                  "de": "Beste Kombination: Fleisch und Meeresfrüchte.",
-                  "fr": "La meilleure combinaison : viande et fruits de mer."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Mezcla perfecta de ingredientes de tierra y mar.",
                   "en": "Perfect mix of land and sea ingredients.",
                   "de": "Perfekte Mischung aus Land- und Meereszutaten.",
@@ -1097,9 +1206,18 @@ module.exports = {
                 },
                 "precio": 24.9,
                 "precio_por_persona": true,
-                "pairsWith": { "appetizer": 2, "dessert": 41 },
-                "alergenos": ["marisco", "moluscos", "pescado"],
-                "etiquetas": ["sin gluten"]
+                "pairsWith": {
+                  "appetizer": 2,
+                  "dessert": 41
+                },
+                "alergenos": [
+                  "marisco",
+                  "moluscos",
+                  "pescado"
+                ],
+                "etiquetas": [
+                  "sin gluten"
+                ]
               },
               {
                 "id": 25,
@@ -1109,13 +1227,7 @@ module.exports = {
                   "de": "Schwarzer Reis mit Tintenfisch",
                   "fr": "Riz noir à la seiche"
                 },
-                "descripcionCorta": {
-                  "es": "Arroz cremoso teñido con tinta de sepia.",
-                  "en": "Creamy rice tinted with cuttlefish ink.",
-                  "de": "Cremiger Reis, gefärbt mit Tintenfischtinte.",
-                  "fr": "Riz crémeux teinté à l'encre de seiche."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Acompañado de alioli al gusto.",
                   "en": "Served with aioli to taste.",
                   "de": "Serviert mit Aioli nach Geschmack.",
@@ -1123,9 +1235,17 @@ module.exports = {
                 },
                 "precio": 24.9,
                 "precio_por_persona": true,
-                "pairsWith": { "appetizer": 8, "dessert": 43 },
-                "alergenos": ["moluscos", "pescado"],
-                "etiquetas": ["temporada"]
+                "pairsWith": {
+                  "appetizer": 8,
+                  "dessert": 43
+                },
+                "alergenos": [
+                  "moluscos",
+                  "pescado"
+                ],
+                "etiquetas": [
+                  "temporada"
+                ]
               },
               {
                 "id": 26,
@@ -1135,13 +1255,7 @@ module.exports = {
                   "de": "Suppiger Reis nach Seemannsart (Garnelen, Venusmuscheln, Miesmuscheln, Tintenfisch)",
                   "fr": "Riz en bouillon du marin (crevettes, palourdes, moule, seiche)"
                 },
-                "descripcionCorta": {
-                  "es": "Un arroz con sabor intenso a mar.",
-                  "en": "Rice with an intense sea flavour.",
-                  "de": "Reis mit intensivem Meeresgeschmack.",
-                  "fr": "Un riz au goût intense de la mer."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Caldo profundo y sabroso con mariscos variados.",
                   "en": "Deep, tasty broth with assorted seafood.",
                   "de": "Tiefe, schmackhafte Brühe mit verschiedenen Meeresfrüchten.",
@@ -1149,9 +1263,18 @@ module.exports = {
                 },
                 "precio": 27.9,
                 "precio_por_persona": true,
-                "pairsWith": { "appetizer": 9, "dessert": 42 },
-                "alergenos": ["marisco", "moluscos", "pescado"],
-                "etiquetas": ["gourmet"]
+                "pairsWith": {
+                  "appetizer": 9,
+                  "dessert": 42
+                },
+                "alergenos": [
+                  "marisco",
+                  "moluscos",
+                  "pescado"
+                ],
+                "etiquetas": [
+                  "gourmet"
+                ]
               },
               {
                 "id": 27,
@@ -1161,13 +1284,7 @@ module.exports = {
                   "de": "Cremiger Reis mit Ochsenschwanz",
                   "fr": "Riz crémeux à la queue de taureau"
                 },
-                "descripcionCorta": {
-                  "es": "Arroz cremoso con carne de rabo cocinada a fuego lento.",
-                  "en": "Creamy rice with slow-cooked oxtail.",
-                  "de": "Cremiger Reis mit langsam gegartem Ochsenschwanz.",
-                  "fr": "Riz crémeux avec de la viande de queue de taureau mijotée."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Rabo de toro estofado que se deshace en la boca.",
                   "en": "Stewed oxtail that melts in your mouth.",
                   "de": "Geschmorter Ochsenschwanz, der auf der Zunge zergeht.",
@@ -1175,9 +1292,16 @@ module.exports = {
                 },
                 "precio": 29.9,
                 "precio_por_persona": true,
-                "pairsWith": { "appetizer": 4, "dessert": 43 },
-                "alergenos": ["sulfitos"],
-                "etiquetas": ["especialidad de la casa"]
+                "pairsWith": {
+                  "appetizer": 4,
+                  "dessert": 43
+                },
+                "alergenos": [
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "especialidad de la casa"
+                ]
               }
             ]
           },
@@ -1198,22 +1322,23 @@ module.exports = {
                   "de": "Kutteln nach Madrider Art mit Fuß und Schnauze",
                   "fr": "Tripes de veau à la madrilène avec pied et museau"
                 },
-                "descripcionCorta": {
-                  "es": "Un clásico madrileño lleno de sabor y tradición.",
-                  "en": "A Madrid classic full of flavour and tradition.",
-                  "de": "Ein Madrider Klassiker voller Geschmack und Tradition.",
-                  "fr": "Un classique madrilène plein de saveur et de tradition."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Callos cocinados lentamente en salsa especiada.",
                   "en": "Tripe slowly cooked in spiced sauce.",
                   "de": "Kutteln langsam in gewürzter Sauce gekocht.",
                   "fr": "Tripes cuites lentement dans une sauce épicée."
                 },
                 "precio": 18,
-                "pairsWith": { "appetizer": 1, "dessert": 43 },
-                "alergenos": ["sulfitos"],
-                "etiquetas": ["gourmet"]
+                "pairsWith": {
+                  "appetizer": 1,
+                  "dessert": 43
+                },
+                "alergenos": [
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "gourmet"
+                ]
               },
               {
                 "id": 29,
@@ -1223,22 +1348,21 @@ module.exports = {
                   "de": "Freilandhuhn in Knoblauch mit Kartoffelwürfeln",
                   "fr": "Poulet fermier à l'ail avec des dés de pommes de terre"
                 },
-                "descripcionCorta": {
-                  "es": "El sabor de siempre con el toque del ajo.",
-                  "en": "The usual taste with garlic punch.",
-                  "de": "Der übliche Geschmack mit Knoblauchnote.",
-                  "fr": "Le goût de toujours avec la touche d'ail."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Pollo dorado al ajillo con patata crujiente.",
                   "en": "Golden garlic chicken with crispy potato.",
                   "de": "Goldbraunes Knoblauchhuhn mit knusprigen Kartoffeln.",
                   "fr": "Poulet doré à l'ail avec des pommes de terre croustillantes."
                 },
                 "precio": 22.5,
-                "pairsWith": { "appetizer": 18, "dessert": 41 },
+                "pairsWith": {
+                  "appetizer": 18,
+                  "dessert": 41
+                },
                 "alergenos": [],
-                "etiquetas": ["ideal para compartir"]
+                "etiquetas": [
+                  "ideal para compartir"
+                ]
               },
               {
                 "id": 30,
@@ -1248,22 +1372,24 @@ module.exports = {
                   "de": "Rinderhesse in Rotwein geschmort",
                   "fr": "Jarret de veau mijoté au vin rouge"
                 },
-                "descripcionCorta": {
-                  "es": "Ternera tierna con el aroma intenso del vino.",
-                  "en": "Tender beef with the intense aroma of wine.",
-                  "de": "Zartes Rindfleisch mit dem intensiven Aroma von Wein.",
-                  "fr": "Veau tendre avec l'arôme intense du vin."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Estofado a fuego lento en vino tinto.",
                   "en": "Slow-braised in red wine.",
                   "de": "Langsam in Rotwein geschmort.",
                   "fr": "Mijoté lentement dans du vin rouge."
                 },
                 "precio": 24.5,
-                "pairsWith": { "appetizer": 15, "dessert": 40 },
-                "alergenos": ["apio", "sulfitos"],
-                "etiquetas": ["temporada"]
+                "pairsWith": {
+                  "appetizer": 15,
+                  "dessert": 40
+                },
+                "alergenos": [
+                  "apio",
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "temporada"
+                ]
               },
               {
                 "id": 31,
@@ -1273,22 +1399,24 @@ module.exports = {
                   "de": "Ochsenschwanz-Eintopf nach Cordoba-Art",
                   "fr": "Ragoût de queue de taureau à la cordouane"
                 },
-                "descripcionCorta": {
-                  "es": "Rabo de toro meloso en salsa tradicional.",
-                  "en": "Melting oxtail in traditional sauce.",
-                  "de": "Zarter Ochsenschwanz in traditioneller Sauce.",
-                  "fr": "Queue de taureau fondante en sauce traditionnelle."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Guiso intenso para amantes de sabores potentes.",
                   "en": "Intense stew for lovers of strong flavours.",
                   "de": "Intensiver Eintopf für Liebhaber kräftiger Aromen.",
                   "fr": "Ragoût intense pour les amateurs de saveurs puissantes."
                 },
                 "precio": 29.5,
-                "pairsWith": { "appetizer": 7, "dessert": 43 },
-                "alergenos": ["apio", "sulfitos"],
-                "etiquetas": ["especialidad de la casa"]
+                "pairsWith": {
+                  "appetizer": 7,
+                  "dessert": 43
+                },
+                "alergenos": [
+                  "apio",
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "especialidad de la casa"
+                ]
               }
             ]
           },
@@ -1309,22 +1437,27 @@ module.exports = {
                   "de": "Burger vom gereiften Rind mit Cheddar, Rucola und Honig-Senf-Sauce",
                   "fr": "Burger de bœuf maturé avec cheddar, roquette et sauce miel-moutarde"
                 },
-                "descripcionCorta": {
-                  "es": "Hamburguesa gourmet con un toque dulce.",
-                  "en": "Gourmet burger with a sweet note.",
-                  "de": "Gourmet-Burger mit einer süßen Note.",
-                  "fr": "Burger gourmet avec une touche sucrée."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Carne de vaca vieja con cheddar, rúcula fresca y salsa casera de miel y mostaza en pan artesano.",
                   "en": "Aged beef with cheddar, fresh rocket and house honey-mustard sauce in an artisan bun.",
                   "de": "Gereiftes Rindfleisch mit Cheddar, frischem Rucola und hausgemachter Honig-Senf-Sauce in einem handwerklichen Brötchen.",
                   "fr": "Bœuf maturé avec cheddar, roquette fraîche et sauce maison au miel et à la moutarde dans un pain artisanal."
                 },
                 "precio": 15.5,
-                "pairsWith": { "appetizer": 17, "dessert": 42 },
-                "alergenos": ["gluten", "lactosa", "mostaza", "sésamo", "huevo"],
-                "etiquetas": ["nuevo"]
+                "pairsWith": {
+                  "appetizer": 17,
+                  "dessert": 42
+                },
+                "alergenos": [
+                  "gluten",
+                  "lactosa",
+                  "mostaza",
+                  "sésamo",
+                  "huevo"
+                ],
+                "etiquetas": [
+                  "nuevo"
+                ]
               },
               {
                 "id": 35,
@@ -1334,22 +1467,25 @@ module.exports = {
                   "de": "Hähnchenschnitzel mit Pommes und Barbecue-Sauce",
                   "fr": "Escalope de poulet avec frites et sauce barbecue"
                 },
-                "descripcionCorta": {
-                  "es": "Crujiente y sabroso con toque americano.",
-                  "en": "Crunchy and tasty with an American touch.",
-                  "de": "Knusprig und lecker mit amerikanischem Touch.",
-                  "fr": "Croustillant et savoureux avec une touche américaine."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Filete de pollo empanado con patatas fritas y salsa barbacoa dulce y ahumada.",
                   "en": "Breaded chicken fillet with fries and sweet smoky BBQ sauce.",
                   "de": "Paniertes Hähnchenfilet mit Pommes und süß-rauchiger BBQ-Sauce.",
                   "fr": "Filet de poulet pané avec frites et sauce barbecue douce et fumée."
                 },
                 "precio": 16.5,
-                "pairsWith": { "appetizer": 3, "dessert": 40 },
-                "alergenos": ["gluten", "huevo", "sulfitos"],
-                "etiquetas": ["ideal para compartir"]
+                "pairsWith": {
+                  "appetizer": 3,
+                  "dessert": 40
+                },
+                "alergenos": [
+                  "gluten",
+                  "huevo",
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "ideal para compartir"
+                ]
               },
               {
                 "id": 36,
@@ -1359,22 +1495,21 @@ module.exports = {
                   "de": "Entenconfit auf rotem Fruchtcoulis und Apfelkompott",
                   "fr": "Confit de canard sur coulis de fruits rouges et compote de pommes"
                 },
-                "descripcionCorta": {
-                  "es": "Dulce y salado en un plato elegante.",
-                  "en": "Sweet and savoury in an elegant dish.",
-                  "de": "Süß und salzig in einem eleganten Gericht.",
-                  "fr": "Sucré et salé dans un plat élégant."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Pierna de pato confitada, servida con coulis de frutos rojos y compota de manzana.",
                   "en": "Confit duck leg served with red-berry coulis and apple compote.",
                   "de": "Konfierte Entenkeule, serviert mit rotem Beeren-Coulis und Apfelkompott.",
                   "fr": "Cuisse de canard confite servie avec un coulis de fruits rouges et une compote de pommes."
                 },
                 "precio": 23,
-                "pairsWith": { "appetizer": 7, "dessert": 41 },
+                "pairsWith": {
+                  "appetizer": 7,
+                  "dessert": 41
+                },
                 "alergenos": [],
-                "etiquetas": ["gourmet"]
+                "etiquetas": [
+                  "gourmet"
+                ]
               },
               {
                 "id": 37,
@@ -1384,22 +1519,21 @@ module.exports = {
                   "de": "Gegrilltes trocken gereiftes Hochrippensteak mit Maldon-Salz",
                   "fr": "Entrecôte de bœuf maturée grillée, avec sel de Maldon"
                 },
-                "descripcionCorta": {
-                  "es": "Carne premium con sabor intenso.",
-                  "en": "Premium meat with intense flavour.",
-                  "de": "Premium-Fleisch mit intensivem Geschmack.",
-                  "fr": "Viande premium au goût intense."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Corte de vaca madurada a la parrilla realzado con escamas de sal Maldon.",
                   "en": "Dry-aged beef cut grilled and finished with Maldon flakes.",
                   "de": "Gegrillter Schnitt von trocken gereiftem Rindfleisch, verfeinert mit Maldon-Salzflocken.",
                   "fr": "Morceau de bœuf maturé grillé et rehaussé de flocons de sel de Maldon."
                 },
                 "precio": 29.9,
-                "pairsWith": { "appetizer": 1, "dessert": 43 },
+                "pairsWith": {
+                  "appetizer": 1,
+                  "dessert": 43
+                },
                 "alergenos": [],
-                "etiquetas": ["popular"]
+                "etiquetas": [
+                  "popular"
+                ]
               },
               {
                 "id": 38,
@@ -1409,22 +1543,23 @@ module.exports = {
                   "de": "Iberische Schweinerippchen in Barbecue-Glasur",
                   "fr": "Travers de porc ibérique rôtis au barbecue"
                 },
-                "descripcionCorta": {
-                  "es": "Costillas tiernas y glaseadas.",
-                  "en": "Tender, glazed ribs.",
-                  "de": "Zarte, glasierte Rippchen.",
-                  "fr": "Côtes tendres et glacées."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Costillas ibéricas asadas lentamente bañadas en salsa barbacoa.",
                   "en": "Iberian ribs slowly roasted and basted in BBQ sauce.",
                   "de": "Langsam geröstete Iberische Rippchen, mit BBQ-Sauce bestrichen.",
                   "fr": "Côtes ibériques rôties lentement et nappées de sauce barbecue."
                 },
                 "precio": 29.9,
-                "pairsWith": { "appetizer": 19, "dessert": 42 },
-                "alergenos": ["sulfitos"],
-                "etiquetas": ["popular"]
+                "pairsWith": {
+                  "appetizer": 19,
+                  "dessert": 42
+                },
+                "alergenos": [
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "popular"
+                ]
               },
               {
                 "id": 39,
@@ -1434,28 +1569,36 @@ module.exports = {
                   "de": "Kalbscachopo gefüllt mit Schinken und Vidíago-Käse",
                   "fr": "Cachopo de veau farci au jambon et au fromage Vidíago"
                 },
-                "descripcionCorta": {
-                  "es": "Tradición asturiana en su máxima expresión.",
-                  "en": "Asturian tradition at its best.",
-                  "de": "Asturische Tradition in ihrer besten Form.",
-                  "fr": "La tradition asturienne à son meilleur."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Cachopo crujiente relleno de jamón serrano y queso Vidíago.",
                   "en": "Crispy cachopo filled with serrano ham and Vidíago cheese.",
                   "de": "Knuspriger Cachopo, gefüllt mit Serrano-Schinken und Vidíago-Käse.",
                   "fr": "Cachopo croustillant farci de jambon serrano et de fromage Vidíago."
                 },
                 "precio": 32.5,
-                "pairsWith": { "appetizer": 12, "dessert": 43 },
-                "alergenos": ["gluten", "lactosa", "huevo"],
-                "etiquetas": ["popular"]
+                "pairsWith": {
+                  "appetizer": 12,
+                  "dessert": 43
+                },
+                "alergenos": [
+                  "gluten",
+                  "lactosa",
+                  "huevo"
+                ],
+                "etiquetas": [
+                  "popular"
+                ]
               }
             ]
           },
           "pescados": {
             "orderId": 4,
-            "title": { "es": "Pescados", "en": "Fish", "de": "Fisch", "fr": "Poissons" },
+            "title": {
+              "es": "Pescados",
+              "en": "Fish",
+              "de": "Fisch",
+              "fr": "Poissons"
+            },
             "dishes": [
               {
                 "id": 32,
@@ -1465,22 +1608,23 @@ module.exports = {
                   "de": "Konfierte Kabeljaustücke auf gegrilltem Gemüse",
                   "fr": "Émietté de morue confite sur légumes grillés"
                 },
-                "descripcionCorta": {
-                  "es": "Bacalao jugoso sobre base vegetal.",
-                  "en": "Juicy cod on a vegetable base.",
-                  "de": "Saftiger Kabeljau auf Gemüsebasis.",
-                  "fr": "Morue juteuse sur une base de légumes."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Bacalao confitado sobre verduras a la parrilla con toques mediterráneos.",
                   "en": "Confit cod over grilled vegetables with Mediterranean touches.",
                   "de": "Konfierter Kabeljau über gegrilltem Gemüse mit mediterranen Noten.",
                   "fr": "Morue confite sur des légumes grillés avec des touches méditerranéennes."
                 },
                 "precio": 23.9,
-                "pairsWith": { "appetizer": 14, "dessert": 40 },
-                "alergenos": ["pescado"],
-                "etiquetas": ["sin gluten"]
+                "pairsWith": {
+                  "appetizer": 14,
+                  "dessert": 40
+                },
+                "alergenos": [
+                  "pescado"
+                ],
+                "etiquetas": [
+                  "sin gluten"
+                ]
               },
               {
                 "id": 33,
@@ -1490,22 +1634,24 @@ module.exports = {
                   "de": "Kabeljau-Nacken-Auflauf mit hausgemachter Tomatensauce",
                   "fr": "Cassolette de nuque de morue à la tomate maison"
                 },
-                "descripcionCorta": {
-                  "es": "Bacalao tierno en salsa de tomate.",
-                  "en": "Tender cod in tomato sauce.",
-                  "de": "Zarter Kabeljau in Tomatensauce.",
-                  "fr": "Morue tendre en sauce tomate."
-                },
-                "descripcionLarga": {
+                "descripcion": {
                   "es": "Bacalao guisado con salsa casera de tomate, ajo y cebolla.",
                   "en": "Cod stewed in homemade tomato, garlic and onion sauce.",
                   "de": "Kabeljau, geschmort in hausgemachter Tomaten-, Knoblauch- und Zwiebelsauce.",
                   "fr": "Morue mijotée dans une sauce maison à la tomate, à l'ail et à l'oignon."
                 },
                 "precio": 23.9,
-                "pairsWith": { "appetizer": 5, "dessert": 41 },
-                "alergenos": ["pescado", "sulfitos"],
-                "etiquetas": ["sin gluten"]
+                "pairsWith": {
+                  "appetizer": 5,
+                  "dessert": 41
+                },
+                "alergenos": [
+                  "pescado",
+                  "sulfitos"
+                ],
+                "etiquetas": [
+                  "sin gluten"
+                ]
               }
             ]
           }
@@ -1528,40 +1674,44 @@ module.exports = {
               "de": "Hausgemachter Käsekuchen",
               "fr": "Gâteau au fromage maison"
             },
-            "descripcionCorta": {
-              "es": "Cremosa y horneada al estilo tradicional.",
-              "en": "Creamy and baked the traditional way.",
-              "de": "Cremig und auf traditionelle Weise gebacken.",
-              "fr": "Crémeux et cuit de manière traditionnelle."
-            },
-            "descripcionLarga": {
+            "descripcion": {
               "es": "Tarta de queso con base crujiente y textura suave, ideal para amantes del queso.",
               "en": "Cheesecake with crunchy base and smooth texture, ideal for cheese lovers.",
               "de": "Käsekuchen mit knusprigem Boden und glatter Textur, ideal für Käseliebhaber.",
               "fr": "Gâteau au fromage avec une base croustillante et une texture onctueuse, idéal pour les amateurs de fromage."
             },
             "precio": null,
-            "alergenos": ["huevo", "lactosa", "gluten"],
-            "etiquetas": ["popular"]
+            "alergenos": [
+              "huevo",
+              "lactosa",
+              "gluten"
+            ],
+            "etiquetas": [
+              "popular"
+            ]
           },
           {
             "id": 41,
-            "nombre": { "es": "Flan", "en": "Flan", "de": "Flan", "fr": "Flan" },
-            "descripcionCorta": {
-              "es": "Un clásico suave y lleno de sabor.",
-              "en": "A classic, smooth and full of flavour.",
-              "de": "Ein klassischer, glatter und geschmackvoller Nachtisch.",
-              "fr": "Un classique, onctueux et plein de saveur."
+            "nombre": {
+              "es": "Flan",
+              "en": "Flan",
+              "de": "Flan",
+              "fr": "Flan"
             },
-            "descripcionLarga": {
+            "descripcion": {
               "es": "Flan de huevo casero con textura sedosa y caramelo dorado.",
               "en": "Homemade egg custard with silky texture and golden caramel.",
               "de": "Hausgemachter Eierpudding mit seidiger Textur und goldenem Karamell.",
               "fr": "Flan aux œufs maison avec une texture soyeuse et un caramel doré."
             },
             "precio": null,
-            "alergenos": ["huevo", "lactosa"],
-            "etiquetas": ["nuevo"]
+            "alergenos": [
+              "huevo",
+              "lactosa"
+            ],
+            "etiquetas": [
+              "nuevo"
+            ]
           },
           {
             "id": 42,
@@ -1571,21 +1721,22 @@ module.exports = {
               "de": "Handwerkliches Eis",
               "fr": "Glaces artisanales"
             },
-            "descripcionCorta": {
-              "es": "Sabores clásicos para todos los gustos.",
-              "en": "Classic flavours for every taste.",
-              "de": "Klassische Geschmacksrichtungen für jeden Geschmack.",
-              "fr": "Des saveurs classiques pour tous les goûts."
-            },
-            "descripcionLarga": {
+            "descripcion": {
               "es": "Helados artesanales de vainilla, chocolate o fresa.",
               "en": "Artisanal ice cream in vanilla, chocolate or strawberry.",
               "de": "Handwerkliches Eis in Vanille, Schokolade oder Erdbeere.",
-              "fr": "Glace artisanale à la vanille, au chocolat ou à la fraise."
+              "fr": "Glace artisanale à la vanilla, au chocolat ou à la fraise."
             },
             "precio": null,
-            "alergenos": ["lactosa", "huevo", "gluten", "frutos_secos"],
-            "etiquetas": ["popular"]
+            "alergenos": [
+              "lactosa",
+              "huevo",
+              "gluten",
+              "frutos_secos"
+            ],
+            "etiquetas": [
+              "popular"
+            ]
           },
           {
             "id": 43,
@@ -1595,13 +1746,7 @@ module.exports = {
               "de": "Saisonales Obst",
               "fr": "Fruits de saison"
             },
-            "descripcionCorta": {
-              "es": "Fresca, ligera y natural.",
-              "en": "Fresh, light and natural.",
-              "de": "Frisch, leicht und natürlich.",
-              "fr": "Frais, léger et naturel."
-            },
-            "descripcionLarga": {
+            "descripcion": {
               "es": "Selección de fruta fresca servida lista para disfrutar.",
               "en": "Selection of fresh fruit ready to enjoy.",
               "de": "Auswahl an frischem Obst, servierfertig.",
@@ -1613,4 +1758,5 @@ module.exports = {
           }
         ]
       }
-    }};
+    }
+  };

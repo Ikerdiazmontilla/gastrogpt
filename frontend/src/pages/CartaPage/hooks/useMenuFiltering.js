@@ -23,8 +23,9 @@ export const useMenuFiltering = (menu, searchTerm, currentLanguage) => {
       (searchTerm
         ? allDishes.filter(plato => {
             const nombre = getTranslatedDishText(plato.nombre, currentLanguage).toLowerCase();
-            const descripcionCorta = getTranslatedDishText(plato.descripcionCorta, currentLanguage).toLowerCase();
-            return nombre.includes(lowerSearchTerm) || descripcionCorta.includes(lowerSearchTerm);
+            // Changed from `descripcionCorta` to `descripcion` to search in the main description.
+            const descripcion = getTranslatedDishText(plato.descripcion, currentLanguage).toLowerCase();
+            return nombre.includes(lowerSearchTerm) || descripcion.includes(lowerSearchTerm);
           })
         : allDishes
       ).map(d => d.id)

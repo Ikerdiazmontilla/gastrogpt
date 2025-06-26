@@ -24,7 +24,8 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onS
   if (!plato) return null;
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
-  const descripcionLarga = getTranslatedDishText(plato.descripcionLarga, currentLanguage);
+  // Changed from `descripcionLarga` to `descripcion`. This is now the main description field.
+  const descripcion = getTranslatedDishText(plato.descripcion, currentLanguage);
 
   // NUEVA FUNCIÓN: Se ejecuta al pulsar el botón "Elegir"
   const handleSelectClick = () => {
@@ -73,7 +74,8 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onS
               </p>
             )}
           </div>
-          <p className={styles.modalDescription}>{descripcionLarga}</p>
+          {/* The full description is now rendered from the 'descripcion' variable. */}
+          <p className={styles.modalDescription}>{descripcion}</p>
 
           {plato.alergenos && plato.alergenos.length > 0 && (
             <div className={styles.section}>

@@ -26,8 +26,8 @@ function transformDish(dish, lang) {
   const newDish = { ...dish }; 
   // Traduce los campos de texto
   newDish.nombre = translateField(dish.nombre, lang);
-  newDish.descripcionCorta = translateField(dish.descripcionCorta, lang);
-  newDish.descripcionLarga = translateField(dish.descripcionLarga, lang);
+  // The 'descripcion' field is now used, and 'descripcionCorta' is removed.
+  newDish.descripcion = translateField(dish.descripcion, lang);
   return newDish;
 }
 
