@@ -1072,7 +1072,7 @@ module.exports = {
             "alergenos": [
               "gluten",
               "huevo",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1099,7 +1099,7 @@ module.exports = {
             },
             "precio": 8.25,
             "alergenos": [
-              "leche",
+              "lactosa",
               "gluten",
               "huevo"
             ],
@@ -1155,7 +1155,7 @@ module.exports = {
             "alergenos": [
               "gluten",
               "huevo",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1196,7 +1196,7 @@ module.exports = {
               "gluten",
               "huevo",
               "mostaza",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1223,7 +1223,7 @@ module.exports = {
             "precio": 13.65,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "huevo",
               "mostaza",
               "sulfitos"
@@ -1253,7 +1253,7 @@ module.exports = {
               "precio": 15.99 ,
               "alergenos": [
                 "gluten",
-                "leche",
+                "lactosa",
                 "huevo",
                 "mostaza",
                 "sulfitos"
@@ -1283,7 +1283,7 @@ module.exports = {
             "precio": 14.65,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "huevo",
               "mostaza",
               "sulfitos"
@@ -1314,7 +1314,7 @@ module.exports = {
             "alergenos": [
               "gluten",
               "huevo",
-              "leche",
+              "lactosa",
               "mostaza",
               "sulfitos"
             ],
@@ -1343,7 +1343,7 @@ module.exports = {
             "precio": 13.1,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "mostaza",
               "sulfitos"
             ],
@@ -1372,7 +1372,7 @@ module.exports = {
             "precio": 15.25,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "mostaza",
               "sulfitos"
             ],
@@ -1401,7 +1401,7 @@ module.exports = {
             "precio": 15.95,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "huevo",
               "mostaza",
               "sulfitos"
@@ -1431,7 +1431,7 @@ module.exports = {
             "precio": 18.1,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1459,7 +1459,7 @@ module.exports = {
             "precio": 13.1,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1487,7 +1487,7 @@ module.exports = {
             "precio": 14.9,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "huevo",
               "sulfitos"
             ],
@@ -1516,7 +1516,7 @@ module.exports = {
             "precio": 16.9,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "huevo",
               "sulfitos",
               "mostaza"
@@ -1546,7 +1546,7 @@ module.exports = {
             "precio": 13.1,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1574,7 +1574,7 @@ module.exports = {
             "precio": 14.9,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "huevo",
               "sulfitos"
             ],
@@ -1603,7 +1603,7 @@ module.exports = {
             "precio": 11.9,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1631,7 +1631,7 @@ module.exports = {
             "precio": 21.7,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1659,7 +1659,7 @@ module.exports = {
             "precio": 6.9,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1687,7 +1687,7 @@ module.exports = {
             "precio": 13.1,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "sulfitos"
             ],
             "etiquetas": [
@@ -1725,7 +1725,7 @@ module.exports = {
             },
             "precio": 6.1,
             "alergenos": [
-              "leche",
+              "lactosa",
               "gluten",
               "huevo"
             ],
@@ -1755,7 +1755,7 @@ module.exports = {
             "alergenos": [
               "gluten",
               "huevo",
-              "leche",
+              "lactosa",
               "frutos secos"
             ],
             "etiquetas": [
@@ -1783,7 +1783,7 @@ module.exports = {
             "precio": 3.95,
             "alergenos": [
               "gluten",
-              "leche",
+              "lactosa",
               "huevo",
               "soja",
               "frutos secos"
