@@ -1,0 +1,72 @@
+/* Estilo para el contenedor principal del desplegable */
+.collapsibleContainer {
+  margin-bottom: 10px;
+}
+
+/* Estilo para la cabecera pulsable (el botón) */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-background);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.header:hover {
+  background-color: #f8f9fa; /* Un ligero cambio de color al pasar el ratón */
+}
+
+/* Color del borde izquierdo basado en la categoría padre */
+.header-bebidas { border-left: 4px solid var(--gastro-cat-color-bebidas); }
+.header-default { border-left: 4px solid var(--gastro-cat-color-default); }
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+/* Icono indicador (la flecha '›') */
+.indicatorIcon {
+  font-size: 1.8rem;
+  font-weight: 300;
+  transition: transform 0.3s ease-in-out;
+  color: var(--color-text-secondary);
+}
+.header-bebidas .indicatorIcon {
+  color: var(--gastro-cat-color-bebidas);
+}
+/* Rotación del icono cuando está abierto */
+.indicatorIcon.open {
+  transform: rotate(90deg);
+}
+
+/* Contenedor animado para el contenido */
+.contentWrapper {
+  display: grid;
+  /* La magia de la animación: se anima el tamaño de la fila de la cuadrícula */
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease-in-out;
+}
+.contentWrapper.open {
+  /* Al abrirse, la fila ocupa el espacio que necesite su contenido */
+  grid-template-rows: 1fr;
+}
+.contentInner {
+  /* Necesario para que la animación funcione correctamente */
+  overflow: hidden;
+}
+
+/* Rejilla para los platos, idéntica a la de la página principal */
+.dishesGrid {
+  padding-top: 1rem; /* Espacio superior para que no aparezca pegado al header */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}

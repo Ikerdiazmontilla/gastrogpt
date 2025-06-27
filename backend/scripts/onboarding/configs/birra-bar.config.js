@@ -427,58 +427,7 @@ module.exports = {
                         "fr": "Une India Pale Ale élaborée par LBB qui se distingue par son caractère houblonné, avec des arômes d'agrumes, résineux et une pointe florale."
                       }
                     },
-                    {
-                      "id": 9,
-                      "nombre": {
-                        "es": "Lagunitas IPA",
-                        "en": "Lagunitas IPA",
-                        "de": "Lagunitas IPA",
-                        "fr": "Lagunitas IPA"
-                      },
-                      "precio": 4.65,
-                      "alergenos": [
-                        "cebada",
-                        "gluten"
-                      ],
-                      "etiquetas": [
-                        "Especialidad de la casa"
-                      ],
-                      "pairsWith": {
-                        "main": 42
-                      },
-                      "descripcion": {
-                        "es": "Clásica IPA californiana: lúpulos cítricos y florales, cuerpo moderado-alto y final seco.",
-                        "en": "Classic Californian IPA: citrus and floral hops, medium-high body, and a dry finish.",
-                        "de": "Klassisches kalifornisches IPA: Zitrus- und Blumenhopfen, mittlerer bis hoher Körper und trockener Abgang.",
-                        "fr": "IPA californienne classique : houblons citriques et floraux, corps modéré-élevé et finale sèche."
-                      }
-                    },
-                    {
-                      "id": 12,
-                      "nombre": {
-                        "es": "Cibeles",
-                        "en": "Cibeles",
-                        "de": "Cibeles",
-                        "fr": "Cibeles"
-                      },
-                      "precio": 4.45,
-                      "alergenos": [
-                        "cebada",
-                        "gluten"
-                      ],
-                      "etiquetas": [
-                        "Temporada"
-                      ],
-                      "pairsWith": {
-                        "main": 35
-                      },
-                      "descripcion": {
-                        "es": "Elaborada en Madrid, esta cerveza pale ale ofrece un sabor limpio con un perfil maltoso suave y un amargor ligero.",
-                        "en": "Brewed in Madrid, this pale ale offers a clean flavor with a smooth malty profile and a light bitterness.",
-                        "de": "In Madrid gebraut, bietet dieses Pale Ale einen sauberen Geschmack mit einem sanften Malzprofil und einer leichten Bitterkeit.",
-                        "fr": "Brassée à Madrid, cette pale ale offre une saveur nette avec un profil malté doux et une légère amertume."
-                      }
-                    }
+              
                   ],
                   "subCategories": {}
                 },
@@ -796,6 +745,58 @@ module.exports = {
                             "en": "A special beer born in the Basque Country, 18/70 La Rubia combines the best of a traditional lager with a modern touch. It has a clean flavor, medium body, subtle bitterness, and well-balanced malty notes.",
                             "de": "Ein besonderes Bier aus dem Baskenland, 18/70 La Rubia kombiniert das Beste eines traditionellen Lagers mit einem modernen Touch. Es hat einen sauberen Geschmack, mittleren Körper, subtile Bitterkeit und ausgewogene Malznoten.",
                             "fr": "Bière spéciale née au Pays Basque, 18/70 La Rubia combine le meilleur d'une lager traditionnelle avec une touche moderne. Elle a une saveur nette, un corps moyen, une amertume subtile et des notes maltées bien équilibrées."
+                          }
+                        },
+                        {
+                          "id": 9,
+                          "nombre": {
+                            "es": "Lagunitas IPA",
+                            "en": "Lagunitas IPA",
+                            "de": "Lagunitas IPA",
+                            "fr": "Lagunitas IPA"
+                          },
+                          "precio": 4.65,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Especialidad de la casa"
+                          ],
+                          "pairsWith": {
+                            "main": 42
+                          },
+                          "descripcion": {
+                            "es": "Clásica IPA californiana: lúpulos cítricos y florales, cuerpo moderado-alto y final seco.",
+                            "en": "Classic Californian IPA: citrus and floral hops, medium-high body, and a dry finish.",
+                            "de": "Klassisches kalifornisches IPA: Zitrus- und Blumenhopfen, mittlerer bis hoher Körper und trockener Abgang.",
+                            "fr": "IPA californienne classique : houblons citriques et floraux, corps modéré-élevé et finale sèche."
+                          }
+                        },
+                        {
+                          "id": 12,
+                          "nombre": {
+                            "es": "Cibeles",
+                            "en": "Cibeles",
+                            "de": "Cibeles",
+                            "fr": "Cibeles"
+                          },
+                          "precio": 4.45,
+                          "alergenos": [
+                            "cebada",
+                            "gluten"
+                          ],
+                          "etiquetas": [
+                            "Temporada"
+                          ],
+                          "pairsWith": {
+                            "main": 35
+                          },
+                          "descripcion": {
+                            "es": "Elaborada en Madrid, esta cerveza pale ale ofrece un sabor limpio con un perfil maltoso suave y un amargor ligero.",
+                            "en": "Brewed in Madrid, this pale ale offers a clean flavor with a smooth malty profile and a light bitterness.",
+                            "de": "In Madrid gebraut, bietet dieses Pale Ale einen sauberen Geschmack mit einem sanften Malzprofil und einer leichten Bitterkeit.",
+                            "fr": "Brassée à Madrid, cette pale ale offre une saveur nette avec un profil malté doux et une légère amertume."
                           }
                         }
                       ]
@@ -1212,7 +1213,7 @@ module.exports = {
           },
           {
             "id": 32,
-            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750931105/golden-chimichurri_tj273c.jpg",
+            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1751010907/golden-chimichurri_hs7ysy.jpg",
             "nombre": {
               "es": "Golden Chimichurri",
               "en": "Golden Chimichurri",
