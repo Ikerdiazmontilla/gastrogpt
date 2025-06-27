@@ -92,7 +92,7 @@ module.exports = {
 **¿Qué te va apeteciendo hoy?** [🏆 Nuestras Premiadas](category) [🍗 Hamburguesas de Pollo Crujiente](category) [💥 Las más Potentes](category) [🍔 Clásicas que no fallan](category)"
     
     *   Si el cliente elige \`[🏆 Nuestras Premiadas]\`, recomienda la [🍔 Golden](dish:31) y la [🍔 Golden Chimichurri](dish:32).
-    *   Si elige \`[🍗 Hamburguesas de Pollo Crujiente]\`, recomienda la [🍗 American Classic de Pollo](dish:34).
+    *   Si elige \`[🍗 Hamburguesas de Pollo Crujiente]\`, recomienda la [🍗 American Classic de Pollo](dish:34) y la [🍗 Golden de Pollo](dish:52).
     *   Si elige \`[💥 Las más Potentes]\`, recomienda tres opciones como la [💥 WTF!](dish:41), la [🔥 4.2.2](dish:38) y la [🔥 5.3.2](dish:45).
     *   Si elige \`[🍔 Clásicas que no fallan]\`, recomienda tres opciones como la [🍔 American Classic](dish:33), la [👑 Royale](dish:35) y la [🥓 Bacon Cheeseburger](dish:42).
     
@@ -130,7 +130,7 @@ module.exports = {
 
         **¿Quieres que te cambie tu Paulaner por una de estas bebidas para aprovechar la oferta?**"
 
-    *Si el cliente acepta*, el bot responde con las opciones de postre, destacando la [🍰 Tarta de Queso](dish:48): "¡Planazo! Para la oferta puedes elegir nuestra famosa [🍰 Tarta de Queso](dish:48) o el [🍫 Brownie](dish:49) de chocolate que gusta muchísimo. **¿Cuál prefieres?**"
+    *Si el cliente acepta*, el bot responde con las opciones de postre, destacando la [🍰 Tarta de Queso](dish:48): "¡Planazo! Para la oferta puedes elegir nuestra famosa [🍰 Tarta de Queso](dish:48),  el [🍫 Brownie de chocolate](dish:49) que gusta muchísimo, o nuestro queridisimo [🥮 Alfajor](dish:50). **¿Cuál prefieres?**"
     
     **Cierre**
     Resume el pedido completo, con cada plato, en el orden correcto y recuerda al cliente cómo proceder.
@@ -208,7 +208,7 @@ module.exports = {
     >
     > **Cliente:** Venga sí, cámbiamela por un refresco y aprovecho la oferta.
     >
-    > **GastroAI:** ¡Planazo! Para la oferta puedes elegir nuestra famosa [🍰 Tarta de Queso](dish:48) o el [🍫 Brownie](dish:49) de chocolate que gusta muchísimo. **¿Cuál prefieres?**
+    > **GastroAI:** ¡Planazo! Para la oferta puedes elegir nuestra famosa [🍰 Tarta de Queso](dish:48),  el [🍫 Brownie de chocolate](dish:49) que gusta muchísimo, o nuestro queridisimo [🥮 Alfajor](dish:50). **¿Cuál prefieres?**
     >
     > **Cliente:** La tarta de queso
     >
@@ -1205,7 +1205,7 @@ module.exports = {
               "drink": 15
             },
             "descripcion": {
-              "es": "Burger de pollo doble con cheddar, cebolla morada, mayonesa Secreta acompañada de patatas fritas.",
+              "es": "Doble smash burger con queso cheddar derretido, cebolla morada fresca y nuestra inigualable mayonesa secreta. Una explosión de sabor que ha conquistado a jueces y paladares.",
               "en": "Double smash burger with melted cheddar cheese, fresh red onion, and our unparalleled Secret mayo. A flavor explosion that has won over judges and palates.",
               "de": "Doppel-Smash-Burger mit geschmolzenem Cheddar-Käse, frischer roter Zwiebel und unserer unübertroffenen geheimen Mayo. Eine Geschmacksexplosion, die Jurys und Gaumen erobert hat.",
               "fr": "Double smash burger avec fromage cheddar fondu, oignon rouge frais et notre inégalable mayonnaise secrète. Une explosion de saveurs qui a conquis les jurys et les palais."
@@ -1242,13 +1242,13 @@ module.exports = {
             }
           },
             {
-              "id": 32,
+              "id": 52,
               "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750931347/golden-pollo_ujotmi.jpg",
               "nombre": {
                 "es": "Golden de Pollo",
                 "en": "Golden Chicken",
-                "de": "Golden au Pullet",
-                "fr": "Golden CHähnchen"
+                "fr": "Golden au Pullet",
+                "de": "Golden CHähnchen"
               },
               "precio": 15.99 ,
               "alergenos": [
@@ -1265,7 +1265,7 @@ module.exports = {
                 "drink": 18
               },
               "descripcion": {
-                "es": "Pan brioche, carne smash, cheddar, cebolla morada y coronada con la icónica salsa Mahochurry al estilo LBB: una mezcla potente, fresca y adictiva.",
+                "es": "Burger de pollo doble con cheddar, cebolla morada, mayonesa Secreta acompañada de patatas fritas.",
                 "en": "Double chicken burger with cheddar, red onion, and Secret mayo, served with French fries.",
                 "de": "Doppeltes Hähnchen-Burger mit Cheddar, roten Zwiebeln und Geheimer Mayonnaise, serviert mit Pommes frites.",
                 "fr": "Double burger de poulet avec cheddar, oignon rouge et mayonnaise Secrète, accompagné de frites."
