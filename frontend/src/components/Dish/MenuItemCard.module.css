@@ -5,13 +5,8 @@
   border-radius: var(--border-radius);
   box-shadow: 0 2px 5px var(--shadow-md);
   width: 100%;
-  transition: background-color 0.3s, border-color 0.3s, transform 0.2s ease;
   border-left: 5px solid var(--color-border);
   cursor: pointer;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px var(--shadow-lg);
 }
 
 /* --- ESTILOS PARA TARJETA CON IMAGEN (.hasImage) --- */
@@ -85,11 +80,7 @@
   cursor: pointer;
   font-weight: 600;
   text-align: center;
-  transition: background-color 0.2s ease;
   font-size: 0.9rem;
-}
-.viewMoreButton:hover {
-  filter: brightness(110%);
 }
 
 /* --- ESTILOS PARA TARJETA SIN IMAGEN (.noImage) --- */
@@ -166,12 +157,8 @@
   font-size: 0.85rem;
   font-weight: 600;
   text-align: right;
-  transition: opacity 0.2s;
   flex-shrink: 0; 
   margin-left: 8px; 
-}
-.viewMoreLink:hover {
-  opacity: 0.7;
 }
 
 /* --- ESTILOS COMUNES (Alérgenos, Tags Overlay) --- */

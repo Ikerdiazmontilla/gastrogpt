@@ -39,12 +39,6 @@
   border-radius: var(--border-radius);
   background-color: transparent;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.languageButton:hover {
-  background-color: #f8f9fa;
-  border-color: #ced4da;
 }
 
 .flag {

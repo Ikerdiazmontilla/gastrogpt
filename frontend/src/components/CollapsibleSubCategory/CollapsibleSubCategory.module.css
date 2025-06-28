@@ -15,11 +15,6 @@
   background-color: var(--color-surface-background);
   cursor: pointer;
   text-align: left;
-  transition: background-color 0.2s ease;
-}
-
-.header:hover {
-  background-color: #f8f9fa; /* Un ligero cambio de color al pasar el ratón */
 }
 
 /* Color del borde izquierdo basado en la categoría padre */
@@ -36,7 +31,6 @@
 .indicatorIcon {
   font-size: 1.8rem;
   font-weight: 300;
-  transition: transform 0.3s ease-in-out;
   color: var(--color-text-secondary);
 }
 .header-bebidas .indicatorIcon {
@@ -52,7 +46,6 @@
   display: grid;
   /* La magia de la animación: se anima el tamaño de la fila de la cuadrícula */
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s ease-in-out;
 }
 .contentWrapper.open {
   /* Al abrirse, la fila ocupa el espacio que necesite su contenido */

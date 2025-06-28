@@ -86,13 +86,8 @@
   border-bottom: 3px solid transparent;
   border-radius: 0;
   cursor: pointer;
-  transition: color 0.2s ease, border-bottom-color 0.2s ease;
   outline: none;
   flex-shrink: 0;
-}
-
-.tabTrigger:hover {
-  color: var(--color-accent);
 }
 
 .activeTab {

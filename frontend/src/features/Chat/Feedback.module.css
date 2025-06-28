@@ -40,11 +40,6 @@
   font-size: 2.2rem;
   cursor: pointer;
   color: #ffc107; /* Yellow for stars */
-  transition: transform 0.1s ease-in-out;
-}
-
-.star:hover {
-  transform: scale(1.2);
 }
 
 .commentSection {
@@ -81,15 +76,9 @@
   border-radius: 4px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
   text-decoration: none; /* For the 'a' tag to look like a button */
   display: inline-block; /* For the 'a' tag */
   margin-top: 8px; /* Spacing for the review button */
-}
-
-.submitButton:hover:not(:disabled),
-.googleReviewButton:hover:not(:disabled) {
-  background-color: #0056b3;
 }
 
 .submitButton:disabled {

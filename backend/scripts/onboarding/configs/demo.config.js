@@ -26,12 +26,6 @@ module.exports = {
 
   // --- Configuración del Chatbot y la UI ---
   chatConfig: {
-    welcomeMessage: {
-      "es": "### 🇪🇸 **¡Hola! Soy *GastroGPT*, tu asistente para elegir el menú ideal** 🍽️\n❓ Puedes preguntarme **cualquier duda** sobre el menú.  \n📲 *Desliza a la izquierda* para ver la **carta digital**. \n\n👨‍🍳  **Pide al camarero** cuando estés listo.\n\n🥤 ¿Te parece que empecemos con las **bebidas**? ¿Quieres ver las **más populares**?",
-      "en": "### 🇬🇧 **Hi! I'm *GastroGPT*, your ideal menu assistant** 🍽️\n❓ You can ask me **any questions** about the menu.  \n📲 *Swipe left* to view the **digital menu**. \n\n👨‍🍳 **Let the waiter know** when you're ready.\n\n🥤 Shall we **start with drinks**? Want to see the **most popular ones**?",
-      "fr": "### 🇫🇷 **Bonjour ! Je suis *GastroGPT*, votre assistant pour le menu idéal** 🍽️\n❓ Posez-moi **toutes vos questions** sur le menu.  \n📲 *Balayez vers la gauche* pour voir le **menu numérique**. \n\n👨‍🍳 **Appelez le serveur** lorsque vous êtes prêt.\n\n🥤 On commence par les **boissons** ? Voulez-vous voir les plus **populaires** ?",
-      "de": "### 🇩🇪 **Hallo! Ich bin *GastroGPT*, Ihr Assistent für das ideale Menü** 🍽️\n❓ Sie können mir **alle Fragen** zur Speisekarte stellen.  \n📲 *Wischen Sie nach links*, um die **digitale Speisekarte** zu sehen. \n\n👨‍🍳 **Sagen Sie dem Kellner Bescheid**, wenn Sie bereit sind.\n\n🥤 Sollen wir mit den **Getränken** beginnen? Möchten Sie die **beliebtesten** sehen?"
-    },
     suggestionChips: {
       "es": ["Recomiéndame una bebida", "¿Cuáles son los platos más populares?", "Dame opciones vegetarianas", "¿Qué postres tenéis?", "Quiero algo ligero"],
       "en": ["Recommend a drink", "What are the most popular dishes?", "Give me vegetarian options", "What desserts do you have?", "I want something light"],
@@ -40,72 +34,6 @@ module.exports = {
     },
     suggestionChipsCount: 5,
   },
-
-  // initial_drink_prompt: {
-  //   enabled: true,
-  //   question: {
-  //     es: "¿Qué te gustaría para beber?",
-  //     en: "What would you like to drink?",
-  //     fr: "Que souhaitez-vous boire?",
-  //     de: "Was möchten Sie trinken?"
-  //   },
-  //   options: [
-  //     {
-  //       label: { es: "Agua", en: "Water", fr: "Eau", de: "Wasser" },
-  //       type: 'send_message',
-  //       message_text: "Agua"
-  //     },
-  //     {
-  //       label: { es: "Refrescos", en: "Soft Drinks", fr: "Boissons gazeuses", de: "Erfrischungsgetränke" },
-  //       type: 'category',
-  //       sub_options: [
-  //         { label: { es: "Coca-Cola", en: "Coca-Cola", fr: "Coca-Cola", de: "Coca-Cola" }, type: 'send_message', message_text: "Coca-Cola" },
-  //         { label: { es: "Fanta Naranja", en: "Fanta Orange", fr: "Fanta Orange", de: "Fanta Orange" }, type: 'send_message', message_text: "Fanta Naranja" },
-  //         { label: { es: "Sprite", en: "Sprite", fr: "Sprite", de: "Sprite" }, type: 'send_message', message_text: "Sprite" }
-  //       ]
-  //     },
-  //     {
-  //       label: { es: "Alcoholes", en: "Alcohols", fr: "Alcools", de: "Alkoholische Getränke" },
-  //       type: 'category', // Categoría principal
-  //       sub_options: [
-  //         { // Categoría ANIDADA
-  //           label: { es: "Vinos", en: "Wines", fr: "Vins", de: "Weine" },
-  //           type: 'category',
-  //           sub_options: [
-  //             { label: { es: "Vino Tinto", en: "Red Wine", fr: "Vin Rouge", de: "Rotwein" }, type: 'send_message', message_text: "Vino Tinto" },
-  //             { label: { es: "Vino Blanco", en: "White Wine", fr: "Vin Blanc", de: "Weißwein" }, type: 'send_message', message_text: "Vino Blanco" }
-  //           ]
-  //         },
-  //         { 
-  //           label: { es: "Sangría", en: "Sangria", fr: "Sangria", de: "Sangria" },
-  //           type: 'send_message', 
-  //           message_text: "Sangría" 
-  //         },
-  //         { 
-  //           label: { es: "Cervezas", en: "Beers", fr: "Bières", de: "Biere" },
-  //           type: 'category',
-  //           sub_options: [
-  //               { label: { es: "Caña", en: "Draft Beer", fr: "Bière pression", de: "Bier vom Fass" }, type: 'send_message', message_text: "Caña" },
-  //               { label: { es: "Tercio", en: "Bottle of Beer", fr: "Bouteille de bière", de: "Flaschenbier" }, type: 'send_message', message_text: "Tercio" }
-  //           ]
-  //         },
-  //         { 
-  //           label: { es: "Cocktails", en: "Cocktails", fr: "Cocktails", de: "Cocktails" },
-  //           type: 'category',
-  //           sub_options: [
-  //               { label: { es: "Mojito", en: "Mojito", fr: "Mojito", de: "Mojito" }, type: 'send_message', message_text: "Mojito" },
-  //               { label: { es: "Margarita", en: "Margarita", fr: "Margarita", de: "Margarita" }, type: 'send_message', message_text: "Margarita" }
-  //           ]
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       label: { es: "Zumo Tropical", en: "Tropical Juice", fr: "Jus Tropical", de: "Tropischer Saft" },
-  //       type: 'send_message',
-  //       message_text: "Zumo Tropical"
-  //     }
-  //   ]
-  // },
 
   // --- Configuración del Modelo de Lenguaje (LLM) ---
   llm: {
