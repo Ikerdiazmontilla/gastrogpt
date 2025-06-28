@@ -69,7 +69,8 @@ const tenantConfig = require(configPath);
 
     const insertConfigQuery = `INSERT INTO ${schemaName}.configurations (key, value) VALUES ($1, $2);`;
     await client.query(insertConfigQuery, ['llm_instructions', tenantConfig.llm.instructions]);
-    await client.query(insertConfigQuery, ['llm_first_message', tenantConfig.llm.firstMessage]);
+    // MODIFIED: The firstMessage object is now stringified before insertion.
+    await client.query(insertConfigQuery, ['llm_first_message', JSON.stringify(tenantConfig.llm.firstMessage)]);
     await client.query(insertConfigQuery, ['suggestion_chips_text', JSON.stringify(tenantConfig.chatConfig.suggestionChips)]);
     await client.query(insertConfigQuery, ['suggestion_chips_count', tenantConfig.chatConfig.suggestionChipsCount.toString()]);
     if (tenantConfig.initial_drink_prompt) {

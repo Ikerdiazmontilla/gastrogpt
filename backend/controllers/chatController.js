@@ -60,24 +60,38 @@ async function handleChatMessage(req, res) {
   try {
     await client.query('BEGIN');
 
+    // MODIFIED: The query now fetches the llm_first_message as a JSON string.
     const configResult = await client.query("SELECT key, value FROM configurations WHERE key IN ('llm_instructions', 'llm_first_message')");
-    const configs = configResult.rows.reduce((acc, row) => ({ ...acc, [row.key]: row.value }), {});
+    
+    // MODIFIED: This reducer now correctly parses the JSON for llm_first_message.
+    const configs = configResult.rows.reduce((acc, row) => {
+      if (row.key === 'llm_first_message') {
+        try {
+          acc[row.key] = JSON.parse(row.value);
+        } catch (e) {
+          console.error(`Failed to parse llm_first_message JSON for tenant:`, e);
+          acc[row.key] = {}; // Fallback to an empty object
+        }
+      } else {
+        acc[row.key] = row.value;
+      }
+      return acc;
+    }, {});
     
     if (!configs.llm_instructions || !configs.llm_first_message) {
         throw new Error('Configuración esencial para el LLM no encontrada en la BBDD.');
     }
 
-    // --- MODIFICACIÓN CLAVE: Lógica extraída ---
-    // Toda la lógica de construcción de prompts se reemplaza por esta única llamada.
+    // --- The rest of the logic is now handled by promptBuilderService ---
     const { systemInstructions, firstBotMessage } = preparePromptsForLlm({
         language,
         providedMenu,
         initialFlowClick,
         systemInstructionsTemplate: configs.llm_instructions,
-        firstBotMessageTemplate: configs.llm_first_message
+        firstBotMessageTemplate: configs.llm_first_message // Pass the parsed object
     });
     
-    // El resto de la función continúa como antes, pero ahora usando los prompts ya preparados.
+    // The rest of the function continues as before, but now using the prepared prompts.
     let activeConversation = await chatRepository.getActiveConversation(req.sessionID, client);
     
     let messagesToSaveInDB = [];

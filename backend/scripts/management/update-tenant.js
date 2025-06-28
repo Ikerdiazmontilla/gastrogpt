@@ -74,7 +74,8 @@ const pool = require('../../db/pool');
         updated_at = CURRENT_TIMESTAMP;
     `;
     await client.query(upsertConfigQuery, ['llm_instructions', tenantConfig.llm.instructions]);
-    await client.query(upsertConfigQuery, ['llm_first_message', tenantConfig.llm.firstMessage]);
+    // MODIFIED: The firstMessage object is now stringified before insertion.
+    await client.query(upsertConfigQuery, ['llm_first_message', JSON.stringify(tenantConfig.llm.firstMessage)]);
     await client.query(upsertConfigQuery, ['suggestion_chips_text', JSON.stringify(tenantConfig.chatConfig.suggestionChips)]);
     await client.query(upsertConfigQuery, ['suggestion_chips_count', tenantConfig.chatConfig.suggestionChipsCount.toString()]);
     if (tenantConfig.initial_drink_prompt) {

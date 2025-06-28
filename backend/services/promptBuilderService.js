@@ -5,12 +5,12 @@
  * @description Centraliza la lógica para construir los prompts y mensajes iniciales para el LLM.
  */
 
-// Contiene el texto que se añade al final del primer mensaje del bot cuando el usuario escribe/habla.
-const appendixTranslations = {
-  es: "(Importante: responderé en el idioma que uses para hablarme y traduciré el menú para ti)",
-  en: "(Important: I will reply in the language you use to speak to me and translate the menu for you)",
-  fr: "(Important : je répondrai dans la langue que vous utilisez pour me parler et je traduirai le menu pour vous)",
-  de: "(Wichtig: Ich werde in der Sprache antworten, die Sie verwenden, um mit mir zu sprechen, und die Speisekarte für Sie übersetzen)"
+// MODIFIED: New first-person disclaimer texts.
+const disclaimerForTyping = {
+  es: "(Por cierto, te responderé en el idioma que uses y traduciré el menú para ti).",
+  en: "(By the way, I'll reply in the language you use and translate the menu for you).",
+  fr: "(D'ailleurs, je vous répondrai dans la langue que vous utilisez et je traduirai le menu pour vous).",
+  de: "(Übrigens, ich antworte in der Sprache, die Sie verwenden, und übersetze die Speisekarte für Sie)."
 };
 
 /**
@@ -21,7 +21,7 @@ const appendixTranslations = {
 * @param {object} params.providedMenu - El objeto del menú ya traducido.
 * @param {boolean} params.initialFlowClick - `true` si el usuario hizo clic en una bebida del flujo inicial.
 * @param {string} params.systemInstructionsTemplate - La plantilla de instrucciones base desde la BBDD.
-* @param {string} params.firstBotMessageTemplate - La plantilla del primer mensaje del bot desde la BBDD.
+* @param {object} params.firstBotMessageTemplate - La plantilla del primer mensaje del bot desde la BBDD (ahora es un objeto multi-idioma).
 * @returns {{systemInstructions: string, firstBotMessage: string}} - Los prompts finales listos para usar.
 */
 function preparePromptsForLlm({ 
@@ -29,22 +29,26 @@ function preparePromptsForLlm({
   providedMenu, 
   initialFlowClick, 
   systemInstructionsTemplate, 
-  firstBotMessageTemplate 
+  firstBotMessageTemplate // This is now a multi-language object
 }) {
-  let finalFirstBotMessage = firstBotMessageTemplate;
+  
+  // MODIFIED: Select the translated first message from the object.
+  const translatedFirstMessage = firstBotMessageTemplate[language] || firstBotMessageTemplate['es'] || 'Hola, ¿en qué puedo ayudarte?';
+  
+  let finalFirstBotMessage;
 
   // Se añade una instrucción general al prompt del sistema para guiar la respuesta del LLM.
   const languageHint = `--- LANGUAGE INSTRUCTION ---\nYour primary goal is to respond in the same language as the user's message.\nHowever, if the user's message is ambiguous, a single word, or doesn't have a clear language (e.g., just a product name like "Coca-Cola"), you MUST default to responding in the interface language provided, which is: [${language}].\nUse this language as your definitive fallback.\n--- END LANGUAGE INSTRUCTION ---\n\n`;
 
   if (initialFlowClick) {
-      // Si el usuario hizo clic en el flujo inicial, se fuerza el idioma de respuesta en el primer mensaje.
+      // If the user clicked a drink, the LLM gets an internal instruction. The user sees the clean translated message.
       console.log(`[PromptBuilder] Modificando firstBotMessage para FORZAR idioma [${language}] por clic en InitialFlow.`);
-      finalFirstBotMessage = `(Internal instruction: You must respond in [${language}].)\n${finalFirstBotMessage}`;
+      finalFirstBotMessage = `(Internal instruction: The user has selected a drink in [${language}]. You MUST respond in [${language}].)\n${translatedFirstMessage}`;
   } else {
-      // Si el usuario escribió, se añade una nota informativa al primer mensaje.
-      const appendix = appendixTranslations[language] || appendixTranslations.en;
-      console.log(`[PromptBuilder] Modificando firstBotMessage para AÑADIR nota de idioma flexible.`);
-      finalFirstBotMessage = `${finalFirstBotMessage} ${appendix}`;
+      // If the user typed, append the new first-person disclaimer to the translated message.
+      const appendix = disclaimerForTyping[language] || disclaimerForTyping.en;
+      console.log(`[PromptBuilder] Añadiendo disclaimer en primera persona al firstBotMessage.`);
+      finalFirstBotMessage = `${translatedFirstMessage} ${appendix}`;
   }
 
   // Se construye el prompt de sistema final.

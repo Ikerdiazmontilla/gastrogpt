@@ -264,6 +264,12 @@ module.exports = {
     \`\`\`
 `,
     firstMessage: "Hola, soy GastroGPT, un asistente de IA. Estoy aquí para ayudarte a crear tu menú ideal.¿Que quieres para beber?  No usare bullet points ni listas.",
+    firstMessage: {
+      es: "Hola, soy GastroAI, tu asistente personal de La Birra Bar. Estoy aquí para ayudarte a montar el menú perfecto. ¿Qué quieres para beber? No usaré bullet points ni listas.",
+      en: "Hi, I'm GastroAI, your personal assistant at La Birra Bar. I'm here to help you build the perfect meal. What would you like to drink? I won't use bullet points or lists.",
+      fr: "Bonjour, je suis GastroAI, votre assistant personnel à La Birra Bar. Je suis là pour vous aider à composer le menu parfait. Que souhaitez-vous boire ? Je n'utiliserai pas de puces ni de listes.",
+      de: "Hallo, ich bin GastroAI, Ihr persönlicher Assistent in der La Birra Bar. Ich bin hier, um Ihnen bei der Zusammenstellung des perfekten Menüs zu helfen. Was möchten Sie trinken? Ich werde keine Aufzählungszeichen oder Listen verwenden."
+    },
   },
 
   // --- Menú Completo del Restaurante ---
