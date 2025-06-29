@@ -142,26 +142,85 @@
 .pairedItemLabel { font-weight: 500; color: #555555; margin-right: 5px; }
 .pairedItemLink { background: none; border: none; padding: 0; color: var(--color-accent); text-decoration: underline; cursor: pointer; font-size: 0.9rem; font-weight: 600; text-align: left; }
 
-/* --- NUEVOS ESTILOS PARA EL FOOTER DEL MODAL --- */
+/* --- MODIFIED AND NEW STYLES FOR FOOTER --- */
 .modalFooter {
   padding: 15px 20px;
   border-top: 1px solid var(--color-border);
   background-color: var(--color-surface-background);
-  flex-shrink: 0; /* Evita que el footer se encoja */
+  flex-shrink: 0;
+  /* --- NEW: Flexbox column to stack items --- */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px; /* Space between quantity selector and button */
 }
 
 .selectButton {
-  width: 100%;
+  width: 100%; /* Button takes full width of the footer */
   padding: 12px 20px;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--color-accent-text);
   background-color: var(--color-accent);
   border: none;
-  border-radius: 6px; /* Coherente con el estilo de botón "Ver más" */
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .selectButton:active {
   transform: scale(0.98);
+}
+
+/* --- NEW: Quantity Selector Styles --- */
+.quantitySelector {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+  width: 50%; /* Make it take up a portion of the width */
+  max-width: 150px; /* But not too wide */
+  justify-content: space-between;
+}
+
+.quantityButton {
+  background-color: #f0f0f0;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 12px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.quantityInput {
+  width: 100%;
+  text-align: center;
+  border: none;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0;
+  height: 46px;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-background);
+}
+
+.quantityInput:focus {
+  outline: none;
+}
+
+/* Hide arrows in number input for Chrome, Safari, Edge, Opera */
+.quantityInput::-webkit-outer-spin-button,
+.quantityInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide arrows in number input for Firefox */
+.quantityInput[type=number] {
+  -moz-appearance: textfield;
 }

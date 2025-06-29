@@ -31,21 +31,25 @@ const ChatPage = () => {
     }
   }, []);
 
-  const handleSelectDishFromChat = useCallback((plato) => {
-    if (chatApiRef.current && plato) {
+  // MODIFIED: This now receives an object { plato, quantity }
+  const handleSelectDishFromChat = useCallback((selection) => {
+    if (chatApiRef.current && selection.plato) {
+      const { plato, quantity } = selection;
       const dishName = getTranslatedDishText(plato.nombre, i18n.language);
-      chatApiRef.current.sendMessage(dishName);
+      
+      // Construct the message string like "2 Cheeseburger"
+      const messageToSend = `${quantity} ${dishName}`;
+      
+      chatApiRef.current.sendMessage(messageToSend);
       handleCloseModal();
     }
   }, [i18n.language, handleCloseModal]);
 
-  // NUEVO: Callback para cuando se hace clic en una tarjeta de categoría
   const handleCategoryClick = useCallback((categoryName) => {
     if (chatApiRef.current && categoryName) {
-      // Envía el nombre de la categoría como un nuevo mensaje del usuario
       chatApiRef.current.sendMessage(categoryName);
     }
-  }, []); // No tiene dependencias externas, es estable.
+  }, []);
 
 
   useEffect(() => {
@@ -65,7 +69,6 @@ const ChatPage = () => {
     <>
       <Chat 
         onViewDishDetails={handleDisplayDishInModal} 
-        // NUEVO: Pasamos el nuevo callback al componente Chat
         onCategoryClick={handleCategoryClick}
         setSendMessageApi={(api) => { chatApiRef.current = api; }}
       />

@@ -1,5 +1,5 @@
 // frontend/src/components/Dish/DishDetailModal.js
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './DishDetailModal.module.css';
 import {
@@ -12,11 +12,15 @@ import {
 } from '../../utils/menuUtils';
 import { useTenant } from '../../context/TenantContext';
 
-// NUEVO: Se añaden las props `source` y `onSelectDish`
+// The component now accepts `source` and `onSelectDish` props.
 const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onSelectDish }) => {
   const { t, i18n } = useTranslation();
   
   const currentLanguage = i18n.language;
+
+  // --- NEW: State to manage the quantity ---
+  const [quantity, setQuantity] = useState(1);
+  // --- END NEW ---
 
   const { tenantConfig } = useTenant();
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
@@ -24,13 +28,32 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onS
   if (!plato) return null;
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
-  // Changed from `descripcionLarga` to `descripcion`. This is now the main description field.
   const descripcion = getTranslatedDishText(plato.descripcion, currentLanguage);
 
-  // NUEVA FUNCIÓN: Se ejecuta al pulsar el botón "Elegir"
+  // --- NEW: Functions to handle quantity changes ---
+  const handleQuantityChange = (e) => {
+    let value = parseInt(e.target.value, 10);
+    if (isNaN(value) || value < 1) {
+      value = 1;
+    } else if (value > 9) {
+      value = 9;
+    }
+    setQuantity(value);
+  };
+
+  const incrementQuantity = () => {
+    setQuantity(prev => (prev < 9 ? prev + 1 : 9));
+  };
+
+  const decrementQuantity = () => {
+    setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+  };
+  // --- END NEW ---
+
+  // MODIFIED: This function now sends an object with the dish and quantity.
   const handleSelectClick = () => {
     if (onSelectDish) {
-      onSelectDish(plato); // Pasa el objeto plato completo
+      onSelectDish({ plato, quantity }); // Pass an object with plato and quantity
     }
   };
 
@@ -74,7 +97,6 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onS
               </p>
             )}
           </div>
-          {/* The full description is now rendered from the 'descripcion' variable. */}
           <p className={styles.modalDescription}>{descripcion}</p>
 
           {plato.alergenos && plato.alergenos.length > 0 && (
@@ -121,15 +143,27 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onS
           )}
         </div>
         
-        {/* ---- NUEVO BLOQUE CONDICIONAL PARA EL BOTÓN ---- */}
         {source === 'chat' && onSelectDish && (
+          // --- MODIFIED: The footer now contains the quantity selector and the button ---
           <div className={styles.modalFooter}>
+            <div className={styles.quantitySelector}>
+              <button onClick={decrementQuantity} className={styles.quantityButton}>-</button>
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                className={styles.quantityInput}
+                min="1"
+                max="9"
+              />
+              <button onClick={incrementQuantity} className={styles.quantityButton}>+</button>
+            </div>
             <button className={styles.selectButton} onClick={handleSelectClick}>
-              {t('dishDetailModal.select')} {/* Se usa 'select' en lugar de 'choose' */}
+              {t('dishDetailModal.select')}
             </button>
           </div>
+          // --- END MODIFICATION ---
         )}
-        {/* ---- FIN DEL NUEVO BLOQUE ---- */}
       </div>
     </div>
   );
