@@ -1682,34 +1682,34 @@ module.exports = {
               "fr": "Burger quintuple avec un mélange de cheddar blanc et jaune. Ultra juteux, ultra fou. Une montagne de saveur."
             }
           },
-          {
-            "id": 46,
-            "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750670852/WTF_BURGER_ioppy9.jpg",
-            "nombre": {
-              "es": "LBB Cheeseburger",
-              "en": "LBB Cheeseburger",
-              "de": "LBB Cheeseburger",
-              "fr": "LBB Cheeseburger"
-            },
-            "precio": 6.9,
-            "alergenos": [
-              "gluten",
-              "lactosa",
-              "sulfitos"
-            ],
-            "etiquetas": [
-              "Recomendado"
-            ],
-            "pairsWith": {
-              "drink": 18
-            },
-            "descripcion": {
-              "es": "Doble burger con cheddar, en su forma más pura y deliciosa.",
-              "en": "Double burger with cheddar, in its purest and most delicious form.",
-              "de": "Doppelburger mit Cheddar, in seiner reinsten und köstlichsten Form.",
-              "fr": "Double burger avec cheddar, dans sa forme la plus pure et la plus délicieuse."
-            }
-          },
+          // {
+          //   "id": 46,
+          //   "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750670852/LBB_Cheeseburger_hykuhk.jpg",
+          //   "nombre": {
+          //     "es": "LBB Cheeseburger",
+          //     "en": "LBB Cheeseburger",
+          //     "de": "LBB Cheeseburger",
+          //     "fr": "LBB Cheeseburger"
+          //   },
+          //   "precio": 6.9,
+          //   "alergenos": [
+          //     "gluten",
+          //     "lactosa",
+          //     "sulfitos"
+          //   ],
+          //   "etiquetas": [
+          //     "Recomendado"
+          //   ],
+          //   "pairsWith": {
+          //     "drink": 18
+          //   },
+          //   "descripcion": {
+          //     "es": "Doble burger con cheddar, en su forma más pura y deliciosa.",
+          //     "en": "Double burger with cheddar, in its purest and most delicious form.",
+          //     "de": "Doppelburger mit Cheddar, in seiner reinsten und köstlichsten Form.",
+          //     "fr": "Double burger avec cheddar, dans sa forme la plus pure et la plus délicieuse."
+          //   }
+          // },
           {
             "id": 47,
             "imagen": "https://res.cloudinary.com/dru3ihjea/image/upload/v1750670852/LBB_Bacon_Cheeseburger_wowzeg.png",
