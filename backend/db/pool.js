@@ -16,7 +16,7 @@ const pool = new Pool({
   password: config.db.password,
   database: config.db.name,
   ssl: {
-    rejectUnauthorized: true, // for Render's managed PostgreSQL
+    rejectUnauthorized: false, 
   },
 });
 
