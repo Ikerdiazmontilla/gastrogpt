@@ -45,7 +45,8 @@ async function getConversationHistory(req, res) {
 }
 
 async function handleChatMessage(req, res) {
-  const { message, language, menu: providedMenu, initialFlowClick } = req.body;
+  // NEW: Destructure `allergens` from the request body
+  const { message, language, menu: providedMenu, initialFlowClick, allergens } = req.body;
 
   if (!message || typeof message !== 'string' || message.trim() === '') {
     return res.status(400).json({ error: 'Message is required and must be text.' });
@@ -60,17 +61,15 @@ async function handleChatMessage(req, res) {
   try {
     await client.query('BEGIN');
 
-    // MODIFIED: The query now fetches the llm_first_message as a JSON string.
     const configResult = await client.query("SELECT key, value FROM configurations WHERE key IN ('llm_instructions', 'llm_first_message')");
     
-    // MODIFIED: This reducer now correctly parses the JSON for llm_first_message.
     const configs = configResult.rows.reduce((acc, row) => {
       if (row.key === 'llm_first_message') {
         try {
           acc[row.key] = JSON.parse(row.value);
         } catch (e) {
           console.error(`Failed to parse llm_first_message JSON for tenant:`, e);
-          acc[row.key] = {}; // Fallback to an empty object
+          acc[row.key] = {};
         }
       } else {
         acc[row.key] = row.value;
@@ -82,16 +81,16 @@ async function handleChatMessage(req, res) {
         throw new Error('Configuración esencial para el LLM no encontrada en la BBDD.');
     }
 
-    // --- The rest of the logic is now handled by promptBuilderService ---
+    // --- MODIFIED: Pass allergens to the prompt builder ---
     const { systemInstructions, firstBotMessage } = preparePromptsForLlm({
         language,
         providedMenu,
         initialFlowClick,
+        allergens, // Pass the new allergens array
         systemInstructionsTemplate: configs.llm_instructions,
-        firstBotMessageTemplate: configs.llm_first_message // Pass the parsed object
+        firstBotMessageTemplate: configs.llm_first_message
     });
     
-    // The rest of the function continues as before, but now using the prepared prompts.
     let activeConversation = await chatRepository.getActiveConversation(req.sessionID, client);
     
     let messagesToSaveInDB = [];

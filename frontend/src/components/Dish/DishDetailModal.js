@@ -11,26 +11,27 @@ import {
   findDishById
 } from '../../utils/menuUtils';
 import { useTenant } from '../../context/TenantContext';
+// NEW: Import the hook to access user's allergens
+import { useAllergens } from '../../context/AllergenContext';
 
-// The component now accepts `source` and `onSelectDish` props.
 const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onSelectDish }) => {
   const { t, i18n } = useTranslation();
+  const { tenantConfig } = useTenant();
+  // NEW: Get user's selected allergens
+  const { allergens: userAllergens } = useAllergens();
   
   const currentLanguage = i18n.language;
-
-  // --- NEW: State to manage the quantity ---
   const [quantity, setQuantity] = useState(1);
-  // --- END NEW ---
-
-  const { tenantConfig } = useTenant();
   const menuHasImages = tenantConfig?.theme?.menuHasImages ?? true;
 
   if (!plato) return null;
 
+  // NEW: Check for matching allergens for this specific dish
+  const matchingAllergens = plato.alergenos?.filter(allergen => userAllergens.includes(allergen)) || [];
+
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
   const descripcion = getTranslatedDishText(plato.descripcion, currentLanguage);
 
-  // --- NEW: Functions to handle quantity changes ---
   const handleQuantityChange = (e) => {
     let value = parseInt(e.target.value, 10);
     if (isNaN(value) || value < 1) {
@@ -41,19 +42,12 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onS
     setQuantity(value);
   };
 
-  const incrementQuantity = () => {
-    setQuantity(prev => (prev < 9 ? prev + 1 : 9));
-  };
+  const incrementQuantity = () => setQuantity(prev => (prev < 9 ? prev + 1 : 9));
+  const decrementQuantity = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
-  const decrementQuantity = () => {
-    setQuantity(prev => (prev > 1 ? prev - 1 : 1));
-  };
-  // --- END NEW ---
-
-  // MODIFIED: This function now sends an object with the dish and quantity.
   const handleSelectClick = () => {
     if (onSelectDish) {
-      onSelectDish({ plato, quantity }); // Pass an object with plato and quantity
+      onSelectDish({ plato, quantity });
     }
   };
 
@@ -103,8 +97,13 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onS
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>{t('dishDetailModal.allergens')}</h4>
               <div className={styles.tagsContainer}>
+                {/* MODIFIED: Apply warning class and symbol to matching allergens */}
                 {plato.alergenos.map((alergenoKey) => (
-                  <span key={alergenoKey} className={styles.detailTagPill}>
+                  <span 
+                    key={alergenoKey} 
+                    className={`${styles.detailTagPill} ${matchingAllergens.includes(alergenoKey) ? styles.warning : ''}`}
+                  >
+                    {matchingAllergens.includes(alergenoKey) && <span className={styles.warningSymbol}>⚠️</span>}
                     {getAlergenoIcon(alergenoKey)} {getAlergenoNombre(alergenoKey, currentLanguage)}
                   </span>
                 ))}
@@ -144,7 +143,6 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onS
         </div>
         
         {source === 'chat' && onSelectDish && (
-          // --- MODIFIED: The footer now contains the quantity selector and the button ---
           <div className={styles.modalFooter}>
             <div className={styles.quantitySelector}>
               <button onClick={decrementQuantity} className={styles.quantityButton}>-</button>
@@ -162,7 +160,6 @@ const DishDetailModal = ({ plato, onClose, onSelectPairedDish, menu, source, onS
               {t('dishDetailModal.select')}
             </button>
           </div>
-          // --- END MODIFICATION ---
         )}
       </div>
     </div>

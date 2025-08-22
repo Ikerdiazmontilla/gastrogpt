@@ -1,0 +1,103 @@
+/* frontend/src/components/AllergenSelector/AllergenSelector.module.css */
+.selectorBox {
+  background-color: var(--color-surface-background);
+  padding: 30px 40px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 30px var(--shadow-lg);
+  text-align: center;
+  max-width: 95%;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 25px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.allergenButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  min-height: 80px;
+}
+
+.allergenButton.selected {
+  border-color: var(--color-accent);
+  background-color: var(--gastro-cat-color-bg-postres); /* Using a light color for selection */
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+.otherInput {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  margin-bottom: 25px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.continueButton {
+  padding: 12px;
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.skipButton {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .selectorBox {
+    padding: 20px;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+}

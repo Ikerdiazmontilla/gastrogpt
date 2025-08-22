@@ -6,25 +6,36 @@ import {
   getTranslatedDishText,
   getEtiquetaUIData,
   getAlergenoIcon,
+  getAlergenoNombre, // Import for the title attribute
 } from '../../utils/menuUtils';
+// NEW: Import the hook to access user's allergens
+import { useAllergens } from '../../context/AllergenContext';
 
-// The component now accepts `showShortDescriptionInMenu` to control description visibility
 const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey, showShortDescriptionInMenu }) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
+  
+  // NEW: Get user's selected allergens from the context
+  const { allergens: userAllergens } = useAllergens();
 
   const nombre = getTranslatedDishText(plato.nombre, currentLanguage);
-  // Changed from `descripcionCorta` to `descripcion` to get the main description.
   const descripcion = getTranslatedDishText(plato.descripcion, currentLanguage);
   const shouldShowImage = menuHasImages && plato.imagen;
 
-  // --- Base classes for the card ---
+  // NEW: Check for matching allergens
+  const matchingAllergens = plato.alergenos?.filter(allergen => userAllergens.includes(allergen)) || [];
+  const hasMatchingAllergen = matchingAllergens.length > 0;
+
   const getBaseCardClasses = () => {
     const classes = [styles.card];
     if (categoryKey && styles[`card-${categoryKey}`]) {
       classes.push(styles[`card-${categoryKey}`]);
     } else {
       classes.push(styles['card-default']);
+    }
+    // NEW: Add allergen-specific class if there's a match
+    if (hasMatchingAllergen) {
+      classes.push(styles.hasAllergen);
     }
     return classes;
   };
@@ -43,11 +54,9 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey, showShort
 
     return (
       <div className={cardClasses} onClick={() => onViewMore(plato)}>
-        {/* Text Column */}
         <div className={styles.textContent}>
           <div>
             <h3 className={styles.dishName}>{nombre}</h3>
-            {/* Now displays the main description if the prop is true. CSS handles truncation. */}
             {showShortDescriptionInMenu && descripcion && (
               <p className={styles.dishDescription}>{descripcion}</p>
             )}
@@ -55,8 +64,14 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey, showShort
           <div className={styles.cardBottom}>
             <div className={styles.detailsRow}>
               <div className={styles.allergensContainer}>
+                {/* MODIFIED: Apply warning class to matching allergens */}
                 {plato.alergenos && plato.alergenos.map((alergenoKey) => (
-                  <span key={alergenoKey} className={styles.allergenIcon} title={getAlergenoIcon(alergenoKey)}>
+                  <span 
+                    key={alergenoKey} 
+                    className={`${styles.allergenIcon} ${matchingAllergens.includes(alergenoKey) ? styles.warning : ''}`} 
+                    title={getAlergenoNombre(alergenoKey, currentLanguage)}
+                  >
+                    {matchingAllergens.includes(alergenoKey) && <span className={styles.warningSymbol}>⚠️</span>}
                     {getAlergenoIcon(alergenoKey)}
                   </span>
                 ))}
@@ -68,7 +83,6 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey, showShort
           </div>
         </div>
 
-        {/* Image Column */}
         <div className={styles.mediaContent}>
           <img src={process.env.PUBLIC_URL + plato.imagen} alt={nombre} className={styles.dishImage} />
           <div className={styles.tagsOverlayContainer}>
@@ -111,15 +125,20 @@ const MenuItemCard = ({ plato, onViewMore, menuHasImages, categoryKey, showShort
           )}
         </div>
         
-        {/* Now displays the main description if the prop is true. CSS handles truncation. */}
         {showShortDescriptionInMenu && descripcion && (
           <p className={styles.dishDescription}>{descripcion}</p>
         )}
 
         <div className={styles.cardFooter}>
           <div className={styles.allergensContainer}>
+             {/* MODIFIED: Apply warning class to matching allergens */}
             {plato.alergenos && plato.alergenos.map((alergenoKey) => (
-              <span key={alergenoKey} className={styles.allergenIcon} title={getAlergenoIcon(alergenoKey)}>
+               <span 
+                key={alergenoKey} 
+                className={`${styles.allergenIcon} ${matchingAllergens.includes(alergenoKey) ? styles.warning : ''}`} 
+                title={getAlergenoNombre(alergenoKey, currentLanguage)}
+              >
+                {matchingAllergens.includes(alergenoKey) && <span className={styles.warningSymbol}>⚠️</span>}
                 {getAlergenoIcon(alergenoKey)}
               </span>
             ))}

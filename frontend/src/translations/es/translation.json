@@ -51,5 +51,12 @@
     "errorNoAudio": "No se grabó audio.",
     "errorTranscription": "Error en la transcripción.",
     "errorTranscriptionTimeout": "La transcripción está tardando demasiado. Por favor, inténtalo de nuevo."
+  },
+  "allergenSelector": {
+    "title": "¿Tienes alguna alergia o restricción?",
+    "subtitle": "Selecciona las que apliquen. Marcaremos los platos por ti.",
+    "otherPlaceholder": "¿Otra alergia? Escríbela aquí...",
+    "continueButton": "Continuar",
+    "skipButton": "No tengo alergias"
   }
 }

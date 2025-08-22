@@ -51,5 +51,12 @@
     "errorNoAudio": "No audio recorded.",
     "errorTranscription": "Transcription error.",
     "errorTranscriptionTimeout": "Transcription is taking too long. Please try again."
+  },
+  "allergenSelector": {
+    "title": "Do you have any allergies or restrictions?",
+    "subtitle": "Select any that apply. We'll highlight the dishes for you.",
+    "otherPlaceholder": "Another allergy? Write it here...",
+    "continueButton": "Continue",
+    "skipButton": "I have no allergies"
   }
 }

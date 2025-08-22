@@ -4,6 +4,8 @@ import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
 import styles from './Chat.module.css';
 import { useTenant } from '../../context/TenantContext';
+// NEW: Import the hook to access user's allergens
+import { useAllergens } from '../../context/AllergenContext';
 import { fetchConversation, postChatMessage, resetChatConversation } from '../../services/apiService';
 import { createMarkdownLinkRenderer, markdownUrlTransform } from '../../utils/markdownUtils';
 import { transformMenuForLanguage } from '../../utils/menuTransformer';
@@ -15,6 +17,8 @@ import ChatInput from './components/ChatInput';
 const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   const { t, i18n } = useTranslation();
   const { tenantConfig } = useTenant();
+  // NEW: Get user's allergens from the context
+  const { allergens } = useAllergens();
 
   const suggestions = tenantConfig?.suggestionChipsText?.[i18n.language] || tenantConfig?.suggestionChipsText?.es || [];
   const suggestionCount = tenantConfig?.suggestionChipsCount || 4;
@@ -35,7 +39,6 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   
   const handleTranscription = useCallback((transcribedText) => {
     if (transcribedText && transcribedText.trim()) {
-      // Llamada desde voz/texto, no se pasa `initialFlowClick`
       programmaticSendMessage(transcribedText.trim());
     }
   }, []);
@@ -47,7 +50,9 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   const triggerBotResponse = useCallback(async (messageText, options = {}) => {
     setIsBotTyping(true);
     try {
-      const data = await postChatMessage(messageText, options); 
+      // NEW: Pass allergens in the options payload
+      const payloadWithOptions = { ...options, allergens };
+      const data = await postChatMessage(messageText, payloadWithOptions); 
       setActiveConversationId(data.conversationId);
       if (data.reply) {
         setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
@@ -77,23 +82,19 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
     } finally {
       setIsBotTyping(false);
     }
-  }, [t, feedbackAlreadyShown]);
+  }, [t, feedbackAlreadyShown, allergens]); // NEW: Add allergens to dependency array
   
-  // --- MODIFICACIÓN CLAVE ---
-  // Ahora `programmaticSendMessage` acepta un segundo argumento opcional.
   const programmaticSendMessage = useCallback(async (messageText, options = {}) => {
     if (messageText.trim() === '' || isBotTyping) return;
     
     const userMessage = { sender: 'user', text: messageText };
     setMessages(prev => [...prev.filter(m => m.type !== 'initial_flow'), userMessage]);
 
-    // Prepara el payload base.
     const basePayload = {
         language: i18n.language,
         menu: transformMenuForLanguage(fullMenu, i18n.language)
     };
 
-    // Combina el payload base con cualquier opción extra (como `initialFlowClick`).
     const finalPayload = { ...basePayload, ...options };
     
     await triggerBotResponse(messageText, finalPayload);
@@ -109,7 +110,6 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
     const trimmedInput = input.trim();
     if (trimmedInput === '') return;
     setInput('');
-    // Al enviar desde el input, no se pasa `initialFlowClick`.
     await programmaticSendMessage(trimmedInput);
   }, [input, programmaticSendMessage]);
 
@@ -119,7 +119,6 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
     const userMessage = { sender: 'user', text: messageText };
     setMessages(prev => [...prev.filter(m => m.type !== 'initial_flow'), staticBotMessage, userMessage]);
     
-    // El payload ya viene preparado desde `InitialFlow`
     triggerBotResponse(messageText, extraPayload);
   }, [i18n.language, triggerBotResponse]);
 

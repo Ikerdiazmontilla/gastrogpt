@@ -40,7 +40,7 @@ export const getAlergenoIcon = (alergenoKey) => {
 };
 
 /**
- * CORRECTED: Gets the translated name for a given alergeno key.
+ * Gets the translated name for a given alergeno key with improved fallback logic.
  * @param {string} alergenoKey - The key of the alergeno.
  * @param {string} lang - The current language code.
  * @returns {string} The translated name.
@@ -50,12 +50,14 @@ export const getAlergenoNombre = (alergenoKey, lang = 'es') => {
   if (!details) {
     return alergenoKey.charAt(0).toUpperCase() + alergenoKey.slice(1);
   }
-  // CORRECCIÓN: Usar 'nombre' para español y 'nombre_xx' para otros idiomas.
-    const langKey = lang === 'es' ? 'nombre' : `nombre_${lang}`;
   
-  // Fallback: idioma específico -> español ('nombre') -> inglés ('nombre_en') -> clave original
-   return details[langKey] || details.nombre || details.nombre_en || alergenoKey;
+  // Construct the language-specific key (e.g., 'nombre_fr')
+  const langKey = `nombre_${lang}`;
+
+  // Fallback logic: 1. Specific lang -> 2. English -> 3. Spanish -> 4. Original key
+  return details[langKey] || details.nombre_en || details.nombre || alergenoKey;
 };
+
 
 /**
  * CORRECTED: Gets UI data (label, icon) for a given etiqueta key.

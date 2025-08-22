@@ -1,5 +1,5 @@
 // frontend/src/services/apiService.js
-import i18n from '../i18n';
+// import i18n from '../i18n';
 
 const BASE_URL = '';
 
@@ -21,9 +21,6 @@ const fetchApi = async (endpoint, options = {}) => {
     finalHeaders['Content-Type'] = 'application/json';
   }
   
-  // Se ha eliminado la lógica de 'Accept-Language' para simplificar.
-  // La información de idioma necesaria para el chat ahora viaja en el body.
-
   const url = `${BASE_URL}${endpoint}`;
   
   const response = await fetch(url, {
@@ -59,10 +56,11 @@ export const fetchConversation = () => {
   return fetchApi('/api/conversation', { method: 'GET' });
 };
 
+// MODIFIED: This function now accepts an 'options' object which can contain allergens.
 export const postChatMessage = (messageText, options = {}) => {
   const bodyPayload = { 
     message: messageText,
-    ...options
+    ...options // This will now include language, menu, and allergens
   };
   const body = JSON.stringify(bodyPayload);
 

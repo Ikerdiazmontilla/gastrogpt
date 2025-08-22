@@ -3,17 +3,19 @@ import React, { useRef, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { TenantProvider, useTenant } from './context/TenantContext';
-// La importación de OrderProvider ha sido eliminada
+// NEW: Import the AllergenProvider and useAllergens hook
+import { AllergenProvider, useAllergens } from './context/AllergenContext';
 import Navbar from './components/Navbar/Navbar';
 import ChatPage from './pages/ChatPage';
 import CartaPage from './pages/CartaPage/CartaPage';
 import ThemeApplicator from './components/Theme/ThemeApplicator';
 import LanguageSelector from './components/LanguageSelector/LanguageSelector';
-// La importación de OrderSummary ha sido eliminada
+// NEW: Import the AllergenSelector component
+import AllergenSelector from './components/AllergenSelector/AllergenSelector';
 import { initialLanguage } from './i18n';
 import './App.css';
 import Analytics from './Analytics';
-// Rutas de las pestañas para la navegación con swipe
+
 const tabPaths = ['/carta', '/chat'];
 const SWIPE_THRESHOLD_X = 75;
 const SWIPE_VERTICAL_TOLERANCE_FACTOR = 0.25;
@@ -23,20 +25,22 @@ function MainApp() {
   const location = useLocation();
   const containerRef = useRef(null);
   const [showLanguageSelector, setShowLanguageSelector] = useState(!initialLanguage);
+  
+  // NEW: Get allergen state
+  const { isAllergenChoiceMade } = useAllergens();
+
   const handleLanguageSelected = () => setShowLanguageSelector(false);
   
-  // Refs para el manejo del swipe entre pestañas
   const touchStartXRef = useRef(0);
   const touchStartYRef = useRef(0);
   const touchEndXRef = useRef(0);
   const touchEndYRef = useRef(0);
-  const disableTabSwipeRef = useRef(false); // Bandera para deshabilitar swipe en elementos interactivos
+  const disableTabSwipeRef = useRef(false);
 
   useEffect(() => {
     const PcontainerNode = containerRef.current;
 
     const handleTouchStart = (e) => {
-      // Comprueba si el touch se inició en un elemento que no debería activar el swipe de pestañas
       if (e.target.closest('[data-no-tab-swipe="true"]')) {
         disableTabSwipeRef.current = true;
       } else {
@@ -46,8 +50,8 @@ function MainApp() {
       if (!disableTabSwipeRef.current) {
         touchStartXRef.current = e.touches[0].clientX;
         touchStartYRef.current = e.touches[0].clientY;
-        touchEndXRef.current = e.touches[0].clientX; // Inicializa EndX también en start
-        touchEndYRef.current = e.touches[0].clientY; // Inicializa EndY también en start
+        touchEndXRef.current = e.touches[0].clientX;
+        touchEndYRef.current = e.touches[0].clientY;
       }
     };
 
@@ -67,15 +71,14 @@ function MainApp() {
       const deltaX = touchEndXRef.current - touchStartXRef.current;
       const deltaY = touchEndYRef.current - touchStartYRef.current;
 
-      // Detecta si es un swipe horizontal significativo, ignorando movimientos verticales menores
       if (Math.abs(deltaX) > SWIPE_THRESHOLD_X && Math.abs(deltaY) < Math.abs(deltaX) * SWIPE_VERTICAL_TOLERANCE_FACTOR) {
         const currentIndex = tabPaths.indexOf(location.pathname);
-        if (currentIndex === -1) return; // Si no estamos en una ruta de pestaña, no hacer nada
+        if (currentIndex === -1) return;
 
         let nextIndex;
-        if (deltaX < 0) { // Swipe a la izquierda
+        if (deltaX < 0) { 
           nextIndex = (currentIndex + 1) % tabPaths.length;
-        } else { // Swipe a la derecha
+        } else { 
           nextIndex = (currentIndex - 1 + tabPaths.length) % tabPaths.length;
         }
         navigate(tabPaths[nextIndex]);
@@ -93,13 +96,20 @@ function MainApp() {
         PcontainerNode.removeEventListener('touchend', handleTouchEnd);
       };
     }
-  }, [navigate, location.pathname]); // Dependencias del efecto
+  }, [navigate, location.pathname]);
 
-  // Si el selector de idioma debe mostrarse, renderizarlo.
+  // --- MODIFIED RENDER LOGIC ---
+  // 1. Show language selector if needed
   if (showLanguageSelector) {
     return <LanguageSelector onLanguageSelect={handleLanguageSelected} />;
   }
+  
+  // 2. After language is set, show allergen selector if choice hasn't been made
+  if (!isAllergenChoiceMade) {
+    return <AllergenSelector />;
+  }
 
+  // 3. Once all selections are made, show the main app
   return (
     <>
       <div className='nav-container'>
@@ -112,12 +122,10 @@ function MainApp() {
           <Route path="/carta" element={<CartaPage />} />
         </Routes>
       </div>
-      {/* El componente OrderSummary ha sido eliminado */}
     </>
   );
 }
 
-// Componente que maneja la carga de la configuración del tenant y los errores.
 function AppContent() {
   const { isLoading, error } = useTenant();
   const { t } = useTranslation();
@@ -133,17 +141,16 @@ function AppContent() {
   return <MainApp />;
 }
 
-// Componente principal de la aplicación.
 function App() {
   return (
     <Router>
-      {/* TenantProvider envuelve toda la aplicación para proporcionar la configuración del inquilino */}
       <TenantProvider>
-        
-        <ThemeApplicator /> {/* Aplica los estilos del tema del inquilino */}
-        <Analytics /> 
-        <AppContent />
-        {/* El cierre de OrderProvider ha sido eliminado */}
+        {/* NEW: Wrap AppContent with AllergenProvider */}
+        <AllergenProvider>
+          <ThemeApplicator />
+          <Analytics /> 
+          <AppContent />
+        </AllergenProvider>
       </TenantProvider>
     </Router>
   );

@@ -124,6 +124,20 @@
   gap: 4px;
 }
 
+/* --- NEW: Styles for the allergen warning pill in the modal --- */
+.detailTagPill.warning {
+  background-color: #ffcdd2;
+  border-color: #e57373;
+  color: #b71c1c;
+  font-weight: 600;
+}
+
+.warningSymbol {
+  font-size: 0.9em;
+}
+/* --- END NEW --- */
+
+
 .detailTagIcon {
   font-size: 0.9em;
 }

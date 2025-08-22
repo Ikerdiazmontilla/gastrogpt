@@ -51,5 +51,12 @@
     "errorNoAudio": "Kein Audio aufgenommen.",
     "errorTranscription": "Transkriptionsfehler.",
     "errorTranscriptionTimeout": "Die Transkription dauert zu lange. Bitte versuchen Sie es erneut."
+  },
+  "allergenSelector": {
+    "title": "Haben Sie Allergien oder Einschränkungen?",
+    "subtitle": "Wählen Sie die zutreffenden aus. Wir markieren die Gerichte für Sie.",
+    "otherPlaceholder": "Eine andere Allergie? Schreiben Sie sie hier...",
+    "continueButton": "Weiter",
+    "skipButton": "Ich habe keine Allergien"
   }
 }

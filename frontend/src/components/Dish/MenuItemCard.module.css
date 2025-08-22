@@ -9,6 +9,26 @@
   cursor: pointer;
 }
 
+/* --- NEW STYLES FOR ALLERGEN HIGHLIGHTING --- */
+.card.hasAllergen {
+  border-color: #e53935; /* Red border */
+  border-left-width: 5px;
+  background-color: #fff1f0; /* Light red background */
+}
+
+.allergenIcon.warning {
+  background-color: #ffcdd2; /* Red background for the icon itself */
+  position: relative;
+}
+
+.warningSymbol {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  font-size: 0.8rem;
+}
+/* --- END NEW STYLES --- */
+
 /* --- ESTILOS PARA TARJETA CON IMAGEN (.hasImage) --- */
 .card.hasImage {
   display: flex;
