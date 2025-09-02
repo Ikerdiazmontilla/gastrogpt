@@ -11,13 +11,16 @@
 
 /* --- NEW STYLES FOR ALLERGEN HIGHLIGHTING --- */
 .card.hasAllergen {
-  border-color: #e53935; /* Red border */
-  border-left-width: 5px;
-  background-color: #fff1f0; /* Light red background */
+  border-color: #ff1744; /* Bright red border */
+  border-left-width: 6px;
+  background-color: #ffe5ea; /* Stronger red tint */
+  box-shadow: 0 2px 5px var(--shadow-md), 0 0 0 3px rgba(255, 23, 68, 0.15) inset; /* subtle inner glow */
 }
 
 .allergenIcon.warning {
-  background-color: #ffcdd2; /* Red background for the icon itself */
+  background-color: #ff1744; /* Bright red background for the icon */
+  color: #ffffff;
+  border: 1px solid #d50000;
   position: relative;
 }
 
@@ -25,7 +28,9 @@
   position: absolute;
   top: -6px;
   right: -6px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  color: #ff1744;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
 }
 /* --- END NEW STYLES --- */
 

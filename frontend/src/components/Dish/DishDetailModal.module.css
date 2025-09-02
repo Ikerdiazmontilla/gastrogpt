@@ -126,10 +126,10 @@
 
 /* --- NEW: Styles for the allergen warning pill in the modal --- */
 .detailTagPill.warning {
-  background-color: #ffcdd2;
-  border-color: #e57373;
-  color: #b71c1c;
-  font-weight: 600;
+  background-color: #ff1744; /* Bright red */
+  border-color: #d50000;
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .warningSymbol {

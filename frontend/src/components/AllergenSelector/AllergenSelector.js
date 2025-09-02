@@ -48,6 +48,10 @@ const AllergenSelector = () => {
         {/* MODIFIED: Use translation keys */}
         <h2 className={styles.title}>{t('allergenSelector.title')}</h2>
         <p className={styles.subtitle}>{t('allergenSelector.subtitle')}</p>
+        {/* NEW: Prominent no-allergens button at the beginning */}
+        <button className={styles.noAllergensButton} onClick={handleNoAllergies}>
+          {t('allergenSelector.skipButton')}
+        </button>
         
         <div className={styles.grid}>
           {allergenKeys.map(key => (
@@ -75,9 +79,6 @@ const AllergenSelector = () => {
         <div className={styles.actions}>
           <button className={styles.continueButton} onClick={handleSubmit}>
             {t('allergenSelector.continueButton')}
-          </button>
-          <button className={styles.skipButton} onClick={handleNoAllergies}>
-            {t('allergenSelector.skipButton')}
           </button>
         </div>
       </div>

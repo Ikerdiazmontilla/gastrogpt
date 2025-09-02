@@ -24,6 +24,26 @@
   margin-bottom: 25px;
 }
 
+/* NEW: Prominent no-allergens button at the top */
+.noAllergensButton {
+  display: block;
+  width: 100%;
+  padding: 16px 18px;
+  border: 2px solid var(--color-accent);
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  color: var(--color-accent);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 18px;
+}
+
+.noAllergensButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.03);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -95,9 +115,42 @@
 
 @media (max-width: 480px) {
   .selectorBox {
-    padding: 20px;
+    /* Full-screen dialog on phones */
+    padding: 16px;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh; /* take full viewport height */
+    border-radius: 0;
+    box-shadow: none;
   }
   .grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .allergenButton {
+    padding: 10px;
+    min-height: 72px;
+    font-size: 0.8rem;
+    gap: 6px;
+  }
+  .icon {
+    font-size: 1.6rem;
+  }
+  .subtitle {
+    margin-bottom: 16px;
+  }
+  .otherInput {
+    margin-bottom: 16px;
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+  .actions {
+    margin-top: auto; /* keep actions at bottom */
+    gap: 8px;
+  }
+  .continueButton {
+    padding: 14px;
+    font-size: 1rem;
   }
 }
