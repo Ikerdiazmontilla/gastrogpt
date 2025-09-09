@@ -20,7 +20,11 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   // NEW: Get user's allergens from the context
   const { allergens } = useAllergens();
 
-  const suggestions = tenantConfig?.suggestionChipsText?.[i18n.language] || tenantConfig?.suggestionChipsText?.es || [];
+  // Localized suggestions with fallbacks: current → es → en → []
+  const suggestions = tenantConfig?.suggestionChipsText?.[i18n.language]
+    || tenantConfig?.suggestionChipsText?.es
+    || tenantConfig?.suggestionChipsText?.en
+    || [];
   const suggestionCount = tenantConfig?.suggestionChipsCount || 4;
   const initialDrinkPromptConfig = tenantConfig?.initialDrinkPrompt;
   const fullMenu = tenantConfig?.menu;
@@ -36,6 +40,9 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [feedbackAlreadyShown, setFeedbackAlreadyShown] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
+  
+  // Show hero suggestions when no conversation yet and initial drink prompt is disabled
+  const shouldShowHeroSuggestions = !isLoading && !error && messages.length === 0 && initialDrinkPromptConfig?.enabled === false;
   
   const handleTranscription = useCallback((transcribedText) => {
     if (transcribedText && transcribedText.trim()) {
@@ -159,13 +166,39 @@ const Chat = ({ onViewDishDetails, onCategoryClick, setSendMessageApi }) => {
     await loadConversation();
   };
 
-  const handleSuggestionClick = (suggestionText) => setInput(suggestionText);
+  const handleSuggestionClick = async (suggestionText) => {
+    await programmaticSendMessage(suggestionText);
+  };
+  
+  const handleHeroSuggestionClick = async (suggestionText) => {
+    await programmaticSendMessage(suggestionText);
+  };
 
   return (
     <>
       <div className={styles.chatContainer}>
         <div className={styles.messages}>
           {isLoading && messages.length === 0 && !error && (<div className={`${styles.message} ${styles.system}`}>{t('chat.loadingHistory')}</div>)}
+          {shouldShowHeroSuggestions && (
+            <div className={styles.heroContainer}>
+              <div className={styles.heroIcon} aria-hidden="true">🤖</div>
+              <div className={styles.heroTextGroup}>
+                <div className={styles.heroGreeting}>{t('chat.heroGreeting')}</div>
+                <div className={styles.heroTitle}>{t('chat.askAnything')}</div>
+              </div>
+              <div className={styles.heroChips}>
+                {suggestions.slice(0, 4).map((s, idx) => (
+                  <button
+                    key={`hero-suggestion-${idx}`}
+                    className={styles.heroSuggestionChip}
+                    onClick={() => handleHeroSuggestionClick(s)}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           {error && <div className={`${styles.message} ${styles.system} ${styles.error}`}>{error}</div>}
           {messages.map((msg, index) => {
             if (msg.type === 'initial_flow') {

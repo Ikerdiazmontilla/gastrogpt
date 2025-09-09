@@ -5,7 +5,7 @@ async function getTenantConfig(req, res) {
 
   try {
     const menuPromise = client.query('SELECT data FROM menu WHERE id = 1');
-    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('suggestion_chips_text', 'suggestion_chips_count')");
+    const configPromise = client.query("SELECT key, value FROM configurations WHERE key IN ('suggestion_chips_text', 'suggestion_chips_count', 'initial_drink_prompt')");
     
     const [menuResult, configResult] = await Promise.all([menuPromise, configPromise]);
 
@@ -70,7 +70,32 @@ async function getTenantConfig(req, res) {
       };
     };
 
-    const initialDrinkPrompt = transformDrinksForInitialFlow(menu);
+    // Read an optional strict override toggle from DB: { enabled: boolean }
+    let initialDrinkPromptToggle = null;
+    const toggleRow = configResult.rows.find(r => r.key === 'initial_drink_prompt');
+    if (toggleRow) {
+      try {
+        const parsed = JSON.parse(toggleRow.value);
+        if (parsed && typeof parsed.enabled === 'boolean') {
+          initialDrinkPromptToggle = { enabled: parsed.enabled };
+        }
+      } catch (e) {
+        console.warn('[configController] Invalid JSON for initial_drink_prompt; ignoring toggle.');
+      }
+    }
+
+    // Compute the menu-derived prompt once
+    const computedInitialDrinkPrompt = transformDrinksForInitialFlow(menu);
+
+    // Apply strict override semantics:
+    // - If toggle is present and enabled === false -> force disabled.
+    // - If toggle is present and enabled === true -> show using menu-derived content.
+    // - If toggle is missing -> default to menu-derived behavior.
+    const initialDrinkPrompt = initialDrinkPromptToggle
+      ? (initialDrinkPromptToggle.enabled === false
+          ? { enabled: false }
+          : computedInitialDrinkPrompt)
+      : computedInitialDrinkPrompt;
 
     // MODIFIED: The theme object now correctly includes `showShortDescriptionInMenu`
     // retrieved from the tenant object.

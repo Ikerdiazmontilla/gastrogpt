@@ -13,6 +13,7 @@ module.exports = {
   restaurantName: 'La Taurina',
   google_reviews_url: 'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=ChIJ_4N_6oAoQg0RIVdXPMq5UKA',
   initial_drink_prompt: { enabled: false },
+  
 
   // --- Configuración de Theming y Estilo ---
   theme: {

@@ -16,6 +16,61 @@
   padding-bottom: 12vh; 
 }
 
+/* Centered hero with suggestion chips for empty chat state */
+.heroContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  padding: 24px 8px;
+}
+
+.heroIcon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.heroTextGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px; /* tighter spacing between greeting and subtitle */
+}
+
+.heroGreeting {
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+}
+
+.heroTitle {
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+}
+
+.heroChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.heroSuggestionChip {
+  padding: 8px 12px;
+  border-radius: 16px;
+  border: none;
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.heroSuggestionChip:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 2px;
+}
+
 .message {
   position: relative;
   max-width: 100%;

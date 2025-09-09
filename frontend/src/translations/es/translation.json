@@ -43,6 +43,8 @@
     "loadingHistory": "Cargando historial...",
     "limitReached": "Límite de mensajes alcanzado.",
     "limitReachedCta": "Por favor, inicia un nuevo chat para continuar.",
+    "heroGreeting": "¡Hola, soy GastroAI!",
+    "askAnything": "Pregúntame lo que quieras sobre la carta",
     "placeholder": "Escribe aqui...",
     "placeholderRecording": "Grabando...",
     "placeholderTranscribing": "Transcribiendo...",
