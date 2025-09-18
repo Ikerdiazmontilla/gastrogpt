@@ -78,8 +78,14 @@ const pool = require('../../db/pool');
     await client.query(upsertConfigQuery, ['llm_first_message', JSON.stringify(tenantConfig.llm.firstMessage)]);
     await client.query(upsertConfigQuery, ['suggestion_chips_text', JSON.stringify(tenantConfig.chatConfig.suggestionChips)]);
     await client.query(upsertConfigQuery, ['suggestion_chips_count', tenantConfig.chatConfig.suggestionChipsCount.toString()]);
-    if (tenantConfig.initial_drink_prompt) {
-      await client.query(upsertConfigQuery, ['initial_drink_prompt', JSON.stringify(tenantConfig.initial_drink_prompt)]);
+    const initialDrinkPrompt = Object.prototype.hasOwnProperty.call(tenantConfig, 'initial_drink_prompt')
+      ? tenantConfig.initial_drink_prompt
+      : { enabled: false };
+
+    if (initialDrinkPrompt === null) {
+      await client.query(`DELETE FROM ${schemaName}.configurations WHERE key = $1`, ['initial_drink_prompt']);
+    } else {
+      await client.query(upsertConfigQuery, ['initial_drink_prompt', JSON.stringify(initialDrinkPrompt)]);
     }
     console.log(`✅ PASO 3/3: Configuraciones del chat y LLM actualizadas en '${schemaName}'.`);
 

@@ -73,8 +73,13 @@ const tenantConfig = require(configPath);
     await client.query(insertConfigQuery, ['llm_first_message', JSON.stringify(tenantConfig.llm.firstMessage)]);
     await client.query(insertConfigQuery, ['suggestion_chips_text', JSON.stringify(tenantConfig.chatConfig.suggestionChips)]);
     await client.query(insertConfigQuery, ['suggestion_chips_count', tenantConfig.chatConfig.suggestionChipsCount.toString()]);
-    if (tenantConfig.initial_drink_prompt) {
-        await client.query(insertConfigQuery, ['initial_drink_prompt', JSON.stringify(tenantConfig.initial_drink_prompt)]);
+
+    const initialDrinkPrompt = Object.prototype.hasOwnProperty.call(tenantConfig, 'initial_drink_prompt')
+      ? tenantConfig.initial_drink_prompt
+      : { enabled: false };
+
+    if (initialDrinkPrompt !== null) {
+      await client.query(insertConfigQuery, ['initial_drink_prompt', JSON.stringify(initialDrinkPrompt)]);
     }
 
     console.log(`✅ PASO 4/4: Datos de configuración y menú insertados.`);
